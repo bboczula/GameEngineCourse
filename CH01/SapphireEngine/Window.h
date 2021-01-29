@@ -2,7 +2,6 @@
 
 #include <Windows.h>
 #include <iostream>
-#include "WindowContext.h"
 #include "Utils.h"
 
 namespace Sapphire
@@ -12,10 +11,15 @@ namespace Sapphire
 	public:
 		Window(UINT width, UINT height);
 		~Window();
+		void run();
+	protected:
+		virtual void Initialize();
+		virtual void Tick();
 		void RegisterWindowClass();
 		void CreateWindowInstance();
-		WindowContext GetWindowContext();
-	private:
-		WindowContext windowContext;
+		HWND hwnd;
+		HINSTANCE instance;
+		LONG width;
+		LONG height;
 	};
 }

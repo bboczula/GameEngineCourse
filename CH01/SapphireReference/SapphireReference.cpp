@@ -3,12 +3,12 @@
 
 #include <iostream>
 #include <Windows.h>
-#include "../SapphireEngine/Game.h"
+#include "../SapphireEngine/Window.h"
 
 int main()
 {
-    Sapphire::Game game(1280, 720);
-    game.Run();
+    Sapphire::Window window(1280, 720);
+    window.run();
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu

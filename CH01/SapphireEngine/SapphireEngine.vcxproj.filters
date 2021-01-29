@@ -13,19 +13,10 @@
     <ClInclude Include="Window.h">
       <Filter>Window</Filter>
     </ClInclude>
-    <ClInclude Include="WindowContext.h">
-      <Filter>Window</Filter>
-    </ClInclude>
-    <ClInclude Include="Game.h">
-      <Filter>Window</Filter>
-    </ClInclude>
     <ClInclude Include="Utils.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Window.cpp">
-      <Filter>Window</Filter>
-    </ClCompile>
-    <ClCompile Include="Game.cpp">
       <Filter>Window</Filter>
     </ClCompile>
   </ItemGroup>
