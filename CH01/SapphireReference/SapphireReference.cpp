@@ -7,7 +7,7 @@
 
 int main()
 {
-    Sapphire::Window window(1280, 720);
+    Sapphire::Window window;
     window.run();
 }
 

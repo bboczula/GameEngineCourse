@@ -20,7 +20,8 @@ LRESULT CALLBACK WindowProcedure(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 	return DefWindowProc(hwnd, msg, wParam, lParam);
 }
 
-Sapphire::Window::Window(UINT width, UINT height) : width(width), height(height), hwnd(NULL), instance(NULL)
+Sapphire::Window::Window(UINT width, UINT height)
+	: width(width), height(height), hwnd(NULL), instance(NULL)
 {
 	std::cout << "Sapphire::Window::Window" << std::endl;
 	RegisterWindowClass();
