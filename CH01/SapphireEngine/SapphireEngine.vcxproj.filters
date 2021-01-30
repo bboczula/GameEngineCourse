@@ -10,13 +10,13 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Window.h">
+    <ClInclude Include="Utils.h" />
+    <ClInclude Include="WindowApplication.h">
       <Filter>Window</Filter>
     </ClInclude>
-    <ClInclude Include="Utils.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Window.cpp">
+    <ClCompile Include="WindowApplication.cpp">
       <Filter>Window</Filter>
     </ClCompile>
   </ItemGroup>

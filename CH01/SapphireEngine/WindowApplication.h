@@ -9,12 +9,12 @@
 
 namespace Sapphire
 {
-	class Window
+	class WindowApplication
 	{
 	public:
-		Window(UINT width = DEFAULT_WINDOW_WIDTH, UINT height = DEFAULT_WINDOW_HEIGHT);
-		~Window();
-		void run();
+		WindowApplication(UINT width = DEFAULT_WINDOW_WIDTH, UINT height = DEFAULT_WINDOW_HEIGHT);
+		~WindowApplication();
+		void Run();
 	protected:
 		virtual void Initialize();
 		virtual void Tick();

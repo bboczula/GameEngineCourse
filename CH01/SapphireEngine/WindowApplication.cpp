@@ -1,8 +1,8 @@
-#include "Window.h"
+#include "WindowApplication.h"
 
 #define WINDOW_CLASS_NAME "SapphireMyWindowWin32Class"
 #define WINDOW_TITLE "SapphireEngine"
-#define DEFAULT_WINDOW_STYLE WS_VISIBLE | WS_CLIPCHILDREN | WS_OVERLAPPED  | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX
+#define DEFAULT_WINDOW_STYLE WS_VISIBLE | WS_CLIPCHILDREN | WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU
 #define DEFAULT_WINDOW_STYLE_EX WS_EX_APPWINDOW | WS_EX_CLIENTEDGE
 
 LRESULT CALLBACK WindowProcedure(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -20,22 +20,22 @@ LRESULT CALLBACK WindowProcedure(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 	return DefWindowProc(hwnd, msg, wParam, lParam);
 }
 
-Sapphire::Window::Window(UINT width, UINT height)
+Sapphire::WindowApplication::WindowApplication(UINT width, UINT height)
 	: width(width), height(height), hwnd(NULL), instance(NULL)
 {
-	std::cout << "Sapphire::Window::Window" << std::endl;
+	std::cout << "Sapphire::WindowApplication::WindowApplication()" << std::endl;
 	RegisterWindowClass();
 	CreateWindowInstance();
 }
 
-Sapphire::Window::~Window()
+Sapphire::WindowApplication::~WindowApplication()
 {
-	std::cout << "Sapphire::Window::~Window()" << std::endl;
+	std::cout << "Sapphire::WindowApplication::~WindowApplication()" << std::endl;
 }
 
-void Sapphire::Window::run()
+void Sapphire::WindowApplication::Run()
 {
-	std::cout << " Sapphire::Window::run()" << std::endl;
+	std::cout << " Sapphire::WindowApplication::Run() - start" << std::endl;
 
 	Initialize();
 
@@ -67,20 +67,20 @@ void Sapphire::Window::run()
 		}
 	}
 
-	std::cout << " Sapphire::Window::run() - finished" << std::endl;
+	std::cout << " Sapphire::WindowApplication::Run() - finished" << std::endl;
 }
 
-void Sapphire::Window::Initialize()
+void Sapphire::WindowApplication::Initialize()
 {
 }
 
-void Sapphire::Window::Tick()
+void Sapphire::WindowApplication::Tick()
 {
 }
 
-void Sapphire::Window::RegisterWindowClass()
+void Sapphire::WindowApplication::RegisterWindowClass()
 {
-	std::cout << " Sapphire::Window::RegisterWindowClass()" << std::endl;
+	std::cout << " Sapphire::WindowApplication::RegisterWindowClass()" << std::endl;
 
 	WNDCLASSEX windowClass;
 	ZeroMemory(&windowClass, sizeof(WNDCLASSEX));
@@ -92,9 +92,9 @@ void Sapphire::Window::RegisterWindowClass()
 	ThrowIfFailed(RegisterClassEx(&windowClass));
 }
 
-void Sapphire::Window::CreateWindowInstance()
+void Sapphire::WindowApplication::CreateWindowInstance()
 {
-	std::cout << " Sapphire::Window::CreateWindowInstance()" << std::endl;
+	std::cout << " Sapphire::WindowApplication::CreateWindowInstance()" << std::endl;
 
 	RECT windowRectangle = { 0, 0, width, height };
 	AdjustWindowRect(&windowRectangle, WS_OVERLAPPEDWINDOW, FALSE);
