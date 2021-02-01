@@ -21,7 +21,7 @@ LRESULT CALLBACK WindowProcedure(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 }
 
 Sapphire::WindowApplication::WindowApplication(UINT width, UINT height)
-	: width(width), height(height), hwnd(NULL), instance(NULL)
+	: width(width), height(height), hwnd(NULL), instance(GetModuleHandle(NULL))
 {
 	std::cout << "Sapphire::WindowApplication::WindowApplication()" << std::endl;
 	RegisterWindowClass();
@@ -61,10 +61,8 @@ void Sapphire::WindowApplication::Run()
 			// This function tells OS to call Window Procedure
 			DispatchMessage(&msg);
 		}
-		else
-		{
-			Tick();
-		}
+		
+		Tick();
 	}
 
 	std::cout << " Sapphire::WindowApplication::Run() - finished" << std::endl;
@@ -87,7 +85,7 @@ void Sapphire::WindowApplication::RegisterWindowClass()
 	windowClass.cbSize = sizeof(WNDCLASSEX);
 	windowClass.lpszClassName = WINDOW_CLASS_NAME;
 	windowClass.lpfnWndProc = (WNDPROC)WindowProcedure;
-	windowClass.hInstance = GetModuleHandle(NULL);
+	windowClass.hInstance = instance;
 
 	ThrowIfFailed(RegisterClassEx(&windowClass));
 }
