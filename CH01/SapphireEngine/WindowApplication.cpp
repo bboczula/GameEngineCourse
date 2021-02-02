@@ -52,6 +52,7 @@ void Sapphire::WindowApplication::Run()
 			// WM_QUIT meanst stop the message loop and exit the application
 			if (msg.message == WM_QUIT)
 			{
+				std::cout << " Sapphire::WindowApplication::Run() - WM_QUIT received" << std::endl;
 				break;
 			}
 

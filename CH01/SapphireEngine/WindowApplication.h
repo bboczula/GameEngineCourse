@@ -4,15 +4,12 @@
 #include <iostream>
 #include "Utils.h"
 
-#define DEFAULT_WINDOW_WIDTH 1280
-#define DEFAULT_WINDOW_HEIGHT 720
-
 namespace Sapphire
 {
 	class WindowApplication
 	{
 	public:
-		WindowApplication(UINT width = DEFAULT_WINDOW_WIDTH, UINT height = DEFAULT_WINDOW_HEIGHT);
+		WindowApplication(UINT width, UINT height);
 		~WindowApplication();
 		void Run();
 	protected:

@@ -3,10 +3,10 @@
 
 #include <iostream>
 #include <Windows.h>
-#include "../SapphireEngine/WindowApplication.h"
+#include "../SapphireEngine/Engine.h"
 
 int main()
 {
-    Sapphire::WindowApplication windowApplication;
-    windowApplication.Run();
+    Sapphire::Engine engine;
+    engine.Run();
 }

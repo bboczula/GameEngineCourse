@@ -8,16 +8,25 @@
     <Filter Include="Window">
       <UniqueIdentifier>{7c0dd74b-0b23-4ac5-b074-957847aa6f28}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine">
+      <UniqueIdentifier>{071e93f5-594c-46e2-9b24-2e035577d144}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utils.h" />
     <ClInclude Include="WindowApplication.h">
       <Filter>Window</Filter>
     </ClInclude>
+    <ClInclude Include="Engine.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WindowApplication.cpp">
       <Filter>Window</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine.cpp">
+      <Filter>Engine</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

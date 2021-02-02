@@ -19,10 +19,12 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Engine.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="WindowApplication.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Engine.cpp" />
     <ClCompile Include="WindowApplication.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
