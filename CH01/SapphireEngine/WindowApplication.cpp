@@ -11,6 +11,8 @@ LRESULT CALLBACK WindowProcedure(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 	{
 	case WM_DESTROY:
 	{
+		std::cout << " WindowProcedure - WM_DESTROY received" << std::endl;
+
 		// This function puts WM_QUIT message on top of the queue - a speciall message that causes GetMessage to return 0
 		PostQuitMessage(0);
 		break;
