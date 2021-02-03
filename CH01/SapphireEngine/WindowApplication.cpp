@@ -1,7 +1,7 @@
 #include "WindowApplication.h"
 
-#define WINDOW_CLASS_NAME "SapphireMyWindowWin32Class"
-#define WINDOW_TITLE "SapphireEngine"
+#define WINDOW_CLASS_NAME L"SapphireMyWindowWin32Class"
+#define WINDOW_TITLE L"SapphireEngine"
 #define DEFAULT_WINDOW_STYLE WS_VISIBLE | WS_CLIPCHILDREN | WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU
 #define DEFAULT_WINDOW_STYLE_EX WS_EX_APPWINDOW | WS_EX_CLIENTEDGE
 
@@ -52,7 +52,7 @@ void Sapphire::WindowApplication::Run()
 			// WM_QUIT meanst stop the message loop and exit the application
 			if (msg.message == WM_QUIT)
 			{
-				std::cout << " Sapphire::WindowApplication::Run() - WM_QUIT received" << std::endl;
+				std::cout << "  Sapphire::WindowApplication::Run() - WM_QUIT received" << std::endl;
 				break;
 			}
 
@@ -88,7 +88,7 @@ void Sapphire::WindowApplication::RegisterWindowClass()
 	windowClass.lpfnWndProc = (WNDPROC)WindowProcedure;
 	windowClass.hInstance = instance;
 
-	ThrowIfFailed(RegisterClassEx(&windowClass));
+	ExitIfFailed(RegisterClassEx(&windowClass));
 }
 
 void Sapphire::WindowApplication::CreateWindowInstance()

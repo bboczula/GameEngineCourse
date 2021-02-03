@@ -1,13 +1,14 @@
 #pragma once
 
 #include <Windows.h>
-#include <exception>
+#include <comdef.h>
 
-inline void ThrowIfFailed(HRESULT hr)
+inline void ExitIfFailed(HRESULT hr)
 {
 	if (FAILED(hr))
 	{
-		// Set a breakpoint on this line to catch DirectX API errors
-		throw std::exception();
+		_com_error error(hr);
+		MessageBox(NULL, error.ErrorMessage(), L"Error", MB_OK | MB_ICONERROR);
+		exit(1);
 	}
 }
