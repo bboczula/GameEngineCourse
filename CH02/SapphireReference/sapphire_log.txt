@@ -1,0 +1,9 @@
+14:34:27: Sapphire::WindowApplication::WindowApplication(1280 x 720)
+14:34:27: Sapphire::WindowApplication::RegisterWindowClass()
+14:34:27: Sapphire::WindowApplication::CreateWindowInstance()
+14:34:27: Sapphire::Engine::Engine()
+14:34:27: Sapphire::WindowApplication::Run() - start
+14:34:27: Sapphire::Engine::Initialize()14:34:58: WindowProcedure - WM_DESTROY received
+14:34:58: Sapphire::WindowApplication::Run() - WM_QUIT received
+14:34:58: Sapphire::WindowApplication::Run() - finished
+14:34:58: Sapphire::Engine::~Engine()
