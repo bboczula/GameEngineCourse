@@ -35,18 +35,21 @@ Logger::~Logger()
 
 void Logger::log(LPCSTR format, ...)
 {
+	// First, we need to bypass the formatting string and params to sprintf.
+	// sprintf function composes a string with tthe same text as printf, but instead of printing
+	// to standard output, it is stored as a cstring in the buffer pointer.
 	char buffer[1024];
 	va_list va;
 	va_start(va, format);
-	vsprintf_s(buffer, format, va);
+	int numOfWrittenCharacters = vsprintf_s(buffer, format, va);
 	va_end(va);
 
-	size_t* returnValue = nullptr;
-	wchar_t wtext[1024];
-	size_t count = 1024;
-	mbstowcs_s(returnValue, wtext, strlen(buffer) + 1, buffer, count);
+	//size_t* returnValue = nullptr;
+	//wchar_t wtext[1024];
+	//size_t count = 1024;
+	//mbstowcs_s(returnValue, wtext, strlen(buffer) + 1, buffer, count);
 
-	OutputDebugString(wtext);
+	OutputDebugStringA(buffer);
 
 	struct tm newTime;
 	time_t currentTime = time(nullptr);
