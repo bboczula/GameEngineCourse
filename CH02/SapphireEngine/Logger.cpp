@@ -2,7 +2,7 @@
 
 // Resource: http://laristra.github.io/flecsi/src/developer-guide/patterns/meyers_singleton.html
 
-Logger& Logger::getInstance()
+Sapphire::Logger& Sapphire::Logger::getInstance()
 {
 	// This is honestly one of the wierdest thing i've seen in C++
 	// "Normal" singleton was not possible to call destructor
@@ -25,21 +25,21 @@ Logger& Logger::getInstance()
 	// Another thing - it is important to make sure that this gets initialized first
 }
 
-Logger::Logger() : logLevelTreshold(LogLevel::Info)
+Sapphire::Logger::Logger() : logLevelTreshold(LogLevel::Info)
 {
 	stringBuffer = new CHAR[1024];
 	logFile.open("sapphire_log.txt");
 	log(LogLevel::Info, "%s", "----- LOG STARTED -----\n");
 }
 
-Logger::~Logger()
+Sapphire::Logger::~Logger()
 {
 	log(LogLevel::Info, "%s", "----- LOG ENDED -----\n");
 	delete[] stringBuffer;
 	logFile.close();
 }
 
-void Logger::log(LogLevel logLevel, LPCSTR format, ...)
+void Sapphire::Logger::log(LogLevel logLevel, LPCSTR format, ...)
 {
 	if (logLevel > logLevelTreshold)
 	{

@@ -6,27 +6,30 @@
 #include <iomanip>
 #include <Windows.h>
 
-#include "File.h"
+#include "OutputFile.h"
 
-enum class LogLevel
+namespace Sapphire
 {
-	Fatal,
-	Error,
-	Warning,
-	Info
-};
+	enum class LogLevel
+	{
+		Fatal,
+		Error,
+		Warning,
+		Info
+	};
 
-class Logger
-{
-public:
-	void log(LogLevel logLevel, LPCSTR format, ...);
-	static Logger& getInstance();
-	Logger(Logger& other) = delete;
-	Logger& operator=(const Logger&) = delete;
-private:
-	Logger();
-	~Logger();
-	LogLevel logLevelTreshold;
-	CHAR* stringBuffer;
-	File logFile;
-};
+	class Logger
+	{
+	public:
+		void log(LogLevel logLevel, LPCSTR format, ...);
+		static Logger& getInstance();
+		Logger(Logger& other) = delete;
+		Logger& operator=(const Logger&) = delete;
+	private:
+		Logger();
+		~Logger();
+		LogLevel logLevelTreshold;
+		CHAR* stringBuffer;
+		OutputFile logFile;
+	};
+}

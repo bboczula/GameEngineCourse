@@ -10,7 +10,7 @@ LRESULT CALLBACK WindowProcedure(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 	{
 	case WM_DESTROY:
 	{
-		Logger::getInstance().log(LogLevel::Info, "WindowProcedure - WM_DESTROY received\n");
+		Sapphire::Logger::getInstance().log(Sapphire::LogLevel::Info, "WindowProcedure - WM_DESTROY received\n");
 
 		PostQuitMessage(0);
 		break;

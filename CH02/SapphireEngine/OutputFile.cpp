@@ -1,14 +1,14 @@
-#include "File.h"
+#include "OutputFile.h"
 
-File::File() : fileHandle(NULL)
+Sapphire::OutputFile::OutputFile() : fileHandle(NULL)
 {
 }
 
-File::~File()
+Sapphire::OutputFile::~OutputFile()
 {
 }
 
-void File::open(LPCSTR fileName)
+void Sapphire::OutputFile::open(LPCSTR fileName)
 {
 	// Open another file
 	fileHandle = CreateFileA(fileName, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
@@ -21,12 +21,12 @@ void File::open(LPCSTR fileName)
 	}
 }
 
-void File::close()
+void Sapphire::OutputFile::close()
 {
 	CloseHandle(fileHandle);
 }
 
-void File::write(LPCVOID data, DWORD size)
+void Sapphire::OutputFile::write(LPCVOID data, DWORD size)
 {
 	// Log to windows log file
 	DWORD dwBytesWritten = 0;
