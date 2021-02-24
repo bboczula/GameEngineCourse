@@ -1,9 +1,9 @@
-08:56:13: Sapphire::WindowApplication::WindowApplication(1280 x 720)
-08:56:13: Sapphire::WindowApplication::RegisterWindowClass()
-08:56:13: Sapphire::WindowApplication::CreateWindowInstance()
-08:56:13: Sapphire::Engine::Engine()
-08:56:13: Sapphire::WindowApplication::Run() - start
-08:56:13: Sapphire::Engine::Initialize()08:56:16: WindowProcedure - WM_DESTROY received
-08:56:16: Sapphire::WindowApplication::Run() - WM_QUIT received
-08:56:16: Sapphire::WindowApplication::Run() - finished
-08:56:16: Sapphire::Engine::~Engine()
+08:58:29: Sapphire::WindowApplication::WindowApplication(1280 x 720)
+08:58:29: Sapphire::WindowApplication::RegisterWindowClass()
+08:58:29: Sapphire::WindowApplication::CreateWindowInstance()
+08:58:29: Sapphire::Engine::Engine()
+08:58:29: Sapphire::WindowApplication::Run() - start
+08:58:29: Sapphire::Engine::Initialize()08:58:35: WindowProcedure - WM_DESTROY received
+08:58:35: Sapphire::WindowApplication::Run() - WM_QUIT received
+08:58:35: Sapphire::WindowApplication::Run() - finished
+08:58:35: Sapphire::Engine::~Engine()
