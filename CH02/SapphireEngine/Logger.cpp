@@ -33,7 +33,7 @@ Logger::~Logger()
 	logFile.close();
 }
 
-void Logger::logMessage(LPCSTR format, ...)
+void Logger::log(LPCSTR format, ...)
 {
 	char buffer[1024];
 	va_list va;

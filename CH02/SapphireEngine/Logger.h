@@ -10,7 +10,7 @@
 class Logger
 {
 public:
-	void logMessage(LPCSTR format, ...);
+	void log(LPCSTR format, ...);
 	static Logger& getInstance();
 	Logger(Logger& other) = delete;
 	Logger& operator=(const Logger&) = delete;
