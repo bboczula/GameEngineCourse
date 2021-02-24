@@ -25,27 +25,22 @@ Sapphire::Logger& Sapphire::Logger::getInstance()
 	// Another thing - it is important to make sure that this gets initialized first
 }
 
-Sapphire::Logger::Logger() : logLevelTreshold(LogLevel::Info)
+Sapphire::Logger::Logger()
 {
 	stringBuffer = new CHAR[1024];
 	logFile.open("sapphire_log.txt");
-	log(LogLevel::Info, "%s", "----- LOG STARTED -----\n");
+	log("%s", "----- LOG STARTED -----\n");
 }
 
 Sapphire::Logger::~Logger()
 {
-	log(LogLevel::Info, "%s", "----- LOG ENDED -----\n");
+	log("%s", "----- LOG ENDED -----\n");
 	delete[] stringBuffer;
 	logFile.close();
 }
 
-void Sapphire::Logger::log(LogLevel logLevel, LPCSTR format, ...)
+void Sapphire::Logger::log(LPCSTR format, ...)
 {
-	if (logLevel > logLevelTreshold)
-	{
-		return;
-	}
-
 	va_list variableArgumentList;
 	va_start(variableArgumentList, format);
 	int numOfWrittenCharacters = vsprintf_s(stringBuffer, 1024, format, variableArgumentList);

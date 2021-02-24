@@ -10,25 +10,16 @@
 
 namespace Sapphire
 {
-	enum class LogLevel
-	{
-		Fatal,
-		Error,
-		Warning,
-		Info
-	};
-
 	class Logger
 	{
 	public:
-		void log(LogLevel logLevel, LPCSTR format, ...);
+		void log(LPCSTR format, ...);
 		static Logger& getInstance();
 		Logger(Logger& other) = delete;
 		Logger& operator=(const Logger&) = delete;
 	private:
 		Logger();
 		~Logger();
-		LogLevel logLevelTreshold;
 		CHAR* stringBuffer;
 		OutputFile logFile;
 	};

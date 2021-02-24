@@ -10,7 +10,7 @@ LRESULT CALLBACK WindowProcedure(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 	{
 	case WM_DESTROY:
 	{
-		Sapphire::Logger::getInstance().log(Sapphire::LogLevel::Info, "WindowProcedure - WM_DESTROY received\n");
+		Sapphire::Logger::getInstance().log("WindowProcedure - WM_DESTROY received\n");
 
 		PostQuitMessage(0);
 		break;
@@ -23,19 +23,19 @@ LRESULT CALLBACK WindowProcedure(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 Sapphire::WindowApplication::WindowApplication(UINT width, UINT height)
 	: width(width), height(height), hwnd(NULL), instance(GetModuleHandle(NULL))
 {
-	Logger::getInstance().log(LogLevel::Info, "Sapphire::WindowApplication::WindowApplication(%d x %d)\n", width, height);
+	Logger::getInstance().log("Sapphire::WindowApplication::WindowApplication(%d x %d)\n", width, height);
 	RegisterWindowClass();
 	CreateWindowInstance();
 }
 
 Sapphire::WindowApplication::~WindowApplication()
 {
-	Logger::getInstance().log(LogLevel::Info, "Sapphire::WindowApplication::~WindowApplication()\n");
+	Logger::getInstance().log("Sapphire::WindowApplication::~WindowApplication()\n");
 }
 
 void Sapphire::WindowApplication::Run()
 {
-	Logger::getInstance().log(LogLevel::Info, "Sapphire::WindowApplication::Run() - start\n");
+	Logger::getInstance().log("Sapphire::WindowApplication::Run() - start\n");
 
 	Initialize();
 
@@ -47,7 +47,7 @@ void Sapphire::WindowApplication::Run()
 		{
 			if (msg.message == WM_QUIT)
 			{
-				Logger::getInstance().log(LogLevel::Info, "Sapphire::WindowApplication::Run() - WM_QUIT received\n");
+				Logger::getInstance().log("Sapphire::WindowApplication::Run() - WM_QUIT received\n");
 				break;
 			}
 
@@ -57,12 +57,12 @@ void Sapphire::WindowApplication::Run()
 		Tick();
 	}
 
-	Logger::getInstance().log(LogLevel::Info, "Sapphire::WindowApplication::Run() - finished\n");
+	Logger::getInstance().log("Sapphire::WindowApplication::Run() - finished\n");
 }
 
 void Sapphire::WindowApplication::Initialize()
 {
-	Logger::getInstance().log(LogLevel::Info, "Sapphire::WindowApplication::Initialize()\n");
+	Logger::getInstance().log("Sapphire::WindowApplication::Initialize()\n");
 }
 
 void Sapphire::WindowApplication::Tick()
@@ -71,7 +71,7 @@ void Sapphire::WindowApplication::Tick()
 
 void Sapphire::WindowApplication::RegisterWindowClass()
 {
-	Logger::getInstance().log(LogLevel::Info, "Sapphire::WindowApplication::RegisterWindowClass()\n");
+	Logger::getInstance().log("Sapphire::WindowApplication::RegisterWindowClass()\n");
 
 	WNDCLASSEX windowClass;
 	ZeroMemory(&windowClass, sizeof(WNDCLASSEX));
@@ -85,7 +85,7 @@ void Sapphire::WindowApplication::RegisterWindowClass()
 
 void Sapphire::WindowApplication::CreateWindowInstance()
 {
-	Logger::getInstance().log(LogLevel::Info, "Sapphire::WindowApplication::CreateWindowInstance()\n");
+	Logger::getInstance().log("Sapphire::WindowApplication::CreateWindowInstance()\n");
 
 	RECT windowRectangle = { 0, 0, width, height };
 	AdjustWindowRect(&windowRectangle, WS_OVERLAPPEDWINDOW, FALSE);
@@ -95,7 +95,7 @@ void Sapphire::WindowApplication::CreateWindowInstance()
 
 	if (!hwnd)
 	{
-		Logger::getInstance().log(LogLevel::Error, "%s (%d)", "ERROR: Window creation failed", GetLastError());
+		Logger::getInstance().log("%s (%d)", "ERROR: Window creation failed", GetLastError());
 		exit(1);
 	}
 }

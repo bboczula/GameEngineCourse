@@ -1,13 +1,13 @@
-21:00:55 - ----- LOG STARTED -----
-21:00:55 - Sapphire::WindowApplication::WindowApplication(1280 x 720)
-21:00:55 - Sapphire::WindowApplication::RegisterWindowClass()
-21:00:55 - Sapphire::WindowApplication::CreateWindowInstance()
-21:00:55 - Sapphire::Engine::Engine()
-21:00:55 - Sapphire::WindowApplication::Run() - start
-21:00:55 - Sapphire::Engine::Initialize()
-21:00:57 - WindowProcedure - WM_DESTROY received
-21:00:57 - Sapphire::WindowApplication::Run() - WM_QUIT received
-21:00:57 - Sapphire::WindowApplication::Run() - finished
-21:00:57 - Sapphire::Engine::~Engine()
-21:00:57 - Sapphire::WindowApplication::~WindowApplication()
-21:00:57 - ----- LOG ENDED -----
+21:18:56 - ----- LOG STARTED -----
+21:18:56 - Sapphire::WindowApplication::WindowApplication(1280 x 720)
+21:18:56 - Sapphire::WindowApplication::RegisterWindowClass()
+21:18:56 - Sapphire::WindowApplication::CreateWindowInstance()
+21:18:56 - Sapphire::Engine::Engine()
+21:18:56 - Sapphire::WindowApplication::Run() - start
+21:18:56 - Sapphire::Engine::Initialize()
+21:18:59 - WindowProcedure - WM_DESTROY received
+21:18:59 - Sapphire::WindowApplication::Run() - WM_QUIT received
+21:18:59 - Sapphire::WindowApplication::Run() - finished
+21:18:59 - Sapphire::Engine::~Engine()
+21:18:59 - Sapphire::WindowApplication::~WindowApplication()
+21:18:59 - ----- LOG ENDED -----
