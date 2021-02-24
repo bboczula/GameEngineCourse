@@ -2,20 +2,31 @@
 
 // Resource: https://stackoverflow.com/questions/1008019/c-singleton-design-pattern
 
-#include <fstream>
 #include <ctime>
 #include <iomanip>
 #include <Windows.h>
 
+#include "File.h"
+
+enum class LogLevel
+{
+	Fatal,
+	Error,
+	Warning,
+	Info
+};
+
 class Logger
 {
 public:
-	void log(LPCSTR format, ...);
+	void log(LogLevel logLevel, LPCSTR format, ...);
 	static Logger& getInstance();
 	Logger(Logger& other) = delete;
 	Logger& operator=(const Logger&) = delete;
 private:
 	Logger();
 	~Logger();
-	std::ofstream logFile;
+	LogLevel logLevelTreshold;
+	CHAR* stringBuffer;
+	File logFile;
 };

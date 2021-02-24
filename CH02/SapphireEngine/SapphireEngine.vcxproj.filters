@@ -26,6 +26,9 @@
     <ClInclude Include="Logger.h">
       <Filter>Logger</Filter>
     </ClInclude>
+    <ClInclude Include="File.h">
+      <Filter>Logger</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WindowApplication.cpp">
@@ -35,6 +38,9 @@
       <Filter>Engine</Filter>
     </ClCompile>
     <ClCompile Include="Logger.cpp">
+      <Filter>Logger</Filter>
+    </ClCompile>
+    <ClCompile Include="File.cpp">
       <Filter>Logger</Filter>
     </ClCompile>
   </ItemGroup>

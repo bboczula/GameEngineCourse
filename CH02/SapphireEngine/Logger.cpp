@@ -21,41 +21,44 @@ Logger& Logger::getInstance()
 
 	static Logger logger;
 	return logger;
+
+	// Another thing - it is important to make sure that this gets initialized first
 }
 
-Logger::Logger()
+Logger::Logger() : logLevelTreshold(LogLevel::Info)
 {
+	stringBuffer = new CHAR[1024];
 	logFile.open("sapphire_log.txt");
+	log(LogLevel::Info, "%s", "----- LOG STARTED -----\n");
 }
 
 Logger::~Logger()
 {
+	log(LogLevel::Info, "%s", "----- LOG ENDED -----\n");
+	delete[] stringBuffer;
 	logFile.close();
 }
 
-void Logger::log(LPCSTR format, ...)
+void Logger::log(LogLevel logLevel, LPCSTR format, ...)
 {
-	// First, we need to bypass the formatting string and params to sprintf.
-	// sprintf function composes a string with tthe same text as printf, but instead of printing
-	// to standard output, it is stored as a cstring in the buffer pointer.
-	char buffer[1024];
-	va_list va;
-	va_start(va, format);
-	int numOfWrittenCharacters = vsprintf_s(buffer, format, va);
-	va_end(va);
+	if (logLevel > logLevelTreshold)
+	{
+		return;
+	}
 
-	//size_t* returnValue = nullptr;
-	//wchar_t wtext[1024];
-	//size_t count = 1024;
-	//mbstowcs_s(returnValue, wtext, strlen(buffer) + 1, buffer, count);
-
-	OutputDebugStringA(buffer);
+	va_list variableArgumentList;
+	va_start(variableArgumentList, format);
+	int numOfWrittenCharacters = vsprintf_s(stringBuffer, 1024, format, variableArgumentList);
+	va_end(variableArgumentList);
 
 	struct tm newTime;
 	time_t currentTime = time(nullptr);
 	errno_t errorNumber = localtime_s(&newTime, &currentTime);
-	logFile << std::setw(2) << std::setfill('0') << newTime.tm_hour << ":" << std::setw(2) << std::setfill('0') << newTime.tm_min
-		<< ":" << std::setw(2) << std::setfill('0') << newTime.tm_sec << ": ";
 
-	logFile << buffer;
+	char dataToWrite[1024];
+	int numOfDataToWrite = sprintf_s(dataToWrite, 1024, "%.2d:%.2d:%.2d - %s", newTime.tm_hour, newTime.tm_min, newTime.tm_sec, stringBuffer);
+
+	OutputDebugStringA(dataToWrite);
+
+	logFile.write(dataToWrite, numOfDataToWrite);
 }
