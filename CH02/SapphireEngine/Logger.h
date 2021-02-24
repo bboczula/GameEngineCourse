@@ -13,8 +13,8 @@ namespace Sapphire
 	class Logger
 	{
 	public:
-		void log(LPCSTR format, ...);
-		static Logger& getInstance();
+		void Log(LPCSTR format, ...);
+		static Logger& GetInstance();
 		Logger(Logger& other) = delete;
 		Logger& operator=(const Logger&) = delete;
 	private:

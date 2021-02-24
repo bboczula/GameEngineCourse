@@ -2,17 +2,17 @@
 
 Sapphire::Engine::Engine(UINT width, UINT height) : WindowApplication(width, height)
 {
-	Logger::getInstance().log("%s", "Sapphire::Engine::Engine()\n");
+	Logger::GetInstance().Log("%s", "Sapphire::Engine::Engine()\n");
 }
 
 Sapphire::Engine::~Engine()
 {
-	Logger::getInstance().log("%s", "Sapphire::Engine::~Engine()\n");
+	Logger::GetInstance().Log("%s", "Sapphire::Engine::~Engine()\n");
 }
 
 void Sapphire::Engine::Initialize()
 {
-	Logger::getInstance().log("%s", "Sapphire::Engine::Initialize()\n");
+	Logger::GetInstance().Log("%s", "Sapphire::Engine::Initialize()\n");
 }
 
 void Sapphire::Engine::Tick()

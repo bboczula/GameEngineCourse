@@ -8,7 +8,7 @@ Sapphire::OutputFile::~OutputFile()
 {
 }
 
-void Sapphire::OutputFile::open(LPCSTR fileName)
+void Sapphire::OutputFile::Open(LPCSTR fileName)
 {
 	// Open another file
 	fileHandle = CreateFileA(fileName, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
@@ -21,12 +21,12 @@ void Sapphire::OutputFile::open(LPCSTR fileName)
 	}
 }
 
-void Sapphire::OutputFile::close()
+void Sapphire::OutputFile::Close()
 {
 	CloseHandle(fileHandle);
 }
 
-void Sapphire::OutputFile::write(LPCVOID data, DWORD size)
+void Sapphire::OutputFile::Write(LPCVOID data, DWORD size)
 {
 	// Log to windows log file
 	DWORD dwBytesWritten = 0;

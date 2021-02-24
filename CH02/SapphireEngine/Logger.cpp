@@ -2,7 +2,7 @@
 
 // Resource: http://laristra.github.io/flecsi/src/developer-guide/patterns/meyers_singleton.html
 
-Sapphire::Logger& Sapphire::Logger::getInstance()
+Sapphire::Logger& Sapphire::Logger::GetInstance()
 {
 	// This is honestly one of the wierdest thing i've seen in C++
 	// "Normal" singleton was not possible to call destructor
@@ -28,18 +28,18 @@ Sapphire::Logger& Sapphire::Logger::getInstance()
 Sapphire::Logger::Logger()
 {
 	stringBuffer = new CHAR[1024];
-	logFile.open("sapphire_log.txt");
-	log("%s", "----- LOG STARTED -----\n");
+	logFile.Open("sapphire_log.txt");
+	Log("%s", "----- LOG STARTED -----\n");
 }
 
 Sapphire::Logger::~Logger()
 {
-	log("%s", "----- LOG ENDED -----\n");
+	Log("%s", "----- LOG ENDED -----\n");
 	delete[] stringBuffer;
-	logFile.close();
+	logFile.Close();
 }
 
-void Sapphire::Logger::log(LPCSTR format, ...)
+void Sapphire::Logger::Log(LPCSTR format, ...)
 {
 	va_list variableArgumentList;
 	va_start(variableArgumentList, format);
@@ -55,5 +55,5 @@ void Sapphire::Logger::log(LPCSTR format, ...)
 
 	OutputDebugStringA(dataToWrite);
 
-	logFile.write(dataToWrite, numOfDataToWrite);
+	logFile.Write(dataToWrite, numOfDataToWrite);
 }

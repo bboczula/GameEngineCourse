@@ -9,9 +9,9 @@ namespace Sapphire
 	public:
 		OutputFile();
 		~OutputFile();
-		void open(LPCSTR fileName);
-		void close();
-		void write(LPCVOID data, DWORD size);
+		void Open(LPCSTR fileName);
+		void Close();
+		void Write(LPCVOID data, DWORD size);
 	private:
 		HANDLE fileHandle;
 	};
