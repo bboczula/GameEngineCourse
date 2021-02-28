@@ -8,6 +8,8 @@
 
 #include "OutputFile.h"
 
+#define STRING_BUFFER_SIZE 1024
+
 namespace Sapphire
 {
 	class Logger
@@ -20,7 +22,6 @@ namespace Sapphire
 	private:
 		Logger();
 		~Logger();
-		CHAR* stringBuffer;
 		OutputFile logFile;
 	};
 }

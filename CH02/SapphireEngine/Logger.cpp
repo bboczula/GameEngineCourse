@@ -27,7 +27,6 @@ Sapphire::Logger& Sapphire::Logger::GetInstance()
 
 Sapphire::Logger::Logger()
 {
-	stringBuffer = new CHAR[1024];
 	logFile.Open("sapphire_log.txt");
 	Log("%s", "----- LOG STARTED -----\n");
 }
@@ -35,23 +34,23 @@ Sapphire::Logger::Logger()
 Sapphire::Logger::~Logger()
 {
 	Log("%s", "----- LOG ENDED -----\n");
-	delete[] stringBuffer;
 	logFile.Close();
 }
 
 void Sapphire::Logger::Log(LPCSTR format, ...)
 {
+	CHAR stringBuffer[STRING_BUFFER_SIZE];
 	va_list variableArgumentList;
 	va_start(variableArgumentList, format);
-	int numOfWrittenCharacters = vsprintf_s(stringBuffer, 1024, format, variableArgumentList);
+	int numOfWrittenCharacters = vsprintf_s(stringBuffer, STRING_BUFFER_SIZE, format, variableArgumentList);
 	va_end(variableArgumentList);
 
 	struct tm newTime;
 	time_t currentTime = time(nullptr);
 	errno_t errorNumber = localtime_s(&newTime, &currentTime);
 
-	char dataToWrite[1024];
-	int numOfDataToWrite = sprintf_s(dataToWrite, 1024, "%.2d:%.2d:%.2d - %s", newTime.tm_hour, newTime.tm_min, newTime.tm_sec, stringBuffer);
+	char dataToWrite[STRING_BUFFER_SIZE];
+	int numOfDataToWrite = sprintf_s(dataToWrite, STRING_BUFFER_SIZE, "%.2d:%.2d:%.2d - %s", newTime.tm_hour, newTime.tm_min, newTime.tm_sec, stringBuffer);
 
 	OutputDebugStringA(dataToWrite);
 
