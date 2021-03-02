@@ -39,20 +39,19 @@ Sapphire::Logger::~Logger()
 
 void Sapphire::Logger::Log(LPCSTR format, ...)
 {
-	CHAR stringBuffer[STRING_BUFFER_SIZE];
+	CHAR messageBuffer[STRING_BUFFER_SIZE];
 	va_list variableArgumentList;
 	va_start(variableArgumentList, format);
-	int numOfWrittenCharacters = vsprintf_s(stringBuffer, STRING_BUFFER_SIZE, format, variableArgumentList);
+	vsprintf_s(messageBuffer, STRING_BUFFER_SIZE, format, variableArgumentList);
 	va_end(variableArgumentList);
 
-	struct tm newTime;
+	tm newTime;
 	time_t currentTime = time(nullptr);
 	errno_t errorNumber = localtime_s(&newTime, &currentTime);
 
-	char dataToWrite[STRING_BUFFER_SIZE];
-	int numOfDataToWrite = sprintf_s(dataToWrite, STRING_BUFFER_SIZE, "%.2d:%.2d:%.2d - %s", newTime.tm_hour, newTime.tm_min, newTime.tm_sec, stringBuffer);
+	char lineBuffer[STRING_BUFFER_SIZE];
+	int numOfCharactersWritten = sprintf_s(lineBuffer, STRING_BUFFER_SIZE, "%.2d:%.2d:%.2d - %s", newTime.tm_hour, newTime.tm_min, newTime.tm_sec, messageBuffer);
 
-	OutputDebugStringA(dataToWrite);
-
-	logFile.Write(dataToWrite, numOfDataToWrite);
+	OutputDebugStringA(lineBuffer);
+	logFile.Write(lineBuffer, numOfCharactersWritten);
 }
