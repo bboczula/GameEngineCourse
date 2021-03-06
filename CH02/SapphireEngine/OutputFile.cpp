@@ -26,27 +26,19 @@ void Sapphire::OutputFile::Close()
 	CloseHandle(fileHandle);
 }
 
-void Sapphire::OutputFile::Write(LPCVOID data, DWORD size)
+void Sapphire::OutputFile::Write(LPCVOID data, DWORD dataSizeInBytes)
 {
-	// Log to windows log file
-	DWORD dwBytesWritten = 0;
-	BOOL bErrorFlag = WriteFile(fileHandle, data, size, &dwBytesWritten, NULL);
+	DWORD bytesWritten = 0;
+	BOOL errorFlag = WriteFile(fileHandle, data, dataSizeInBytes, &bytesWritten, NULL);
 
-	if (FALSE == bErrorFlag)
+	if (FALSE == errorFlag)
 	{
 		MessageBox(NULL, L"Unable to write to file!", L"File Error", MB_OK | MB_ICONERROR);
 		exit(1);
 	}
-	else
+	else if (bytesWritten != dataSizeInBytes)
 	{
-		if (dwBytesWritten != size)
-		{
-			// This is an error because a synchronous write that results in
-			// success (WriteFile returns TRUE) should write all data as
-			// requested. This would not necessarily be the case for
-			// asynchronous writes.
-			MessageBox(NULL, L"Unable to write entire string!", L"File Error", MB_OK | MB_ICONERROR);
-			exit(1);
-		}
+		MessageBox(NULL, L"Unable to write entire string!", L"File Error", MB_OK | MB_ICONERROR);
+		exit(1);
 	}
 }
