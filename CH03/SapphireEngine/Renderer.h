@@ -2,7 +2,7 @@
 
 #include <dxgi1_4.h>
 #include <iostream>
-#include <wrl.h>
+//#include <wrl.h>
 #include <windows.h>
 #include <comdef.h>
 
@@ -24,7 +24,7 @@ namespace Sapphire
 		void EnumerateOutputs(IDXGIAdapter1* currentAdapter);
 		void LogOutputInfo(IDXGIOutput* output);
 		void LogAdapterInfo(IDXGIAdapter1* adapter);
-		Microsoft::WRL::ComPtr<IDXGIFactory4> dxgiFactory;
-		Microsoft::WRL::ComPtr<IDXGIAdapter1> dxgiAdapter;
+		IDXGIFactory4* dxgiFactory;
+		IDXGIAdapter1* dxgiAdapter;
 	};
 }
