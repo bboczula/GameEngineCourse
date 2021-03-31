@@ -12,8 +12,8 @@ Sapphire::Renderer::~Renderer()
 {
 	Logger::GetInstance().Log("%s\n", "Sapphire::Renderer::~Renderer()");
 
-	SafeRelease(dxgiAdapter.GetAddressOf());
-	SafeRelease(dxgiFactory.GetAddressOf());
+	SafeRelease(&dxgiAdapter);
+	SafeRelease(&dxgiFactory);
 }
 
 void Sapphire::Renderer::CreateDxgiFactory()
@@ -25,21 +25,22 @@ void Sapphire::Renderer::CreateDxgiFactory()
 void Sapphire::Renderer::EnumerateAdapters()
 {
 	Logger::GetInstance().Log("%s\n", "Sapphire::Renderer::EnumerateAdapters()");
-	Microsoft::WRL::ComPtr<IDXGIAdapter1> currentAdapter;
+	IDXGIAdapter1* currentAdapter;
 	UINT index = 0;
 	while (1)
 	{
-		HRESULT result = dxgiFactory->EnumAdapters1(index++, currentAdapter.GetAddressOf());
+		HRESULT result = dxgiFactory->EnumAdapters1(index++, &currentAdapter);
 		if (result == DXGI_ERROR_NOT_FOUND)
 		{
 			break;
 		}
 		ExitIfFailed(result);
 
-		LogAdapterInfo(currentAdapter.Get());
-		EnumerateOutputs(currentAdapter.Get());
+		LogAdapterInfo(currentAdapter);
+		EnumerateOutputs(currentAdapter);
+		SafeRelease(&currentAdapter);
 	}
-
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
 	// Finally we pick the first adapter
 	ExitIfFailed(dxgiFactory->EnumAdapters1(0, &dxgiAdapter));
 }
@@ -47,17 +48,18 @@ void Sapphire::Renderer::EnumerateAdapters()
 void Sapphire::Renderer::EnumerateOutputs(IDXGIAdapter1* currentAdapter)
 {
 	UINT index = 0;
-	Microsoft::WRL::ComPtr<IDXGIOutput> output;
+	IDXGIOutput* output;
 	while (1)
 	{
-		HRESULT result = currentAdapter->EnumOutputs(index++, output.GetAddressOf());
+		HRESULT result = currentAdapter->EnumOutputs(index++, &output);
 		if (result == DXGI_ERROR_NOT_FOUND)
 		{
 			break;
 		}
 		ExitIfFailed(result);
 
-		LogOutputInfo(output.Get());
+		LogOutputInfo(output);
+		SafeRelease(&output);
 	}
 }
 
