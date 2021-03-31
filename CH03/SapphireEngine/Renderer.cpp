@@ -12,8 +12,8 @@ Sapphire::Renderer::~Renderer()
 {
 	Logger::GetInstance().Log("%s\n", "Sapphire::Renderer::~Renderer()");
 
-	SafeRelease(&dxgiAdapter);
-	SafeRelease(&dxgiFactory);
+	SafeRelease(dxgiAdapter.GetAddressOf());
+	SafeRelease(dxgiFactory.GetAddressOf());
 }
 
 void Sapphire::Renderer::CreateDxgiFactory()
@@ -25,20 +25,19 @@ void Sapphire::Renderer::CreateDxgiFactory()
 void Sapphire::Renderer::EnumerateAdapters()
 {
 	Logger::GetInstance().Log("%s\n", "Sapphire::Renderer::EnumerateAdapters()");
-	IDXGIAdapter1* currentAdapter;
+	Microsoft::WRL::ComPtr<IDXGIAdapter1> currentAdapter;
 	UINT index = 0;
 	while (1)
 	{
-		HRESULT result = dxgiFactory->EnumAdapters1(index++, &currentAdapter);
+		HRESULT result = dxgiFactory->EnumAdapters1(index++, currentAdapter.GetAddressOf());
 		if (result == DXGI_ERROR_NOT_FOUND)
 		{
 			break;
 		}
 		ExitIfFailed(result);
 
-		LogAdapterInfo(currentAdapter);
-		EnumerateOutputs(currentAdapter);
-		SafeRelease(&currentAdapter);
+		LogAdapterInfo(currentAdapter.Get());
+		EnumerateOutputs(currentAdapter.Get());
 	}
 
 	// Finally we pick the first adapter
@@ -48,18 +47,17 @@ void Sapphire::Renderer::EnumerateAdapters()
 void Sapphire::Renderer::EnumerateOutputs(IDXGIAdapter1* currentAdapter)
 {
 	UINT index = 0;
-	IDXGIOutput* output;
+	Microsoft::WRL::ComPtr<IDXGIOutput> output;
 	while (1)
 	{
-		HRESULT result = currentAdapter->EnumOutputs(index++, &output);
+		HRESULT result = currentAdapter->EnumOutputs(index++, output.GetAddressOf());
 		if (result == DXGI_ERROR_NOT_FOUND)
 		{
 			break;
 		}
 		ExitIfFailed(result);
 
-		LogOutputInfo(output);
-		SafeRelease(&output);
+		LogOutputInfo(output.Get());
 	}
 }
 
