@@ -38,7 +38,7 @@ namespace Sapphire
 		IDXGIFactory4* dxgiFactory;
 		IDXGIAdapter1* dxgiAdapter;
 		ID3D12Device* device;
-		ID3D12CommandQueue* graphicsCommandQueue;
+		ID3D12CommandQueue* commandQueue;
 		ID3D12CommandAllocator* commandAllocator;
 		ID3D12GraphicsCommandList* commandList;
 	};
