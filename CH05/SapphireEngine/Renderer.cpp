@@ -10,8 +10,8 @@ Sapphire::Renderer::Renderer(HWND hwnd, LONG width, LONG height) : hwnd(hwnd), w
 	CreateCommandQueue();
 	CreateCommandAllocator();
 	CreateCommandList();
-	//CreateSwapChain();
-	//CreateSyncObjects();
+	CreateSwapChain();
+	CreateSyncObjects();
 }
 
 Sapphire::Renderer::~Renderer()
@@ -28,11 +28,11 @@ Sapphire::Renderer::~Renderer()
 
 void Sapphire::Renderer::Render()
 {
-	//ResetCommandList();
-	//CloseCommandList();
-	//ExecuteCommandList();
-	//PresentFrame();
-	//WaitForPreviousFrame();
+	ResetCommandList();
+	CloseCommandList();
+	ExecuteCommandList();
+	PresentFrame();
+	WaitForPreviousFrame();
 }
 
 void Sapphire::Renderer::CreateDxgiFactory()
@@ -164,7 +164,7 @@ void Sapphire::Renderer::CreateSwapChain()
 	swapChainDesc.Flags = 0;
 
 	IDXGISwapChain* tempSwapChain;
-	ExitIfFailed(dxgiFactory->CreateSwapChain(graphicsCommandQueue, &swapChainDesc, &tempSwapChain));
+	ExitIfFailed(dxgiFactory->CreateSwapChain(commandQueue, &swapChainDesc, &tempSwapChain));
 
 	// We need to "upcast" this to SwapChain3
 	tempSwapChain->QueryInterface(IID_PPV_ARGS(&dxgiSwapChain));
@@ -213,7 +213,7 @@ void Sapphire::Renderer::ExecuteCommandList()
 	Logger::GetInstance().Log("%s\n", "Sapphire::Renderer::ExecuteCommandList()");
 
 	ID3D12CommandList* commandListArray[] = { commandList };
-	graphicsCommandQueue->ExecuteCommandLists(_countof(commandListArray), commandListArray);
+	commandQueue->ExecuteCommandLists(_countof(commandListArray), commandListArray);
 }
 
 void Sapphire::Renderer::PresentFrame()
@@ -233,7 +233,7 @@ void Sapphire::Renderer::WaitForPreviousFrame()
 
 	// Signal and increment the fence value.
 	const UINT64 tempFence = fenceValue;
-	ExitIfFailed(graphicsCommandQueue->Signal(fence, tempFence));
+	ExitIfFailed(commandQueue->Signal(fence, tempFence));
 	fenceValue++;
 
 	// Wait until the previous frame is finished.

@@ -50,7 +50,7 @@ namespace Sapphire
 		UINT64 fenceValue;
 		ID3D12Fence* fence;
 		ID3D12Device* device;
-		ID3D12CommandQueue* graphicsCommandQueue;
+		ID3D12CommandQueue* commandQueue;
 		IDXGISwapChain3* dxgiSwapChain;	// Needed "3" to get current buffer index
 		IDXGIFactory4* dxgiFactory;
 		IDXGIAdapter1* dxgiAdapter;
