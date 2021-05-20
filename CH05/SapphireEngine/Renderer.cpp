@@ -18,6 +18,10 @@ Sapphire::Renderer::~Renderer()
 {
 	Logger::GetInstance().Log("%s\n", "Sapphire::Renderer::~Renderer()");
 
+	SafeRelease(&commandList);
+	SafeRelease(&commandAllocator);
+	SafeRelease(&commandQueue);
+	SafeRelease(&device);
 	SafeRelease(&dxgiAdapter);
 	SafeRelease(&dxgiFactory);
 }
@@ -115,7 +119,7 @@ void Sapphire::Renderer::CreateCommandQueue()
 	commandQueueDesc.Flags = D3D12_COMMAND_QUEUE_FLAG_NONE;
 	commandQueueDesc.NodeMask = 0;
 
-	ExitIfFailed(device->CreateCommandQueue(&commandQueueDesc, IID_PPV_ARGS(&graphicsCommandQueue)));
+	ExitIfFailed(device->CreateCommandQueue(&commandQueueDesc, IID_PPV_ARGS(&commandQueue)));
 }
 
 void Sapphire::Renderer::CreateCommandAllocator()
