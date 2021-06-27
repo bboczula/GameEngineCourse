@@ -142,37 +142,34 @@ void Sapphire::Renderer::CreateSwapChain()
 {
 	Logger::GetInstance().Log("%s\n", "Sapphire::Renderer::CreateSwapChain()");
 
-	DXGI_SAMPLE_DESC dxgiSampleDesc;
-	dxgiSampleDesc.Count = 1;
-	dxgiSampleDesc.Quality = 0;
+	DXGI_SAMPLE_DESC sampleDesc;
+	ZeroMemory(&sampleDesc, sizeof(sampleDesc));
+	sampleDesc.Count = 1;
+	sampleDesc.Quality = 0;
 
-	DXGI_SWAP_CHAIN_DESC1 swapChainDesc1;
-	swapChainDesc1.Width = 0;
-	swapChainDesc1.Height = 0;
-	swapChainDesc1.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-	swapChainDesc1.AlphaMode = DXGI_ALPHA_MODE_IGNORE;
-	swapChainDesc1.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-	swapChainDesc1.BufferCount = FRAME_COUNT;
-	swapChainDesc1.SwapEffect = DXGI_SWAP_EFFECT_FLIP_SEQUENTIAL;
-	swapChainDesc1.Scaling = DXGI_SCALING_NONE;
-	swapChainDesc1.SampleDesc = dxgiSampleDesc;
-	swapChainDesc1.Flags = 0;
-	swapChainDesc1.Stereo = FALSE;
+	DXGI_SWAP_CHAIN_DESC1 swapChainDesc;
+	ZeroMemory(&swapChainDesc, sizeof(swapChainDesc));
+	swapChainDesc.Width = 0;
+	swapChainDesc.Height = 0;
+	swapChainDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+	swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
+	swapChainDesc.BufferCount = FRAME_COUNT;
+	swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_SEQUENTIAL;
+	swapChainDesc.SampleDesc = sampleDesc;
 
-	DXGI_SWAP_CHAIN_FULLSCREEN_DESC fullscreenDesc;
-	fullscreenDesc.Windowed = TRUE;
-	fullscreenDesc.RefreshRate = DXGI_RATIONAL({ 0, 1 });
-	fullscreenDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
-	fullscreenDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
+	DXGI_SWAP_CHAIN_FULLSCREEN_DESC fullScreenDesc;
+	ZeroMemory(&fullScreenDesc, sizeof(fullScreenDesc));
+	fullScreenDesc.Windowed = TRUE;
+	fullScreenDesc.RefreshRate = DXGI_RATIONAL({ 0, 1 });
 
-	IDXGISwapChain1* tempSwapChain1;
-	ExitIfFailed(dxgiFactory->CreateSwapChainForHwnd(commandQueue, hwnd, &swapChainDesc1, &fullscreenDesc, NULL, &tempSwapChain1));
+	IDXGISwapChain1* tempSwapChain;
+	ExitIfFailed(dxgiFactory->CreateSwapChainForHwnd(commandQueue, hwnd, &swapChainDesc, &fullScreenDesc, NULL, &tempSwapChain));
 
 	// We need to "upcast" this to SwapChain3
-	tempSwapChain1->QueryInterface(IID_PPV_ARGS(&dxgiSwapChain));
+	tempSwapChain->QueryInterface(IID_PPV_ARGS(&dxgiSwapChain));
 
 	// Release the tempSwapChain
-	tempSwapChain1->Release();
+	tempSwapChain->Release();
 }
 
 //void Sapphire::Renderer::CreateSyncObjects()
