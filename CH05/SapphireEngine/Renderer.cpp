@@ -157,13 +157,8 @@ void Sapphire::Renderer::CreateSwapChain()
 	swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_SEQUENTIAL;
 	swapChainDesc.SampleDesc = sampleDesc;
 
-	DXGI_SWAP_CHAIN_FULLSCREEN_DESC fullScreenDesc;
-	ZeroMemory(&fullScreenDesc, sizeof(fullScreenDesc));
-	fullScreenDesc.Windowed = TRUE;
-	fullScreenDesc.RefreshRate = DXGI_RATIONAL({ 0, 1 });
-
 	IDXGISwapChain1* tempSwapChain;
-	ExitIfFailed(dxgiFactory->CreateSwapChainForHwnd(commandQueue, hwnd, &swapChainDesc, &fullScreenDesc, NULL, &tempSwapChain));
+	ExitIfFailed(dxgiFactory->CreateSwapChainForHwnd(commandQueue, hwnd, &swapChainDesc, nullptr, nullptr, &tempSwapChain));
 
 	// Disable automatic conversion between windowed and fullscreen
 	ExitIfFailed(dxgiFactory->MakeWindowAssociation(hwnd, DXGI_MWA_NO_ALT_ENTER | DXGI_MWA_NO_WINDOW_CHANGES));
