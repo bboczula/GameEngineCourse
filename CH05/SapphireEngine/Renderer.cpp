@@ -165,6 +165,9 @@ void Sapphire::Renderer::CreateSwapChain()
 	IDXGISwapChain1* tempSwapChain;
 	ExitIfFailed(dxgiFactory->CreateSwapChainForHwnd(commandQueue, hwnd, &swapChainDesc, &fullScreenDesc, NULL, &tempSwapChain));
 
+	// Disable automatic conversion between windowed and fullscreen
+	ExitIfFailed(dxgiFactory->MakeWindowAssociation(hwnd, DXGI_MWA_NO_ALT_ENTER | DXGI_MWA_NO_WINDOW_CHANGES));
+
 	// We need to "upcast" this to SwapChain3
 	tempSwapChain->QueryInterface(IID_PPV_ARGS(&dxgiSwapChain));
 
