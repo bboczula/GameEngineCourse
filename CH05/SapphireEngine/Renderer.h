@@ -43,7 +43,6 @@ namespace Sapphire
 		//void ExecuteCommandList();
 		//void PresentFrame();
 		//void WaitForPreviousFrame();
-		void ReportLiveObjects();
 		void EnableDebugLayer();
 		HWND hwnd;
 		LONG width;
