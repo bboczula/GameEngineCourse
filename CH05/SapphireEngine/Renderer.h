@@ -34,6 +34,7 @@ namespace Sapphire
 		void CreateDevice();
 		void CreateCommandQueue();
 		void CreateSwapChain();
+		void DisableDxgiMsgQueueMonitoring();
 		void CreateCommandAllocator();
 		void CreateCommandList();
 		//void CreateSyncObjects();

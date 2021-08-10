@@ -11,6 +11,7 @@ Sapphire::Renderer::Renderer(HWND hwnd, LONG width, LONG height) : hwnd(hwnd), w
 	CreateCommandAllocator();
 	CreateCommandList();
 	CreateSwapChain();
+	DisableDxgiMsgQueueMonitoring();
 	//CreateSyncObjects();
 }
 
@@ -160,14 +161,19 @@ void Sapphire::Renderer::CreateSwapChain()
 	IDXGISwapChain1* tempSwapChain;
 	ExitIfFailed(dxgiFactory->CreateSwapChainForHwnd(commandQueue, hwnd, &swapChainDesc, nullptr, nullptr, &tempSwapChain));
 
-	// Disable automatic conversion between windowed and fullscreen
-	ExitIfFailed(dxgiFactory->MakeWindowAssociation(hwnd, DXGI_MWA_NO_ALT_ENTER | DXGI_MWA_NO_WINDOW_CHANGES));
-
 	// We need to "upcast" this to SwapChain3
 	tempSwapChain->QueryInterface(IID_PPV_ARGS(&dxgiSwapChain));
 
 	// Release the tempSwapChain
 	tempSwapChain->Release();
+}
+
+void Sapphire::Renderer::DisableDxgiMsgQueueMonitoring()
+{
+	Logger::GetInstance().Log("%s\n", "Sapphire::Renderer::MakeWindowAssociation()");
+
+	// Disable automatic conversion between windowed and fullscreen
+	ExitIfFailed(dxgiFactory->MakeWindowAssociation(hwnd, DXGI_MWA_NO_WINDOW_CHANGES));
 }
 
 //void Sapphire::Renderer::CreateSyncObjects()
