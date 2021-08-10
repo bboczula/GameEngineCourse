@@ -37,24 +37,14 @@ namespace Sapphire
 		void DisableDxgiMsgQueueMonitoring();
 		void CreateCommandAllocator();
 		void CreateCommandList();
-		//void CreateSyncObjects();
-		//void ResetCommandList();
-		//void RecordCommandList();
-		//void CloseCommandList();
-		//void ExecuteCommandList();
-		//void PresentFrame();
-		//void WaitForPreviousFrame();
 		void EnableDebugLayer();
 		HWND hwnd;
 		LONG width;
 		LONG height;
 		UINT currentFrameIndex;
-		//HANDLE fenceEvent;
-		//UINT64 fenceValue;
-		//ID3D12Fence* fence;
 		ID3D12Device* device;
 		ID3D12CommandQueue* commandQueue;
-		IDXGISwapChain3* dxgiSwapChain;	// Needed "3" to get current buffer index
+		IDXGISwapChain3* dxgiSwapChain;
 		IDXGIFactory4* dxgiFactory;
 		IDXGIAdapter1* dxgiAdapter;
 		ID3D12CommandAllocator* commandAllocator;

@@ -12,14 +12,12 @@ Sapphire::Renderer::Renderer(HWND hwnd, LONG width, LONG height) : hwnd(hwnd), w
 	CreateCommandList();
 	CreateSwapChain();
 	DisableDxgiMsgQueueMonitoring();
-	//CreateSyncObjects();
 }
 
 Sapphire::Renderer::~Renderer()
 {
 	Logger::GetInstance().Log("%s\n", "Sapphire::Renderer::~Renderer()");
 
-	//SafeRelease(&fence);
 	SafeRelease(&dxgiSwapChain);
 	SafeRelease(&commandList);
 	SafeRelease(&commandAllocator);
@@ -31,16 +29,12 @@ Sapphire::Renderer::~Renderer()
 
 void Sapphire::Renderer::Render()
 {
-	//ResetCommandList();
-	//CloseCommandList();
-	//ExecuteCommandList();
-	//PresentFrame();
-	//WaitForPreviousFrame();
 }
 
 void Sapphire::Renderer::CreateDxgiFactory()
 {
 	Logger::GetInstance().Log("%s\n", "Sapphire::Renderer::CreateDxgiFactory()");
+
 	ExitIfFailed(CreateDXGIFactory2(0, IID_PPV_ARGS(&dxgiFactory)));
 }
 
@@ -106,6 +100,7 @@ void Sapphire::Renderer::CreateDevice()
 #endif
 
 	Logger::GetInstance().Log("%s\n", "Sapphire::Renderer::CreateDevice()");
+
 	ExitIfFailed(D3D12CreateDevice(dxgiAdapter, D3D_FEATURE_LEVEL_11_0, IID_PPV_ARGS(&device)));
 }
 
@@ -161,10 +156,7 @@ void Sapphire::Renderer::CreateSwapChain()
 	IDXGISwapChain1* tempSwapChain;
 	ExitIfFailed(dxgiFactory->CreateSwapChainForHwnd(commandQueue, hwnd, &swapChainDesc, nullptr, nullptr, &tempSwapChain));
 
-	// We need to "upcast" this to SwapChain3
 	tempSwapChain->QueryInterface(IID_PPV_ARGS(&dxgiSwapChain));
-
-	// Release the tempSwapChain
 	tempSwapChain->Release();
 }
 
@@ -172,83 +164,8 @@ void Sapphire::Renderer::DisableDxgiMsgQueueMonitoring()
 {
 	Logger::GetInstance().Log("%s\n", "Sapphire::Renderer::MakeWindowAssociation()");
 
-	// Disable automatic conversion between windowed and fullscreen
 	ExitIfFailed(dxgiFactory->MakeWindowAssociation(hwnd, DXGI_MWA_NO_WINDOW_CHANGES));
 }
-
-//void Sapphire::Renderer::CreateSyncObjects()
-//{
-//	Logger::GetInstance().Log("%s\n", "Sapphire::Renderer::CreateSyncObjects()");
-//	
-//	ExitIfFailed(device->CreateFence(0, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&fence)));
-//	fenceValue = 1;
-//
-//	// Create an event handle to use for frame synchronization.
-//	fenceEvent = CreateEvent(nullptr, FALSE, FALSE, nullptr);
-//	if (fenceEvent == nullptr)
-//	{
-//		ExitIfFailed(HRESULT_FROM_WIN32(GetLastError()));
-//	}
-//
-//	// Wait for the command list to execute; we are reusing the same command 
-//	// list in our main loop but for now, we just want to wait for setup to 
-//	// complete before continuing.
-//	WaitForPreviousFrame();
-//}
-
-//void Sapphire::Renderer::ResetCommandList()
-//{
-//	ExitIfFailed(commandAllocator->Reset());
-//	ExitIfFailed(commandList->Reset(commandAllocator, nullptr));
-//}
-
-//void Sapphire::Renderer::RecordCommandList()
-//{
-//}
-
-//void Sapphire::Renderer::CloseCommandList()
-//{
-//	ExitIfFailed(commandList->Close());
-//}
-
-//void Sapphire::Renderer::ExecuteCommandList()
-//{
-//	//Logger::GetInstance().Log("%s\n", "Sapphire::Renderer::ExecuteCommandList()");
-//
-//	ID3D12CommandList* commandListArray[] = { commandList };
-//	commandQueue->ExecuteCommandLists(_countof(commandListArray), commandListArray);
-//}
-
-//void Sapphire::Renderer::PresentFrame()
-//{
-//	//Logger::GetInstance().Log("%s\n", "Sapphire::Renderer::PresentFrame()");
-//
-//	//Logger::GetInstance().Log("%s\n", "Sapphire::Renderer::PresentFrame()");
-//	ExitIfFailed(dxgiSwapChain->Present(1, 0));
-//	//Sleep(20);
-//}
-
-//void Sapphire::Renderer::WaitForPreviousFrame()
-//{
-//	// WAITING FOR THE FRAME TO COMPLETE BEFORE CONTINUING IS NOT BEST PRACTICE.
-//	// This is code implemented as such for simplicity. More advanced samples 
-//	// illustrate how to use fences for efficient resource usage.
-//
-//	// Signal and increment the fence value.
-//	const UINT64 tempFence = fenceValue;
-//	ExitIfFailed(commandQueue->Signal(fence, tempFence));
-//	fenceValue++;
-//
-//	// Wait until the previous frame is finished.
-//	if (fence->GetCompletedValue() < tempFence)
-//	{
-//		ExitIfFailed(fence->SetEventOnCompletion(tempFence, fenceEvent));
-//		WaitForSingleObject(fenceEvent, INFINITE);
-//	}
-//
-//	// Get the current Back Buffer index
-//	currentFrameIndex = dxgiSwapChain->GetCurrentBackBufferIndex();
-//}
 
 void Sapphire::Renderer::EnableDebugLayer()
 {
