@@ -172,25 +172,25 @@ void Sapphire::Renderer::DisableDxgiMsgQueueMonitoring()
 	ExitIfFailed(dxgiFactory->MakeWindowAssociation(hwnd, DXGI_MWA_NO_WINDOW_CHANGES));
 }
 
-//void Sapphire::Renderer::CreateSyncObjects()
-//{
-//	Logger::GetInstance().Log("%s\n", "Sapphire::Renderer::CreateSyncObjects()");
-//	
-//	ExitIfFailed(device->CreateFence(0, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&fence)));
-//	fenceValue = 1;
-//
-//	// Create an event handle to use for frame synchronization.
-//	fenceEvent = CreateEvent(nullptr, FALSE, FALSE, nullptr);
-//	if (fenceEvent == nullptr)
-//	{
-//		ExitIfFailed(HRESULT_FROM_WIN32(GetLastError()));
-//	}
-//
-//	// Wait for the command list to execute; we are reusing the same command 
-//	// list in our main loop but for now, we just want to wait for setup to 
-//	// complete before continuing.
-//	WaitForPreviousFrame();
-//}
+void Sapphire::Renderer::CreateSyncObjects()
+{
+	Logger::GetInstance().Log("%s\n", "Sapphire::Renderer::CreateSyncObjects()");
+	
+	ExitIfFailed(device->CreateFence(0, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&fence)));
+	fenceValue = 1;
+
+	// Create an event handle to use for frame synchronization.
+	fenceEvent = CreateEvent(nullptr, FALSE, FALSE, nullptr);
+	if (fenceEvent == nullptr)
+	{
+		ExitIfFailed(HRESULT_FROM_WIN32(GetLastError()));
+	}
+
+	// Wait for the command list to execute; we are reusing the same command 
+	// list in our main loop but for now, we just want to wait for setup to 
+	// complete before continuing.
+	WaitForPreviousFrame();
+}
 
 //void Sapphire::Renderer::ResetCommandList()
 //{
@@ -224,27 +224,27 @@ void Sapphire::Renderer::DisableDxgiMsgQueueMonitoring()
 //	//Sleep(20);
 //}
 
-//void Sapphire::Renderer::WaitForPreviousFrame()
-//{
-//	// WAITING FOR THE FRAME TO COMPLETE BEFORE CONTINUING IS NOT BEST PRACTICE.
-//	// This is code implemented as such for simplicity. More advanced samples 
-//	// illustrate how to use fences for efficient resource usage.
-//
-//	// Signal and increment the fence value.
-//	const UINT64 tempFence = fenceValue;
-//	ExitIfFailed(commandQueue->Signal(fence, tempFence));
-//	fenceValue++;
-//
-//	// Wait until the previous frame is finished.
-//	if (fence->GetCompletedValue() < tempFence)
-//	{
-//		ExitIfFailed(fence->SetEventOnCompletion(tempFence, fenceEvent));
-//		WaitForSingleObject(fenceEvent, INFINITE);
-//	}
-//
-//	// Get the current Back Buffer index
-//	currentFrameIndex = dxgiSwapChain->GetCurrentBackBufferIndex();
-//}
+void Sapphire::Renderer::WaitForPreviousFrame()
+{
+	// WAITING FOR THE FRAME TO COMPLETE BEFORE CONTINUING IS NOT BEST PRACTICE.
+	// This is code implemented as such for simplicity. More advanced samples 
+	// illustrate how to use fences for efficient resource usage.
+
+	// Signal and increment the fence value.
+	const UINT64 tempFence = fenceValue;
+	ExitIfFailed(commandQueue->Signal(fence, tempFence));
+	fenceValue++;
+
+	// Wait until the previous frame is finished.
+	if (fence->GetCompletedValue() < tempFence)
+	{
+		ExitIfFailed(fence->SetEventOnCompletion(tempFence, fenceEvent));
+		WaitForSingleObject(fenceEvent, INFINITE);
+	}
+
+	// Get the current Back Buffer index
+	currentFrameIndex = dxgiSwapChain->GetCurrentBackBufferIndex();
+}
 
 void Sapphire::Renderer::EnableDebugLayer()
 {
