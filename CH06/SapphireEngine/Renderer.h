@@ -9,6 +9,7 @@
 #include <dxgidebug.h>
 
 #include "Logger.h"
+#include "Fence.h"
 #include "Utils.h"
 
 #pragma comment(lib, "dxgi.lib")
@@ -37,7 +38,8 @@ namespace Sapphire
 		void DisableDxgiMsgQueueMonitoring();
 		void CreateCommandAllocator();
 		void CreateCommandList();
-		void CreateSyncObjects();
+		void CreateDescriptorHeap();
+		void CreateFrameResources();
 		void ResetCommandList();
 		void RecordCommandList();
 		void CloseCommandList();
@@ -45,13 +47,11 @@ namespace Sapphire
 		void PresentFrame();
 		void WaitForPreviousFrame();
 		void EnableDebugLayer();
+		Fence* fence;
 		HWND hwnd;
 		LONG width;
 		LONG height;
 		UINT currentFrameIndex;
-		HANDLE fenceEvent;
-		UINT64 fenceValue;
-		ID3D12Fence* fence;
 		ID3D12Device* device;
 		ID3D12CommandQueue* commandQueue;
 		IDXGISwapChain3* dxgiSwapChain;
@@ -59,5 +59,8 @@ namespace Sapphire
 		IDXGIAdapter1* dxgiAdapter;
 		ID3D12CommandAllocator* commandAllocator;
 		ID3D12GraphicsCommandList* commandList;
+		ID3D12DescriptorHeap* rtvHeap;
+		UINT rtvDescriptorSize;
+		ID3D12Resource* renderTargets[FRAME_COUNT];
 	};
 }
