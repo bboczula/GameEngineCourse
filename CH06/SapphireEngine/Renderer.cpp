@@ -12,12 +12,14 @@ Sapphire::Renderer::Renderer(HWND hwnd, LONG width, LONG height) : hwnd(hwnd), w
 	CreateCommandList();
 	CreateSwapChain();
 	DisableDxgiMsgQueueMonitoring();
+	CreateSyncObjects();
 }
 
 Sapphire::Renderer::~Renderer()
 {
 	Logger::GetInstance().Log("%s\n", "Sapphire::Renderer::~Renderer()");
 
+	SafeRelease(&fence);
 	SafeRelease(&dxgiSwapChain);
 	SafeRelease(&commandList);
 	SafeRelease(&commandAllocator);
@@ -29,11 +31,11 @@ Sapphire::Renderer::~Renderer()
 
 void Sapphire::Renderer::Render()
 {
-	//ResetCommandList();
-	//CloseCommandList();
-	//ExecuteCommandList();
-	//PresentFrame();
-	//WaitForPreviousFrame();
+	ResetCommandList();
+	CloseCommandList();
+	ExecuteCommandList();
+	PresentFrame();
+	WaitForPreviousFrame();
 }
 
 void Sapphire::Renderer::CreateDxgiFactory()
@@ -192,37 +194,37 @@ void Sapphire::Renderer::CreateSyncObjects()
 	WaitForPreviousFrame();
 }
 
-//void Sapphire::Renderer::ResetCommandList()
-//{
-//	ExitIfFailed(commandAllocator->Reset());
-//	ExitIfFailed(commandList->Reset(commandAllocator, nullptr));
-//}
+void Sapphire::Renderer::ResetCommandList()
+{
+	ExitIfFailed(commandAllocator->Reset());
+	ExitIfFailed(commandList->Reset(commandAllocator, nullptr));
+}
 
-//void Sapphire::Renderer::RecordCommandList()
-//{
-//}
+void Sapphire::Renderer::RecordCommandList()
+{
+}
 
-//void Sapphire::Renderer::CloseCommandList()
-//{
-//	ExitIfFailed(commandList->Close());
-//}
+void Sapphire::Renderer::CloseCommandList()
+{
+	ExitIfFailed(commandList->Close());
+}
 
-//void Sapphire::Renderer::ExecuteCommandList()
-//{
-//	//Logger::GetInstance().Log("%s\n", "Sapphire::Renderer::ExecuteCommandList()");
-//
-//	ID3D12CommandList* commandListArray[] = { commandList };
-//	commandQueue->ExecuteCommandLists(_countof(commandListArray), commandListArray);
-//}
+void Sapphire::Renderer::ExecuteCommandList()
+{
+	//Logger::GetInstance().Log("%s\n", "Sapphire::Renderer::ExecuteCommandList()");
 
-//void Sapphire::Renderer::PresentFrame()
-//{
-//	//Logger::GetInstance().Log("%s\n", "Sapphire::Renderer::PresentFrame()");
-//
-//	//Logger::GetInstance().Log("%s\n", "Sapphire::Renderer::PresentFrame()");
-//	ExitIfFailed(dxgiSwapChain->Present(1, 0));
-//	//Sleep(20);
-//}
+	ID3D12CommandList* commandListArray[] = { commandList };
+	commandQueue->ExecuteCommandLists(_countof(commandListArray), commandListArray);
+}
+
+void Sapphire::Renderer::PresentFrame()
+{
+	//Logger::GetInstance().Log("%s\n", "Sapphire::Renderer::PresentFrame()");
+
+	//Logger::GetInstance().Log("%s\n", "Sapphire::Renderer::PresentFrame()");
+	ExitIfFailed(dxgiSwapChain->Present(1, 0));
+	//Sleep(20);
+}
 
 void Sapphire::Renderer::WaitForPreviousFrame()
 {

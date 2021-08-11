@@ -38,11 +38,11 @@ namespace Sapphire
 		void CreateCommandAllocator();
 		void CreateCommandList();
 		void CreateSyncObjects();
-		//void ResetCommandList();
-		//void RecordCommandList();
-		//void CloseCommandList();
-		//void ExecuteCommandList();
-		//void PresentFrame();
+		void ResetCommandList();
+		void RecordCommandList();
+		void CloseCommandList();
+		void ExecuteCommandList();
+		void PresentFrame();
 		void WaitForPreviousFrame();
 		void EnableDebugLayer();
 		HWND hwnd;
