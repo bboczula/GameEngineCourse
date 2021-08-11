@@ -19,6 +19,7 @@ namespace Sapphire
     private:
         void Initialize() override;
         void Tick() override;
+        void ReportLiveObjects();
         Renderer* renderer;
     };
 }

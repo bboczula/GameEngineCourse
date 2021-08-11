@@ -34,6 +34,7 @@ namespace Sapphire
 		void CreateDevice();
 		void CreateCommandQueue();
 		void CreateSwapChain();
+		void DisableDxgiMsgQueueMonitoring();
 		void CreateCommandAllocator();
 		void CreateCommandList();
 		//void CreateSyncObjects();
@@ -43,7 +44,6 @@ namespace Sapphire
 		//void ExecuteCommandList();
 		//void PresentFrame();
 		//void WaitForPreviousFrame();
-		void ReportLiveObjects();
 		void EnableDebugLayer();
 		HWND hwnd;
 		LONG width;
@@ -54,7 +54,7 @@ namespace Sapphire
 		//ID3D12Fence* fence;
 		ID3D12Device* device;
 		ID3D12CommandQueue* commandQueue;
-		IDXGISwapChain3* dxgiSwapChain;	// Needed "3" to get current buffer index
+		IDXGISwapChain3* dxgiSwapChain;
 		IDXGIFactory4* dxgiFactory;
 		IDXGIAdapter1* dxgiAdapter;
 		ID3D12CommandAllocator* commandAllocator;
