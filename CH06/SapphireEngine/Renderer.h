@@ -11,6 +11,7 @@
 #include "Logger.h"
 #include "Fence.h"
 #include "Utils.h"
+#include "CommandQueue.h"
 
 #pragma comment(lib, "dxgi.lib")
 #pragma comment(lib, "d3d12.lib")
@@ -33,7 +34,7 @@ namespace Sapphire
 		void LogOutputInfo(IDXGIOutput* output);
 		void LogAdapterInfo(IDXGIAdapter1* adapter);
 		void CreateDevice();
-		void CreateCommandQueue();
+		//void CreateCommandQueue();
 		void CreateSwapChain();
 		void DisableDxgiMsgQueueMonitoring();
 		void CreateCommandAllocator();
@@ -45,15 +46,16 @@ namespace Sapphire
 		void CloseCommandList();
 		void ExecuteCommandList();
 		void PresentFrame();
-		void WaitForPreviousFrame();
+		//void WaitForPreviousFrame();
 		void EnableDebugLayer();
-		Fence* fence;
+		//Fence* fence;
+		CommandQueue* commandQueue;
 		HWND hwnd;
 		LONG width;
 		LONG height;
 		UINT currentFrameIndex;
 		ID3D12Device* device;
-		ID3D12CommandQueue* commandQueue;
+		//ID3D12CommandQueue* commandQueue;
 		IDXGISwapChain3* dxgiSwapChain;
 		IDXGIFactory4* dxgiFactory;
 		IDXGIAdapter1* dxgiAdapter;

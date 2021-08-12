@@ -7,6 +7,9 @@
 
 namespace Sapphire
 {
+	/// <summary>
+	/// Implements the CPU/GPU DirectX 12 fence for Command Queue synchronization.
+	/// </summary>
 	class Fence
 	{
 	public:
@@ -17,8 +20,8 @@ namespace Sapphire
 		void CreateDxFence();
 		void CreateEventHandle();
 		void CloseFenceHandle();
-		void Signal(const UINT64& tempFence);
-		void CpuWait(const UINT64& tempFence);
+		void Signal();
+		void CpuWait();
 		ID3D12CommandQueue* boundCommandQueue;
 		HANDLE fenceEvent;
 		UINT64 fenceValue;

@@ -35,6 +35,9 @@
     <ClInclude Include="Fence.h">
       <Filter>Engine</Filter>
     </ClInclude>
+    <ClInclude Include="CommandQueue.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WindowApplication.cpp">
@@ -53,6 +56,9 @@
       <Filter>Engine</Filter>
     </ClCompile>
     <ClCompile Include="Fence.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="CommandQueue.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
   </ItemGroup>

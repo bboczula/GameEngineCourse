@@ -62,9 +62,11 @@ Sapphire::Fence::~Fence()
 	SafeRelease(&boundCommandQueue);
 }
 
+/// <summary>
+/// Releases and closes the fence event.
+/// </summary>
 void Sapphire::Fence::CloseFenceHandle()
 {
-	// Release and close the fence event
 	if (fenceEvent)
 	{
 		CloseHandle(fenceEvent);
@@ -72,6 +74,9 @@ void Sapphire::Fence::CloseFenceHandle()
 	}
 }
 
+/// <summary>
+/// Increments the GPU fence value and halts current CPU thread until this value is reached.
+/// </summary>
 void Sapphire::Fence::FlushGpuQueue()
 {
 	// WAITING FOR THE FRAME TO COMPLETE BEFORE CONTINUING IS NOT BEST PRACTICE.
@@ -79,24 +84,22 @@ void Sapphire::Fence::FlushGpuQueue()
 	// illustrate how to use fences for efficient resource usage.
 
 	// This function drains the GPU Command Queue, so it blocks the calling thread until the work on the GPU is finished.
-
-	const UINT64 tempFence = fenceValue;
-	Signal(tempFence);
-	CpuWait(tempFence);
-}
-
-void Sapphire::Fence::Signal(const UINT64& tempFence)
-{
-	ExitIfFailed(boundCommandQueue->Signal(fence, tempFence));
+	Signal();
+	CpuWait();
 	fenceValue++;
 }
 
-void Sapphire::Fence::CpuWait(const UINT64& tempFence)
+void Sapphire::Fence::Signal()
+{
+	ExitIfFailed(boundCommandQueue->Signal(fence, fenceValue));
+}
+
+void Sapphire::Fence::CpuWait()
 {
 	// Wait until the previous frame is finished.
-	if (fence->GetCompletedValue() < tempFence)
+	if (fence->GetCompletedValue() < fenceValue)
 	{
-		ExitIfFailed(fence->SetEventOnCompletion(tempFence, fenceEvent));
+		ExitIfFailed(fence->SetEventOnCompletion(fenceValue, fenceEvent));
 		WaitForSingleObject(fenceEvent, INFINITE);
 	}
 }
