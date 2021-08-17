@@ -181,8 +181,10 @@ void Sapphire::Renderer::CreateSwapChain()
 	swapChainDesc.BufferCount = FRAME_COUNT;
 	swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD;
 	swapChainDesc.SampleDesc = sampleDesc;
-	//swapChainDesc.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_TEARING;
-	//swapChainDesc.Flags = DXGI_SWAP_CHAIN_FLAG_;
+	if (!settings.isVsyncEnabled)
+	{
+		swapChainDesc.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_TEARING;
+	}
 
 	IDXGISwapChain1* tempSwapChain;
 	ExitIfFailed(dxgiFactory->CreateSwapChainForHwnd(commandQueue->Get(), hwnd, &swapChainDesc, nullptr, nullptr, &tempSwapChain));
@@ -249,8 +251,14 @@ void Sapphire::Renderer::ExecuteCommandList()
 
 void Sapphire::Renderer::PresentFrame()
 {
-	//ExitIfFailed(dxgiSwapChain->Present(0, DXGI_PRESENT_ALLOW_TEARING));
-	ExitIfFailed(dxgiSwapChain->Present(4, 0));
+	if (settings.isVsyncEnabled)
+	{
+		ExitIfFailed(dxgiSwapChain->Present(4, 0));
+	}
+	else
+	{
+		ExitIfFailed(dxgiSwapChain->Present(0, DXGI_PRESENT_ALLOW_TEARING));
+	}
 	currentFrameIndex = dxgiSwapChain->GetCurrentBackBufferIndex();
 }
 

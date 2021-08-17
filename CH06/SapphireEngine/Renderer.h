@@ -20,6 +20,11 @@
 
 namespace Sapphire
 {
+	struct RendererSettings
+	{
+		bool isVsyncEnabled = true;
+	};
+
 	class Renderer
 	{
 	public:
@@ -45,6 +50,7 @@ namespace Sapphire
 		void ExecuteCommandList();
 		void PresentFrame();
 		void EnableDebugLayer();
+		RendererSettings settings;
 		CommandQueue* commandQueue;
 		HWND hwnd;
 		LONG width;
