@@ -32,9 +32,6 @@
     <ClInclude Include="Renderer.h">
       <Filter>Engine</Filter>
     </ClInclude>
-    <ClInclude Include="Fence.h">
-      <Filter>Engine</Filter>
-    </ClInclude>
     <ClInclude Include="CommandQueue.h">
       <Filter>Engine</Filter>
     </ClInclude>
@@ -53,9 +50,6 @@
       <Filter>Logger</Filter>
     </ClCompile>
     <ClCompile Include="Renderer.cpp">
-      <Filter>Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="Fence.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
     <ClCompile Include="CommandQueue.cpp">
