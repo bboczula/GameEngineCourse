@@ -39,8 +39,14 @@ namespace Sapphire
 		/// </summary>
 		void Flush();
 	private:
+		void CreateCommandQueue(ID3D12Device* device);
+		void CreateFence(ID3D12Device* device);
+		void Signal();
+		void CpuWait();
 		ID3D12CommandQueue* commandQueue;
-		Fence* fence;
+		HANDLE fenceEvent;
+		UINT64 fenceValue;
+		ID3D12Fence* fence;
 	};
 }
 

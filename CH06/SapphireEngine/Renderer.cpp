@@ -17,8 +17,8 @@ Sapphire::Renderer::Renderer(HWND hwnd, LONG width, LONG height) : hwnd(hwnd), w
 	DisableDxgiMsgQueueMonitoring();
 
 	// Create frame resources
-	//CreateDescriptorHeap();
-	//CreateFrameResources();
+	CreateDescriptorHeap();
+	CreateFrameResources();
 }
 
 Sapphire::Renderer::~Renderer()
@@ -41,13 +41,10 @@ Sapphire::Renderer::~Renderer()
 void Sapphire::Renderer::Render()
 {
 	ResetCommandList();
-	//RecordCommandList();
+	RecordCommandList();
 	CloseCommandList();
 	ExecuteCommandList();
 	PresentFrame();
-	//commandQueue->Flush();
-	currentFrameIndex = dxgiSwapChain->GetCurrentBackBufferIndex();
-	//WaitForPreviousFrame();
 }
 
 void Sapphire::Renderer::CreateDxgiFactory()
@@ -122,24 +119,6 @@ void Sapphire::Renderer::CreateDevice()
 
 	ExitIfFailed(D3D12CreateDevice(dxgiAdapter, D3D_FEATURE_LEVEL_11_0, IID_PPV_ARGS(&device)));
 }
-
-//void Sapphire::Renderer::CreateCommandQueue()
-//{
-//	Logger::GetInstance().Log("%s\n", "Sapphire::Renderer::CreateCommandQueue()");
-//
-//	D3D12_COMMAND_QUEUE_DESC commandQueueDesc;
-//	ZeroMemory(&commandQueueDesc, sizeof(commandQueueDesc));
-//
-//	commandQueueDesc.Type = D3D12_COMMAND_LIST_TYPE_DIRECT;
-//	commandQueueDesc.Priority = D3D12_COMMAND_QUEUE_PRIORITY_NORMAL;
-//	commandQueueDesc.Flags = D3D12_COMMAND_QUEUE_FLAG_NONE;
-//	commandQueueDesc.NodeMask = 0;
-//
-//	ExitIfFailed(device->CreateCommandQueue(&commandQueueDesc, IID_PPV_ARGS(&commandQueue)));
-//
-//	// Create a new fence
-//	fence = new Fence(commandQueue);
-//}
 
 void Sapphire::Renderer::CreateCommandAllocator()
 {
@@ -272,13 +251,8 @@ void Sapphire::Renderer::PresentFrame()
 {
 	//ExitIfFailed(dxgiSwapChain->Present(0, DXGI_PRESENT_ALLOW_TEARING));
 	ExitIfFailed(dxgiSwapChain->Present(4, 0));
+	currentFrameIndex = dxgiSwapChain->GetCurrentBackBufferIndex();
 }
-
-//void Sapphire::Renderer::WaitForPreviousFrame()
-//{
-//	fence->FlushGpuQueue();
-//	currentFrameIndex = dxgiSwapChain->GetCurrentBackBufferIndex();
-//}
 
 void Sapphire::Renderer::EnableDebugLayer()
 {

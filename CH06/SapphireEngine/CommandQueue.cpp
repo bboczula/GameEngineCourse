@@ -4,6 +4,19 @@ Sapphire::CommandQueue::CommandQueue(ID3D12Device* device)
 {
 	Logger::GetInstance().Log("%s\n", "Sapphire::Renderer::CreateCommandQueue()");
 
+	CreateCommandQueue(device);
+	CreateFence(device);
+	Flush();
+}
+
+Sapphire::CommandQueue::~CommandQueue()
+{
+	SafeRelease(&fence);
+	SafeRelease(&commandQueue);
+}
+
+void Sapphire::CommandQueue::CreateCommandQueue(ID3D12Device* device)
+{
 	D3D12_COMMAND_QUEUE_DESC commandQueueDesc;
 	ZeroMemory(&commandQueueDesc, sizeof(commandQueueDesc));
 
@@ -13,15 +26,27 @@ Sapphire::CommandQueue::CommandQueue(ID3D12Device* device)
 	commandQueueDesc.NodeMask = 0;
 
 	ExitIfFailed(device->CreateCommandQueue(&commandQueueDesc, IID_PPV_ARGS(&commandQueue)));
-
-	// Create a new fence
-	fence = new Fence(commandQueue);
+	commandQueue->SetName(L"MyCommandQueue");
 }
 
-Sapphire::CommandQueue::~CommandQueue()
+void Sapphire::CommandQueue::CreateFence(ID3D12Device* device)
 {
-	delete fence;
-	SafeRelease(&commandQueue);
+	// Create a new fence
+	ExitIfFailed(device->CreateFence(0, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&fence)));
+	fence->SetName(L"MyFence");
+	fenceValue = 1;
+
+	fenceEvent = CreateEvent(nullptr, FALSE, FALSE, nullptr);
+	if (fenceEvent == nullptr)
+	{
+		ExitIfFailed(HRESULT_FROM_WIN32(GetLastError()));
+	}
+}
+
+void Sapphire::CommandQueue::Flush()
+{
+	Signal();
+	CpuWait();
 }
 
 ID3D12CommandQueue* Sapphire::CommandQueue::Get()
@@ -36,7 +61,18 @@ void Sapphire::CommandQueue::Execute(ID3D12CommandList* commandList)
 	Flush();
 }
 
-void Sapphire::CommandQueue::Flush()
+void Sapphire::CommandQueue::Signal()
 {
-	fence->FlushGpuQueue();
+	ExitIfFailed(commandQueue->Signal(fence, fenceValue));
+}
+
+void Sapphire::CommandQueue::CpuWait()
+{
+	// Wait until the previous frame is finished.
+	if (fence->GetCompletedValue() < fenceValue)
+	{
+		ExitIfFailed(fence->SetEventOnCompletion(fenceValue, fenceEvent));
+		WaitForSingleObject(fenceEvent, INFINITE);
+		fenceValue++;
+	}
 }
