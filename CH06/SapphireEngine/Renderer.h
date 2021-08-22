@@ -1,6 +1,6 @@
 #pragma once
 
-#include <dxgi1_4.h>
+#include <dxgi1_5.h>
 #include <d3d12.h>
 #include <iostream>
 #include <wrl.h>
@@ -11,6 +11,7 @@
 #include "Logger.h"
 #include "Utils.h"
 #include "CommandQueue.h"
+#include "HardwareCapabilities.h"
 
 #pragma comment(lib, "dxgi.lib")
 #pragma comment(lib, "d3d12.lib")
@@ -37,13 +38,15 @@ namespace Sapphire
 		void EnumerateOutputs(IDXGIAdapter1* currentAdapter);
 		void LogOutputInfo(IDXGIOutput* output);
 		void LogAdapterInfo(IDXGIAdapter1* adapter);
+		void GetCapabilites();
 		void CreateDevice();
+		void CreateCommandQueue();
 		void CreateSwapChain();
 		void DisableDxgiMsgQueueMonitoring();
 		void CreateCommandAllocator();
 		void CreateCommandList();
-		void CreateDescriptorHeap();
-		void CreateFrameResources();
+		//void CreateDescriptorHeap();
+		//void CreateFrameResources();
 		void ResetCommandList();
 		void RecordCommandList();
 		void CloseCommandList();
@@ -51,6 +54,7 @@ namespace Sapphire
 		void PresentFrame();
 		void EnableDebugLayer();
 		RendererSettings settings;
+		HardwareCapabilities hardwareCapabilities;
 		CommandQueue* commandQueue;
 		HWND hwnd;
 		LONG width;
@@ -58,7 +62,7 @@ namespace Sapphire
 		UINT currentFrameIndex;
 		ID3D12Device* device;
 		IDXGISwapChain3* dxgiSwapChain;
-		IDXGIFactory4* dxgiFactory;
+		IDXGIFactory5* dxgiFactory;
 		IDXGIAdapter1* dxgiAdapter;
 		ID3D12CommandAllocator* commandAllocator;
 		ID3D12GraphicsCommandList* commandList;

@@ -1,11 +1,12 @@
 #include "CommandQueue.h"
 
-Sapphire::CommandQueue::CommandQueue(ID3D12Device* device)
+Sapphire::CommandQueue::CommandQueue(ID3D12Device* device) : fenceValue(1)
 {
 	Logger::GetInstance().Log("%s\n", "Sapphire::Renderer::CreateCommandQueue()");
 
 	CreateCommandQueue(device);
 	CreateFence(device);
+	CreateEventObject();
 	Flush();
 }
 
@@ -34,8 +35,10 @@ void Sapphire::CommandQueue::CreateFence(ID3D12Device* device)
 	// Create a new fence
 	ExitIfFailed(device->CreateFence(0, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&fence)));
 	fence->SetName(L"MyFence");
-	fenceValue = 1;
+}
 
+void Sapphire::CommandQueue::CreateEventObject()
+{
 	fenceEvent = CreateEvent(nullptr, FALSE, FALSE, nullptr);
 	if (fenceEvent == nullptr)
 	{
@@ -47,18 +50,6 @@ void Sapphire::CommandQueue::Flush()
 {
 	Signal();
 	CpuWait();
-}
-
-ID3D12CommandQueue* Sapphire::CommandQueue::Get()
-{
-	return commandQueue;
-}
-
-void Sapphire::CommandQueue::Execute(ID3D12CommandList* commandList)
-{
-	ID3D12CommandList* commandListArray[] = { commandList };
-	commandQueue->ExecuteCommandLists(_countof(commandListArray), commandListArray);
-	Flush();
 }
 
 void Sapphire::CommandQueue::Signal()
@@ -75,4 +66,16 @@ void Sapphire::CommandQueue::CpuWait()
 		WaitForSingleObject(fenceEvent, INFINITE);
 		fenceValue++;
 	}
+}
+
+void Sapphire::CommandQueue::Execute(ID3D12CommandList* commandList)
+{
+	ID3D12CommandList* commandListArray[] = { commandList };
+	commandQueue->ExecuteCommandLists(_countof(commandListArray), commandListArray);
+	Flush();
+}
+
+ID3D12CommandQueue* Sapphire::CommandQueue::Get()
+{
+	return commandQueue;
 }

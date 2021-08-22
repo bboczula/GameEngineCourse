@@ -40,6 +40,7 @@ namespace Sapphire
 	private:
 		void CreateCommandQueue(ID3D12Device* device);
 		void CreateFence(ID3D12Device* device);
+		void CreateEventObject();
 		void Signal();
 		void CpuWait();
 		ID3D12CommandQueue* commandQueue;
