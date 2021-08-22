@@ -114,7 +114,7 @@ void Sapphire::Renderer::GetCapabilites()
 	BOOL isAllowedTearing = false;
 	if (SUCCEEDED(dxgiFactory->CheckFeatureSupport(DXGI_FEATURE_PRESENT_ALLOW_TEARING, &isAllowedTearing, sizeof(isAllowedTearing))))
 	{
-		Logger::GetInstance().Log("%s\n", "Hardware supports tearing.");
+		Logger::GetInstance().Log("%s\n", "Hardware allows tearing.");
 		hardwareCapabilities.setCapability(Capabilities::ALLOW_TEARING);
 	}
 }
