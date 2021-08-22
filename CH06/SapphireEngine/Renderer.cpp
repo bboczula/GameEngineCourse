@@ -112,7 +112,7 @@ void Sapphire::Renderer::LogAdapterInfo(IDXGIAdapter1* adapter)
 void Sapphire::Renderer::GetCapabilites()
 {
 	BOOL isAllowedTearing = false;
-	if (!FAILED(dxgiFactory->CheckFeatureSupport(DXGI_FEATURE_PRESENT_ALLOW_TEARING, &isAllowedTearing, sizeof(isAllowedTearing))))
+	if (SUCCEEDED(dxgiFactory->CheckFeatureSupport(DXGI_FEATURE_PRESENT_ALLOW_TEARING, &isAllowedTearing, sizeof(isAllowedTearing))))
 	{
 		Logger::GetInstance().Log("%s\n", "Hardware supports tearing.");
 		hardwareCapabilities.setCapability(Capabilities::ALLOW_TEARING);
@@ -196,7 +196,7 @@ void Sapphire::Renderer::CreateSwapChain()
 	swapChainDesc.BufferCount = FRAME_COUNT;
 	swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD;
 	swapChainDesc.SampleDesc = sampleDesc;
-	if (!settings.isVsyncEnabled && hardwareCapabilities.getCapability(Capabilities::ALLOW_TEARING))
+	if (IsVsyncDisabledAndTearingAllowed())
 	{
 		swapChainDesc.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_TEARING;
 	}
@@ -266,7 +266,7 @@ void Sapphire::Renderer::ExecuteCommandList()
 
 void Sapphire::Renderer::PresentFrame()
 {
-	if (!settings.isVsyncEnabled && hardwareCapabilities.getCapability(Capabilities::ALLOW_TEARING))
+	if (IsVsyncDisabledAndTearingAllowed())
 	{
 		ExitIfFailed(dxgiSwapChain->Present(0, DXGI_PRESENT_ALLOW_TEARING));
 	}
@@ -290,4 +290,9 @@ void Sapphire::Renderer::EnableDebugLayer()
 	ID3D12Debug1* debugInterface_1;
 	ExitIfFailed(debugInterface_0->QueryInterface(IID_PPV_ARGS(&debugInterface_1)));
 	debugInterface_1->SetEnableGPUBasedValidation(true);
+}
+
+bool Sapphire::Renderer::IsVsyncDisabledAndTearingAllowed()
+{
+	return !settings.isVsyncEnabled && hardwareCapabilities.getCapability(Capabilities::ALLOW_TEARING);
 }

@@ -53,6 +53,7 @@ namespace Sapphire
 		void ExecuteCommandList();
 		void PresentFrame();
 		void EnableDebugLayer();
+		bool IsVsyncDisabledAndTearingAllowed();
 		RendererSettings settings;
 		HardwareCapabilities hardwareCapabilities;
 		CommandQueue* commandQueue;
