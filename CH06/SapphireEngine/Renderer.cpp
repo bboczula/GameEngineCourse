@@ -17,8 +17,8 @@ Sapphire::Renderer::Renderer(HWND hwnd, LONG width, LONG height) : hwnd(hwnd), w
 	DisableDxgiMsgQueueMonitoring();
 
 	// Create frame resources
-	//CreateDescriptorHeap();
-	//CreateFrameResources();
+	CreateDescriptorHeap();
+	CreateFrameResources();
 }
 
 Sapphire::Renderer::~Renderer()
@@ -41,7 +41,7 @@ Sapphire::Renderer::~Renderer()
 void Sapphire::Renderer::Render()
 {
 	ResetCommandList();
-	//RecordCommandList();
+	RecordCommandList();
 	CloseCommandList();
 	ExecuteCommandList();
 	PresentFrame();
@@ -150,33 +150,33 @@ void Sapphire::Renderer::CreateCommandList()
 	commandList->Close();
 }
 
-//void Sapphire::Renderer::CreateDescriptorHeap()
-//{
-//	Logger::GetInstance().Log("%s\n", "Sapphire::Renderer::CreateDescriptorHeap()");
-//
-//	D3D12_DESCRIPTOR_HEAP_DESC rtvDescHeapDesc;
-//	ZeroMemory(&rtvDescHeapDesc, sizeof(rtvDescHeapDesc));
-//	rtvDescHeapDesc.NumDescriptors = FRAME_COUNT;
-//	rtvDescHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;
-//	rtvDescHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_NONE;
-//	ExitIfFailed(device->CreateDescriptorHeap(&rtvDescHeapDesc, IID_PPV_ARGS(&rtvHeap)));
-//	rtvDescriptorSize = device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
-//}
+void Sapphire::Renderer::CreateDescriptorHeap()
+{
+	Logger::GetInstance().Log("%s\n", "Sapphire::Renderer::CreateDescriptorHeap()");
 
-//void Sapphire::Renderer::CreateFrameResources()
-//{
-//	Logger::GetInstance().Log("%s\n", "Sapphire::Renderer::CreateFrameResources()");
-//
-//	D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle;
-//	rtvHandle.ptr = SIZE_T(INT64(rtvHeap->GetCPUDescriptorHandleForHeapStart().ptr));
-//
-//	for (UINT i = 0; i < FRAME_COUNT; i++)
-//	{
-//		ExitIfFailed(dxgiSwapChain->GetBuffer(i, IID_PPV_ARGS(&renderTargets[i])));
-//		device->CreateRenderTargetView(renderTargets[i], nullptr, rtvHandle);
-//		rtvHandle.ptr += INT64(rtvDescriptorSize);
-//	}
-//}
+	D3D12_DESCRIPTOR_HEAP_DESC rtvDescHeapDesc;
+	ZeroMemory(&rtvDescHeapDesc, sizeof(rtvDescHeapDesc));
+	rtvDescHeapDesc.NumDescriptors = FRAME_COUNT;
+	rtvDescHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;
+	rtvDescHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_NONE;
+	ExitIfFailed(device->CreateDescriptorHeap(&rtvDescHeapDesc, IID_PPV_ARGS(&rtvHeap)));
+	rtvDescriptorSize = device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
+}
+
+void Sapphire::Renderer::CreateFrameResources()
+{
+	Logger::GetInstance().Log("%s\n", "Sapphire::Renderer::CreateFrameResources()");
+
+	D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle;
+	rtvHandle.ptr = SIZE_T(INT64(rtvHeap->GetCPUDescriptorHandleForHeapStart().ptr));
+
+	for (UINT i = 0; i < FRAME_COUNT; i++)
+	{
+		ExitIfFailed(dxgiSwapChain->GetBuffer(i, IID_PPV_ARGS(&renderTargets[i])));
+		device->CreateRenderTargetView(renderTargets[i], nullptr, rtvHandle);
+		rtvHandle.ptr += INT64(rtvDescriptorSize);
+	}
+}
 
 void Sapphire::Renderer::CreateSwapChain()
 {
@@ -294,5 +294,5 @@ void Sapphire::Renderer::EnableDebugLayer()
 
 bool Sapphire::Renderer::IsVsyncDisabledAndTearingAllowed()
 {
-	return !settings.isVsyncEnabled && hardwareCapabilities.getCapability(Capabilities::ALLOW_TEARING);
+	return (!settings.isVsyncEnabled) && (hardwareCapabilities.getCapability(Capabilities::ALLOW_TEARING));
 }

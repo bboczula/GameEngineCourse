@@ -64,8 +64,8 @@ void Sapphire::CommandQueue::CpuWait()
 	{
 		ExitIfFailed(fence->SetEventOnCompletion(fenceValue, fenceEvent));
 		WaitForSingleObject(fenceEvent, INFINITE);
-		fenceValue++;
 	}
+	fenceValue++;
 }
 
 void Sapphire::CommandQueue::Execute(ID3D12CommandList* commandList)

@@ -10,7 +10,7 @@ Sapphire::HardwareCapabilities::~HardwareCapabilities()
 
 void Sapphire::HardwareCapabilities::setCapability(Capabilities capability)
 {
-	capabilities[capability];
+	capabilities[capability] = true;
 }
 
 bool Sapphire::HardwareCapabilities::getCapability(Capabilities capability)

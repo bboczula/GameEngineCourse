@@ -23,7 +23,7 @@ namespace Sapphire
 {
 	struct RendererSettings
 	{
-		bool isVsyncEnabled = true;
+		bool isVsyncEnabled = false;
 	};
 
 	class Renderer
@@ -45,8 +45,8 @@ namespace Sapphire
 		void DisableDxgiMsgQueueMonitoring();
 		void CreateCommandAllocator();
 		void CreateCommandList();
-		//void CreateDescriptorHeap();
-		//void CreateFrameResources();
+		void CreateDescriptorHeap();
+		void CreateFrameResources();
 		void ResetCommandList();
 		void RecordCommandList();
 		void CloseCommandList();

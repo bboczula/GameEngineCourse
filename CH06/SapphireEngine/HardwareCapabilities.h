@@ -17,6 +17,6 @@ namespace Sapphire
 		void setCapability(Capabilities capability);
 		bool getCapability(Capabilities capability);
 	private:
-		bool capabilities[MAX_CAPABILITES];
+		bool capabilities[MAX_CAPABILITES] = { 0 };
 	};
 }
