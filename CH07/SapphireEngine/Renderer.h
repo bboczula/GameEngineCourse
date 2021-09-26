@@ -45,6 +45,8 @@ namespace Sapphire
 		void DisableDxgiMsgQueueMonitoring();
 		void CreateCommandAllocator();
 		void CreateCommandList();
+		// void CreateDescriptorHeap();
+		// void CreateFrameResources();
 		void ResetCommandList();
 		void RecordCommandList();
 		void CloseCommandList();
@@ -65,5 +67,8 @@ namespace Sapphire
 		IDXGIAdapter1* dxgiAdapter;
 		ID3D12CommandAllocator* commandAllocator;
 		ID3D12GraphicsCommandList* commandList;
+		// ID3D12DescriptorHeap* rtvHeap;
+		// UINT rtvDescriptorSize;
+		// ID3D12Resource* renderTargets[FRAME_COUNT];
 	};
 }

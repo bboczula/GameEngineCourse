@@ -5,10 +5,8 @@ Sapphire::Renderer::Renderer(HWND hwnd, LONG width, LONG height) : hwnd(hwnd), w
 	Logger::GetInstance().Log("%s\n", "Sapphire::Renderer::Renderer()");
 
 	CreateDxgiFactory();
-	GetCapabilites();
 	EnumerateAdapters();
 	CreateDevice();
-
 	CreateCommandQueue();
 	CreateCommandAllocator();
 	CreateCommandList();
@@ -23,7 +21,7 @@ Sapphire::Renderer::~Renderer()
 	SafeRelease(&dxgiSwapChain);
 	SafeRelease(&commandList);
 	SafeRelease(&commandAllocator);
-	delete commandQueue;
+	SafeRelease(&commandQueue);
 	SafeRelease(&device);
 	SafeRelease(&dxgiAdapter);
 	SafeRelease(&dxgiFactory);
@@ -31,11 +29,11 @@ Sapphire::Renderer::~Renderer()
 
 void Sapphire::Renderer::Render()
 {
-	ResetCommandList();
-	RecordCommandList();
-	CloseCommandList();
-	ExecuteCommandList();
-	PresentFrame();
+	//ResetCommandList();
+	//CloseCommandList();
+	//ExecuteCommandList();
+	//PresentFrame();
+	//WaitForPreviousFrame();
 }
 
 void Sapphire::Renderer::CreateDxgiFactory()
@@ -100,16 +98,6 @@ void Sapphire::Renderer::LogAdapterInfo(IDXGIAdapter1* adapter)
 	Logger::GetInstance().Log("  %ws (Dedicated VRAM: %zu MB)\n", adapterDesc.Description, adapterDesc.DedicatedVideoMemory / 1024 / 1024);
 }
 
-void Sapphire::Renderer::GetCapabilites()
-{
-	BOOL isAllowedTearing = false;
-	if (SUCCEEDED(dxgiFactory->CheckFeatureSupport(DXGI_FEATURE_PRESENT_ALLOW_TEARING, &isAllowedTearing, sizeof(isAllowedTearing))))
-	{
-		Logger::GetInstance().Log("%s\n", "Hardware allows tearing.");
-		hardwareCapabilities.setCapability(Capabilities::ALLOW_TEARING);
-	}
-}
-
 void Sapphire::Renderer::CreateDevice()
 {
 #if _DEBUG
@@ -123,7 +111,17 @@ void Sapphire::Renderer::CreateDevice()
 
 void Sapphire::Renderer::CreateCommandQueue()
 {
-	commandQueue = new CommandQueue(device);
+	Logger::GetInstance().Log("%s\n", "Sapphire::Renderer::CreateCommandQueue()");
+
+	D3D12_COMMAND_QUEUE_DESC commandQueueDesc;
+	ZeroMemory(&commandQueueDesc, sizeof(commandQueueDesc));
+
+	commandQueueDesc.Type = D3D12_COMMAND_LIST_TYPE_DIRECT;
+	commandQueueDesc.Priority = D3D12_COMMAND_QUEUE_PRIORITY_NORMAL;
+	commandQueueDesc.Flags = D3D12_COMMAND_QUEUE_FLAG_NONE;
+	commandQueueDesc.NodeMask = 0;
+
+	ExitIfFailed(device->CreateCommandQueue(&commandQueueDesc, IID_PPV_ARGS(&commandQueue)));
 }
 
 void Sapphire::Renderer::CreateCommandAllocator()
@@ -157,15 +155,11 @@ void Sapphire::Renderer::CreateSwapChain()
 	swapChainDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
 	swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
 	swapChainDesc.BufferCount = FRAME_COUNT;
-	swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD;
+	swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_SEQUENTIAL;
 	swapChainDesc.SampleDesc = sampleDesc;
-	if (IsVsyncDisabledAndTearingAllowed())
-	{
-		swapChainDesc.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_TEARING;
-	}
 
 	IDXGISwapChain1* tempSwapChain;
-	ExitIfFailed(dxgiFactory->CreateSwapChainForHwnd(commandQueue->Get(), hwnd, &swapChainDesc, nullptr, nullptr, &tempSwapChain));
+	ExitIfFailed(dxgiFactory->CreateSwapChainForHwnd(commandQueue, hwnd, &swapChainDesc, nullptr, nullptr, &tempSwapChain));
 
 	tempSwapChain->QueryInterface(IID_PPV_ARGS(&dxgiSwapChain));
 	tempSwapChain->Release();
@@ -178,37 +172,87 @@ void Sapphire::Renderer::DisableDxgiMsgQueueMonitoring()
 	ExitIfFailed(dxgiFactory->MakeWindowAssociation(hwnd, DXGI_MWA_NO_WINDOW_CHANGES));
 }
 
-void Sapphire::Renderer::ResetCommandList()
-{
-	ExitIfFailed(commandAllocator->Reset());
-	ExitIfFailed(commandList->Reset(commandAllocator, nullptr));
-}
+//void Sapphire::Renderer::CreateSyncObjects()
+//{
+//	Logger::GetInstance().Log("%s\n", "Sapphire::Renderer::CreateSyncObjects()");
+//	
+//	ExitIfFailed(device->CreateFence(0, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&fence)));
+//	fenceValue = 1;
+//
+//	// Create an event handle to use for frame synchronization.
+//	fenceEvent = CreateEvent(nullptr, FALSE, FALSE, nullptr);
+//	if (fenceEvent == nullptr)
+//	{
+//		ExitIfFailed(HRESULT_FROM_WIN32(GetLastError()));
+//	}
+//
+//	// Wait for the command list to execute; we are reusing the same command 
+//	// list in our main loop but for now, we just want to wait for setup to 
+//	// complete before continuing.
+//	WaitForPreviousFrame();
+//}
 
-void Sapphire::Renderer::RecordCommandList()
-{
-}
+//void Sapphire::Renderer::ResetCommandList()
+//{
+//	ExitIfFailed(commandAllocator->Reset());
+//	ExitIfFailed(commandList->Reset(commandAllocator, nullptr));
+//}
 
-void Sapphire::Renderer::CloseCommandList()
-{
-	ExitIfFailed(commandList->Close());
-}
+//void Sapphire::Renderer::RecordCommandList()
+//{
+//}
 
-void Sapphire::Renderer::ExecuteCommandList()
-{
-	commandQueue->Execute(commandList);
-}
+//void Sapphire::Renderer::CloseCommandList()
+//{
+//	ExitIfFailed(commandList->Close());
+//}
 
-void Sapphire::Renderer::PresentFrame()
+//void Sapphire::Renderer::ExecuteCommandList()
+//{
+//	//Logger::GetInstance().Log("%s\n", "Sapphire::Renderer::ExecuteCommandList()");
+//
+//	ID3D12CommandList* commandListArray[] = { commandList };
+//	commandQueue->ExecuteCommandLists(_countof(commandListArray), commandListArray);
+//}
+
+//void Sapphire::Renderer::PresentFrame()
+//{
+//	//Logger::GetInstance().Log("%s\n", "Sapphire::Renderer::PresentFrame()");
+//
+//	//Logger::GetInstance().Log("%s\n", "Sapphire::Renderer::PresentFrame()");
+//	ExitIfFailed(dxgiSwapChain->Present(1, 0));
+//	//Sleep(20);
+//}
+
+//void Sapphire::Renderer::WaitForPreviousFrame()
+//{
+//	// WAITING FOR THE FRAME TO COMPLETE BEFORE CONTINUING IS NOT BEST PRACTICE.
+//	// This is code implemented as such for simplicity. More advanced samples 
+//	// illustrate how to use fences for efficient resource usage.
+//
+//	// Signal and increment the fence value.
+//	const UINT64 tempFence = fenceValue;
+//	ExitIfFailed(commandQueue->Signal(fence, tempFence));
+//	fenceValue++;
+//
+//	// Wait until the previous frame is finished.
+//	if (fence->GetCompletedValue() < tempFence)
+//	{
+//		ExitIfFailed(fence->SetEventOnCompletion(tempFence, fenceEvent));
+//		WaitForSingleObject(fenceEvent, INFINITE);
+//	}
+//
+//	// Get the current Back Buffer index
+//	currentFrameIndex = dxgiSwapChain->GetCurrentBackBufferIndex();
+//}
+
+void Sapphire::Renderer::ReportLiveObjects()
 {
-	if (IsVsyncDisabledAndTearingAllowed())
-	{
-		ExitIfFailed(dxgiSwapChain->Present(0, DXGI_PRESENT_ALLOW_TEARING));
+	IDXGIDebug* dxgiControler;
+	if (SUCCEEDED(DXGIGetDebugInterface1(0, IID_PPV_ARGS(&dxgiControler)))) {
+		dxgiControler->ReportLiveObjects(DXGI_DEBUG_ALL, DXGI_DEBUG_RLO_FLAGS(DXGI_DEBUG_RLO_SUMMARY | DXGI_DEBUG_RLO_IGNORE_INTERNAL));
 	}
-	else
-	{
-		ExitIfFailed(dxgiSwapChain->Present(1, 0));
-	}
-	currentFrameIndex = dxgiSwapChain->GetCurrentBackBufferIndex();
+	SafeRelease(&dxgiControler);
 }
 
 void Sapphire::Renderer::EnableDebugLayer()
@@ -224,9 +268,4 @@ void Sapphire::Renderer::EnableDebugLayer()
 	ID3D12Debug1* debugInterface_1;
 	ExitIfFailed(debugInterface_0->QueryInterface(IID_PPV_ARGS(&debugInterface_1)));
 	debugInterface_1->SetEnableGPUBasedValidation(true);
-}
-
-bool Sapphire::Renderer::IsVsyncDisabledAndTearingAllowed()
-{
-	return (!settings.isVsyncEnabled) && (hardwareCapabilities.getCapability(Capabilities::ALLOW_TEARING));
 }
