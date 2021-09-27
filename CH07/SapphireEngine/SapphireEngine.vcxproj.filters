@@ -38,6 +38,9 @@
     <ClInclude Include="HardwareCapabilities.h">
       <Filter>Engine</Filter>
     </ClInclude>
+    <ClInclude Include="CommandList.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WindowApplication.cpp">
@@ -59,6 +62,9 @@
       <Filter>Engine</Filter>
     </ClCompile>
     <ClCompile Include="HardwareCapabilities.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="CommandList.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
   </ItemGroup>

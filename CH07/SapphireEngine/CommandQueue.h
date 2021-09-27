@@ -2,6 +2,7 @@
 
 #include <d3d12.h>
 
+#include "CommandList.h"
 #include "Logger.h"
 #include "Utils.h"
 
@@ -31,7 +32,7 @@ namespace Sapphire
 		/// Executes provided command list and fulshes the GPU queue.
 		/// </summary>
 		/// <param name="commandList">Single command list to execute</param>
-		void Execute(ID3D12CommandList* commandList);
+		void Execute(CommandList* commandList);
 
 		/// <summary>
 		/// Increments the GPU fence and halts current CPU thread until this value is reached.

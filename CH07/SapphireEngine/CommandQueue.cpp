@@ -68,9 +68,9 @@ void Sapphire::CommandQueue::WaitForGpu()
 	fenceValue++;
 }
 
-void Sapphire::CommandQueue::Execute(ID3D12CommandList* commandList)
+void Sapphire::CommandQueue::Execute(CommandList* commandList)
 {
-	ID3D12CommandList* commandListArray[] = { commandList };
+	ID3D12CommandList* commandListArray[] = { commandList->Get() };
 	commandQueue->ExecuteCommandLists(_countof(commandListArray), commandListArray);
 	Flush();
 }

@@ -11,6 +11,7 @@
 #include "Logger.h"
 #include "Utils.h"
 #include "CommandQueue.h"
+#include "CommandList.h"
 #include "HardwareCapabilities.h"
 
 #pragma comment(lib, "dxgi.lib")
@@ -45,8 +46,8 @@ namespace Sapphire
 		void DisableDxgiMsgQueueMonitoring();
 		void CreateCommandAllocator();
 		void CreateCommandList();
-		// void CreateDescriptorHeap();
-		// void CreateFrameResources();
+		void CreateDescriptorHeap();
+		void CreateFrameResources();
 		void ResetCommandList();
 		void RecordCommandList();
 		void CloseCommandList();
@@ -57,6 +58,7 @@ namespace Sapphire
 		RendererSettings settings;
 		HardwareCapabilities hardwareCapabilities;
 		CommandQueue* commandQueue;
+		CommandList* commandList;
 		HWND hwnd;
 		LONG width;
 		LONG height;
@@ -65,10 +67,10 @@ namespace Sapphire
 		IDXGISwapChain3* dxgiSwapChain;
 		IDXGIFactory5* dxgiFactory;
 		IDXGIAdapter1* dxgiAdapter;
-		ID3D12CommandAllocator* commandAllocator;
-		ID3D12GraphicsCommandList* commandList;
-		// ID3D12DescriptorHeap* rtvHeap;
-		// UINT rtvDescriptorSize;
-		// ID3D12Resource* renderTargets[FRAME_COUNT];
+		//ID3D12CommandAllocator* commandAllocator;
+		//ID3D12GraphicsCommandList* commandList;
+		ID3D12DescriptorHeap* rtvHeap;
+		UINT rtvDescriptorSize;
+		ID3D12Resource* renderTargets[FRAME_COUNT];
 	};
 }
