@@ -15,7 +15,7 @@ Sapphire::CommandList::~CommandList()
 	SafeRelease(&commandAllocator);
 }
 
-ID3D12CommandList* Sapphire::CommandList::Get()
+ID3D12GraphicsCommandList* Sapphire::CommandList::Get()
 {
 	return commandList;
 }
@@ -28,6 +28,26 @@ void Sapphire::CommandList::SetResourceBarrier(D3D12_RESOURCE_BARRIER& resourceB
 void Sapphire::CommandList::SetRenderTarget(D3D12_CPU_DESCRIPTOR_HANDLE& cpuDescriptorHandle)
 {
 	commandList->OMSetRenderTargets(1, &cpuDescriptorHandle, FALSE, nullptr);
+}
+
+void Sapphire::CommandList::SetViewport(D3D12_VIEWPORT viewport)
+{
+	commandList->RSSetViewports(1, &viewport);
+}
+
+void Sapphire::CommandList::SetScissors(D3D12_RECT scissorRect)
+{
+	commandList->RSSetScissorRects(1, &scissorRect);
+}
+
+void Sapphire::CommandList::SetGraphicsRootSignature(ID3D12RootSignature* rootSignature)
+{
+	commandList->SetGraphicsRootSignature(rootSignature);
+}
+
+void Sapphire::CommandList::SetPipelineState(ID3D12PipelineState* pipelineState)
+{
+	commandList->SetPipelineState(pipelineState);
 }
 
 void Sapphire::CommandList::ClearRenderTarget(D3D12_CPU_DESCRIPTOR_HANDLE& cpuDescriptorHandle, const float* color)
