@@ -7,12 +7,12 @@
 
 namespace Sapphire
 {
-	class CommandList
+	class DX12CommandList
 	{
-		friend class CommandQueue;
+		friend class DX12CommandQueue;
 	public:
-		CommandList(ID3D12Device* device);
-		~CommandList();
+		DX12CommandList(ID3D12Device* device);
+		~DX12CommandList();
 		void SetResourceBarrier(D3D12_RESOURCE_BARRIER& resourceBarrier);
 		void SetRenderTarget(D3D12_CPU_DESCRIPTOR_HANDLE& cpuDescriptorHandle);
 		void ClearRenderTarget(D3D12_CPU_DESCRIPTOR_HANDLE& cpuDescriptorHandle, const float* color);

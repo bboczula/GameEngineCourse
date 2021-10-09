@@ -137,14 +137,14 @@ void Sapphire::Renderer::CreateDevice()
 
 void Sapphire::Renderer::CreateCommandQueue()
 {
-	commandQueue = new CommandQueue(device);
+	commandQueue = new DX12CommandQueue(device);
 }
 
 void Sapphire::Renderer::CreateCommandList()
 {
 	Logger::GetInstance().Log("%s\n", "Sapphire::Renderer::CreateCommandList()");
 
-	commandList = new CommandList(device);
+	commandList = new DX12CommandList(device);
 }
 
 void Sapphire::Renderer::CreateDescriptorHeap()

@@ -32,16 +32,16 @@
     <ClInclude Include="Renderer.h">
       <Filter>Engine</Filter>
     </ClInclude>
-    <ClInclude Include="CommandQueue.h">
+    <ClInclude Include="DX12CommandQueue.h">
       <Filter>Engine</Filter>
     </ClInclude>
     <ClInclude Include="HardwareCapabilities.h">
       <Filter>Engine</Filter>
     </ClInclude>
-    <ClInclude Include="CommandList.h">
+    <ClInclude Include="DX12CommandList.h">
       <Filter>Engine</Filter>
     </ClInclude>
-    <ClInclude Include="DescriptorHeap.h">
+    <ClInclude Include="DX12DescriptorHeap.h">
       <Filter>Engine</Filter>
     </ClInclude>
   </ItemGroup>
@@ -61,16 +61,16 @@
     <ClCompile Include="Renderer.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
-    <ClCompile Include="CommandQueue.cpp">
+    <ClCompile Include="DX12CommandQueue.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
     <ClCompile Include="HardwareCapabilities.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
-    <ClCompile Include="CommandList.cpp">
+    <ClCompile Include="DX12CommandList.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
-    <ClCompile Include="DescriptorHeap.cpp">
+    <ClCompile Include="DX12DescriptorHeap.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
   </ItemGroup>

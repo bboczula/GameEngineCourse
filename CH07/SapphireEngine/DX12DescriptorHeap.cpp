@@ -1,4 +1,4 @@
-#include "DescriptorHeap.h"
+#include "DX12DescriptorHeap.h"
 
 Sapphire::DX12DescriptorHeap::DX12DescriptorHeap(ID3D12Device* device, D3D12_DESCRIPTOR_HEAP_TYPE type, UINT size)
 {

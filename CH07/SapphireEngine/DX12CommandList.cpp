@@ -1,6 +1,6 @@
-#include "CommandList.h"
+#include "DX12CommandList.h"
 
-Sapphire::CommandList::CommandList(ID3D12Device* device)
+Sapphire::DX12CommandList::DX12CommandList(ID3D12Device* device)
 {
 	Logger::GetInstance().Log("%s\n", "Sapphire::CommandList::CommandList");
 
@@ -9,53 +9,53 @@ Sapphire::CommandList::CommandList(ID3D12Device* device)
 	commandList->Close();
 }
 
-Sapphire::CommandList::~CommandList()
+Sapphire::DX12CommandList::~DX12CommandList()
 {
 	SafeRelease(&commandList);
 	SafeRelease(&commandAllocator);
 }
 
-void Sapphire::CommandList::SetResourceBarrier(D3D12_RESOURCE_BARRIER& resourceBarrier)
+void Sapphire::DX12CommandList::SetResourceBarrier(D3D12_RESOURCE_BARRIER& resourceBarrier)
 {
 	commandList->ResourceBarrier(1, &resourceBarrier);
 }
 
-void Sapphire::CommandList::SetRenderTarget(D3D12_CPU_DESCRIPTOR_HANDLE& cpuDescriptorHandle)
+void Sapphire::DX12CommandList::SetRenderTarget(D3D12_CPU_DESCRIPTOR_HANDLE& cpuDescriptorHandle)
 {
 	commandList->OMSetRenderTargets(1, &cpuDescriptorHandle, FALSE, nullptr);
 }
 
-void Sapphire::CommandList::SetViewport(D3D12_VIEWPORT viewport)
+void Sapphire::DX12CommandList::SetViewport(D3D12_VIEWPORT viewport)
 {
 	commandList->RSSetViewports(1, &viewport);
 }
 
-void Sapphire::CommandList::SetScissors(D3D12_RECT scissorRect)
+void Sapphire::DX12CommandList::SetScissors(D3D12_RECT scissorRect)
 {
 	commandList->RSSetScissorRects(1, &scissorRect);
 }
 
-void Sapphire::CommandList::SetGraphicsRootSignature(ID3D12RootSignature* rootSignature)
+void Sapphire::DX12CommandList::SetGraphicsRootSignature(ID3D12RootSignature* rootSignature)
 {
 	commandList->SetGraphicsRootSignature(rootSignature);
 }
 
-void Sapphire::CommandList::SetPipelineState(ID3D12PipelineState* pipelineState)
+void Sapphire::DX12CommandList::SetPipelineState(ID3D12PipelineState* pipelineState)
 {
 	commandList->SetPipelineState(pipelineState);
 }
 
-void Sapphire::CommandList::ClearRenderTarget(D3D12_CPU_DESCRIPTOR_HANDLE& cpuDescriptorHandle, const float* color)
+void Sapphire::DX12CommandList::ClearRenderTarget(D3D12_CPU_DESCRIPTOR_HANDLE& cpuDescriptorHandle, const float* color)
 {
 	commandList->ClearRenderTargetView(cpuDescriptorHandle, color, 0, nullptr);
 }
 
-void Sapphire::CommandList::Close()
+void Sapphire::DX12CommandList::Close()
 {
 	ExitIfFailed(commandList->Close());
 }
 
-void Sapphire::CommandList::Reset()
+void Sapphire::DX12CommandList::Reset()
 {
 	ExitIfFailed(commandAllocator->Reset());
 	ExitIfFailed(commandList->Reset(commandAllocator, nullptr));

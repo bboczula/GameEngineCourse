@@ -2,7 +2,7 @@
 
 #include <d3d12.h>
 
-#include "CommandList.h"
+#include "DX12CommandList.h"
 #include "Logger.h"
 #include "Utils.h"
 
@@ -11,7 +11,7 @@ namespace Sapphire
 	/// <summary>
 	/// A wrapper class for the ID3D12CommandQueue interface. Contains the Fence  for synchronization.
 	/// </summary>
-	class CommandQueue
+	class DX12CommandQueue
 	{
 	public:
 
@@ -19,9 +19,9 @@ namespace Sapphire
 		/// Creates new CommandQeueue instance.
 		/// </summary>
 		/// <param name="device">DirectX 12 device used to create new Command Queue</param>
-		CommandQueue(ID3D12Device* device);
+		DX12CommandQueue(ID3D12Device* device);
 
-		~CommandQueue();
+		~DX12CommandQueue();
 
 		/// <summary>
 		/// Returns a pointer for wrapped DirectX 12 Command Queue interface.
@@ -33,7 +33,7 @@ namespace Sapphire
 		/// Executes provided command list and fulshes the GPU queue.
 		/// </summary>
 		/// <param name="commandList">Single command list to execute</param>
-		void Execute(CommandList* commandList);
+		void Execute(DX12CommandList* commandList);
 
 		/// <summary>
 		/// Increments the GPU fence and halts current CPU thread until this value is reached.

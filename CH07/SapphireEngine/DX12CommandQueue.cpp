@@ -1,6 +1,6 @@
-#include "CommandQueue.h"
+#include "DX12CommandQueue.h"
 
-Sapphire::CommandQueue::CommandQueue(ID3D12Device* device) : fenceValue(1)
+Sapphire::DX12CommandQueue::DX12CommandQueue(ID3D12Device* device) : fenceValue(1)
 {
 	Logger::GetInstance().Log("%s\n", "Sapphire::Renderer::CreateCommandQueue()");
 
@@ -10,13 +10,13 @@ Sapphire::CommandQueue::CommandQueue(ID3D12Device* device) : fenceValue(1)
 	Flush();
 }
 
-Sapphire::CommandQueue::~CommandQueue()
+Sapphire::DX12CommandQueue::~DX12CommandQueue()
 {
 	SafeRelease(&fence);
 	SafeRelease(&commandQueue);
 }
 
-void Sapphire::CommandQueue::CreateCommandQueue(ID3D12Device* device)
+void Sapphire::DX12CommandQueue::CreateCommandQueue(ID3D12Device* device)
 {
 	D3D12_COMMAND_QUEUE_DESC commandQueueDesc;
 	ZeroMemory(&commandQueueDesc, sizeof(commandQueueDesc));
@@ -30,14 +30,14 @@ void Sapphire::CommandQueue::CreateCommandQueue(ID3D12Device* device)
 	commandQueue->SetName(L"MyCommandQueue");
 }
 
-void Sapphire::CommandQueue::CreateFence(ID3D12Device* device)
+void Sapphire::DX12CommandQueue::CreateFence(ID3D12Device* device)
 {
 	// Create a new fence
 	ExitIfFailed(device->CreateFence(0, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&fence)));
 	fence->SetName(L"MyFence");
 }
 
-void Sapphire::CommandQueue::CreateEventObject()
+void Sapphire::DX12CommandQueue::CreateEventObject()
 {
 	fenceEvent = CreateEvent(nullptr, FALSE, FALSE, nullptr);
 	if (fenceEvent == nullptr)
@@ -46,18 +46,18 @@ void Sapphire::CommandQueue::CreateEventObject()
 	}
 }
 
-void Sapphire::CommandQueue::Flush()
+void Sapphire::DX12CommandQueue::Flush()
 {
 	Signal();
 	WaitForGpu();
 }
 
-void Sapphire::CommandQueue::Signal()
+void Sapphire::DX12CommandQueue::Signal()
 {
 	ExitIfFailed(commandQueue->Signal(fence, fenceValue));
 }
 
-void Sapphire::CommandQueue::WaitForGpu()
+void Sapphire::DX12CommandQueue::WaitForGpu()
 {
 	// Wait until the previous frame is finished.
 	if (fence->GetCompletedValue() < fenceValue)
@@ -68,14 +68,14 @@ void Sapphire::CommandQueue::WaitForGpu()
 	fenceValue++;
 }
 
-void Sapphire::CommandQueue::Execute(CommandList* commandList)
+void Sapphire::DX12CommandQueue::Execute(DX12CommandList* commandList)
 {
 	ID3D12CommandList* commandListArray[] = { commandList->commandList };
 	commandQueue->ExecuteCommandLists(_countof(commandListArray), commandListArray);
 	Flush();
 }
 
-ID3D12CommandQueue* Sapphire::CommandQueue::Get()
+ID3D12CommandQueue* Sapphire::DX12CommandQueue::Get()
 {
 	return commandQueue;
 }

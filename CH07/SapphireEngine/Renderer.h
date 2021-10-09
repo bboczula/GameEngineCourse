@@ -13,9 +13,9 @@
 
 #include "Logger.h"
 #include "Utils.h"
-#include "CommandQueue.h"
-#include "CommandList.h"
-#include "DescriptorHeap.h"
+#include "DX12CommandQueue.h"
+#include "DX12CommandList.h"
+#include "DX12DescriptorHeap.h"
 #include "HardwareCapabilities.h"
 
 #pragma comment(lib, "dxgi.lib")
@@ -72,8 +72,8 @@ namespace Sapphire
 		void CreateVertexBuffer();
 		RendererSettings settings;
 		HardwareCapabilities hardwareCapabilities;
-		CommandQueue* commandQueue;
-		CommandList* commandList;
+		DX12CommandQueue* commandQueue;
+		DX12CommandList* commandList;
 		DX12DescriptorHeap* rtvDescriptorHeap;
 		HWND hwnd;
 		LONG width;
