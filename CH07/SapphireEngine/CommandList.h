@@ -9,10 +9,10 @@ namespace Sapphire
 {
 	class CommandList
 	{
+		friend class CommandQueue;
 	public:
 		CommandList(ID3D12Device* device);
 		~CommandList();
-		ID3D12GraphicsCommandList* Get();
 		void SetResourceBarrier(D3D12_RESOURCE_BARRIER& resourceBarrier);
 		void SetRenderTarget(D3D12_CPU_DESCRIPTOR_HANDLE& cpuDescriptorHandle);
 		void ClearRenderTarget(D3D12_CPU_DESCRIPTOR_HANDLE& cpuDescriptorHandle, const float* color);

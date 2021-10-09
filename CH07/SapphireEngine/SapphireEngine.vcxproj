@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClInclude Include="CommandList.h" />
     <ClInclude Include="CommandQueue.h" />
+    <ClInclude Include="DescriptorHeap.h" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="HardwareCapabilities.h" />
     <ClInclude Include="OutputFile.h" />
@@ -32,6 +33,7 @@
   <ItemGroup>
     <ClCompile Include="CommandList.cpp" />
     <ClCompile Include="CommandQueue.cpp" />
+    <ClCompile Include="DescriptorHeap.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="HardwareCapabilities.cpp" />
     <ClCompile Include="OutputFile.cpp" />

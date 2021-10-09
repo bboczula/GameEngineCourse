@@ -14,6 +14,7 @@ namespace Sapphire
 	class CommandQueue
 	{
 	public:
+
 		/// <summary>
 		/// Creates new CommandQeueue instance.
 		/// </summary>

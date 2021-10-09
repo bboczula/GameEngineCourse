@@ -70,7 +70,7 @@ void Sapphire::CommandQueue::WaitForGpu()
 
 void Sapphire::CommandQueue::Execute(CommandList* commandList)
 {
-	ID3D12CommandList* commandListArray[] = { commandList->Get() };
+	ID3D12CommandList* commandListArray[] = { commandList->commandList };
 	commandQueue->ExecuteCommandLists(_countof(commandListArray), commandListArray);
 	Flush();
 }

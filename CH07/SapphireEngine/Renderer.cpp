@@ -23,9 +23,9 @@ Sapphire::Renderer::Renderer(HWND hwnd, LONG width, LONG height)
 	CreateFrameResources();
 
 	// CH08 Load Assets
-	CreateRootSignature();
-	CreatePipelineState();
-	CreateVertexBuffer();
+	//CreateRootSignature();
+	//CreatePipelineState();
+	//CreateVertexBuffer();
 }
 
 Sapphire::Renderer::~Renderer()
@@ -33,8 +33,9 @@ Sapphire::Renderer::~Renderer()
 	Logger::GetInstance().Log("%s\n", "Sapphire::Renderer::~Renderer()");
 
 	
-	SafeRelease(&rtvHeap);
+	//SafeRelease(&rtvHeap);
 	SafeRelease(&dxgiSwapChain);
+	delete rtvDescriptorHeap;
 	delete commandList;
 	delete commandQueue;
 	SafeRelease(&device);
@@ -150,13 +151,7 @@ void Sapphire::Renderer::CreateDescriptorHeap()
 {
 	Logger::GetInstance().Log("%s\n", "Sapphire::Renderer::CreateDescriptorHeap()");
 
-	D3D12_DESCRIPTOR_HEAP_DESC rtvDescHeapDesc;
-	ZeroMemory(&rtvDescHeapDesc, sizeof(rtvDescHeapDesc));
-	rtvDescHeapDesc.NumDescriptors = FRAME_COUNT;
-	rtvDescHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;
-	rtvDescHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_NONE;
-	ExitIfFailed(device->CreateDescriptorHeap(&rtvDescHeapDesc, IID_PPV_ARGS(&rtvHeap)));
-	rtvDescriptorSize = device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
+	rtvDescriptorHeap = new DX12DescriptorHeap(device, D3D12_DESCRIPTOR_HEAP_TYPE_RTV, FRAME_COUNT);
 }
 
 void Sapphire::Renderer::CreateFrameResources()
@@ -164,13 +159,11 @@ void Sapphire::Renderer::CreateFrameResources()
 	Logger::GetInstance().Log("%s\n", "Sapphire::Renderer::CreateFrameResources()");
 
 	D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle;
-	rtvHandle.ptr = SIZE_T(INT64(rtvHeap->GetCPUDescriptorHandleForHeapStart().ptr));
-
 	for (UINT i = 0; i < FRAME_COUNT; i++)
 	{
 		ExitIfFailed(dxgiSwapChain->GetBuffer(i, IID_PPV_ARGS(&renderTargets[i])));
+		rtvHandle.ptr = rtvDescriptorHeap->GetCpuDescriptorHandle(i);
 		device->CreateRenderTargetView(renderTargets[i], nullptr, rtvHandle);
-		rtvHandle.ptr += INT64(rtvDescriptorSize);
 	}
 }
 
@@ -319,24 +312,24 @@ void Sapphire::Renderer::RecordCommandList()
 
 	// CH08
 	// Set necessary state.
-	commandList->SetGraphicsRootSignature(rootSignature);
-	commandList->SetViewport(viewport);
-	commandList->SetScissors(scissorRect);
-	commandList->SetPipelineState(pipelineState);
+	//commandList->SetGraphicsRootSignature(rootSignature);
+	//commandList->SetViewport(viewport);
+	//commandList->SetScissors(scissorRect);
+	//commandList->SetPipelineState(pipelineState);
 	// End CH08
 	
 	D3D12_CPU_DESCRIPTOR_HANDLE descriptorHandle;
 	ZeroMemory(&descriptorHandle, sizeof(descriptorHandle));
-	descriptorHandle.ptr = SIZE_T(INT64(rtvHeap->GetCPUDescriptorHandleForHeapStart().ptr) + INT64(currentFrameIndex) * INT64(rtvDescriptorSize));
+	descriptorHandle.ptr = rtvDescriptorHeap->GetCpuDescriptorHandle(currentFrameIndex); // SIZE_T(INT64(rtvHeap->GetCPUDescriptorHandleForHeapStart().ptr) + INT64(currentFrameIndex) * INT64(rtvDescriptorSize));
 	
 	commandList->SetRenderTarget(descriptorHandle);
 	const float clearColor[] = { 0.0f, currentFrameIndex ? 0.3f : 0.2f, 0.4f, 1.0f };
 	commandList->ClearRenderTarget(descriptorHandle, clearColor);
 
 	// CH09
-	commandList->Get()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-	commandList->Get()->IASetVertexBuffers(0, 1, &vertexBufferView);
-	commandList->Get()->DrawInstanced(3, 1, 0, 0);
+	//commandList->Get()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	//commandList->Get()->IASetVertexBuffers(0, 1, &vertexBufferView);
+	//commandList->Get()->DrawInstanced(3, 1, 0, 0);
 	// Wnd CH09
 	
 	// Transition back to resource

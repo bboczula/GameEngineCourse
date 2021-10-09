@@ -15,6 +15,7 @@
 #include "Utils.h"
 #include "CommandQueue.h"
 #include "CommandList.h"
+#include "DescriptorHeap.h"
 #include "HardwareCapabilities.h"
 
 #pragma comment(lib, "dxgi.lib")
@@ -73,6 +74,7 @@ namespace Sapphire
 		HardwareCapabilities hardwareCapabilities;
 		CommandQueue* commandQueue;
 		CommandList* commandList;
+		DX12DescriptorHeap* rtvDescriptorHeap;
 		HWND hwnd;
 		LONG width;
 		LONG height;
@@ -81,8 +83,8 @@ namespace Sapphire
 		IDXGISwapChain3* dxgiSwapChain;
 		IDXGIFactory5* dxgiFactory;
 		IDXGIAdapter1* dxgiAdapter;
-		ID3D12DescriptorHeap* rtvHeap;
-		UINT rtvDescriptorSize;
+		// ID3D12DescriptorHeap* rtvHeap;
+		// UINT rtvDescriptorSize;
 		ID3D12Resource* renderTargets[FRAME_COUNT];
 		// CH08
 		ID3D12RootSignature* rootSignature;

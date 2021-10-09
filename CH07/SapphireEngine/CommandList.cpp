@@ -15,11 +15,6 @@ Sapphire::CommandList::~CommandList()
 	SafeRelease(&commandAllocator);
 }
 
-ID3D12GraphicsCommandList* Sapphire::CommandList::Get()
-{
-	return commandList;
-}
-
 void Sapphire::CommandList::SetResourceBarrier(D3D12_RESOURCE_BARRIER& resourceBarrier)
 {
 	commandList->ResourceBarrier(1, &resourceBarrier);
