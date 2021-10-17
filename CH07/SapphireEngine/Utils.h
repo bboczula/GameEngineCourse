@@ -13,6 +13,15 @@ inline void ExitIfFailed(HRESULT hr)
 	}
 }
 
+inline void ExitIfTrue(bool condition, LPCWSTR msg)
+{
+	if (condition)
+	{
+		MessageBox(NULL, msg, L"Error", MB_OK | MB_ICONERROR);
+		exit(1);
+	}
+}
+
 template <class T>
 void SafeRelease(T** comObjectAddresssOf)
 {

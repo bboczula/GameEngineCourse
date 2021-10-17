@@ -22,8 +22,6 @@ Sapphire::DX12DescriptorHeap::~DX12DescriptorHeap()
 
 SIZE_T Sapphire::DX12DescriptorHeap::AllocateDescriptor()
 {
-	if (baseIndex < HEAP_SIZE)
-	{
-		return SIZE_T(INT64(heap->GetCPUDescriptorHandleForHeapStart().ptr) + INT64(baseIndex++) * INT64(descriptorSize));
-	}
+	ExitIfTrue(baseIndex >= HEAP_SIZE, L"Descriptor Heap out of space.");
+	return SIZE_T(INT64(heap->GetCPUDescriptorHandleForHeapStart().ptr) + INT64(baseIndex++) * INT64(descriptorSize));
 }
