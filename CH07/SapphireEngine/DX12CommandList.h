@@ -4,6 +4,7 @@
 
 #include "Logger.h"
 #include "Utils.h"
+#include "DX12RenderTarget.h"
 
 namespace Sapphire
 {
@@ -14,8 +15,8 @@ namespace Sapphire
 		DX12CommandList(ID3D12Device* device);
 		~DX12CommandList();
 		void SetResourceBarrier(D3D12_RESOURCE_BARRIER& resourceBarrier);
-		void SetRenderTarget(D3D12_CPU_DESCRIPTOR_HANDLE& cpuDescriptorHandle);
-		void ClearRenderTarget(D3D12_CPU_DESCRIPTOR_HANDLE& cpuDescriptorHandle, const float* color);
+		void SetRenderTarget(DX12RenderTarget* renderTarget);
+		void ClearRenderTarget(DX12RenderTarget* renderTarget, const float* color);
 		void Close();
 		void Reset();
 		// CH08

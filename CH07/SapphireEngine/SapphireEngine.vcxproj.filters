@@ -44,6 +44,9 @@
     <ClInclude Include="DX12DescriptorHeap.h">
       <Filter>Engine</Filter>
     </ClInclude>
+    <ClInclude Include="DX12RenderTarget.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WindowApplication.cpp">
@@ -71,6 +74,9 @@
       <Filter>Engine</Filter>
     </ClCompile>
     <ClCompile Include="DX12DescriptorHeap.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="DX12RenderTarget.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
   </ItemGroup>

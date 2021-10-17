@@ -2,7 +2,7 @@
 
 Sapphire::DX12CommandList::DX12CommandList(ID3D12Device* device)
 {
-	Logger::GetInstance().Log("%s\n", "Sapphire::CommandList::CommandList");
+	Logger::GetInstance().Log("%s\n", "Sapphire::DX12CommandList::DX12CommandList");
 
 	ExitIfFailed(device->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(&commandAllocator)));
 	ExitIfFailed(device->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_DIRECT, commandAllocator, nullptr, IID_PPV_ARGS(&commandList)));
@@ -20,9 +20,9 @@ void Sapphire::DX12CommandList::SetResourceBarrier(D3D12_RESOURCE_BARRIER& resou
 	commandList->ResourceBarrier(1, &resourceBarrier);
 }
 
-void Sapphire::DX12CommandList::SetRenderTarget(D3D12_CPU_DESCRIPTOR_HANDLE& cpuDescriptorHandle)
+void Sapphire::DX12CommandList::SetRenderTarget(DX12RenderTarget* renderTarget)
 {
-	commandList->OMSetRenderTargets(1, &cpuDescriptorHandle, FALSE, nullptr);
+	commandList->OMSetRenderTargets(1, &renderTarget->descriptorHandle, FALSE, nullptr);
 }
 
 void Sapphire::DX12CommandList::SetViewport(D3D12_VIEWPORT viewport)
@@ -45,9 +45,9 @@ void Sapphire::DX12CommandList::SetPipelineState(ID3D12PipelineState* pipelineSt
 	commandList->SetPipelineState(pipelineState);
 }
 
-void Sapphire::DX12CommandList::ClearRenderTarget(D3D12_CPU_DESCRIPTOR_HANDLE& cpuDescriptorHandle, const float* color)
+void Sapphire::DX12CommandList::ClearRenderTarget(DX12RenderTarget* renderTarget, const float* color)
 {
-	commandList->ClearRenderTargetView(cpuDescriptorHandle, color, 0, nullptr);
+	commandList->ClearRenderTargetView(renderTarget->descriptorHandle, color, 0, nullptr);
 }
 
 void Sapphire::DX12CommandList::Close()

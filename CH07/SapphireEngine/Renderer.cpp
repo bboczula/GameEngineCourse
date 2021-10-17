@@ -33,7 +33,7 @@ Sapphire::Renderer::~Renderer()
 	Logger::GetInstance().Log("%s\n", "Sapphire::Renderer::~Renderer()");
 
 	
-	//SafeRelease(&rtvHeap);
+	//SafeRelease(&heap);
 	SafeRelease(&dxgiSwapChain);
 	delete rtvDescriptorHeap;
 	delete commandList;
@@ -45,9 +45,7 @@ Sapphire::Renderer::~Renderer()
 
 void Sapphire::Renderer::Render()
 {
-	ResetCommandList();
 	RecordCommandList();
-	CloseCommandList();
 	ExecuteCommandList();
 	PresentFrame();
 }
@@ -151,7 +149,7 @@ void Sapphire::Renderer::CreateDescriptorHeap()
 {
 	Logger::GetInstance().Log("%s\n", "Sapphire::Renderer::CreateDescriptorHeap()");
 
-	rtvDescriptorHeap = new DX12DescriptorHeap(device, D3D12_DESCRIPTOR_HEAP_TYPE_RTV, FRAME_COUNT);
+	rtvDescriptorHeap = new DX12DescriptorHeap(device, D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
 }
 
 void Sapphire::Renderer::CreateFrameResources()
@@ -161,9 +159,9 @@ void Sapphire::Renderer::CreateFrameResources()
 	D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle;
 	for (UINT i = 0; i < FRAME_COUNT; i++)
 	{
-		ExitIfFailed(dxgiSwapChain->GetBuffer(i, IID_PPV_ARGS(&renderTargets[i])));
-		rtvHandle.ptr = rtvDescriptorHeap->GetCpuDescriptorHandle(i);
-		device->CreateRenderTargetView(renderTargets[i], nullptr, rtvHandle);
+		ExitIfFailed(dxgiSwapChain->GetBuffer(i, IID_PPV_ARGS(&resources[i])));
+		rtvHandle.ptr = rtvDescriptorHeap->AllocateDescriptor();
+		renderTargets[i] = new DX12RenderTarget(device, resources[i], rtvHandle);
 	}
 }
 
@@ -290,13 +288,9 @@ void Sapphire::Renderer::DisableDxgiMsgQueueMonitoring()
 	ExitIfFailed(dxgiFactory->MakeWindowAssociation(hwnd, DXGI_MWA_NO_WINDOW_CHANGES));
 }
 
-void Sapphire::Renderer::ResetCommandList()
-{
-	commandList->Reset();
-}
-
 void Sapphire::Renderer::RecordCommandList()
 {
+	commandList->Reset();
 	// Logger::GetInstance().Log("currentFrameIndex %d\n", currentFrameIndex);
 	
 	// Indicate that the back buffer will be used as a render target.
@@ -304,7 +298,7 @@ void Sapphire::Renderer::RecordCommandList()
 	ZeroMemory(&barrier, sizeof(barrier));
 	barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
 	barrier.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
-	barrier.Transition.pResource = renderTargets[currentFrameIndex];
+	barrier.Transition.pResource = resources[currentFrameIndex];
 	barrier.Transition.StateBefore = D3D12_RESOURCE_STATE_PRESENT;
 	barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_RENDER_TARGET;
 	barrier.Transition.Subresource = D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES;
@@ -318,13 +312,10 @@ void Sapphire::Renderer::RecordCommandList()
 	//commandList->SetPipelineState(pipelineState);
 	// End CH08
 	
-	D3D12_CPU_DESCRIPTOR_HANDLE descriptorHandle;
-	ZeroMemory(&descriptorHandle, sizeof(descriptorHandle));
-	descriptorHandle.ptr = rtvDescriptorHeap->GetCpuDescriptorHandle(currentFrameIndex); // SIZE_T(INT64(rtvHeap->GetCPUDescriptorHandleForHeapStart().ptr) + INT64(currentFrameIndex) * INT64(rtvDescriptorSize));
-	
-	commandList->SetRenderTarget(descriptorHandle);
-	const float clearColor[] = { 0.0f, currentFrameIndex ? 0.3f : 0.2f, 0.4f, 1.0f };
-	commandList->ClearRenderTarget(descriptorHandle, clearColor);
+	commandList->SetRenderTarget(renderTargets[currentFrameIndex]);
+	const float clearColorOne[] = { 0.3098f, 0.4509f, 0.7490f, 1.0f };
+	const float clearColorTwo[] = { 0.1176f, 0.1882f, 0.4470f, 1.0f };
+	commandList->ClearRenderTarget(renderTargets[currentFrameIndex], currentFrameIndex ? clearColorOne : clearColorTwo);
 
 	// CH09
 	//commandList->Get()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
@@ -336,10 +327,7 @@ void Sapphire::Renderer::RecordCommandList()
 	barrier.Transition.StateBefore = D3D12_RESOURCE_STATE_RENDER_TARGET;
 	barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_PRESENT;
 	commandList->SetResourceBarrier(barrier);
-}
 
-void Sapphire::Renderer::CloseCommandList()
-{
 	commandList->Close();
 }
 

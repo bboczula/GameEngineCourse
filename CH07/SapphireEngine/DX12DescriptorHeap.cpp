@@ -1,23 +1,29 @@
 #include "DX12DescriptorHeap.h"
 
-Sapphire::DX12DescriptorHeap::DX12DescriptorHeap(ID3D12Device* device, D3D12_DESCRIPTOR_HEAP_TYPE type, UINT size)
+#define HEAP_SIZE 1000
+
+Sapphire::DX12DescriptorHeap::DX12DescriptorHeap(ID3D12Device* device, D3D12_DESCRIPTOR_HEAP_TYPE type)
 {
 	Logger::GetInstance().Log("%s\n", "Sapphire::Renderer::CreateDescriptorHeap()");
 
 	D3D12_DESCRIPTOR_HEAP_DESC rtvDescHeapDesc;
 	ZeroMemory(&rtvDescHeapDesc, sizeof(rtvDescHeapDesc));
-	rtvDescHeapDesc.NumDescriptors = size;
+	rtvDescHeapDesc.NumDescriptors = HEAP_SIZE;
 	rtvDescHeapDesc.Type = type;
 	rtvDescHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_NONE;
-	ExitIfFailed(device->CreateDescriptorHeap(&rtvDescHeapDesc, IID_PPV_ARGS(&rtvHeap)));
-	rtvDescriptorSize = device->GetDescriptorHandleIncrementSize(type);
+	ExitIfFailed(device->CreateDescriptorHeap(&rtvDescHeapDesc, IID_PPV_ARGS(&heap)));
+	descriptorSize = device->GetDescriptorHandleIncrementSize(type);
+	baseIndex = 0;
 }
 
 Sapphire::DX12DescriptorHeap::~DX12DescriptorHeap()
 {
 }
 
-SIZE_T Sapphire::DX12DescriptorHeap::GetCpuDescriptorHandle(UINT index)
+SIZE_T Sapphire::DX12DescriptorHeap::AllocateDescriptor()
 {
-	return SIZE_T(INT64(rtvHeap->GetCPUDescriptorHandleForHeapStart().ptr) + INT64(index) * INT64(rtvDescriptorSize));
+	if (baseIndex < HEAP_SIZE)
+	{
+		return SIZE_T(INT64(heap->GetCPUDescriptorHandleForHeapStart().ptr) + INT64(baseIndex++) * INT64(descriptorSize));
+	}
 }
