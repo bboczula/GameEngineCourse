@@ -20,7 +20,7 @@ Sapphire::Renderer::Renderer(HWND hwnd, LONG width, LONG height)
 
 	// Create frame resources
 	CreateDescriptorHeap();
-	CreateFrameResources();
+	CreateRenderTargets();
 
 	// CH08 Load Assets
 	//CreateRootSignature();
@@ -135,6 +135,8 @@ void Sapphire::Renderer::CreateDevice()
 
 void Sapphire::Renderer::CreateCommandQueue()
 {
+	Logger::GetInstance().Log("%s\n", "Sapphire::Renderer::CreateCommandQueue()");
+
 	commandQueue = new DX12CommandQueue(device);
 }
 
@@ -152,16 +154,17 @@ void Sapphire::Renderer::CreateDescriptorHeap()
 	rtvDescriptorHeap = new DX12DescriptorHeap(device, D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
 }
 
-void Sapphire::Renderer::CreateFrameResources()
+void Sapphire::Renderer::CreateRenderTargets()
 {
-	Logger::GetInstance().Log("%s\n", "Sapphire::Renderer::CreateFrameResources()");
+	Logger::GetInstance().Log("%s\n", "Sapphire::Renderer::CreateRenderTargets()");
 
 	D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle;
 	for (UINT i = 0; i < FRAME_COUNT; i++)
 	{
 		ExitIfFailed(dxgiSwapChain->GetBuffer(i, IID_PPV_ARGS(&resources[i])));
 		rtvHandle.ptr = rtvDescriptorHeap->AllocateDescriptor();
-		renderTargets[i] = new DX12RenderTarget(device, resources[i], rtvHandle);
+		// The default state of this resource is Common, we need to remember to set it accordingly
+		renderTargets[i] = new DX12RenderTarget(device, resources[i], rtvHandle, D3D12_RESOURCE_STATE_COMMON);
 	}
 }
 
@@ -291,18 +294,7 @@ void Sapphire::Renderer::DisableDxgiMsgQueueMonitoring()
 void Sapphire::Renderer::RecordCommandList()
 {
 	commandList->Reset();
-	// Logger::GetInstance().Log("currentFrameIndex %d\n", currentFrameIndex);
-	
-	// Indicate that the back buffer will be used as a render target.
-	D3D12_RESOURCE_BARRIER barrier;
-	ZeroMemory(&barrier, sizeof(barrier));
-	barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
-	barrier.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
-	barrier.Transition.pResource = resources[currentFrameIndex];
-	barrier.Transition.StateBefore = D3D12_RESOURCE_STATE_PRESENT;
-	barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_RENDER_TARGET;
-	barrier.Transition.Subresource = D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES;
-	commandList->SetResourceBarrier(barrier);
+	commandList->TransitionTo(renderTargets[currentFrameIndex], D3D12_RESOURCE_STATE_RENDER_TARGET);
 
 	// CH08
 	// Set necessary state.
@@ -323,11 +315,7 @@ void Sapphire::Renderer::RecordCommandList()
 	//commandList->Get()->DrawInstanced(3, 1, 0, 0);
 	// Wnd CH09
 	
-	// Transition back to resource
-	barrier.Transition.StateBefore = D3D12_RESOURCE_STATE_RENDER_TARGET;
-	barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_PRESENT;
-	commandList->SetResourceBarrier(barrier);
-
+	commandList->TransitionTo(renderTargets[currentFrameIndex], D3D12_RESOURCE_STATE_PRESENT);
 	commandList->Close();
 }
 

@@ -59,7 +59,7 @@ namespace Sapphire
 		void DisableDxgiMsgQueueMonitoring();
 		void CreateCommandList();
 		void CreateDescriptorHeap();
-		void CreateFrameResources();
+		void CreateRenderTargets();
 		void CreateRootSignature();
 		void CreatePipelineState();
 		void RecordCommandList();

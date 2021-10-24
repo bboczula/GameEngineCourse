@@ -14,7 +14,7 @@ namespace Sapphire
 	public:
 		DX12CommandList(ID3D12Device* device);
 		~DX12CommandList();
-		void SetResourceBarrier(D3D12_RESOURCE_BARRIER& resourceBarrier);
+		void TransitionTo(DX12RenderTarget* renderTarget, D3D12_RESOURCE_STATES newResourceState);
 		void SetRenderTarget(DX12RenderTarget* renderTarget);
 		void ClearRenderTarget(DX12RenderTarget* renderTarget, const float* color);
 		void Close();
