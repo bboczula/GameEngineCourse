@@ -35,26 +35,6 @@ void Sapphire::DX12CommandList::SetRenderTarget(DX12RenderTarget* renderTarget)
 	commandList->OMSetRenderTargets(1, &renderTarget->descriptorHandle, FALSE, nullptr);
 }
 
-void Sapphire::DX12CommandList::SetViewport(D3D12_VIEWPORT viewport)
-{
-	commandList->RSSetViewports(1, &viewport);
-}
-
-void Sapphire::DX12CommandList::SetScissors(D3D12_RECT scissorRect)
-{
-	commandList->RSSetScissorRects(1, &scissorRect);
-}
-
-void Sapphire::DX12CommandList::SetGraphicsRootSignature(ID3D12RootSignature* rootSignature)
-{
-	commandList->SetGraphicsRootSignature(rootSignature);
-}
-
-void Sapphire::DX12CommandList::SetPipelineState(ID3D12PipelineState* pipelineState)
-{
-	commandList->SetPipelineState(pipelineState);
-}
-
 void Sapphire::DX12CommandList::ClearRenderTarget(DX12RenderTarget* renderTarget, const float* color)
 {
 	commandList->ClearRenderTargetView(renderTarget->descriptorHandle, color, 0, nullptr);

@@ -52,13 +52,6 @@ namespace Sapphire
 		/// Reset the Command List and Command Allocator. Make sure that the GPU is done processing it.
 		/// </summary>
 		void Reset();
-
-		// CH08
-		void SetViewport(D3D12_VIEWPORT viewport);
-		void SetScissors(D3D12_RECT scissorRect);
-		void SetGraphicsRootSignature(ID3D12RootSignature* rootSignature);
-		// CH09
-		void SetPipelineState(ID3D12PipelineState* pipelineState);
 	private:
 		ID3D12CommandAllocator* commandAllocator;
 		ID3D12GraphicsCommandList* commandList;
