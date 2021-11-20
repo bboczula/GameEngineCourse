@@ -60,15 +60,11 @@ namespace Sapphire
 		void CreateCommandList();
 		void CreateDescriptorHeap();
 		void CreateRenderTargets();
-		void CreateRootSignature();
-		void CreatePipelineState();
 		void RecordCommandList();
 		void ExecuteCommandList();
 		void PresentFrame();
 		void EnableDebugLayer();
 		bool IsVsyncDisabledAndTearingAllowed();
-		// CH09
-		void CreateVertexBuffer();
 		RendererSettings settings;
 		HardwareCapabilities hardwareCapabilities;
 		DX12CommandQueue* commandQueue;
@@ -83,16 +79,6 @@ namespace Sapphire
 		IDXGISwapChain3* dxgiSwapChain;
 		IDXGIFactory5* dxgiFactory;
 		IDXGIAdapter1* dxgiAdapter;
-		// ID3D12DescriptorHeap* heap;
-		// UINT descriptorSize;
 		ID3D12Resource* resources[FRAME_COUNT];
-		// CH08
-		ID3D12RootSignature* rootSignature;
-		ID3D12PipelineState* pipelineState;
-		D3D12_VIEWPORT viewport;
-		D3D12_RECT scissorRect;
-		// CH09
-		ID3D12Resource* vertexBuffer;
-		D3D12_VERTEX_BUFFER_VIEW vertexBufferView;
 	};
 }

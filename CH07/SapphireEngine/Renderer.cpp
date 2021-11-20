@@ -1,9 +1,7 @@
 #include "Renderer.h"
 
 Sapphire::Renderer::Renderer(HWND hwnd, LONG width, LONG height)
-	: hwnd(hwnd), width(width), height(height),
-	viewport({ 0.0f, 0.0f, static_cast<float>(width), static_cast<float>(height), 0.0f, 1.0f }),
-	scissorRect({ 0, 0, static_cast<LONG>(width), static_cast<LONG>(height) })
+	: hwnd(hwnd), width(width), height(height)
 {
 	Logger::GetInstance().Log("%s\n", "Sapphire::Renderer::Renderer()");
 
@@ -21,13 +19,6 @@ Sapphire::Renderer::Renderer(HWND hwnd, LONG width, LONG height)
 	// Create frame resources
 	CreateDescriptorHeap();
 	CreateRenderTargets();
-
-	// CH08 Load Assets
-	// CreateRootSignature();
-	// CreatePipelineState();
-	
-	// CH09 
-	//CreateVertexBuffer();
 }
 
 Sapphire::Renderer::~Renderer()
@@ -65,6 +56,7 @@ void Sapphire::Renderer::CreateDxgiFactory()
 void Sapphire::Renderer::EnumerateAdapters()
 {
 	Logger::GetInstance().Log("%s\n", "Sapphire::Renderer::EnumerateAdapters()");
+
 	IDXGIAdapter1* currentAdapter;
 	UINT index = 0;
 	while (1)
@@ -87,6 +79,8 @@ void Sapphire::Renderer::EnumerateAdapters()
 
 void Sapphire::Renderer::EnumerateOutputs(IDXGIAdapter1* currentAdapter)
 {
+	Logger::GetInstance().Log("%s\n", "Sapphire::Renderer::EnumerateOutputs()");
+
 	UINT index = 0;
 	IDXGIOutput* output;
 	while (1)
@@ -119,6 +113,8 @@ void Sapphire::Renderer::LogAdapterInfo(IDXGIAdapter1* adapter)
 
 void Sapphire::Renderer::GetCapabilites()
 {
+	Logger::GetInstance().Log("%s\n", "Sapphire::Renderer::GetCapabilites()");
+
 	BOOL isAllowedTearing = false;
 	if (SUCCEEDED(dxgiFactory->CheckFeatureSupport(DXGI_FEATURE_PRESENT_ALLOW_TEARING, &isAllowedTearing, sizeof(isAllowedTearing))))
 	{
@@ -168,97 +164,8 @@ void Sapphire::Renderer::CreateRenderTargets()
 	{
 		ExitIfFailed(dxgiSwapChain->GetBuffer(i, IID_PPV_ARGS(&resources[i])));
 		rtvHandle.ptr = rtvDescriptorHeap->AllocateDescriptor();
-		// The default state of this resource is Common, we need to remember to set it accordingly
 		renderTargets[i] = new DX12RenderTarget(device, resources[i], rtvHandle, D3D12_RESOURCE_STATE_COMMON);
 	}
-}
-
-void Sapphire::Renderer::CreateRootSignature()
-{
-	Logger::GetInstance().Log("%s\n", "Sapphire::Renderer::CreateRootSignature()");
-
-	D3D12_ROOT_SIGNATURE_DESC rootSignatureDesc;
-	rootSignatureDesc.NumParameters = 0;
-	rootSignatureDesc.pParameters = nullptr;
-	rootSignatureDesc.NumStaticSamplers = 0;
-	rootSignatureDesc.pStaticSamplers = nullptr;
-	rootSignatureDesc.Flags =  D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
-
-	ID3DBlob* signature;
-	ID3DBlob* error;
-	ExitIfFailed(D3D12SerializeRootSignature(&rootSignatureDesc, D3D_ROOT_SIGNATURE_VERSION_1, &signature, &error));
-	ExitIfFailed(device->CreateRootSignature(0, signature->GetBufferPointer(), signature->GetBufferSize(), IID_PPV_ARGS(&rootSignature)));
-}
-
-void Sapphire::Renderer::CreatePipelineState()
-{
-	ID3DBlob* vertexShader = nullptr;
-	ID3DBlob* pixelShader = nullptr;
-
-#if defined(_DEBUG)
-	// Enable better shader debugging with the graphics debugging tools.
-	UINT compileFlags = D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION;
-#else
-	UINT compileFlags = 0;
-#endif
-
-	ExitIfFailed(D3DCompileFromFile(L"shaders.hlsl", nullptr, nullptr, "VSMain", "vs_5_0", compileFlags, 0, &vertexShader, nullptr));
-	ExitIfFailed(D3DCompileFromFile(L"shaders.hlsl", nullptr, nullptr, "PSMain", "ps_5_0", compileFlags, 0, &pixelShader, nullptr));
-
-	// Define the vertex input layout.
-	D3D12_INPUT_ELEMENT_DESC inputElementDescs[] =
-	{
-		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
-		{ "COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 }
-	};
-
-	// Rasterizer
-	D3D12_RASTERIZER_DESC rasterizerDesc;
-	rasterizerDesc.FillMode = D3D12_FILL_MODE_SOLID;
-	rasterizerDesc.CullMode = D3D12_CULL_MODE_NONE;
-	rasterizerDesc.FrontCounterClockwise = FALSE;
-	rasterizerDesc.DepthBias = D3D12_DEFAULT_DEPTH_BIAS;
-	rasterizerDesc.DepthBiasClamp = D3D12_DEFAULT_DEPTH_BIAS_CLAMP;
-	rasterizerDesc.SlopeScaledDepthBias = D3D12_DEFAULT_SLOPE_SCALED_DEPTH_BIAS;
-	rasterizerDesc.DepthClipEnable = TRUE;
-	rasterizerDesc.MultisampleEnable = FALSE;
-	rasterizerDesc.AntialiasedLineEnable = FALSE;
-	rasterizerDesc.ForcedSampleCount = 0;
-	rasterizerDesc.ConservativeRaster = D3D12_CONSERVATIVE_RASTERIZATION_MODE_OFF;
-
-	// Blend State
-	D3D12_BLEND_DESC blendDesc;
-	blendDesc.AlphaToCoverageEnable = FALSE;
-	blendDesc.IndependentBlendEnable = FALSE;
-	blendDesc.RenderTarget[0] = 
-	{
-		FALSE,FALSE,
-		D3D12_BLEND_ONE, D3D12_BLEND_ZERO, D3D12_BLEND_OP_ADD,
-		D3D12_BLEND_ONE, D3D12_BLEND_ZERO, D3D12_BLEND_OP_ADD,
-		D3D12_LOGIC_OP_NOOP,
-		D3D12_COLOR_WRITE_ENABLE_ALL,
-	};
-
-	D3D12_SHADER_BYTECODE emptyShader;
-	emptyShader.pShaderBytecode = nullptr;
-	emptyShader.BytecodeLength = 0;
-
-	// Describe and create the graphics pipeline state object (PSO).
-	D3D12_GRAPHICS_PIPELINE_STATE_DESC psoDesc = {};
-	psoDesc.InputLayout = { inputElementDescs, _countof(inputElementDescs) };
-	psoDesc.pRootSignature = rootSignature;
-	psoDesc.VS = { reinterpret_cast<UINT8*>(vertexShader->GetBufferPointer()), vertexShader->GetBufferSize() };
-	psoDesc.PS = { reinterpret_cast<UINT8*>(pixelShader->GetBufferPointer()), pixelShader->GetBufferSize() };
-	psoDesc.RasterizerState = rasterizerDesc;
-	psoDesc.BlendState = blendDesc;
-	psoDesc.DepthStencilState.DepthEnable = FALSE;
-	psoDesc.DepthStencilState.StencilEnable = FALSE;
-	psoDesc.SampleMask = UINT_MAX;
-	psoDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
-	psoDesc.NumRenderTargets = 1;
-	psoDesc.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM;
-	psoDesc.SampleDesc.Count = 1;
-	ExitIfFailed(device->CreateGraphicsPipelineState(&psoDesc, IID_PPV_ARGS(&pipelineState)));
 }
 
 void Sapphire::Renderer::CreateSwapChain()
@@ -300,28 +207,13 @@ void Sapphire::Renderer::DisableDxgiMsgQueueMonitoring()
 
 void Sapphire::Renderer::RecordCommandList()
 {
-	commandList->Reset();
-	commandList->TransitionTo(renderTargets[currentFrameIndex], D3D12_RESOURCE_STATE_RENDER_TARGET);
-
-	// CH08
-	// Set necessary state.
-	//commandList->SetGraphicsRootSignature(rootSignature);
-	//commandList->SetViewport(viewport);
-	//commandList->SetScissors(scissorRect);
-	//commandList->SetPipelineState(pipelineState);
-	// End CH08
-	
-	commandList->SetRenderTarget(renderTargets[currentFrameIndex]);
 	const float clearColorOne[] = { 0.3098f, 0.4509f, 0.7490f, 1.0f };
 	const float clearColorTwo[] = { 0.1176f, 0.1882f, 0.4470f, 1.0f };
-	commandList->ClearRenderTarget(renderTargets[currentFrameIndex], currentFrameIndex ? clearColorOne : clearColorTwo);
 
-	// CH09
-	//commandList->Get()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-	//commandList->Get()->IASetVertexBuffers(0, 1, &vertexBufferView);
-	//commandList->Get()->DrawInstanced(3, 1, 0, 0);
-	// Wnd CH09
-	
+	commandList->Reset();
+	commandList->TransitionTo(renderTargets[currentFrameIndex], D3D12_RESOURCE_STATE_RENDER_TARGET);
+	commandList->SetRenderTarget(renderTargets[currentFrameIndex]);
+	commandList->ClearRenderTarget(renderTargets[currentFrameIndex], currentFrameIndex ? clearColorOne : clearColorTwo);
 	commandList->TransitionTo(renderTargets[currentFrameIndex], D3D12_RESOURCE_STATE_PRESENT);
 	commandList->Close();
 }
@@ -362,67 +254,4 @@ void Sapphire::Renderer::EnableDebugLayer()
 bool Sapphire::Renderer::IsVsyncDisabledAndTearingAllowed()
 {
 	return (!settings.isVsyncEnabled) && (hardwareCapabilities.getCapability(Capabilities::ALLOW_TEARING));
-}
-
-void Sapphire::Renderer::CreateVertexBuffer()
-{
-	// Define the geometry for a triangle.
-	Vertex triangleVertices[] =
-	{
-		{ { 0.0f, 0.25f * static_cast<float>(width) / static_cast<float>(height), 0.0f }, { 1.0f, 0.0f, 0.0f, 1.0f } },
-		{ { 0.25f, -0.25f * static_cast<float>(width) / static_cast<float>(height), 0.0f }, { 0.0f, 1.0f, 0.0f, 1.0f } },
-		{ { -0.25f, -0.25f * static_cast<float>(width) / static_cast<float>(height), 0.0f }, { 0.0f, 0.0f, 1.0f, 1.0f } }
-	};
-
-	const UINT vertexBufferSize = sizeof(triangleVertices);
-
-	// Note: using upload heaps to transfer static data like vert buffers is not 
-	// recommended. Every time the GPU needs it, the upload heap will be marshalled 
-	// over. Please read up on Default Heap usage. An upload heap is used here for 
-	// code simplicity and because there are very few verts to actually transfer.
-	// CD3DX12_HEAP_PROPERTIES heapProps(D3D12_HEAP_TYPE_UPLOAD);
-
-	D3D12_HEAP_PROPERTIES heapProps;
-	heapProps.Type = D3D12_HEAP_TYPE_UPLOAD;
-	heapProps.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_UNKNOWN;
-	heapProps.MemoryPoolPreference = D3D12_MEMORY_POOL_UNKNOWN;
-	heapProps.CreationNodeMask = 1;
-	heapProps.VisibleNodeMask = 1;
-
-	//auto desc = CD3DX12_RESOURCE_DESC::Buffer(vertexBufferSize);
-	D3D12_RESOURCE_DESC desc;
-	desc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
-	desc.Alignment = 0;
-	desc.Width = vertexBufferSize;
-	desc.Height = 1;
-	desc.DepthOrArraySize = 1;
-	desc.MipLevels = 1;
-	desc.Format = DXGI_FORMAT_UNKNOWN;
-	desc.SampleDesc.Count = 1;
-	desc.SampleDesc.Quality = 0;
-	desc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
-	desc.Flags = D3D12_RESOURCE_FLAG_NONE;
-
-	ExitIfFailed(device->CreateCommittedResource(
-		&heapProps,
-		D3D12_HEAP_FLAG_NONE,
-		&desc,
-		D3D12_RESOURCE_STATE_GENERIC_READ,
-		nullptr,
-		IID_PPV_ARGS(&vertexBuffer)));
-
-	// Copy the triangle data to the vertex buffer.
-	UINT8* pVertexDataBegin;
-	//CD3DX12_RANGE readRange(0, 0);        // We do not intend to read from this resource on the CPU.
-	D3D12_RANGE readRange;
-	readRange.Begin = 0;
-	readRange.End = 0;
-	ExitIfFailed(vertexBuffer->Map(0, &readRange, reinterpret_cast<void**>(&pVertexDataBegin)));
-	memcpy(pVertexDataBegin, triangleVertices, sizeof(triangleVertices));
-	vertexBuffer->Unmap(0, nullptr);
-
-	// Initialize the vertex buffer view.
-	vertexBufferView.BufferLocation = vertexBuffer->GetGPUVirtualAddress();
-	vertexBufferView.StrideInBytes = sizeof(Vertex);
-	vertexBufferView.SizeInBytes = vertexBufferSize;
 }
