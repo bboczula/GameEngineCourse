@@ -23,8 +23,10 @@ Sapphire::Renderer::Renderer(HWND hwnd, LONG width, LONG height)
 	CreateRenderTargets();
 
 	// CH08 Load Assets
-	//CreateRootSignature();
-	//CreatePipelineState();
+	// CreateRootSignature();
+	// CreatePipelineState();
+	
+	// CH09 
 	//CreateVertexBuffer();
 }
 
@@ -32,10 +34,13 @@ Sapphire::Renderer::~Renderer()
 {
 	Logger::GetInstance().Log("%s\n", "Sapphire::Renderer::~Renderer()");
 
-	
-	//SafeRelease(&heap);
-	SafeRelease(&dxgiSwapChain);
+	for (int i = 0; i < FRAME_COUNT; i++)
+	{
+		delete renderTargets[i];
+	}
+
 	delete rtvDescriptorHeap;
+	SafeRelease(&dxgiSwapChain);
 	delete commandList;
 	delete commandQueue;
 	SafeRelease(&device);
@@ -177,7 +182,7 @@ void Sapphire::Renderer::CreateRootSignature()
 	rootSignatureDesc.pParameters = nullptr;
 	rootSignatureDesc.NumStaticSamplers = 0;
 	rootSignatureDesc.pStaticSamplers = nullptr;
-	rootSignatureDesc.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
+	rootSignatureDesc.Flags =  D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
 
 	ID3DBlob* signature;
 	ID3DBlob* error;
@@ -234,14 +239,16 @@ void Sapphire::Renderer::CreatePipelineState()
 		D3D12_COLOR_WRITE_ENABLE_ALL,
 	};
 
+	D3D12_SHADER_BYTECODE emptyShader;
+	emptyShader.pShaderBytecode = nullptr;
+	emptyShader.BytecodeLength = 0;
+
 	// Describe and create the graphics pipeline state object (PSO).
 	D3D12_GRAPHICS_PIPELINE_STATE_DESC psoDesc = {};
 	psoDesc.InputLayout = { inputElementDescs, _countof(inputElementDescs) };
 	psoDesc.pRootSignature = rootSignature;
 	psoDesc.VS = { reinterpret_cast<UINT8*>(vertexShader->GetBufferPointer()), vertexShader->GetBufferSize() };
 	psoDesc.PS = { reinterpret_cast<UINT8*>(pixelShader->GetBufferPointer()), pixelShader->GetBufferSize() };
-	//psoDesc.VS = { nullptr, 0 };
-	//psoDesc.PS = { nullptr, 0 };
 	psoDesc.RasterizerState = rasterizerDesc;
 	psoDesc.BlendState = blendDesc;
 	psoDesc.DepthStencilState.DepthEnable = FALSE;

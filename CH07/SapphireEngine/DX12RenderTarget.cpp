@@ -8,4 +8,5 @@ Sapphire::DX12RenderTarget::DX12RenderTarget(ID3D12Device* device, ID3D12Resourc
 
 Sapphire::DX12RenderTarget::~DX12RenderTarget()
 {
+	SafeRelease(&resource);
 }

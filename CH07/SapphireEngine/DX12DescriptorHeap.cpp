@@ -18,6 +18,7 @@ Sapphire::DX12DescriptorHeap::DX12DescriptorHeap(ID3D12Device* device, D3D12_DES
 
 Sapphire::DX12DescriptorHeap::~DX12DescriptorHeap()
 {
+	SafeRelease(&heap);
 }
 
 SIZE_T Sapphire::DX12DescriptorHeap::AllocateDescriptor()
