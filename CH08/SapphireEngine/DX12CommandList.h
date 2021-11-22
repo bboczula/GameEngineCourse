@@ -5,6 +5,7 @@
 #include "Logger.h"
 #include "Utils.h"
 #include "DX12RenderTarget.h"
+#include "DX12PipelineState.h"
 
 namespace Sapphire
 {
@@ -27,8 +28,8 @@ namespace Sapphire
 		/// Transitions the resource associated with Render Target from its current state to the new state.
 		/// </summary>
 		/// <param name="renderTarget">A Render Target we want to transition</param>
-		/// <param name="newResourceState">A stat to which we want to transition to</param>
-		void TransitionTo(DX12RenderTarget* renderTarget, D3D12_RESOURCE_STATES newResourceState);
+		/// <param name="nextState">A stat to which we want to transition to</param>
+		void TransitionTo(DX12RenderTarget* renderTarget, D3D12_RESOURCE_STATES nextState);
 
 		/// <summary>
 		/// Sets given Render Target as the current Render Target.
@@ -56,9 +57,12 @@ namespace Sapphire
 		// CH08
 		void SetViewport(D3D12_VIEWPORT viewport);
 		void SetScissors(D3D12_RECT scissorRect);
-		void SetGraphicsRootSignature(ID3D12RootSignature* rootSignature);
+		//void SetGraphicsRootSignature(ID3D12RootSignature* rootSignature);
+		void SetPipelineState(DX12PipelineState* pipelineState);
+
 		// CH09
-		void SetPipelineState(ID3D12PipelineState* pipelineState);
+		void Draw(D3D12_VERTEX_BUFFER_VIEW vbv);
+
 	private:
 		ID3D12CommandAllocator* commandAllocator;
 		ID3D12GraphicsCommandList* commandList;

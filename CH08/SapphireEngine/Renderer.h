@@ -17,6 +17,7 @@
 #include "DX12CommandList.h"
 #include "DX12DescriptorHeap.h"
 #include "DX12RenderTarget.h"
+#include "DX12PipelineState.h"
 #include "HardwareCapabilities.h"
 
 #pragma comment(lib, "dxgi.lib")
@@ -60,7 +61,6 @@ namespace Sapphire
 		void CreateCommandList();
 		void CreateDescriptorHeap();
 		void CreateRenderTargets();
-		void CreateRootSignature();
 		void CreatePipelineState();
 		void RecordCommandList();
 		void ExecuteCommandList();
@@ -75,6 +75,7 @@ namespace Sapphire
 		DX12CommandList* commandList;
 		DX12DescriptorHeap* rtvDescriptorHeap;
 		DX12RenderTarget* renderTargets[FRAME_COUNT];
+		DX12PipelineState* dxPipelineState;
 		HWND hwnd;
 		LONG width;
 		LONG height;
@@ -83,15 +84,10 @@ namespace Sapphire
 		IDXGISwapChain3* dxgiSwapChain;
 		IDXGIFactory5* dxgiFactory;
 		IDXGIAdapter1* dxgiAdapter;
-		// ID3D12DescriptorHeap* heap;
-		// UINT descriptorSize;
 		ID3D12Resource* resources[FRAME_COUNT];
-		// CH08
-		ID3D12RootSignature* rootSignature;
-		ID3D12PipelineState* pipelineState;
+		// CH09
 		D3D12_VIEWPORT viewport;
 		D3D12_RECT scissorRect;
-		// CH09
 		ID3D12Resource* vertexBuffer;
 		D3D12_VERTEX_BUFFER_VIEW vertexBufferView;
 	};

@@ -47,6 +47,12 @@
     <ClInclude Include="DX12RenderTarget.h">
       <Filter>Engine</Filter>
     </ClInclude>
+    <ClInclude Include="DX12PipelineState.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="DX12Shader.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WindowApplication.cpp">
@@ -79,8 +85,19 @@
     <ClCompile Include="DX12RenderTarget.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
+    <ClCompile Include="DX12PipelineState.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="DX12Shader.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="bypass.hlsl">
+      <Filter>Engine</Filter>
+    </Text>
   </ItemGroup>
 </Project>
