@@ -6,6 +6,7 @@
 #include "DX12Shader.h"
 #include "Logger.h"
 #include "Utils.h"
+#include "d3dx12.h"
 
 #pragma comment(lib, "D3DCompiler.lib")
 
@@ -15,11 +16,10 @@ namespace Sapphire
 	{
 		friend class DX12CommandList;
 	public:
-		DX12PipelineState(ID3D12Device* device);
-		void CreateAndCompileShaders();
+		DX12PipelineState(ID3D12Device* device, LPCWSTR shaderFileName);
 		~DX12PipelineState();
-
 	private:
+		void CreateAndCompileShaders(LPCWSTR shaderFileName);
 		void CreateRootSignature(ID3D12Device* device);
 		void CreatePipelineState(ID3D12Device* device);
 		ID3D12RootSignature* rootSignature;

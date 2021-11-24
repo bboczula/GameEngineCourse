@@ -172,7 +172,7 @@ void Sapphire::Renderer::CreateRenderTargets()
 
 void Sapphire::Renderer::CreatePipelineState()
 {
-	dxPipelineState = new DX12PipelineState(device);
+	dxPipelineState = new DX12PipelineState(device, L"bypass.hlsl");
 }
 
 void Sapphire::Renderer::CreateSwapChain()
