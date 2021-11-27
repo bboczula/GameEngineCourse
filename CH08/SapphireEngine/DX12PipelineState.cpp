@@ -15,11 +15,8 @@ void Sapphire::DX12PipelineState::CreateAndCompileShaders(LPCWSTR shaderFileName
 {
 	Logger::GetInstance().Log("%s\n", "Sapphire::DX12PipelineState::CreateAndCompileShaders()");
 
-	vs = new DX12Shader;
-	vs->Compile(shaderFileName, "VSMain", "vs_5_0");
-
-	ps = new DX12Shader;
-	ps->Compile(shaderFileName, "PSMain", "ps_5_0");
+	vs = new DX12Shader(shaderFileName, L"VSMain", L"vs_6_0");
+	ps = new DX12Shader(shaderFileName, L"PSMain", L"ps_6_0");
 }
 
 void Sapphire::DX12PipelineState::CreateRootSignature(ID3D12Device* device)
@@ -46,6 +43,10 @@ void Sapphire::DX12PipelineState::CreatePipelineState(ID3D12Device* device)
 		{ "COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 }
 	};
 
+	// Modify the Depth State a little to avoid warning
+	auto disabledDepthStencil = CD3DX12_DEPTH_STENCIL_DESC(D3D12_DEFAULT);
+	disabledDepthStencil.DepthEnable = FALSE;
+
 	// Describe and create the graphics pipeline state object (PSO).
 	D3D12_GRAPHICS_PIPELINE_STATE_DESC psoDesc;
 	ZeroMemory(&psoDesc, sizeof(D3D12_GRAPHICS_PIPELINE_STATE_DESC));
@@ -55,7 +56,7 @@ void Sapphire::DX12PipelineState::CreatePipelineState(ID3D12Device* device)
 	psoDesc.PS = ps->GetBytecode();
 	psoDesc.RasterizerState = CD3DX12_RASTERIZER_DESC(D3D12_DEFAULT);
 	psoDesc.BlendState = CD3DX12_BLEND_DESC(D3D12_DEFAULT);
-	psoDesc.DepthStencilState = CD3DX12_DEPTH_STENCIL_DESC(D3D12_DEFAULT);
+	psoDesc.DepthStencilState = disabledDepthStencil;
 	psoDesc.SampleMask = UINT_MAX;
 	psoDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
 	psoDesc.NumRenderTargets = 1;
