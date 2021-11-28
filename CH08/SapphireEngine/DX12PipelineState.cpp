@@ -15,9 +15,11 @@ void Sapphire::DX12PipelineState::CreateAndCompileShaders(LPCWSTR shaderFileName
 {
 	Logger::GetInstance().Log("%s\n", "Sapphire::DX12PipelineState::CreateAndCompileShaders()");
 
-	vs = new DX12Shader(shaderFileName, L"VSMain", L"vs_6_0");
-	ps = new DX12Shader(shaderFileName, L"PSMain", L"ps_6_0");
-}
+	//vs = new DX12Shader(shaderFileName, L"VSMain", L"vs_6_0");
+	//ps = new DX12Shader(shaderFileName, L"PSMain", L"ps_6_0");
+	vs = new DX12Shader(shaderFileName, SHADER_TYPE::VERTEX_SHADER);
+	ps = new DX12Shader(shaderFileName, SHADER_TYPE::PIXEL_SHADER);
+}	
 
 void Sapphire::DX12PipelineState::CreateRootSignature(ID3D12Device* device)
 {

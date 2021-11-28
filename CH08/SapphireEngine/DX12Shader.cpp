@@ -1,5 +1,20 @@
 #include "DX12Shader.h"
 
+Sapphire::DX12Shader::DX12Shader(LPCWSTR fileName, SHADER_TYPE type) : bytecode({ nullptr, 0 }), type(type)
+{
+	switch (type)
+	{
+	case SHADER_TYPE::VERTEX_SHADER:
+		Compile(fileName, L"VSMain", L"vs_6_0");
+		break;
+	case SHADER_TYPE::PIXEL_SHADER:
+		Compile(fileName, L"PSMain", L"ps_6_0");
+		break;
+	default:
+		break;
+	}
+}
+
 Sapphire::DX12Shader::DX12Shader(LPCWSTR fileName, LPCWSTR entryPoint, LPCWSTR shaderModel)
 {
 	Compile(fileName, entryPoint, shaderModel);
@@ -21,30 +36,43 @@ void Sapphire::DX12Shader::Compile(LPCWSTR fileName, LPCWSTR entryPoint, LPCWSTR
 	IDxcBlobEncoding* sourceBlob;
 	ExitIfFailed(library->CreateBlobFromFile(fileName, &codePage, &sourceBlob));
 
-	IDxcOperationResult* result;
-	HRESULT compilationResult = compiler->Compile(sourceBlob, fileName, entryPoint, shaderModel, NULL, 0, NULL, 0, NULL, &result);
-
-	if (SUCCEEDED(compilationResult))
+	// Not initializing this
+	IDxcOperationResult* result = nullptr;
+	HRESULT compilationResult = 0;
+	if (sourceBlob != nullptr)
 	{
-		result->GetStatus(&compilationResult);
+		// Here warning was generated without this check
+		compilationResult = compiler->Compile(sourceBlob, fileName, entryPoint, shaderModel, NULL, 0, NULL, 0, NULL, &result);
 	}
 
 	if (FAILED(compilationResult))
 	{
-		IDxcBlobEncoding* errorsBlob;
-		ExitIfFailed(result->GetErrorBuffer(&errorsBlob));
-		if (errorsBlob)
-		{
-			// Here log compilation errors
-			Logger::GetInstance().Log("HLSL Compilation Error: %hs", (const char*)errorsBlob->GetBufferPointer());
-		}
-		// Handle compilation errors
+		HandleCompilationError(result);
 	}
+	ProcessAndStoreResult(result);
 
+	Logger::GetInstance().Log("Shader %hs compiled successfully.\n", fileName);
+}
+
+void Sapphire::DX12Shader::ProcessAndStoreResult(IDxcOperationResult* result)
+{
 	IDxcBlob* code;
 	result->GetResult(&code);
 	bytecode.pShaderBytecode = code->GetBufferPointer();
 	bytecode.BytecodeLength = code->GetBufferSize();
+	SafeRelease(&code);
+}
+
+void Sapphire::DX12Shader::HandleCompilationError(IDxcOperationResult* result)
+{
+	IDxcBlobEncoding* errorsBlob;
+	ExitIfFailed(result->GetErrorBuffer(&errorsBlob));
+	if (errorsBlob)
+	{
+		// Here log compilation errors
+		Logger::GetInstance().Log("HLSL Compilation: %hs", (const char*)errorsBlob->GetBufferPointer());
+	}
+	exit(2);
 }
 
 D3D12_SHADER_BYTECODE Sapphire::DX12Shader::GetBytecode()
