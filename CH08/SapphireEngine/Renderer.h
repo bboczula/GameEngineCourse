@@ -13,6 +13,7 @@
 
 #include "Logger.h"
 #include "Utils.h"
+#include "DxgiManager.h"
 #include "DX12CommandQueue.h"
 #include "DX12CommandList.h"
 #include "DX12DescriptorHeap.h"
@@ -48,16 +49,10 @@ namespace Sapphire
 		~Renderer();
 		void Render();
 	private:
-		void CreateDxgiFactory();
-		void EnumerateAdapters();
-		void EnumerateOutputs(IDXGIAdapter1* currentAdapter);
-		void LogOutputInfo(IDXGIOutput* output);
-		void LogAdapterInfo(IDXGIAdapter1* adapter);
-		void GetCapabilites();
+		void CreateDxgiManager();
 		void CreateDevice();
 		void CreateCommandQueue();
 		void CreateSwapChain();
-		void DisableDxgiMsgQueueMonitoring();
 		void CreateCommandList();
 		void CreateDescriptorHeap();
 		void CreateRenderTargets();
@@ -66,11 +61,11 @@ namespace Sapphire
 		void ExecuteCommandList();
 		void PresentFrame();
 		void EnableDebugLayer();
-		bool IsVsyncDisabledAndTearingAllowed();
 		// CH09
 		void CreateVertexBuffer();
 		RendererSettings settings;
 		HardwareCapabilities hardwareCapabilities;
+		DxgiManager* dxgiManager;
 		DX12CommandQueue* commandQueue;
 		DX12CommandList* commandList;
 		DX12DescriptorHeap* rtvDescriptorHeap;
@@ -81,11 +76,7 @@ namespace Sapphire
 		HWND hwnd;
 		LONG width;
 		LONG height;
-		UINT currentFrameIndex;
 		ID3D12Device* device;
-		IDXGISwapChain3* dxgiSwapChain;
-		IDXGIFactory5* dxgiFactory;
-		IDXGIAdapter1* dxgiAdapter;
 		ID3D12Resource* resources[FRAME_COUNT];
 		// CH09
 		D3D12_VIEWPORT viewport;

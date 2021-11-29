@@ -14,6 +14,9 @@
     <Filter Include="Logger">
       <UniqueIdentifier>{baeeb0a9-a5ba-4dac-87a4-180255b746fc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\DX12">
+      <UniqueIdentifier>{e854b966-bea6-4995-9b20-578f35d13433}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utils.h" />
@@ -32,30 +35,33 @@
     <ClInclude Include="Renderer.h">
       <Filter>Engine</Filter>
     </ClInclude>
-    <ClInclude Include="DX12CommandQueue.h">
-      <Filter>Engine</Filter>
-    </ClInclude>
     <ClInclude Include="HardwareCapabilities.h">
-      <Filter>Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="DX12CommandList.h">
-      <Filter>Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="DX12DescriptorHeap.h">
-      <Filter>Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="DX12RenderTarget.h">
-      <Filter>Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="DX12PipelineState.h">
-      <Filter>Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="DX12Shader.h">
       <Filter>Engine</Filter>
     </ClInclude>
     <ClInclude Include="d3dx12.h" />
     <ClInclude Include="ShaderCompiler.h">
       <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="DxgiManager.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="DX12CommandList.h">
+      <Filter>Engine\DX12</Filter>
+    </ClInclude>
+    <ClInclude Include="DX12CommandQueue.h">
+      <Filter>Engine\DX12</Filter>
+    </ClInclude>
+    <ClInclude Include="DX12DescriptorHeap.h">
+      <Filter>Engine\DX12</Filter>
+    </ClInclude>
+    <ClInclude Include="DX12PipelineState.h">
+      <Filter>Engine\DX12</Filter>
+    </ClInclude>
+    <ClInclude Include="DX12RenderTarget.h">
+      <Filter>Engine\DX12</Filter>
+    </ClInclude>
+    <ClInclude Include="DX12Shader.h">
+      <Filter>Engine\DX12</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -74,29 +80,32 @@
     <ClCompile Include="Renderer.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
-    <ClCompile Include="DX12CommandQueue.cpp">
-      <Filter>Engine</Filter>
-    </ClCompile>
     <ClCompile Include="HardwareCapabilities.cpp">
-      <Filter>Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="DX12CommandList.cpp">
-      <Filter>Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="DX12DescriptorHeap.cpp">
-      <Filter>Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="DX12RenderTarget.cpp">
-      <Filter>Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="DX12PipelineState.cpp">
-      <Filter>Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="DX12Shader.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
     <ClCompile Include="ShaderCompiler.cpp">
       <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="DxgiManager.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="DX12CommandList.cpp">
+      <Filter>Engine\DX12</Filter>
+    </ClCompile>
+    <ClCompile Include="DX12CommandQueue.cpp">
+      <Filter>Engine\DX12</Filter>
+    </ClCompile>
+    <ClCompile Include="DX12DescriptorHeap.cpp">
+      <Filter>Engine\DX12</Filter>
+    </ClCompile>
+    <ClCompile Include="DX12PipelineState.cpp">
+      <Filter>Engine\DX12</Filter>
+    </ClCompile>
+    <ClCompile Include="DX12RenderTarget.cpp">
+      <Filter>Engine\DX12</Filter>
+    </ClCompile>
+    <ClCompile Include="DX12Shader.cpp">
+      <Filter>Engine\DX12</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -104,7 +113,7 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="bypass.hlsl">
-      <Filter>Engine</Filter>
+      <Filter>Engine\DX12</Filter>
     </Text>
   </ItemGroup>
 </Project>
