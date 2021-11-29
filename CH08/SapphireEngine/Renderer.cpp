@@ -59,11 +59,11 @@ void Sapphire::Renderer::CreateDxgiManager()
 
 void Sapphire::Renderer::CreateDevice()
 {
+	Logger::GetInstance().Log("%s\n", "Sapphire::Renderer::CreateDevice()");
+
 #if _DEBUG
 	EnableDebugLayer();
 #endif
-
-	Logger::GetInstance().Log("%s\n", "Sapphire::Renderer::CreateDevice()");
 
 	ExitIfFailed(D3D12CreateDevice(dxgiManager->dxgiAdapter, D3D_FEATURE_LEVEL_11_0, IID_PPV_ARGS(&device)));
 }
@@ -82,6 +82,13 @@ void Sapphire::Renderer::CreateCommandList()
 	commandList = new DX12CommandList(device);
 }
 
+void Sapphire::Renderer::CreateSwapChain()
+{
+	Logger::GetInstance().Log("%s\n", "Sapphire::Renderer::CreateSwapChain()");
+
+	dxgiManager->CreateSwapChain(commandQueue, hwnd, settings.isVsyncEnabled);
+}
+
 void Sapphire::Renderer::CreateDescriptorHeap()
 {
 	Logger::GetInstance().Log("%s\n", "Sapphire::Renderer::CreateDescriptorHeap()");
@@ -96,7 +103,7 @@ void Sapphire::Renderer::CreateRenderTargets()
 	D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle;
 	for (UINT i = 0; i < FRAME_COUNT; i++)
 	{
-		// This one is really hard to undangle
+		// This one is really hard to undangle. Maybe I can add this to the public interface?
 		ExitIfFailed(dxgiManager->dxgiSwapChain->GetBuffer(i, IID_PPV_ARGS(&resources[i])));
 		rtvHandle.ptr = rtvDescriptorHeap->AllocateDescriptor();
 		// The default state of this resource is Common, we need to remember to set it accordingly
@@ -106,6 +113,8 @@ void Sapphire::Renderer::CreateRenderTargets()
 
 void Sapphire::Renderer::CreatePipelineState()
 {
+	Logger::GetInstance().Log("%s\n", "Sapphire::Renderer::CreatePipelineState()");
+
 	// This is local because we don't allow shader compilation in game loop
 	ShaderCompiler shaderCompiler;
 
@@ -115,11 +124,6 @@ void Sapphire::Renderer::CreatePipelineState()
 	vertexShader->Compile(L"bypass.hlsl", SHADER_TYPE::VERTEX_SHADER, &shaderCompiler);
 
 	dxPipelineState = new DX12PipelineState(device, vertexShader, pixelShader);
-}
-
-void Sapphire::Renderer::CreateSwapChain()
-{
-	dxgiManager->CreateSwapChain(commandQueue, hwnd, settings.isVsyncEnabled);
 }
 
 void Sapphire::Renderer::RecordCommandList()
@@ -171,6 +175,8 @@ void Sapphire::Renderer::EnableDebugLayer()
 
 void Sapphire::Renderer::CreateVertexBuffer()
 {
+	Logger::GetInstance().Log("%s\n", "Sapphire::Renderer::CreateVertexBuffer()");
+
 	// Define the geometry for a triangle.
 	Vertex triangleVertices[] =
 	{
