@@ -3,6 +3,8 @@
 #include <Windows.h>
 #include <comdef.h>
 
+#define FRAME_COUNT 2
+
 inline void ExitIfFailed(HRESULT hr)
 {
 	if (FAILED(hr))

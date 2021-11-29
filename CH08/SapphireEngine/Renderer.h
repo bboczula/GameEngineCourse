@@ -26,8 +26,6 @@
 #pragma comment(lib, "d3d12.lib")
 #pragma comment(lib, "dxguid.lib")
 
-#define FRAME_COUNT 2
-
 namespace Sapphire
 {
 

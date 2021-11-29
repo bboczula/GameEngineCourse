@@ -28,7 +28,7 @@ void Sapphire::DxgiManager::CreateSwapChain(DX12CommandQueue* commandQueue, HWND
 	swapChainDesc.Height = 0;
 	swapChainDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
 	swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-	swapChainDesc.BufferCount = 2; // FRAME_COUNT;
+	swapChainDesc.BufferCount = FRAME_COUNT;
 	swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD;
 	swapChainDesc.SampleDesc = sampleDesc;
 	if (!vsyncEnabled && hardwareCapabilities.getCapability(Capabilities::ALLOW_TEARING))
