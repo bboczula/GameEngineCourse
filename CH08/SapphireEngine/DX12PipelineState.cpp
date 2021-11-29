@@ -1,17 +1,9 @@
 #include "DX12PipelineState.h"
 
-// Sapphire::DX12PipelineState::DX12PipelineState(ID3D12Device* device, LPCWSTR shaderFileName)
-// {
-// 	CreateAndCompileShaders(shaderFileName);
-// 	CreateRootSignature(device);
-// 	CreatePipelineState(device, ps, vs);
-// }
-
 Sapphire::DX12PipelineState::DX12PipelineState(ID3D12Device* device, DX12Shader* vertexShader, DX12Shader* pixelShader)
 {
 	Logger::GetInstance().Log("%s\n", "Sapphire::DX12PipelineState::DX12PipelineState()");
 
-	// Here you don't have to compile shaders
 	CreateRootSignature(device);
 	CreatePipelineState(device, vertexShader, pixelShader);
 }
@@ -23,16 +15,6 @@ Sapphire::DX12PipelineState::~DX12PipelineState()
 	SafeRelease(&pipelineState);
 	SafeRelease(&rootSignature);
 }
-
-void Sapphire::DX12PipelineState::CreateAndCompileShaders(LPCWSTR shaderFileName)
-{
-	Logger::GetInstance().Log("%s\n", "Sapphire::DX12PipelineState::CreateAndCompileShaders()");
-
-	//vs = new DX12Shader(shaderFileName, L"VSMain", L"vs_6_0");
-	//ps = new DX12Shader(shaderFileName, L"PSMain", L"ps_6_0");
-	//vs = new DX12Shader(shaderFileName, SHADER_TYPE::VERTEX_SHADER);
-	//ps = new DX12Shader(shaderFileName, SHADER_TYPE::PIXEL_SHADER);
-}	
 
 void Sapphire::DX12PipelineState::CreateRootSignature(ID3D12Device* device)
 {
@@ -51,7 +33,6 @@ void Sapphire::DX12PipelineState::CreatePipelineState(ID3D12Device* device, DX12
 {
 	Logger::GetInstance().Log("%s\n", "Sapphire::DX12PipelineState::CreatePipelineState()");
 
-	// Define the vertex input layout.
 	D3D12_INPUT_ELEMENT_DESC inputElementDescs[] =
 	{
 		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
