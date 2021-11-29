@@ -31,6 +31,11 @@ Sapphire::Renderer::~Renderer()
 {
 	Logger::GetInstance().Log("%s\n", "Sapphire::Renderer::~Renderer()");
 
+	SafeRelease(&vertexBuffer);
+	delete dxPipelineState;
+	delete pixelShader;
+	delete vertexShader;
+
 	for (int i = 0; i < FRAME_COUNT; i++)
 	{
 		delete renderTargets[i];
@@ -172,7 +177,15 @@ void Sapphire::Renderer::CreateRenderTargets()
 
 void Sapphire::Renderer::CreatePipelineState()
 {
-	dxPipelineState = new DX12PipelineState(device, L"bypass.hlsl");
+	// This is local because we don't allow shader compilation in game loop
+	ShaderCompiler shaderCompiler;
+
+	pixelShader = new DX12Shader;
+	pixelShader->Compile(L"bypass.hlsl", SHADER_TYPE::PIXEL_SHADER, &shaderCompiler);
+	vertexShader = new DX12Shader;
+	vertexShader->Compile(L"bypass.hlsl", SHADER_TYPE::VERTEX_SHADER, &shaderCompiler);
+
+	dxPipelineState = new DX12PipelineState(device, vertexShader, pixelShader);
 }
 
 void Sapphire::Renderer::CreateSwapChain()

@@ -54,6 +54,9 @@
       <Filter>Engine</Filter>
     </ClInclude>
     <ClInclude Include="d3dx12.h" />
+    <ClInclude Include="ShaderCompiler.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WindowApplication.cpp">
@@ -90,6 +93,9 @@
       <Filter>Engine</Filter>
     </ClCompile>
     <ClCompile Include="DX12Shader.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderCompiler.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
   </ItemGroup>

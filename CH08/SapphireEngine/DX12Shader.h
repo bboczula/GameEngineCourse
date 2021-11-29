@@ -2,37 +2,28 @@
 
 #include "Utils.h"
 #include "Logger.h"
-
-#include <d3d12.h>
-#include <d3dcompiler.h>
-
-// New compiler
-#include <dxcapi.h>
-
-#pragma comment(lib, "D3DCompiler.lib")
-#pragma comment(lib, "dxcompiler.lib")
+#include "ShaderCompiler.h"
 
 namespace Sapphire
 {
 	enum class SHADER_TYPE
 	{
 		VERTEX_SHADER,
-		PIXEL_SHADER
+		PIXEL_SHADER,
+		UNDEFINED
 	};
 
 	// Remember to write about changing HLSL file type
 	class DX12Shader
 	{
-		//friend class DX12PipelineState;
 	public:
-		DX12Shader(LPCWSTR fileName, SHADER_TYPE type);
-		DX12Shader(LPCWSTR fileName, LPCWSTR entryPoint, LPCWSTR shaderModel);
+		DX12Shader();
 		~DX12Shader();
+		void Compile(LPCWSTR fileName, SHADER_TYPE type, ShaderCompiler* compiler);
 		D3D12_SHADER_BYTECODE GetBytecode();
 	private:
-		void Compile(LPCWSTR fileName, LPCWSTR entryPoint, LPCWSTR shaderModel);
+		void Compile(LPCWSTR fileName, LPCWSTR entryPoint, LPCWSTR shaderModel, ShaderCompiler* compiler);
 		void ProcessAndStoreResult(IDxcOperationResult* result);
-		void HandleCompilationError(IDxcOperationResult* result);
 		SHADER_TYPE type;
 		D3D12_SHADER_BYTECODE bytecode;
 	};

@@ -16,15 +16,16 @@ namespace Sapphire
 	{
 		friend class DX12CommandList;
 	public:
-		DX12PipelineState(ID3D12Device* device, LPCWSTR shaderFileName);
+		//DX12PipelineState(ID3D12Device* device, LPCWSTR shaderFileName);
+		DX12PipelineState(ID3D12Device* device, DX12Shader* vertexShader, DX12Shader* pixelShader);
 		~DX12PipelineState();
 	private:
 		void CreateAndCompileShaders(LPCWSTR shaderFileName);
 		void CreateRootSignature(ID3D12Device* device);
-		void CreatePipelineState(ID3D12Device* device);
+		void CreatePipelineState(ID3D12Device* device, DX12Shader* ps, DX12Shader* vs);
 		ID3D12RootSignature* rootSignature;
 		ID3D12PipelineState* pipelineState;
-		DX12Shader* vs;
-		DX12Shader* ps;
+		// DX12Shader* vs;
+		// DX12Shader* ps;
 	};
 }

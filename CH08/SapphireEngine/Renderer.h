@@ -19,6 +19,7 @@
 #include "DX12RenderTarget.h"
 #include "DX12PipelineState.h"
 #include "HardwareCapabilities.h"
+#include "ShaderCompiler.h"
 
 #pragma comment(lib, "dxgi.lib")
 #pragma comment(lib, "d3d12.lib")
@@ -74,6 +75,8 @@ namespace Sapphire
 		DX12CommandList* commandList;
 		DX12DescriptorHeap* rtvDescriptorHeap;
 		DX12RenderTarget* renderTargets[FRAME_COUNT];
+		DX12Shader* pixelShader;
+		DX12Shader* vertexShader;
 		DX12PipelineState* dxPipelineState;
 		HWND hwnd;
 		LONG width;

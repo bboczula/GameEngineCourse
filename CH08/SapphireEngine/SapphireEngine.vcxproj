@@ -31,6 +31,7 @@
     <ClInclude Include="OutputFile.h" />
     <ClInclude Include="Logger.h" />
     <ClInclude Include="Renderer.h" />
+    <ClInclude Include="ShaderCompiler.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="WindowApplication.h" />
   </ItemGroup>
@@ -46,6 +47,7 @@
     <ClCompile Include="OutputFile.cpp" />
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="Renderer.cpp" />
+    <ClCompile Include="ShaderCompiler.cpp" />
     <ClCompile Include="WindowApplication.cpp" />
   </ItemGroup>
   <ItemGroup>
