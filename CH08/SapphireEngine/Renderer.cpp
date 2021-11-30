@@ -7,20 +7,37 @@ Sapphire::Renderer::Renderer(HWND hwnd, LONG width, LONG height)
 {
 	Logger::GetInstance().Log("%s\n", "Sapphire::Renderer::Renderer()");
 
-	CreateDxgiManager();
-	CreateDevice();
+	// This kind of shapes up as DX12DeviceContext
+	dxgiManager = new DxgiManager;
+	device = new DX12Device(dxgiManager->dxgiAdapter);
+	commandQueue = new DX12CommandQueue(device->GetDevice());
+	dxgiManager->CreateSwapChain(commandQueue, hwnd, settings.isVsyncEnabled);
 
-	// Device dependent stuff
-	CreateCommandQueue();
-	CreateCommandList();
-	CreateSwapChain();
+	// And this kind of shapes up as DX12RenderContext
+	commandList = new DX12CommandList(device->GetDevice());
+	rtvDescriptorHeap = new DX12DescriptorHeap(device->GetDevice(), D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
 
-	// Create frame resources
-	CreateDescriptorHeap();
-	CreateRenderTargets();
-	CreatePipelineState();
+	D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle;
+	for (UINT i = 0; i < FRAME_COUNT; i++)
+	{
+		// This one is really hard to undangle. Maybe I can add this to the public interface?
+		ExitIfFailed(dxgiManager->dxgiSwapChain->GetBuffer(i, IID_PPV_ARGS(&resources[i])));
+		rtvHandle.ptr = rtvDescriptorHeap->AllocateDescriptor();
+		// The default state of this resource is Common, we need to remember to set it accordingly
+		renderTargets[i] = new DX12RenderTarget(device->GetDevice(), resources[i], rtvHandle, D3D12_RESOURCE_STATE_COMMON);
+	}
+
+	ShaderCompiler shaderCompiler;
+
+	pixelShader = new DX12Shader;
+	pixelShader->Compile(L"bypass.hlsl", SHADER_TYPE::PIXEL_SHADER, &shaderCompiler);
+
+	vertexShader = new DX12Shader;
+	vertexShader->Compile(L"bypass.hlsl", SHADER_TYPE::VERTEX_SHADER, &shaderCompiler);
+
+	dxPipelineState = new DX12PipelineState(device->GetDevice(), vertexShader, pixelShader);
 	
-	// CH09 
+	// CH09 - And this shapes to be RenderObject
 	CreateVertexBuffer();
 }
 
@@ -41,8 +58,8 @@ Sapphire::Renderer::~Renderer()
 	delete rtvDescriptorHeap;
 	delete commandList;
 	delete commandQueue;
-	SafeRelease(&device);
 	delete dxgiManager;
+	delete device;
 }
 
 void Sapphire::Renderer::Render()
@@ -50,80 +67,6 @@ void Sapphire::Renderer::Render()
 	RecordCommandList();
 	ExecuteCommandList();
 	PresentFrame();
-}
-
-void Sapphire::Renderer::CreateDxgiManager()
-{
-	dxgiManager = new DxgiManager;
-}
-
-void Sapphire::Renderer::CreateDevice()
-{
-	Logger::GetInstance().Log("%s\n", "Sapphire::Renderer::CreateDevice()");
-
-#if _DEBUG
-	EnableDebugLayer();
-#endif
-
-	ExitIfFailed(D3D12CreateDevice(dxgiManager->dxgiAdapter, D3D_FEATURE_LEVEL_11_0, IID_PPV_ARGS(&device)));
-}
-
-void Sapphire::Renderer::CreateCommandQueue()
-{
-	Logger::GetInstance().Log("%s\n", "Sapphire::Renderer::CreateCommandQueue()");
-
-	commandQueue = new DX12CommandQueue(device);
-}
-
-void Sapphire::Renderer::CreateCommandList()
-{
-	Logger::GetInstance().Log("%s\n", "Sapphire::Renderer::CreateCommandList()");
-
-	commandList = new DX12CommandList(device);
-}
-
-void Sapphire::Renderer::CreateSwapChain()
-{
-	Logger::GetInstance().Log("%s\n", "Sapphire::Renderer::CreateSwapChain()");
-
-	dxgiManager->CreateSwapChain(commandQueue, hwnd, settings.isVsyncEnabled);
-}
-
-void Sapphire::Renderer::CreateDescriptorHeap()
-{
-	Logger::GetInstance().Log("%s\n", "Sapphire::Renderer::CreateDescriptorHeap()");
-
-	rtvDescriptorHeap = new DX12DescriptorHeap(device, D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
-}
-
-void Sapphire::Renderer::CreateRenderTargets()
-{
-	Logger::GetInstance().Log("%s\n", "Sapphire::Renderer::CreateRenderTargets()");
-
-	D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle;
-	for (UINT i = 0; i < FRAME_COUNT; i++)
-	{
-		// This one is really hard to undangle. Maybe I can add this to the public interface?
-		ExitIfFailed(dxgiManager->dxgiSwapChain->GetBuffer(i, IID_PPV_ARGS(&resources[i])));
-		rtvHandle.ptr = rtvDescriptorHeap->AllocateDescriptor();
-		// The default state of this resource is Common, we need to remember to set it accordingly
-		renderTargets[i] = new DX12RenderTarget(device, resources[i], rtvHandle, D3D12_RESOURCE_STATE_COMMON);
-	}
-}
-
-void Sapphire::Renderer::CreatePipelineState()
-{
-	Logger::GetInstance().Log("%s\n", "Sapphire::Renderer::CreatePipelineState()");
-
-	// This is local because we don't allow shader compilation in game loop
-	ShaderCompiler shaderCompiler;
-
-	pixelShader = new DX12Shader;
-	pixelShader->Compile(L"bypass.hlsl", SHADER_TYPE::PIXEL_SHADER, &shaderCompiler);
-	vertexShader = new DX12Shader;
-	vertexShader->Compile(L"bypass.hlsl", SHADER_TYPE::VERTEX_SHADER, &shaderCompiler);
-
-	dxPipelineState = new DX12PipelineState(device, vertexShader, pixelShader);
 }
 
 void Sapphire::Renderer::RecordCommandList()
@@ -156,21 +99,6 @@ void Sapphire::Renderer::ExecuteCommandList()
 void Sapphire::Renderer::PresentFrame()
 {
 	dxgiManager->PresentFrame(settings.isVsyncEnabled);
-}
-
-void Sapphire::Renderer::EnableDebugLayer()
-{
-	Logger::GetInstance().Log("%s\n", "Sapphire::Renderer::EnableDebugLayer()");
-
-	// API level validation
-	ID3D12Debug* debugInterface_0;
-	ExitIfFailed(D3D12GetDebugInterface(IID_PPV_ARGS(&debugInterface_0)));
-	debugInterface_0->EnableDebugLayer();
-
-	// GPU level validation
-	ID3D12Debug1* debugInterface_1;
-	ExitIfFailed(debugInterface_0->QueryInterface(IID_PPV_ARGS(&debugInterface_1)));
-	debugInterface_1->SetEnableGPUBasedValidation(true);
 }
 
 void Sapphire::Renderer::CreateVertexBuffer()
@@ -214,7 +142,7 @@ void Sapphire::Renderer::CreateVertexBuffer()
 	desc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
 	desc.Flags = D3D12_RESOURCE_FLAG_NONE;
 
-	ExitIfFailed(device->CreateCommittedResource(
+	ExitIfFailed(device->GetDevice()->CreateCommittedResource(
 		&heapProps,
 		D3D12_HEAP_FLAG_NONE,
 		&desc,

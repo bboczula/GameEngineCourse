@@ -9,6 +9,7 @@ Sapphire::DxgiManager::DxgiManager()
 
 Sapphire::DxgiManager::~DxgiManager()
 {
+	SafeRelease(&dxgiSwapChain);
 	SafeRelease(&dxgiAdapter);
 	SafeRelease(&dxgiFactory);
 }

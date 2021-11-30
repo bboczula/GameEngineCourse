@@ -13,6 +13,7 @@
 
 #include "Logger.h"
 #include "Utils.h"
+#include "DX12Device.h"
 #include "DxgiManager.h"
 #include "DX12CommandQueue.h"
 #include "DX12CommandList.h"
@@ -47,23 +48,15 @@ namespace Sapphire
 		~Renderer();
 		void Render();
 	private:
-		void CreateDxgiManager();
-		void CreateDevice();
-		void CreateCommandQueue();
-		void CreateSwapChain();
-		void CreateCommandList();
-		void CreateDescriptorHeap();
-		void CreateRenderTargets();
-		void CreatePipelineState();
 		void RecordCommandList();
 		void ExecuteCommandList();
 		void PresentFrame();
-		void EnableDebugLayer();
 		// CH09
 		void CreateVertexBuffer();
 		RendererSettings settings;
 		HardwareCapabilities hardwareCapabilities;
 		DxgiManager* dxgiManager;
+		DX12Device* device;
 		DX12CommandQueue* commandQueue;
 		DX12CommandList* commandList;
 		DX12DescriptorHeap* rtvDescriptorHeap;
@@ -74,7 +67,6 @@ namespace Sapphire
 		HWND hwnd;
 		LONG width;
 		LONG height;
-		ID3D12Device* device;
 		ID3D12Resource* resources[FRAME_COUNT];
 		// CH09
 		D3D12_VIEWPORT viewport;
