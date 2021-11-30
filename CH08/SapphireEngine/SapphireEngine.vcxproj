@@ -55,9 +55,6 @@
     <ClCompile Include="WindowApplication.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ClassDiagram.cd" />
-  </ItemGroup>
-  <ItemGroup>
     <Text Include="bypass.hlsl">
       <FileType>Document</FileType>
     </Text>
