@@ -1,8 +1,7 @@
 #include "Renderer.h"
 
 Sapphire::Renderer::Renderer(HWND hwnd, LONG width, LONG height)
-	: hwnd(hwnd), width(width), height(height),
-	viewport({ 0.0f, 0.0f, static_cast<float>(width), static_cast<float>(height), 0.0f, 1.0f }),
+	: viewport({ 0.0f, 0.0f, static_cast<float>(width), static_cast<float>(height), 0.0f, 1.0f }),
 	scissorRect({ 0, 0, static_cast<LONG>(width), static_cast<LONG>(height) })
 {
 	Logger::GetInstance().Log("%s\n", "Sapphire::Renderer::Renderer()");
@@ -38,7 +37,7 @@ Sapphire::Renderer::Renderer(HWND hwnd, LONG width, LONG height)
 	dxPipelineState = new DX12PipelineState(device->GetDevice(), vertexShader, pixelShader);
 	
 	// CH09 - And this shapes to be RenderObject
-	CreateVertexBuffer();
+	CreateVertexBuffer(width, height);
 }
 
 Sapphire::Renderer::~Renderer()
@@ -101,7 +100,7 @@ void Sapphire::Renderer::PresentFrame()
 	dxgiManager->PresentFrame(settings.isVsyncEnabled);
 }
 
-void Sapphire::Renderer::CreateVertexBuffer()
+void Sapphire::Renderer::CreateVertexBuffer(LONG width, LONG height)
 {
 	Logger::GetInstance().Log("%s\n", "Sapphire::Renderer::CreateVertexBuffer()");
 

@@ -52,7 +52,7 @@ namespace Sapphire
 		void ExecuteCommandList();
 		void PresentFrame();
 		// CH09
-		void CreateVertexBuffer();
+		void CreateVertexBuffer(LONG width, LONG height);
 		RendererSettings settings;
 		DxgiManager* dxgiManager;
 		DX12Device* device;
@@ -63,9 +63,6 @@ namespace Sapphire
 		DX12Shader* pixelShader;
 		DX12Shader* vertexShader;
 		DX12PipelineState* dxPipelineState;
-		HWND hwnd;
-		LONG width;
-		LONG height;
 		ID3D12Resource* resources[FRAME_COUNT];
 		// CH09
 		D3D12_VIEWPORT viewport;
