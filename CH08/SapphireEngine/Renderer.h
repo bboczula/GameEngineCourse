@@ -54,7 +54,6 @@ namespace Sapphire
 		// CH09
 		void CreateVertexBuffer();
 		RendererSettings settings;
-		HardwareCapabilities hardwareCapabilities;
 		DxgiManager* dxgiManager;
 		DX12Device* device;
 		DX12CommandQueue* commandQueue;
