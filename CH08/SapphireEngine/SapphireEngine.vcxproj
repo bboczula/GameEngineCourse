@@ -30,10 +30,10 @@
     <ClInclude Include="DxgiManager.h" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="HardwareCapabilities.h" />
+    <ClInclude Include="InputFile.h" />
     <ClInclude Include="OutputFile.h" />
     <ClInclude Include="Logger.h" />
     <ClInclude Include="Renderer.h" />
-    <ClInclude Include="ShaderCompiler.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="WindowApplication.h" />
   </ItemGroup>
@@ -48,16 +48,29 @@
     <ClCompile Include="DxgiManager.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="HardwareCapabilities.cpp" />
+    <ClCompile Include="InputFile.cpp" />
     <ClCompile Include="OutputFile.cpp" />
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="Renderer.cpp" />
-    <ClCompile Include="ShaderCompiler.cpp" />
     <ClCompile Include="WindowApplication.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="bypass.hlsl">
-      <FileType>Document</FileType>
-    </Text>
+    <FxCompile Include="bypass_ps.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">6.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">6.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="bypass_vs.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">6.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">6.0</ShaderModel>
+    </FxCompile>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -163,11 +176,10 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(WindowsSdkDir)redist\d3d\x64\dxcompiler.dll" "$(TargetDir)"
-copy "$(WindowsSdkDir)redist\d3d\x64\dxil.dll" "$(TargetDir)"</Command>
+      <Command>copy "$(TargetDir)*.cso" "$(SolutionDir)SapphireReference"</Command>
     </PostBuildEvent>
     <PostBuildEvent>
-      <Message>Copying DXC compiler DLLs...</Message>
+      <Message>Copying compiled shaders...</Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -194,11 +206,10 @@ copy "$(WindowsSdkDir)redist\d3d\x64\dxil.dll" "$(TargetDir)"</Command>
       </Message>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>copy "$(WindowsSdkDir)redist\d3d\x64\dxcompiler.dll" "$(TargetDir)"
-copy "$(WindowsSdkDir)redist\d3d\x64\dxil.dll" "$(TargetDir)"</Command>
+      <Command>copy "$(TargetDir)*.cso" "$(SolutionDir)SapphireReference"</Command>
     </PostBuildEvent>
     <PostBuildEvent>
-      <Message>Copying DXC compiler DLLs...</Message>
+      <Message>Copying compiled shaders...</Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -20,7 +20,7 @@ namespace Sapphire
 		~DX12PipelineState();
 	private:
 		void CreateRootSignature(ID3D12Device* device);
-		void CreatePipelineState(ID3D12Device* device, DX12Shader* ps, DX12Shader* vs);
+		void CreatePipelineState(ID3D12Device* device, D3D12_SHADER_BYTECODE vs, D3D12_SHADER_BYTECODE ps);
 		ID3D12RootSignature* rootSignature;
 		ID3D12PipelineState* pipelineState;
 	};

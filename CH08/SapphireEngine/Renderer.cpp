@@ -26,13 +26,8 @@ Sapphire::Renderer::Renderer(HWND hwnd, LONG width, LONG height)
 		renderTargets[i] = new DX12RenderTarget(device->GetDevice(), resources[i], rtvHandle, D3D12_RESOURCE_STATE_COMMON);
 	}
 
-	ShaderCompiler shaderCompiler;
-
-	pixelShader = new DX12Shader;
-	pixelShader->Compile(L"bypass.hlsl", SHADER_TYPE::PIXEL_SHADER, &shaderCompiler);
-
-	vertexShader = new DX12Shader;
-	vertexShader->Compile(L"bypass.hlsl", SHADER_TYPE::VERTEX_SHADER, &shaderCompiler);
+	vertexShader = new DX12Shader("bypass_vs.cso");
+	pixelShader = new DX12Shader("bypass_ps.cso");
 
 	dxPipelineState = new DX12PipelineState(device->GetDevice(), vertexShader, pixelShader);
 	

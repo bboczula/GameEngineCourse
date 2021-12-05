@@ -5,7 +5,7 @@ Sapphire::DX12PipelineState::DX12PipelineState(ID3D12Device* device, DX12Shader*
 	Logger::GetInstance().Log("%s\n", "Sapphire::DX12PipelineState::DX12PipelineState()");
 
 	CreateRootSignature(device);
-	CreatePipelineState(device, vertexShader, pixelShader);
+	CreatePipelineState(device, vertexShader->GetBytecode(), pixelShader->GetBytecode());
 }
 
 Sapphire::DX12PipelineState::~DX12PipelineState()
@@ -29,7 +29,7 @@ void Sapphire::DX12PipelineState::CreateRootSignature(ID3D12Device* device)
 	ExitIfFailed(device->CreateRootSignature(0, signature->GetBufferPointer(), signature->GetBufferSize(), IID_PPV_ARGS(&rootSignature)));
 }
 
-void Sapphire::DX12PipelineState::CreatePipelineState(ID3D12Device* device, DX12Shader* vs, DX12Shader* ps)
+void Sapphire::DX12PipelineState::CreatePipelineState(ID3D12Device* device, D3D12_SHADER_BYTECODE vs, D3D12_SHADER_BYTECODE ps)
 {
 	Logger::GetInstance().Log("%s\n", "Sapphire::DX12PipelineState::CreatePipelineState()");
 
@@ -48,8 +48,8 @@ void Sapphire::DX12PipelineState::CreatePipelineState(ID3D12Device* device, DX12
 	ZeroMemory(&psoDesc, sizeof(D3D12_GRAPHICS_PIPELINE_STATE_DESC));
 	psoDesc.InputLayout = { inputElementDescs, _countof(inputElementDescs) };
 	psoDesc.pRootSignature = rootSignature;
-	psoDesc.VS = vs->GetBytecode();
-	psoDesc.PS = ps->GetBytecode();
+	psoDesc.VS = vs;
+	psoDesc.PS = ps;
 	psoDesc.RasterizerState = CD3DX12_RASTERIZER_DESC(D3D12_DEFAULT);
 	psoDesc.BlendState = CD3DX12_BLEND_DESC(D3D12_DEFAULT);
 	psoDesc.DepthStencilState = disabledDepthStencil;

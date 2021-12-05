@@ -21,7 +21,7 @@
 #include "DX12RenderTarget.h"
 #include "DX12PipelineState.h"
 #include "HardwareCapabilities.h"
-#include "ShaderCompiler.h"
+#include "InputFile.h"
 
 #pragma comment(lib, "dxgi.lib")
 #pragma comment(lib, "d3d12.lib")
