@@ -25,11 +25,11 @@ namespace Sapphire
 		~DX12CommandList();
 
 		/// <summary>
-		/// Transitions the resource associated with Render Target from its current state to the new state.
+		/// Transitions a Resource from its current state to the new state.
 		/// </summary>
-		/// <param name="renderTarget">A Render Target we want to transition</param>
+		/// <param name="resource">A Resource we want to transition</param>
 		/// <param name="nextState">A stat to which we want to transition to</param>
-		void TransitionTo(DX12RenderTarget* renderTarget, D3D12_RESOURCE_STATES nextState);
+		void TransitionTo(DX12Resource* resource, D3D12_RESOURCE_STATES nextState);
 
 		/// <summary>
 		/// Sets given Render Target as the current Render Target.

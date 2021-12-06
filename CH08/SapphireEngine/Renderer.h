@@ -20,6 +20,7 @@
 #include "DX12DescriptorHeap.h"
 #include "DX12RenderTarget.h"
 #include "DX12PipelineState.h"
+#include "DX12Resource.h"
 #include "HardwareCapabilities.h"
 #include "InputFile.h"
 
@@ -63,7 +64,7 @@ namespace Sapphire
 		DX12Shader* pixelShader;
 		DX12Shader* vertexShader;
 		DX12PipelineState* dxPipelineState;
-		ID3D12Resource* resources[FRAME_COUNT];
+		DX12Resource* dxResources[FRAME_COUNT];
 		// CH09
 		D3D12_VIEWPORT viewport;
 		D3D12_RECT scissorRect;

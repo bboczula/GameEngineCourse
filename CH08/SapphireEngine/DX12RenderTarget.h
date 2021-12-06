@@ -1,7 +1,11 @@
 #pragma once
 
-#include <d3d12.h>
 #include "Utils.h"
+#include "Logger.h"
+#include "DX12Device.h"
+#include "DX12Resource.h"
+
+#include <d3d12.h>
 
 namespace Sapphire
 {
@@ -13,18 +17,16 @@ namespace Sapphire
 		friend class DX12CommandList;
 	public:
 		/// <summary>
-		/// Creates new Render Target instance and stores pointers to associated resource, descriptor handle and the initial resource state.
+		/// Creates new Render Target instance and stores pointers to associated resource and an empty descriptor handle.
 		/// </summary>
 		/// <param name="device">DirectX 12 device used to create new Render Target</param>
 		/// <param name="resource">A resource associated with the Render Target</param>
 		/// <param name="descriptor">A Descriptor Handle to use during Render Target creation</param>
-		/// <param name="state">An initial state of the resource</param>
-		DX12RenderTarget(ID3D12Device* device, ID3D12Resource* resource, D3D12_CPU_DESCRIPTOR_HANDLE descriptor, D3D12_RESOURCE_STATES state);
+		DX12RenderTarget(DX12Device* device, DX12Resource* resource, D3D12_CPU_DESCRIPTOR_HANDLE descriptor);
 
 		~DX12RenderTarget();
 	private:
-		ID3D12Resource* resource;
+		DX12Resource* resource;
 		D3D12_CPU_DESCRIPTOR_HANDLE descriptorHandle;
-		D3D12_RESOURCE_STATES resourceState;
 	};
 }

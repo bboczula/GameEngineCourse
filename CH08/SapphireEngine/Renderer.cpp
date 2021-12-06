@@ -11,24 +11,27 @@ Sapphire::Renderer::Renderer(HWND hwnd, LONG width, LONG height)
 	device = new DX12Device(dxgiManager->dxgiAdapter);
 	commandQueue = new DX12CommandQueue(device->GetDevice());
 	dxgiManager->CreateSwapChain(commandQueue, hwnd, settings.isVsyncEnabled);
-
-	// And this kind of shapes up as DX12RenderContext
-	commandList = new DX12CommandList(device->GetDevice());
 	rtvDescriptorHeap = new DX12DescriptorHeap(device->GetDevice(), D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
 
-	D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle;
+	// And this kind of shapes up as DX12RenderContext
 	for (UINT i = 0; i < FRAME_COUNT; i++)
 	{
+		// Not really sure how to overcome this; i think i need this temporary pointer, I'll just won't touch the thing it points to
+		ID3D12Resource* tempResource;
+
 		// This one is really hard to undangle. Maybe I can add this to the public interface?
-		ExitIfFailed(dxgiManager->dxgiSwapChain->GetBuffer(i, IID_PPV_ARGS(&resources[i])));
+		ExitIfFailed(dxgiManager->dxgiSwapChain->GetBuffer(i, IID_PPV_ARGS(&tempResource)));
+		dxResources[i] = new DX12Resource(tempResource, D3D12_RESOURCE_STATE_COMMON);
+
+		// Maybe this temporary thing could be avoided if i return the entire handle?
+		D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle;
 		rtvHandle.ptr = rtvDescriptorHeap->AllocateDescriptor();
 		// The default state of this resource is Common, we need to remember to set it accordingly
-		renderTargets[i] = new DX12RenderTarget(device->GetDevice(), resources[i], rtvHandle, D3D12_RESOURCE_STATE_COMMON);
+		renderTargets[i] = new DX12RenderTarget(device, dxResources[i], rtvHandle);
 	}
-
+	commandList = new DX12CommandList(device->GetDevice());
 	vertexShader = new DX12Shader("bypass_vs.cso");
 	pixelShader = new DX12Shader("bypass_ps.cso");
-
 	dxPipelineState = new DX12PipelineState(device->GetDevice(), vertexShader, pixelShader);
 	
 	// CH09 - And this shapes to be RenderObject
@@ -43,12 +46,11 @@ Sapphire::Renderer::~Renderer()
 	delete dxPipelineState;
 	delete pixelShader;
 	delete vertexShader;
-
 	for (int i = 0; i < FRAME_COUNT; i++)
 	{
+		delete dxResources[i];
 		delete renderTargets[i];
 	}
-
 	delete rtvDescriptorHeap;
 	delete commandList;
 	delete commandQueue;
@@ -70,7 +72,7 @@ void Sapphire::Renderer::RecordCommandList()
 	unsigned int currentFrameIndex = dxgiManager->currentFrameIndex;
 
 	commandList->Reset();
-	commandList->TransitionTo(renderTargets[currentFrameIndex], D3D12_RESOURCE_STATE_RENDER_TARGET);
+	commandList->TransitionTo(dxResources[currentFrameIndex], D3D12_RESOURCE_STATE_RENDER_TARGET);
 	commandList->SetPipelineState(dxPipelineState);
 	commandList->SetRenderTarget(renderTargets[currentFrameIndex]);
 	commandList->ClearRenderTarget(renderTargets[currentFrameIndex], currentFrameIndex ? clearColorOne : clearColorTwo);
@@ -81,7 +83,7 @@ void Sapphire::Renderer::RecordCommandList()
 	commandList->Draw(vertexBufferView);
 	// CH09
 	
-	commandList->TransitionTo(renderTargets[currentFrameIndex], D3D12_RESOURCE_STATE_PRESENT);
+	commandList->TransitionTo(dxResources[currentFrameIndex], D3D12_RESOURCE_STATE_PRESENT);
 	commandList->Close();
 }
 

@@ -1,12 +1,11 @@
 #include "DX12RenderTarget.h"
 
-Sapphire::DX12RenderTarget::DX12RenderTarget(ID3D12Device* device, ID3D12Resource* resource, D3D12_CPU_DESCRIPTOR_HANDLE descriptor, D3D12_RESOURCE_STATES state)
-	: descriptorHandle(descriptor), resourceState(state), resource(resource)
+Sapphire::DX12RenderTarget::DX12RenderTarget(DX12Device* device, DX12Resource* resource, D3D12_CPU_DESCRIPTOR_HANDLE descriptor)
+	: descriptorHandle(descriptor), resource(resource)
 {
-	device->CreateRenderTargetView(resource, nullptr, descriptorHandle);
+	device->GetDevice()->CreateRenderTargetView(resource->GetResource(), nullptr, descriptorHandle);
 }
 
 Sapphire::DX12RenderTarget::~DX12RenderTarget()
 {
-	SafeRelease(&resource);
 }
