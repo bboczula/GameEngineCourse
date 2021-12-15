@@ -1,6 +1,6 @@
 #include "InputFile.h"
 
-Sapphire::InputFile::InputFile()
+Sapphire::InputFile::InputFile() : fileSize(0), fileBuffer(nullptr)
 {
 	OutputDebugStringA("InputFile::InputFile()\n");
 }
@@ -12,20 +12,7 @@ Sapphire::InputFile::~InputFile()
 
 void Sapphire::InputFile::Open(LPCSTR fileName)
 {
-	// Open another file
-	fileHandle = CreateFileA(fileName, GENERIC_READ, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
-
-	// Handle errors
-	if (fileHandle == INVALID_HANDLE_VALUE)
-	{
-		MessageBoxA(NULL, "Unable to open file!", "File Error", MB_OK | MB_ICONERROR);
-		exit(1);
-	}
-}
-
-void Sapphire::InputFile::Close()
-{
-	CloseHandle(fileHandle);
+	File::Open(fileName, GENERIC_READ, OPEN_EXISTING);
 }
 
 void Sapphire::InputFile::Read()

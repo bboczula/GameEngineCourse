@@ -71,6 +71,9 @@
     <ClInclude Include="DX12Resource.h">
       <Filter>Engine\Rendering\DX12</Filter>
     </ClInclude>
+    <ClInclude Include="File.h">
+      <Filter>Window</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WindowApplication.cpp">
@@ -120,6 +123,9 @@
     </ClCompile>
     <ClCompile Include="DX12Resource.cpp">
       <Filter>Engine\Rendering\DX12</Filter>
+    </ClCompile>
+    <ClCompile Include="File.cpp">
+      <Filter>Window</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

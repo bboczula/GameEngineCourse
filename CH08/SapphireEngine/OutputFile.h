@@ -2,17 +2,16 @@
 
 #include <Windows.h>
 
+#include "File.h"
+
 namespace Sapphire
 {
-	class OutputFile
+	class OutputFile : public File
 	{
 	public:
 		OutputFile();
 		~OutputFile();
-		void Open(LPCSTR fileName);
-		void Close();
+		virtual void Open(LPCSTR fileName) override;
 		void Write(LPCVOID data, DWORD size);
-	private:
-		HANDLE fileHandle;
 	};
 }

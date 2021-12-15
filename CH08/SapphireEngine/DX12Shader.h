@@ -8,7 +8,6 @@
 
 namespace Sapphire
 {
-	// Remember to write about changing HLSL file type
 	class DX12Shader
 	{
 	public:

@@ -1,6 +1,6 @@
 #include "OutputFile.h"
 
-Sapphire::OutputFile::OutputFile() : fileHandle(NULL)
+Sapphire::OutputFile::OutputFile()
 {
 	OutputDebugStringA("OutputFile::OutputFile()\n");
 }
@@ -12,20 +12,7 @@ Sapphire::OutputFile::~OutputFile()
 
 void Sapphire::OutputFile::Open(LPCSTR fileName)
 {
-	// Open another file
-	fileHandle = CreateFileA(fileName, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
-
-	// Handle errors
-	if (fileHandle == INVALID_HANDLE_VALUE)
-	{
-		MessageBoxA(NULL, "Unable to open file!", "File Error", MB_OK | MB_ICONERROR);
-		exit(1);
-	}
-}
-
-void Sapphire::OutputFile::Close()
-{
-	CloseHandle(fileHandle);
+	File::Open(fileName, GENERIC_WRITE, CREATE_ALWAYS);
 }
 
 void Sapphire::OutputFile::Write(LPCVOID data, DWORD dataSizeInBytes)

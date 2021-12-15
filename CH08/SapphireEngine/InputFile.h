@@ -3,21 +3,20 @@
 #include <Windows.h>
 
 #include "Logger.h"
+#include "File.h"
 
 namespace Sapphire
 {
-	class InputFile
+	class InputFile : public File
 	{
 	public:
 		InputFile();
 		~InputFile();
-		void Open(LPCSTR fileName);
-		void Close();
+		virtual void Open(LPCSTR fileName) override;
 		void Read();
 		void* GetBuffer();
 		DWORD GetSize();
 	private:
-		HANDLE fileHandle;
 		DWORD fileSize;
 		char* fileBuffer;
 	};
