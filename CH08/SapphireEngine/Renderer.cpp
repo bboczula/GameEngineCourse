@@ -104,9 +104,9 @@ void Sapphire::Renderer::CreateVertexBuffer(LONG width, LONG height)
 	// Define the geometry for a triangle.
 	Vertex triangleVertices[] =
 	{
-		{ { 0.0f, 0.25f * static_cast<float>(width) / static_cast<float>(height), 0.0f }, { 1.0f, 0.0f, 0.0f, 1.0f } },
-		{ { 0.25f, -0.25f * static_cast<float>(width) / static_cast<float>(height), 0.0f }, { 0.0f, 1.0f, 0.0f, 1.0f } },
-		{ { -0.25f, -0.25f * static_cast<float>(width) / static_cast<float>(height), 0.0f }, { 0.0f, 0.0f, 1.0f, 1.0f } }
+		{ { 0.0f, 0.25f * static_cast<float>(width) / static_cast<float>(height), 0.0f } },
+		{ { 0.25f, -0.25f * static_cast<float>(width) / static_cast<float>(height), 0.0f } },
+		{ { -0.25f, -0.25f * static_cast<float>(width) / static_cast<float>(height), 0.0f } }
 	};
 
 	const UINT vertexBufferSize = sizeof(triangleVertices);
