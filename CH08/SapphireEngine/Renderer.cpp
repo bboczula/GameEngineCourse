@@ -9,9 +9,9 @@ Sapphire::Renderer::Renderer(HWND hwnd, LONG width, LONG height)
 	// This kind of shapes up as DX12DeviceContext
 	dxgiManager = new DxgiManager;
 	device = new DX12Device(dxgiManager->dxgiAdapter);
-	commandQueue = new DX12CommandQueue(device->GetDevice());
+	commandQueue = new DX12CommandQueue(device);
 	dxgiManager->CreateSwapChain(commandQueue, hwnd, settings.isVsyncEnabled);
-	rtvDescriptorHeap = new DX12DescriptorHeap(device->GetDevice(), D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
+	rtvDescriptorHeap = new DX12DescriptorHeap(device, D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
 
 	// And this kind of shapes up as DX12RenderContext
 	for (UINT i = 0; i < FRAME_COUNT; i++)
@@ -29,10 +29,10 @@ Sapphire::Renderer::Renderer(HWND hwnd, LONG width, LONG height)
 		// The default state of this resource is Common, we need to remember to set it accordingly
 		renderTargets[i] = new DX12RenderTarget(device, dxResources[i], rtvHandle);
 	}
-	commandList = new DX12CommandList(device->GetDevice());
+	commandList = new DX12CommandList(device);
 	vertexShader = new DX12Shader("bypass_vs.cso");
 	pixelShader = new DX12Shader("bypass_ps.cso");
-	dxPipelineState = new DX12PipelineState(device->GetDevice(), vertexShader, pixelShader);
+	dxPipelineState = new DX12PipelineState(device, vertexShader, pixelShader);
 	
 	// CH09 - And this shapes to be RenderObject
 	CreateVertexBuffer(width, height);

@@ -1,11 +1,11 @@
 #include "DX12CommandList.h"
 
-Sapphire::DX12CommandList::DX12CommandList(ID3D12Device* device)
+Sapphire::DX12CommandList::DX12CommandList(DX12Device* device)
 {
 	Logger::GetInstance().Log("%s\n", "Sapphire::DX12CommandList::DX12CommandList");
 
-	ExitIfFailed(device->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(&commandAllocator)));
-	ExitIfFailed(device->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_DIRECT, commandAllocator, nullptr, IID_PPV_ARGS(&commandList)));
+	ExitIfFailed(device->GetDevice()->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(&commandAllocator)));
+	ExitIfFailed(device->GetDevice()->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_DIRECT, commandAllocator, nullptr, IID_PPV_ARGS(&commandList)));
 	commandList->Close();
 }
 

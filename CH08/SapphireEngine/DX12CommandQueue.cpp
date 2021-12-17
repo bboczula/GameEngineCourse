@@ -1,6 +1,6 @@
 #include "DX12CommandQueue.h"
 
-Sapphire::DX12CommandQueue::DX12CommandQueue(ID3D12Device* device) : fenceValue(1)
+Sapphire::DX12CommandQueue::DX12CommandQueue(DX12Device* device) : fenceValue(1)
 {
 	Logger::GetInstance().Log("%s\n", "Sapphire::Renderer::CreateCommandQueue()");
 
@@ -16,7 +16,7 @@ Sapphire::DX12CommandQueue::~DX12CommandQueue()
 	SafeRelease(&commandQueue);
 }
 
-void Sapphire::DX12CommandQueue::CreateCommandQueue(ID3D12Device* device)
+void Sapphire::DX12CommandQueue::CreateCommandQueue(DX12Device* device)
 {
 	D3D12_COMMAND_QUEUE_DESC commandQueueDesc;
 	ZeroMemory(&commandQueueDesc, sizeof(commandQueueDesc));
@@ -26,14 +26,14 @@ void Sapphire::DX12CommandQueue::CreateCommandQueue(ID3D12Device* device)
 	commandQueueDesc.Flags = D3D12_COMMAND_QUEUE_FLAG_NONE;
 	commandQueueDesc.NodeMask = 0;
 
-	ExitIfFailed(device->CreateCommandQueue(&commandQueueDesc, IID_PPV_ARGS(&commandQueue)));
+	ExitIfFailed(device->GetDevice()->CreateCommandQueue(&commandQueueDesc, IID_PPV_ARGS(&commandQueue)));
 	commandQueue->SetName(L"MyCommandQueue");
 }
 
-void Sapphire::DX12CommandQueue::CreateFence(ID3D12Device* device)
+void Sapphire::DX12CommandQueue::CreateFence(DX12Device* device)
 {
 	// Create a new fence
-	ExitIfFailed(device->CreateFence(0, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&fence)));
+	ExitIfFailed(device->GetDevice()->CreateFence(0, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&fence)));
 	fence->SetName(L"MyFence");
 }
 

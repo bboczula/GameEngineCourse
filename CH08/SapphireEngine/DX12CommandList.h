@@ -6,6 +6,7 @@
 #include "Utils.h"
 #include "DX12RenderTarget.h"
 #include "DX12PipelineState.h"
+#include "DX12Device.h"
 
 namespace Sapphire
 {
@@ -20,7 +21,7 @@ namespace Sapphire
 		/// Creates new Command List, along with the correspoinding Command Allocator.
 		/// </summary>
 		/// <param name="device">DirectX 12 device used to create new Command List</param>
-		DX12CommandList(ID3D12Device* device);
+		DX12CommandList(DX12Device* device);
 
 		~DX12CommandList();
 

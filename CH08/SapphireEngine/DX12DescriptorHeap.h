@@ -2,6 +2,7 @@
 
 #include <d3d12.h>
 
+#include "DX12Device.h"
 #include "Logger.h"
 #include "Utils.h"
 
@@ -18,7 +19,7 @@ namespace Sapphire
 		/// </summary>
 		/// <param name="device">DirectX 12 device used to create new Descriptor Heap</param>
 		/// <param name="type">A type of the new Descriptor Heap</param>
-		DX12DescriptorHeap(ID3D12Device* device, D3D12_DESCRIPTOR_HEAP_TYPE type);
+		DX12DescriptorHeap(DX12Device* device, D3D12_DESCRIPTOR_HEAP_TYPE type);
 
 		~DX12DescriptorHeap();
 

@@ -1,6 +1,6 @@
 #include "DX12PipelineState.h"
 
-Sapphire::DX12PipelineState::DX12PipelineState(ID3D12Device* device, DX12Shader* vertexShader, DX12Shader* pixelShader)
+Sapphire::DX12PipelineState::DX12PipelineState(DX12Device* device, DX12Shader* vertexShader, DX12Shader* pixelShader)
 {
 	Logger::GetInstance().Log("%s\n", "Sapphire::DX12PipelineState::DX12PipelineState()");
 
@@ -16,7 +16,7 @@ Sapphire::DX12PipelineState::~DX12PipelineState()
 	SafeRelease(&rootSignature);
 }
 
-void Sapphire::DX12PipelineState::CreateRootSignature(ID3D12Device* device)
+void Sapphire::DX12PipelineState::CreateRootSignature(DX12Device* device)
 {
 	Logger::GetInstance().Log("%s\n", "Sapphire::DX12PipelineState::CreateRootSignature()");
 
@@ -26,10 +26,10 @@ void Sapphire::DX12PipelineState::CreateRootSignature(ID3D12Device* device)
 	ID3DBlob* signature;
 	ID3DBlob* error;
 	ExitIfFailed(D3D12SerializeRootSignature(&rootSignatureDesc, D3D_ROOT_SIGNATURE_VERSION_1, &signature, &error));
-	ExitIfFailed(device->CreateRootSignature(0, signature->GetBufferPointer(), signature->GetBufferSize(), IID_PPV_ARGS(&rootSignature)));
+	ExitIfFailed(device->GetDevice()->CreateRootSignature(0, signature->GetBufferPointer(), signature->GetBufferSize(), IID_PPV_ARGS(&rootSignature)));
 }
 
-void Sapphire::DX12PipelineState::CreatePipelineState(ID3D12Device* device, D3D12_SHADER_BYTECODE vs, D3D12_SHADER_BYTECODE ps)
+void Sapphire::DX12PipelineState::CreatePipelineState(DX12Device* device, D3D12_SHADER_BYTECODE vs, D3D12_SHADER_BYTECODE ps)
 {
 	Logger::GetInstance().Log("%s\n", "Sapphire::DX12PipelineState::CreatePipelineState()");
 
@@ -58,5 +58,5 @@ void Sapphire::DX12PipelineState::CreatePipelineState(ID3D12Device* device, D3D1
 	psoDesc.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM;
 	psoDesc.SampleDesc.Count = 1;
 
-	ExitIfFailed(device->CreateGraphicsPipelineState(&psoDesc, IID_PPV_ARGS(&pipelineState)));
+	ExitIfFailed(device->GetDevice()->CreateGraphicsPipelineState(&psoDesc, IID_PPV_ARGS(&pipelineState)));
 }

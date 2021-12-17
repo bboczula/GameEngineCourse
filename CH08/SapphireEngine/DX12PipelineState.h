@@ -4,6 +4,7 @@
 #include <d3dcompiler.h>
 
 #include "DX12Shader.h"
+#include "DX12Device.h"
 #include "Logger.h"
 #include "Utils.h"
 #include "d3dx12.h"
@@ -16,11 +17,11 @@ namespace Sapphire
 	{
 		friend class DX12CommandList;
 	public:
-		DX12PipelineState(ID3D12Device* device, DX12Shader* vertexShader, DX12Shader* pixelShader);
+		DX12PipelineState(DX12Device* device, DX12Shader* vertexShader, DX12Shader* pixelShader);
 		~DX12PipelineState();
 	private:
-		void CreateRootSignature(ID3D12Device* device);
-		void CreatePipelineState(ID3D12Device* device, D3D12_SHADER_BYTECODE vs, D3D12_SHADER_BYTECODE ps);
+		void CreateRootSignature(DX12Device* device);
+		void CreatePipelineState(DX12Device* device, D3D12_SHADER_BYTECODE vs, D3D12_SHADER_BYTECODE ps);
 		ID3D12RootSignature* rootSignature;
 		ID3D12PipelineState* pipelineState;
 	};

@@ -2,6 +2,7 @@
 
 #include <d3d12.h>
 
+#include "DX12Device.h"
 #include "DX12CommandList.h"
 #include "Logger.h"
 #include "Utils.h"
@@ -19,7 +20,7 @@ namespace Sapphire
 		/// Creates new CommandQeueue instance.
 		/// </summary>
 		/// <param name="device">DirectX 12 device used to create new Command Queue</param>
-		DX12CommandQueue(ID3D12Device* device);
+		DX12CommandQueue(DX12Device* device);
 
 		~DX12CommandQueue();
 
@@ -40,8 +41,8 @@ namespace Sapphire
 		/// </summary>
 		void Flush();
 	private:
-		void CreateCommandQueue(ID3D12Device* device);
-		void CreateFence(ID3D12Device* device);
+		void CreateCommandQueue(DX12Device* device);
+		void CreateFence(DX12Device* device);
 		void CreateEventObject();
 		void Signal();
 		void WaitForGpu();
