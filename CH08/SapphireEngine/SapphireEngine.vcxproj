@@ -24,7 +24,6 @@
     <ClInclude Include="DX12CommandQueue.h" />
     <ClInclude Include="DX12DescriptorHeap.h" />
     <ClInclude Include="DX12Device.h" />
-    <ClInclude Include="DX12PipelineState.h" />
     <ClInclude Include="DX12RenderTarget.h" />
     <ClInclude Include="DX12Resource.h" />
     <ClInclude Include="DX12Shader.h" />
@@ -44,7 +43,6 @@
     <ClCompile Include="DX12CommandQueue.cpp" />
     <ClCompile Include="DX12DescriptorHeap.cpp" />
     <ClCompile Include="DX12Device.cpp" />
-    <ClCompile Include="DX12PipelineState.cpp" />
     <ClCompile Include="DX12RenderTarget.cpp" />
     <ClCompile Include="DX12Resource.cpp" />
     <ClCompile Include="DX12Shader.cpp" />

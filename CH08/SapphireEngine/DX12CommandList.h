@@ -5,7 +5,6 @@
 #include "Logger.h"
 #include "Utils.h"
 #include "DX12RenderTarget.h"
-#include "DX12PipelineState.h"
 #include "DX12Device.h"
 
 namespace Sapphire
@@ -54,15 +53,6 @@ namespace Sapphire
 		/// Reset the Command List and Command Allocator. Make sure that the GPU is done processing it.
 		/// </summary>
 		void Reset();
-
-		// CH08
-		void SetViewport(D3D12_VIEWPORT viewport);
-		void SetScissors(D3D12_RECT scissorRect);
-		//void SetGraphicsRootSignature(ID3D12RootSignature* rootSignature);
-		void SetPipelineState(DX12PipelineState* pipelineState);
-
-		// CH09
-		void Draw(D3D12_VERTEX_BUFFER_VIEW vbv);
 
 	private:
 		ID3D12CommandAllocator* commandAllocator;

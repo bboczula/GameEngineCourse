@@ -8,6 +8,9 @@
 
 namespace Sapphire
 {
+	/// <summary>
+	/// Keeps the compiled shader data for Pipeline State setup.
+	/// </summary>
 	class DX12Shader
 	{
 	public:

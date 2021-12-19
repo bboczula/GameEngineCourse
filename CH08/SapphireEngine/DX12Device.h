@@ -8,6 +8,9 @@
 
 namespace Sapphire
 {
+	/// <summary>
+	/// Encapsulates behavior around the DirectX 12 device creation.
+	/// </summary>
 	class DX12Device
 	{
 	public:

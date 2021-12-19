@@ -19,7 +19,7 @@
 #include "DX12CommandList.h"
 #include "DX12DescriptorHeap.h"
 #include "DX12RenderTarget.h"
-#include "DX12PipelineState.h"
+#include "DX12Shader.h"
 #include "DX12Resource.h"
 #include "HardwareCapabilities.h"
 #include "InputFile.h"
@@ -51,8 +51,6 @@ namespace Sapphire
 		void RecordCommandList();
 		void ExecuteCommandList();
 		void PresentFrame();
-		// CH09
-		void CreateVertexBuffer(LONG width, LONG height);
 		RendererSettings settings;
 		DxgiManager* dxgiManager;
 		DX12Device* device;
@@ -62,12 +60,6 @@ namespace Sapphire
 		DX12RenderTarget* renderTargets[FRAME_COUNT];
 		DX12Shader* pixelShader;
 		DX12Shader* vertexShader;
-		DX12PipelineState* dxPipelineState;
 		DX12Resource* dxResources[FRAME_COUNT];
-		// CH09
-		D3D12_VIEWPORT viewport;
-		D3D12_RECT scissorRect;
-		ID3D12Resource* vertexBuffer;
-		D3D12_VERTEX_BUFFER_VIEW vertexBufferView;
 	};
 }

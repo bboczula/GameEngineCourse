@@ -7,6 +7,9 @@
 
 namespace Sapphire
 {
+	/// <summary>
+	/// This class represents DirectX 12 resources. It also keeps track of the internal reasource state.
+	/// </summary>
 	class DX12Resource
 	{
 		friend class DX12CommandList;
