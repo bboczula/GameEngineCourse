@@ -1,0 +1,139 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Window">
+      <UniqueIdentifier>{7c0dd74b-0b23-4ac5-b074-957847aa6f28}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine">
+      <UniqueIdentifier>{071e93f5-594c-46e2-9b24-2e035577d144}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Logger">
+      <UniqueIdentifier>{baeeb0a9-a5ba-4dac-87a4-180255b746fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Rendering">
+      <UniqueIdentifier>{0183feae-6563-41b8-b098-6cfadff39399}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Rendering\DX12">
+      <UniqueIdentifier>{e854b966-bea6-4995-9b20-578f35d13433}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Rendering\Shaders">
+      <UniqueIdentifier>{267fd437-964b-4e26-98f3-9bec8bd0fd08}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Utils.h" />
+    <ClInclude Include="WindowApplication.h">
+      <Filter>Window</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Logger.h">
+      <Filter>Logger</Filter>
+    </ClInclude>
+    <ClInclude Include="d3dx12.h" />
+    <ClInclude Include="DX12CommandList.h">
+      <Filter>Engine\Rendering\DX12</Filter>
+    </ClInclude>
+    <ClInclude Include="DX12CommandQueue.h">
+      <Filter>Engine\Rendering\DX12</Filter>
+    </ClInclude>
+    <ClInclude Include="DX12DescriptorHeap.h">
+      <Filter>Engine\Rendering\DX12</Filter>
+    </ClInclude>
+    <ClInclude Include="DX12PipelineState.h">
+      <Filter>Engine\Rendering\DX12</Filter>
+    </ClInclude>
+    <ClInclude Include="DX12RenderTarget.h">
+      <Filter>Engine\Rendering\DX12</Filter>
+    </ClInclude>
+    <ClInclude Include="DX12Shader.h">
+      <Filter>Engine\Rendering\DX12</Filter>
+    </ClInclude>
+    <ClInclude Include="DX12Device.h">
+      <Filter>Engine\Rendering\DX12</Filter>
+    </ClInclude>
+    <ClInclude Include="DxgiManager.h">
+      <Filter>Engine\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="HardwareCapabilities.h">
+      <Filter>Engine\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer.h">
+      <Filter>Engine\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="InputFile.h">
+      <Filter>Window</Filter>
+    </ClInclude>
+    <ClInclude Include="OutputFile.h">
+      <Filter>Window</Filter>
+    </ClInclude>
+    <ClInclude Include="DX12Resource.h">
+      <Filter>Engine\Rendering\DX12</Filter>
+    </ClInclude>
+    <ClInclude Include="File.h">
+      <Filter>Window</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="WindowApplication.cpp">
+      <Filter>Window</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Logger.cpp">
+      <Filter>Logger</Filter>
+    </ClCompile>
+    <ClCompile Include="DX12CommandList.cpp">
+      <Filter>Engine\Rendering\DX12</Filter>
+    </ClCompile>
+    <ClCompile Include="DX12CommandQueue.cpp">
+      <Filter>Engine\Rendering\DX12</Filter>
+    </ClCompile>
+    <ClCompile Include="DX12DescriptorHeap.cpp">
+      <Filter>Engine\Rendering\DX12</Filter>
+    </ClCompile>
+    <ClCompile Include="DX12PipelineState.cpp">
+      <Filter>Engine\Rendering\DX12</Filter>
+    </ClCompile>
+    <ClCompile Include="DX12RenderTarget.cpp">
+      <Filter>Engine\Rendering\DX12</Filter>
+    </ClCompile>
+    <ClCompile Include="DX12Shader.cpp">
+      <Filter>Engine\Rendering\DX12</Filter>
+    </ClCompile>
+    <ClCompile Include="DX12Device.cpp">
+      <Filter>Engine\Rendering\DX12</Filter>
+    </ClCompile>
+    <ClCompile Include="DxgiManager.cpp">
+      <Filter>Engine\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="HardwareCapabilities.cpp">
+      <Filter>Engine\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer.cpp">
+      <Filter>Engine\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="InputFile.cpp">
+      <Filter>Window</Filter>
+    </ClCompile>
+    <ClCompile Include="OutputFile.cpp">
+      <Filter>Window</Filter>
+    </ClCompile>
+    <ClCompile Include="DX12Resource.cpp">
+      <Filter>Engine\Rendering\DX12</Filter>
+    </ClCompile>
+    <ClCompile Include="File.cpp">
+      <Filter>Window</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="bypass_ps.hlsl">
+      <Filter>Engine\Rendering\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="bypass_vs.hlsl">
+      <Filter>Engine\Rendering\Shaders</Filter>
+    </FxCompile>
+  </ItemGroup>
+</Project>
