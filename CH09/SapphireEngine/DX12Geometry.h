@@ -2,6 +2,8 @@
 
 #include "DX12Device.h"
 #include "Utils.h"
+#include "d3dx12.h"
+#include "DX12Resource.h"
 
 #include <d3d12.h>
 
@@ -16,6 +18,6 @@ namespace Sapphire
 
 	private:
 		D3D12_VERTEX_BUFFER_VIEW vertexBufferView;
-		ID3D12Resource* vertexBuffer;
+		DX12Resource* vertexBuffer;
 	};
 }
