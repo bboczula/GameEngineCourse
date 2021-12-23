@@ -7,6 +7,7 @@
 #include "DX12RenderTarget.h"
 #include "DX12PipelineState.h"
 #include "DX12Device.h"
+#include "DX12Geometry.h"
 
 namespace Sapphire
 {
@@ -63,6 +64,8 @@ namespace Sapphire
 
 		// CH09
 		void Draw(D3D12_VERTEX_BUFFER_VIEW vbv);
+
+		void Draw(DX12Geometry* geometry);
 
 	private:
 		ID3D12CommandAllocator* commandAllocator;

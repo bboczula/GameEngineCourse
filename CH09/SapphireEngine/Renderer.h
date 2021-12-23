@@ -21,6 +21,7 @@
 #include "DX12RenderTarget.h"
 #include "DX12PipelineState.h"
 #include "DX12Resource.h"
+#include "DX12Geometry.h"
 #include "HardwareCapabilities.h"
 #include "InputFile.h"
 
@@ -67,7 +68,6 @@ namespace Sapphire
 		// CH09
 		D3D12_VIEWPORT viewport;
 		D3D12_RECT scissorRect;
-		ID3D12Resource* vertexBuffer;
-		D3D12_VERTEX_BUFFER_VIEW vertexBufferView;
+		DX12Geometry* triangle;
 	};
 }

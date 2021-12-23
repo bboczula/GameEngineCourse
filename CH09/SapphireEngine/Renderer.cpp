@@ -42,7 +42,7 @@ Sapphire::Renderer::~Renderer()
 {
 	Logger::GetInstance().Log("%s\n", "Sapphire::Renderer::~Renderer()");
 
-	SafeRelease(&vertexBuffer);
+	delete triangle;
 	delete dxPipelineState;
 	delete pixelShader;
 	delete vertexShader;
@@ -80,7 +80,8 @@ void Sapphire::Renderer::RecordCommandList()
 	// CH09
 	commandList->SetViewport(viewport);
 	commandList->SetScissors(scissorRect);
-	commandList->Draw(vertexBufferView);
+	commandList->Draw(triangle);
+
 	// CH09
 	
 	commandList->TransitionTo(dxResources[currentFrameIndex], D3D12_RESOURCE_STATE_PRESENT);
@@ -109,55 +110,7 @@ void Sapphire::Renderer::CreateVertexBuffer(LONG width, LONG height)
 		{ { -0.25f, -0.25f * static_cast<float>(width) / static_cast<float>(height), 0.0f } }
 	};
 
-	const UINT vertexBufferSize = sizeof(triangleVertices);
+	const UINT vertexBufferSize = sizeof(Vertex) * 3;
 
-	// Note: using upload heaps to transfer static data like vert buffers is not 
-	// recommended. Every time the GPU needs it, the upload heap will be marshalled 
-	// over. Please read up on Default Heap usage. An upload heap is used here for 
-	// code simplicity and because there are very few verts to actually transfer.
-	// CD3DX12_HEAP_PROPERTIES heapProps(D3D12_HEAP_TYPE_UPLOAD);
-
-	D3D12_HEAP_PROPERTIES heapProps;
-	heapProps.Type = D3D12_HEAP_TYPE_UPLOAD;
-	heapProps.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_UNKNOWN;
-	heapProps.MemoryPoolPreference = D3D12_MEMORY_POOL_UNKNOWN;
-	heapProps.CreationNodeMask = 1;
-	heapProps.VisibleNodeMask = 1;
-
-	//auto desc = CD3DX12_RESOURCE_DESC::Buffer(vertexBufferSize);
-	D3D12_RESOURCE_DESC desc;
-	desc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
-	desc.Alignment = 0;
-	desc.Width = vertexBufferSize;
-	desc.Height = 1;
-	desc.DepthOrArraySize = 1;
-	desc.MipLevels = 1;
-	desc.Format = DXGI_FORMAT_UNKNOWN;
-	desc.SampleDesc.Count = 1;
-	desc.SampleDesc.Quality = 0;
-	desc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
-	desc.Flags = D3D12_RESOURCE_FLAG_NONE;
-
-	ExitIfFailed(device->GetDevice()->CreateCommittedResource(
-		&heapProps,
-		D3D12_HEAP_FLAG_NONE,
-		&desc,
-		D3D12_RESOURCE_STATE_GENERIC_READ,
-		nullptr,
-		IID_PPV_ARGS(&vertexBuffer)));
-
-	// Copy the triangle data to the vertex buffer.
-	UINT8* pVertexDataBegin;
-	//CD3DX12_RANGE readRange(0, 0);        // We do not intend to read from this resource on the CPU.
-	D3D12_RANGE readRange;
-	readRange.Begin = 0;
-	readRange.End = 0;
-	ExitIfFailed(vertexBuffer->Map(0, &readRange, reinterpret_cast<void**>(&pVertexDataBegin)));
-	memcpy(pVertexDataBegin, triangleVertices, sizeof(triangleVertices));
-	vertexBuffer->Unmap(0, nullptr);
-
-	// Initialize the vertex buffer view.
-	vertexBufferView.BufferLocation = vertexBuffer->GetGPUVirtualAddress();
-	vertexBufferView.StrideInBytes = sizeof(Vertex);
-	vertexBufferView.SizeInBytes = vertexBufferSize;
+	triangle = new DX12Geometry(device, triangleVertices, vertexBufferSize, sizeof(Vertex), 3);
 }
