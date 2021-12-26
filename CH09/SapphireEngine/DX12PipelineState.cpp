@@ -38,11 +38,6 @@ void Sapphire::DX12PipelineState::CreatePipelineState(DX12Device* device, D3D12_
 		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 }
 	};
 
-	// Modify the Depth State a little to avoid warning
-	auto disabledDepthStencil = CD3DX12_DEPTH_STENCIL_DESC(D3D12_DEFAULT);
-	disabledDepthStencil.DepthEnable = FALSE;
-
-	// Describe and create the graphics pipeline state object (PSO).
 	D3D12_GRAPHICS_PIPELINE_STATE_DESC psoDesc;
 	ZeroMemory(&psoDesc, sizeof(D3D12_GRAPHICS_PIPELINE_STATE_DESC));
 	psoDesc.InputLayout = { inputElementDescs, _countof(inputElementDescs) };
@@ -51,7 +46,7 @@ void Sapphire::DX12PipelineState::CreatePipelineState(DX12Device* device, D3D12_
 	psoDesc.PS = ps;
 	psoDesc.RasterizerState = CD3DX12_RASTERIZER_DESC(D3D12_DEFAULT);
 	psoDesc.BlendState = CD3DX12_BLEND_DESC(D3D12_DEFAULT);
-	psoDesc.DepthStencilState = disabledDepthStencil;
+	psoDesc.DepthStencilState = CD3DX12_DEPTH_STENCIL_DESC(D3D12_DEFAULT);
 	psoDesc.SampleMask = UINT_MAX;
 	psoDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
 	psoDesc.NumRenderTargets = 1;
