@@ -51,13 +51,6 @@ void Sapphire::DX12CommandList::SetPipelineState(DX12PipelineState* pipelineStat
 	commandList->SetPipelineState(pipelineState->pipelineState);
 }
 
-void Sapphire::DX12CommandList::Draw(DX12Geometry* geometry)
-{
-	commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-	commandList->IASetVertexBuffers(0, 1, &geometry->vertexBufferView);
-	commandList->DrawInstanced(3, 1, 0, 0);
-}
-
 void Sapphire::DX12CommandList::ClearRenderTarget(DX12RenderTarget* renderTarget, const float* color)
 {
 	commandList->ClearRenderTargetView(renderTarget->descriptorHandle, color, 0, nullptr);

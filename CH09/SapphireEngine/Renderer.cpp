@@ -1,8 +1,6 @@
 #include "Renderer.h"
 
 Sapphire::Renderer::Renderer(HWND hwnd, LONG width, LONG height)
-	: viewport({ 0.0f, 0.0f, static_cast<float>(width), static_cast<float>(height), 0.0f, 1.0f }),
-	scissorRect({ 0, 0, static_cast<LONG>(width), static_cast<LONG>(height) })
 {
 	Logger::GetInstance().Log("%s\n", "Sapphire::Renderer::Renderer()");
 
@@ -33,16 +31,12 @@ Sapphire::Renderer::Renderer(HWND hwnd, LONG width, LONG height)
 	vertexShader = new DX12Shader("bypass_vs.cso");
 	pixelShader = new DX12Shader("bypass_ps.cso");
 	dxPipelineState = new DX12PipelineState(device, vertexShader, pixelShader);
-	
-	// CH09 - And this shapes to be RenderObject
-	CreateVertexBuffer(width, height);
 }
 
 Sapphire::Renderer::~Renderer()
 {
 	Logger::GetInstance().Log("%s\n", "Sapphire::Renderer::~Renderer()");
 
-	delete triangle;
 	delete dxPipelineState;
 	delete pixelShader;
 	delete vertexShader;
@@ -67,23 +61,14 @@ void Sapphire::Renderer::Render()
 
 void Sapphire::Renderer::RecordCommandList()
 {
-	const float clearColorOne[] = { 0.3098f, 0.4509f, 0.7490f, 1.0f };
-	const float clearColorTwo[] = { 0.1176f, 0.1882f, 0.4470f, 1.0f };
+	const float clearColor[] = { 0.1176f, 0.1882f, 0.4470f, 1.0f };
 	unsigned int currentFrameIndex = dxgiManager->currentFrameIndex;
 
 	commandList->Reset();
 	commandList->TransitionTo(dxResources[currentFrameIndex], D3D12_RESOURCE_STATE_RENDER_TARGET);
 	commandList->SetPipelineState(dxPipelineState);
 	commandList->SetRenderTarget(renderTargets[currentFrameIndex]);
-	commandList->ClearRenderTarget(renderTargets[currentFrameIndex], currentFrameIndex ? clearColorOne : clearColorTwo);
-
-	// CH09
-	commandList->SetViewport(viewport);
-	commandList->SetScissors(scissorRect);
-	commandList->Draw(triangle);
-
-	// CH09
-	
+	commandList->ClearRenderTarget(renderTargets[currentFrameIndex], clearColor);
 	commandList->TransitionTo(dxResources[currentFrameIndex], D3D12_RESOURCE_STATE_PRESENT);
 	commandList->Close();
 }
@@ -96,19 +81,4 @@ void Sapphire::Renderer::ExecuteCommandList()
 void Sapphire::Renderer::PresentFrame()
 {
 	dxgiManager->PresentFrame(settings.isVsyncEnabled);
-}
-
-void Sapphire::Renderer::CreateVertexBuffer(LONG width, LONG height)
-{
-	Logger::GetInstance().Log("%s\n", "Sapphire::Renderer::CreateVertexBuffer()");
-
-	// Define the geometry for a triangle.
-	Vertex triangleVertices[] =
-	{
-		{ {  0.0f,   0.5f, 0.0f } },
-		{ {  0.25f, -0.5f, 0.0f } },
-		{ { -0.25f, -0.5f, 0.0f } }
-	};
-
-	triangle = new DX12Geometry(device, triangleVertices, sizeof(Vertex) * 3, sizeof(Vertex), 3);
 }
