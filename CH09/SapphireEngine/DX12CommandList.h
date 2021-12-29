@@ -59,12 +59,9 @@ namespace Sapphire
 		// CH08
 		void SetViewport(D3D12_VIEWPORT viewport);
 		void SetScissors(D3D12_RECT scissorRect);
-		//void SetGraphicsRootSignature(ID3D12RootSignature* rootSignature);
 		void SetPipelineState(DX12PipelineState* pipelineState);
 
 		// CH09
-		void Draw(D3D12_VERTEX_BUFFER_VIEW vbv);
-
 		void Draw(DX12Geometry* geometry);
 
 	private:
