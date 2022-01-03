@@ -67,23 +67,20 @@ void Sapphire::Renderer::Render()
 
 void Sapphire::Renderer::RecordCommandList()
 {
-	const float clearColorOne[] = { 0.3098f, 0.4509f, 0.7490f, 1.0f };
-	const float clearColorTwo[] = { 0.1176f, 0.1882f, 0.4470f, 1.0f };
+	const float clearColor[] = { 0.1176f, 0.1882f, 0.4470f, 1.0f };
 	unsigned int currentFrameIndex = dxgiManager->currentFrameIndex;
 
 	commandList->Reset();
 	commandList->TransitionTo(dxResources[currentFrameIndex], D3D12_RESOURCE_STATE_RENDER_TARGET);
 	commandList->SetPipelineState(dxPipelineState);
 	commandList->SetRenderTarget(renderTargets[currentFrameIndex]);
-	commandList->ClearRenderTarget(renderTargets[currentFrameIndex], currentFrameIndex ? clearColorOne : clearColorTwo);
+	commandList->ClearRenderTarget(renderTargets[currentFrameIndex], clearColor);
 
 	// CH09
 	commandList->SetViewport(viewport);
 	commandList->SetScissors(scissorRect);
 	commandList->Draw(triangle);
 
-	// CH09
-	
 	commandList->TransitionTo(dxResources[currentFrameIndex], D3D12_RESOURCE_STATE_PRESENT);
 	commandList->Close();
 }
