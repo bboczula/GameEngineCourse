@@ -88,10 +88,12 @@ void Sapphire::WindowApplication::CreateWindowInstance()
 	Logger::GetInstance().Log("Sapphire::WindowApplication::CreateWindowInstance()\n");
 
 	RECT windowRectangle = { 0, 0, width, height };
-	AdjustWindowRect(&windowRectangle, WS_OVERLAPPEDWINDOW, FALSE);
+	AdjustWindowRect(&windowRectangle, DEFAULT_WINDOW_STYLE, FALSE);
+	LONG adjustedWidth = windowRectangle.right - windowRectangle.left;
+	LONG adjustedHeight = windowRectangle.bottom - windowRectangle.top;
 
 	hwnd = CreateWindowEx(NULL, WINDOW_CLASS_NAME, WINDOW_TITLE, DEFAULT_WINDOW_STYLE,
-		CW_USEDEFAULT, CW_USEDEFAULT, windowRectangle.right, windowRectangle.bottom, NULL, NULL, instance, NULL);
+		CW_USEDEFAULT, CW_USEDEFAULT, adjustedWidth, adjustedHeight, NULL, NULL, instance, NULL);
 
 	if (!hwnd)
 	{
