@@ -4,26 +4,62 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 16.0.30413.136
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SapphireEngine", "SapphireEngine\SapphireEngine.vcxproj", "{421F77C4-B3EB-4128-9499-5F952B2F240C}"
+	ProjectSection(ProjectDependencies) = postProject
+		{417F2E84-24A8-45AC-B6C6-873BB4F81CB4} = {417F2E84-24A8-45AC-B6C6-873BB4F81CB4}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SapphireReference", "SapphireReference\SapphireReference.vcxproj", "{B15AE4C3-D4C1-418C-BE08-4117C1662A50}"
 	ProjectSection(ProjectDependencies) = postProject
 		{421F77C4-B3EB-4128-9499-5F952B2F240C} = {421F77C4-B3EB-4128-9499-5F952B2F240C}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SapphireMath", "SapphireMath\SapphireMath.vcxproj", "{417F2E84-24A8-45AC-B6C6-873BB4F81CB4}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UnitTests", "UnitTests\UnitTests.vcxproj", "{86342F8F-7C2E-4427-B13B-182FD608A644}"
+	ProjectSection(ProjectDependencies) = postProject
+		{417F2E84-24A8-45AC-B6C6-873BB4F81CB4} = {417F2E84-24A8-45AC-B6C6-873BB4F81CB4}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
 		Release|x64 = Release|x64
+		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{421F77C4-B3EB-4128-9499-5F952B2F240C}.Debug|x64.ActiveCfg = Debug|x64
 		{421F77C4-B3EB-4128-9499-5F952B2F240C}.Debug|x64.Build.0 = Debug|x64
+		{421F77C4-B3EB-4128-9499-5F952B2F240C}.Debug|x86.ActiveCfg = Debug|Win32
+		{421F77C4-B3EB-4128-9499-5F952B2F240C}.Debug|x86.Build.0 = Debug|Win32
 		{421F77C4-B3EB-4128-9499-5F952B2F240C}.Release|x64.ActiveCfg = Release|x64
 		{421F77C4-B3EB-4128-9499-5F952B2F240C}.Release|x64.Build.0 = Release|x64
+		{421F77C4-B3EB-4128-9499-5F952B2F240C}.Release|x86.ActiveCfg = Release|Win32
+		{421F77C4-B3EB-4128-9499-5F952B2F240C}.Release|x86.Build.0 = Release|Win32
 		{B15AE4C3-D4C1-418C-BE08-4117C1662A50}.Debug|x64.ActiveCfg = Debug|x64
 		{B15AE4C3-D4C1-418C-BE08-4117C1662A50}.Debug|x64.Build.0 = Debug|x64
+		{B15AE4C3-D4C1-418C-BE08-4117C1662A50}.Debug|x86.ActiveCfg = Debug|Win32
+		{B15AE4C3-D4C1-418C-BE08-4117C1662A50}.Debug|x86.Build.0 = Debug|Win32
 		{B15AE4C3-D4C1-418C-BE08-4117C1662A50}.Release|x64.ActiveCfg = Release|x64
 		{B15AE4C3-D4C1-418C-BE08-4117C1662A50}.Release|x64.Build.0 = Release|x64
+		{B15AE4C3-D4C1-418C-BE08-4117C1662A50}.Release|x86.ActiveCfg = Release|Win32
+		{B15AE4C3-D4C1-418C-BE08-4117C1662A50}.Release|x86.Build.0 = Release|Win32
+		{417F2E84-24A8-45AC-B6C6-873BB4F81CB4}.Debug|x64.ActiveCfg = Debug|x64
+		{417F2E84-24A8-45AC-B6C6-873BB4F81CB4}.Debug|x64.Build.0 = Debug|x64
+		{417F2E84-24A8-45AC-B6C6-873BB4F81CB4}.Debug|x86.ActiveCfg = Debug|Win32
+		{417F2E84-24A8-45AC-B6C6-873BB4F81CB4}.Debug|x86.Build.0 = Debug|Win32
+		{417F2E84-24A8-45AC-B6C6-873BB4F81CB4}.Release|x64.ActiveCfg = Release|x64
+		{417F2E84-24A8-45AC-B6C6-873BB4F81CB4}.Release|x64.Build.0 = Release|x64
+		{417F2E84-24A8-45AC-B6C6-873BB4F81CB4}.Release|x86.ActiveCfg = Release|Win32
+		{417F2E84-24A8-45AC-B6C6-873BB4F81CB4}.Release|x86.Build.0 = Release|Win32
+		{86342F8F-7C2E-4427-B13B-182FD608A644}.Debug|x64.ActiveCfg = Debug|x64
+		{86342F8F-7C2E-4427-B13B-182FD608A644}.Debug|x64.Build.0 = Debug|x64
+		{86342F8F-7C2E-4427-B13B-182FD608A644}.Debug|x86.ActiveCfg = Debug|Win32
+		{86342F8F-7C2E-4427-B13B-182FD608A644}.Debug|x86.Build.0 = Debug|Win32
+		{86342F8F-7C2E-4427-B13B-182FD608A644}.Release|x64.ActiveCfg = Release|x64
+		{86342F8F-7C2E-4427-B13B-182FD608A644}.Release|x64.Build.0 = Release|x64
+		{86342F8F-7C2E-4427-B13B-182FD608A644}.Release|x86.ActiveCfg = Release|Win32
+		{86342F8F-7C2E-4427-B13B-182FD608A644}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

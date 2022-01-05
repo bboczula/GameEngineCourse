@@ -100,12 +100,12 @@ void Sapphire::Renderer::CreateVertexBuffer(LONG width, LONG height)
 	Logger::GetInstance().Log("%s\n", "Sapphire::Renderer::CreateVertexBuffer()");
 
 	// Define the geometry for a triangle.
-	Vertex triangleVertices[] =
+	Math::Point3D triangleVertices[] =
 	{
-		{ {  0.0f,   0.5f, 0.0f } },
-		{ {  0.25f, -0.5f, 0.0f } },
-		{ { -0.25f, -0.5f, 0.0f } }
+		{  0.0f,   0.5f, 0.0f },
+		{  0.25f, -0.5f, 0.0f },
+		{ -0.25f, -0.5f, 0.0f }
 	};
 
-	triangle = new DX12Geometry(device, triangleVertices, sizeof(Vertex) * 3, sizeof(Vertex), 3);
+	triangle = new DX12Geometry(device, triangleVertices, sizeof(Math::Point3D) * 3, sizeof(Math::Point3D), 3);
 }

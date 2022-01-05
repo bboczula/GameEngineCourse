@@ -7,9 +7,8 @@
 #include <windows.h>
 #include <comdef.h>
 #include <dxgidebug.h>
-#include <d3dcompiler.h>
-//  CH09
-#include <DirectXMath.h>
+
+#include "../SapphireMath/SapphireMath.h"
 
 #include "Logger.h"
 #include "Utils.h"
@@ -31,12 +30,6 @@
 
 namespace Sapphire
 {
-
-	struct Vertex
-	{
-		DirectX::XMFLOAT3 position;
-	};
-
 	struct RendererSettings
 	{
 		bool isVsyncEnabled = true;
