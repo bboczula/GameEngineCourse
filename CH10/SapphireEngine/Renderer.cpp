@@ -102,9 +102,17 @@ void Sapphire::Renderer::CreateVertexBuffer(LONG width, LONG height)
 	// Define the geometry for a triangle.
 	Math::Point3D vertices[] =
 	{
-		{  0.0f,   0.5f, 0.0f },
-		{  0.25f, -0.5f, 0.0f },
-		{ -0.25f, -0.5f, 0.0f }
+		{  0.0f,  0.75f, 0.0f },
+		{  0.25f, 0.25f, 0.0f },
+		{ -0.25f, 0.25f, 0.0f },
+
+		{  0.0f,  0.25f, 0.0f },
+		{  0.25f, -0.25f, 0.0f },
+		{ -0.25f, -0.25f, 0.0f },
+
+		{  0.0f,  -0.25f, 0.0f },
+		{  0.25f, -0.75f, 0.0f },
+		{ -0.25f, -0.75f, 0.0f }
 	};
 
 	triangle = new DX12Geometry(device, vertices, sizeof(Math::Point3D), ARRAYSIZE(vertices));
