@@ -10,7 +10,7 @@ inline void ExitIfFailed(HRESULT hr)
 	if (FAILED(hr))
 	{
 		_com_error error(hr);
-		MessageBox(NULL, error.ErrorMessage(), L"Error", MB_OK | MB_ICONERROR);
+		MessageBox(nullptr, error.ErrorMessage(), L"Error", MB_OK | MB_ICONERROR);
 		exit(1);
 	}
 }
@@ -19,7 +19,7 @@ inline void ExitIfTrue(bool condition, LPCWSTR msg)
 {
 	if (condition)
 	{
-		MessageBox(NULL, msg, L"Error", MB_OK | MB_ICONERROR);
+		MessageBox(nullptr, msg, L"Error", MB_OK | MB_ICONERROR);
 		exit(1);
 	}
 }
@@ -30,6 +30,6 @@ void SafeRelease(T** comObjectAddresssOf)
 	if (*comObjectAddresssOf)
 	{
 		(*comObjectAddresssOf)->Release();
-		*comObjectAddresssOf = NULL;
+		*comObjectAddresssOf = nullptr;
 	}
 }

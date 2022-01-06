@@ -17,9 +17,9 @@ void Sapphire::InputFile::Open(LPCSTR fileName)
 
 void Sapphire::InputFile::Read()
 {
-	fileSize = GetFileSize(fileHandle, NULL);
+	fileSize = GetFileSize(fileHandle, nullptr);
 	fileBuffer = new char[fileSize];
-	if (!ReadFile(fileHandle, fileBuffer, fileSize, NULL, NULL))
+	if (!ReadFile(fileHandle, fileBuffer, fileSize, nullptr, nullptr))
 	{
 		Logger::GetInstance().Log("%s (%d)", "ERROR: Reading from file failed", GetLastError());
 		exit(3);

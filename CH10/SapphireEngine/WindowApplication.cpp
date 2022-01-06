@@ -21,7 +21,7 @@ LRESULT CALLBACK WindowProcedure(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 }
 
 Sapphire::WindowApplication::WindowApplication(UINT width, UINT height)
-	: width(width), height(height), hwnd(NULL), instance(GetModuleHandle(NULL))
+	: width(width), height(height), hwnd(nullptr), instance(GetModuleHandle(nullptr))
 {
 	Logger::GetInstance().Log("Sapphire::WindowApplication::WindowApplication(%d x %d)\n", width, height);
 	RegisterWindowClass();
@@ -42,7 +42,7 @@ void Sapphire::WindowApplication::Run()
 	MSG msg{ 0 };
 	while (1)
 	{
-		bool isMessageAvailable = PeekMessage(&msg, NULL, 0, 0, PM_REMOVE);
+		bool isMessageAvailable = PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE);
 		if (isMessageAvailable)
 		{
 			if (msg.message == WM_QUIT)
@@ -93,7 +93,7 @@ void Sapphire::WindowApplication::CreateWindowInstance()
 	LONG adjustedHeight = windowRectangle.bottom - windowRectangle.top;
 
 	hwnd = CreateWindowEx(NULL, WINDOW_CLASS_NAME, WINDOW_TITLE, DEFAULT_WINDOW_STYLE,
-		CW_USEDEFAULT, CW_USEDEFAULT, adjustedWidth, adjustedHeight, NULL, NULL, instance, NULL);
+		CW_USEDEFAULT, CW_USEDEFAULT, adjustedWidth, adjustedHeight, nullptr, nullptr, instance, nullptr);
 
 	if (!hwnd)
 	{

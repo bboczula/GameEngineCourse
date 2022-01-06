@@ -7,11 +7,11 @@ void Sapphire::File::Close()
 
 void Sapphire::File::Open(LPCSTR fileName, DWORD accessType, DWORD creationType)
 {
-	fileHandle = CreateFileA(fileName, accessType, 0, NULL, creationType, FILE_ATTRIBUTE_NORMAL, NULL);
+	fileHandle = CreateFileA(fileName, accessType, 0, nullptr, creationType, FILE_ATTRIBUTE_NORMAL, nullptr);
 
 	if (fileHandle == INVALID_HANDLE_VALUE)
 	{
-		MessageBoxA(NULL, "Unable to open file!", "File Error", MB_OK | MB_ICONERROR);
+		MessageBoxA(nullptr, "Unable to open file!", "File Error", MB_OK | MB_ICONERROR);
 		exit(1);
 	}
 }
