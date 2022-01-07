@@ -22,10 +22,10 @@ Sapphire::DX12Resource::~DX12Resource()
 
 void Sapphire::DX12Resource::Upload(void* source, size_t size)
 {
-	UINT8* pVertexDataBegin;
+	UINT8* resourceData;
 	CD3DX12_RANGE readRange(0, 0);
-	ExitIfFailed(resource->Map(0, &readRange, reinterpret_cast<void**>(&pVertexDataBegin)));
-	memcpy(pVertexDataBegin, source, size);
+	ExitIfFailed(resource->Map(0, &readRange, reinterpret_cast<void**>(&resourceData)));
+	memcpy(resourceData, source, size);
 	resource->Unmap(0, nullptr);
 }
 
