@@ -27,7 +27,7 @@ private:
     }
     Sapphire::Math::Point3D middlePoint(Sapphire::Math::Point3D a, Sapphire::Math::Point3D b)
     {
-        return Sapphire::Math::Point3D(((a.x + b.x) / 2.0f), ((a.y + b.y) / 2.0f), 0.0f);
+        return Sapphire::Math::Point3D(((a.x + b.x) / 2.0f), ((a.y + b.y) / 2.0f), ((a.z + b.z) / 2.0f));
     }
     std::vector<Sapphire::Math::Point3D> sierpinski;
 };
