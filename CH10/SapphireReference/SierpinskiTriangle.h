@@ -21,11 +21,11 @@ private:
             sierpinski.push_back(c);
             return;
         }
-        calculate(a, calculateMiddlePoint(a, b), calculateMiddlePoint(a, c), level - 1);
-        calculate(calculateMiddlePoint(a, b), b, calculateMiddlePoint(b, c), level - 1);
-        calculate(calculateMiddlePoint(a, c), calculateMiddlePoint(b, c), c, level - 1);
+        calculate(a, middlePoint(a, b), middlePoint(a, c), level - 1);
+        calculate(middlePoint(a, b), b, middlePoint(b, c), level - 1);
+        calculate(middlePoint(a, c), middlePoint(b, c), c, level - 1);
     }
-    Sapphire::Math::Point3D calculateMiddlePoint(Sapphire::Math::Point3D a, Sapphire::Math::Point3D b)
+    Sapphire::Math::Point3D middlePoint(Sapphire::Math::Point3D a, Sapphire::Math::Point3D b)
     {
         return Sapphire::Math::Point3D(((a.x + b.x) / 2.0f), ((a.y + b.y) / 2.0f), 0.0f);
     }
