@@ -32,6 +32,7 @@
     <ClInclude Include="DxgiManager.h" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="File.h" />
+    <ClInclude Include="GameObject.h" />
     <ClInclude Include="HardwareCapabilities.h" />
     <ClInclude Include="InputFile.h" />
     <ClInclude Include="OutputFile.h" />
@@ -53,6 +54,7 @@
     <ClCompile Include="DxgiManager.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="File.cpp" />
+    <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="HardwareCapabilities.cpp" />
     <ClCompile Include="InputFile.cpp" />
     <ClCompile Include="OutputFile.cpp" />

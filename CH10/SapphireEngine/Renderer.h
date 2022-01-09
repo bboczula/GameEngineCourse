@@ -7,6 +7,7 @@
 #include <windows.h>
 #include <comdef.h>
 #include <dxgidebug.h>
+#include <vector>
 
 #include "../SapphireMath/SapphireMath.h"
 
@@ -23,6 +24,7 @@
 #include "DX12Geometry.h"
 #include "HardwareCapabilities.h"
 #include "InputFile.h"
+#include "GameObject.h"
 
 #pragma comment(lib, "dxgi.lib")
 #pragma comment(lib, "d3d12.lib")
@@ -40,13 +42,9 @@ namespace Sapphire
 	public:
 		Renderer(HWND hwnd, LONG width, LONG height);
 		~Renderer();
-		void Render();
+		void Render(std::vector<GameObject*> objects);
+		void CreateResources(std::vector<GameObject*> objects);
 	private:
-		void RecordCommandList();
-		void ExecuteCommandList();
-		void PresentFrame();
-		// CH09
-		void CreateVertexBuffer(LONG width, LONG height);
 		RendererSettings settings;
 		DxgiManager* dxgiManager;
 		DX12Device* device;
@@ -58,9 +56,7 @@ namespace Sapphire
 		DX12Shader* vertexShader;
 		DX12PipelineState* dxPipelineState;
 		DX12Resource* dxResources[FRAME_COUNT];
-		// CH09
 		D3D12_VIEWPORT viewport;
 		D3D12_RECT scissorRect;
-		DX12Geometry* triangle;
 	};
 }

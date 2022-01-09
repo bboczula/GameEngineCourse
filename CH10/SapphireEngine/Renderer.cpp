@@ -26,23 +26,18 @@ Sapphire::Renderer::Renderer(HWND hwnd, LONG width, LONG height)
 		// Maybe this temporary thing could be avoided if i return the entire handle?
 		D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle;
 		rtvHandle.ptr = rtvDescriptorHeap->AllocateDescriptor();
-		// The default state of this resource is Common, we need to remember to set it accordingly
 		renderTargets[i] = new DX12RenderTarget(device, dxResources[i], rtvHandle);
 	}
 	commandList = new DX12CommandList(device);
 	vertexShader = new DX12Shader("bypass_vs.cso");
 	pixelShader = new DX12Shader("bypass_ps.cso");
 	dxPipelineState = new DX12PipelineState(device, vertexShader, pixelShader);
-	
-	// CH09 - And this shapes to be RenderObject
-	CreateVertexBuffer(width, height);
 }
 
 Sapphire::Renderer::~Renderer()
 {
 	Logger::GetInstance().Log("%s\n", "Sapphire::Renderer::~Renderer()");
 
-	delete triangle;
 	delete dxPipelineState;
 	delete pixelShader;
 	delete vertexShader;
@@ -58,14 +53,7 @@ Sapphire::Renderer::~Renderer()
 	delete device;
 }
 
-void Sapphire::Renderer::Render()
-{
-	RecordCommandList();
-	ExecuteCommandList();
-	PresentFrame();
-}
-
-void Sapphire::Renderer::RecordCommandList()
+void Sapphire::Renderer::Render(std::vector<GameObject*> objects)
 {
 	const float clearColor[] = { 0.1176f, 0.1882f, 0.4470f, 1.0f };
 	unsigned int currentFrameIndex = dxgiManager->currentFrameIndex;
@@ -75,37 +63,25 @@ void Sapphire::Renderer::RecordCommandList()
 	commandList->SetPipelineState(dxPipelineState);
 	commandList->SetRenderTarget(renderTargets[currentFrameIndex]);
 	commandList->ClearRenderTarget(renderTargets[currentFrameIndex], clearColor);
-
-	// CH09
 	commandList->SetViewport(viewport);
 	commandList->SetScissors(scissorRect);
-	commandList->Draw(triangle);
+
+	for (int i = 0; i < objects.size(); i++)
+	{
+		commandList->Draw(objects[i]->geometry);
+	}
 
 	commandList->TransitionTo(dxResources[currentFrameIndex], D3D12_RESOURCE_STATE_PRESENT);
 	commandList->Close();
-}
 
-void Sapphire::Renderer::ExecuteCommandList()
-{
 	commandQueue->Execute(commandList);
-}
-
-void Sapphire::Renderer::PresentFrame()
-{
 	dxgiManager->PresentFrame(settings.isVsyncEnabled);
 }
 
-void Sapphire::Renderer::CreateVertexBuffer(LONG width, LONG height)
+void Sapphire::Renderer::CreateResources(std::vector<GameObject*> objects)
 {
-	Logger::GetInstance().Log("%s\n", "Sapphire::Renderer::CreateVertexBuffer()");
-
-	// Define the geometry for a triangle.
-	Math::Point3D vertices[] =
+	for (int i = 0; i < objects.size(); i++)
 	{
-		{  0.0f,  0.75f, 0.0f },
-		{  0.5f, -0.75f, 0.0f },
-		{ -0.5f, -0.75f, 0.0f }
-	};
-
-	triangle = new DX12Geometry(device, vertices, sizeof(Math::Point3D), ARRAYSIZE(vertices));
+		objects[i]->geometry = new DX12Geometry(device, objects[i]->vertices, sizeof(Math::Point3D), objects[i]->numOfVertices);
+	}
 }
