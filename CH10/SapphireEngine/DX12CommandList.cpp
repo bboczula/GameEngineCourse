@@ -35,9 +35,9 @@ void Sapphire::DX12CommandList::SetRenderTarget(DX12RenderTarget* renderTarget)
 	commandList->OMSetRenderTargets(1, &renderTarget->descriptorHandle, FALSE, nullptr);
 }
 
-void Sapphire::DX12CommandList::SetViewport(D3D12_VIEWPORT viewport)
+void Sapphire::DX12CommandList::SetViewport(DX12Viewport* viewport)
 {
-	commandList->RSSetViewports(1, &viewport);
+	commandList->RSSetViewports(1, &viewport->viewport);
 }
 
 void Sapphire::DX12CommandList::SetScissors(D3D12_RECT scissorRect)

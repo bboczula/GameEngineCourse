@@ -1,8 +1,7 @@
 #include "Renderer.h"
 
 Sapphire::Renderer::Renderer(HWND hwnd, LONG width, LONG height)
-	: viewport({ 0.0f, 0.0f, static_cast<float>(width), static_cast<float>(height), 0.0f, 1.0f }),
-	scissorRect({ 0, 0, static_cast<LONG>(width), static_cast<LONG>(height) })
+	: scissorRect({ 0, 0, static_cast<LONG>(width), static_cast<LONG>(height) })
 {
 	Logger::GetInstance().Log("%s\n", "Sapphire::Renderer::Renderer()");
 
@@ -32,12 +31,14 @@ Sapphire::Renderer::Renderer(HWND hwnd, LONG width, LONG height)
 	vertexShader = new DX12Shader("bypass_vs.cso");
 	pixelShader = new DX12Shader("bypass_ps.cso");
 	dxPipelineState = new DX12PipelineState(device, vertexShader, pixelShader);
+	viewport = new DX12Viewport(width, height);
 }
 
 Sapphire::Renderer::~Renderer()
 {
 	Logger::GetInstance().Log("%s\n", "Sapphire::Renderer::~Renderer()");
 
+	delete viewport;
 	delete dxPipelineState;
 	delete pixelShader;
 	delete vertexShader;

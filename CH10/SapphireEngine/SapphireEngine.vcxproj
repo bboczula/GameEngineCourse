@@ -29,6 +29,7 @@
     <ClInclude Include="DX12RenderTarget.h" />
     <ClInclude Include="DX12Resource.h" />
     <ClInclude Include="DX12Shader.h" />
+    <ClInclude Include="DX12Viewport.h" />
     <ClInclude Include="DxgiManager.h" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="File.h" />
@@ -51,6 +52,7 @@
     <ClCompile Include="DX12RenderTarget.cpp" />
     <ClCompile Include="DX12Resource.cpp" />
     <ClCompile Include="DX12Shader.cpp" />
+    <ClCompile Include="DX12Viewport.cpp" />
     <ClCompile Include="DxgiManager.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="File.cpp" />

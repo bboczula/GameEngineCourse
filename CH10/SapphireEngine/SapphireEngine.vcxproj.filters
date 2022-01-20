@@ -80,6 +80,9 @@
     <ClInclude Include="GameObject.h">
       <Filter>Engine</Filter>
     </ClInclude>
+    <ClInclude Include="DX12Viewport.h">
+      <Filter>Engine\Rendering\DX12</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WindowApplication.cpp">
@@ -138,6 +141,9 @@
     </ClCompile>
     <ClCompile Include="GameObject.cpp">
       <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="DX12Viewport.cpp">
+      <Filter>Engine\Rendering\DX12</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

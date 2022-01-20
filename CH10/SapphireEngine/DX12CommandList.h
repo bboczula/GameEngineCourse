@@ -8,6 +8,7 @@
 #include "DX12PipelineState.h"
 #include "DX12Device.h"
 #include "DX12Geometry.h"
+#include "DX12Viewport.h"
 
 namespace Sapphire
 {
@@ -57,7 +58,7 @@ namespace Sapphire
 		void Reset();
 
 		// CH08
-		void SetViewport(D3D12_VIEWPORT viewport);
+		void SetViewport(DX12Viewport* viewport);
 		void SetScissors(D3D12_RECT scissorRect);
 		void SetPipelineState(DX12PipelineState* pipelineState);
 
