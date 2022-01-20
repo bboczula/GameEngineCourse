@@ -6,4 +6,5 @@ Sapphire::GameObject::GameObject()
 
 Sapphire::GameObject::~GameObject()
 {
+	delete geometry;
 }

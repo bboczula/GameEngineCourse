@@ -10,4 +10,8 @@ public:
         vertices = new Sapphire::Math::Point3D[3]{ { 0.00f,  0.75f, 0.00f }, { 0.50f, -0.75f, 0.00f }, { -0.50f, -0.75f, 0.00f } };
         numOfVertices = 3;
     }
+    ~Triangle()
+    {
+        // How to make it automatically called in GameObject
+    }
 };
