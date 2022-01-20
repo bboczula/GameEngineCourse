@@ -59,7 +59,6 @@ namespace Sapphire
 
 		// CH08
 		void SetViewport(DX12Viewport* viewport);
-		void SetScissors(D3D12_RECT scissorRect);
 		void SetPipelineState(DX12PipelineState* pipelineState);
 
 		// CH09

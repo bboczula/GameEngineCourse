@@ -57,6 +57,5 @@ namespace Sapphire
 		DX12PipelineState* dxPipelineState;
 		DX12Resource* dxResources[FRAME_COUNT];
 		DX12Viewport* viewport;
-		D3D12_RECT scissorRect;
 	};
 }

@@ -12,5 +12,6 @@ namespace Sapphire
 		~DX12Viewport();
 	private:
 		D3D12_VIEWPORT viewport;
+		D3D12_RECT scissors;
 	};
 }

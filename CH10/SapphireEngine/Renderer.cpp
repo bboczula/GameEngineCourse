@@ -1,7 +1,6 @@
 #include "Renderer.h"
 
 Sapphire::Renderer::Renderer(HWND hwnd, LONG width, LONG height)
-	: scissorRect({ 0, 0, static_cast<LONG>(width), static_cast<LONG>(height) })
 {
 	Logger::GetInstance().Log("%s\n", "Sapphire::Renderer::Renderer()");
 
@@ -65,7 +64,6 @@ void Sapphire::Renderer::Render(std::vector<GameObject*> objects)
 	commandList->SetRenderTarget(renderTargets[currentFrameIndex]);
 	commandList->ClearRenderTarget(renderTargets[currentFrameIndex], clearColor);
 	commandList->SetViewport(viewport);
-	commandList->SetScissors(scissorRect);
 
 	for (int i = 0; i < objects.size(); i++)
 	{

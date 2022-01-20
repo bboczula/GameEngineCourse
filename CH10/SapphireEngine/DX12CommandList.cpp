@@ -38,11 +38,7 @@ void Sapphire::DX12CommandList::SetRenderTarget(DX12RenderTarget* renderTarget)
 void Sapphire::DX12CommandList::SetViewport(DX12Viewport* viewport)
 {
 	commandList->RSSetViewports(1, &viewport->viewport);
-}
-
-void Sapphire::DX12CommandList::SetScissors(D3D12_RECT scissorRect)
-{
-	commandList->RSSetScissorRects(1, &scissorRect);
+	commandList->RSSetScissorRects(1, &viewport->scissors);
 }
 
 void Sapphire::DX12CommandList::SetPipelineState(DX12PipelineState* pipelineState)
