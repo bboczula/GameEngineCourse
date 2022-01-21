@@ -13,7 +13,7 @@ namespace Sapphire
 	{
 		friend class DX12CommandList;
 	public:
-		DX12Geometry(DX12Device* device, void* triangleVertices, UINT vertexSize, UINT numOfVertices);
+		DX12Geometry(DX12Device* device, void* data, UINT vertexSize, UINT numOfVertices);
 		~DX12Geometry();
 		UINT GetNumOfVertices();
 	private:
