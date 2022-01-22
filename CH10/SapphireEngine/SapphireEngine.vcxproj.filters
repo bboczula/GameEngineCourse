@@ -77,9 +77,6 @@
     <ClInclude Include="DX12Geometry.h">
       <Filter>Engine\Rendering\DX12</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject.h">
-      <Filter>Engine</Filter>
-    </ClInclude>
     <ClInclude Include="DX12Viewport.h">
       <Filter>Engine\Rendering\DX12</Filter>
     </ClInclude>
@@ -138,9 +135,6 @@
     </ClCompile>
     <ClCompile Include="DX12Geometry.cpp">
       <Filter>Engine\Rendering\DX12</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject.cpp">
-      <Filter>Engine</Filter>
     </ClCompile>
     <ClCompile Include="DX12Viewport.cpp">
       <Filter>Engine\Rendering\DX12</Filter>

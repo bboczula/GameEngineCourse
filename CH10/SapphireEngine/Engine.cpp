@@ -19,23 +19,14 @@ Sapphire::Engine::~Engine()
 #endif
 }
 
-void Sapphire::Engine::Register(GameObject* gameObject)
-{
-	Logger::GetInstance().Log("%s", "Sapphire::Engine::Register()\n");
-
-	gameObjects.push_back(gameObject);
-}
-
 void Sapphire::Engine::Initialize()
 {
 	Logger::GetInstance().Log("%s", "Sapphire::Engine::Initialize()\n");
-
-	renderer->CreateResources(gameObjects);
 }
 
 void Sapphire::Engine::Tick()
 {
-	renderer->Render(gameObjects);
+	renderer->Render();
 }
 
 void Sapphire::Engine::ReportLiveObjects()

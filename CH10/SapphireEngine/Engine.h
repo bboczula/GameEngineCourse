@@ -5,7 +5,6 @@
 #include "WindowApplication.h"
 #include "Logger.h"
 #include "Renderer.h"
-#include "GameObject.h"
 
 #include <vector>
 
@@ -19,12 +18,10 @@ namespace Sapphire
     public:
         Engine(UINT width = DEFAULT_WINDOW_WIDTH, UINT height = DEFAULT_WINDOW_HEIGHT);
         ~Engine();
-        void Register(GameObject* gameObject);
     private:
         void Initialize() override;
         void Tick() override;
         void ReportLiveObjects();
         Renderer* renderer;
-        std::vector<GameObject*> gameObjects;
     };
 }

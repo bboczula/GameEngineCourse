@@ -53,7 +53,7 @@ Sapphire::Renderer::~Renderer()
 	delete device;
 }
 
-void Sapphire::Renderer::Render(std::vector<GameObject*> objects)
+void Sapphire::Renderer::Render()
 {
 	const float clearColor[] = { 0.1176f, 0.1882f, 0.4470f, 1.0f };
 	unsigned int currentFrameIndex = dxgiManager->currentFrameIndex;
@@ -64,23 +64,9 @@ void Sapphire::Renderer::Render(std::vector<GameObject*> objects)
 	commandList->SetRenderTarget(renderTargets[currentFrameIndex]);
 	commandList->ClearRenderTarget(renderTargets[currentFrameIndex], clearColor);
 	commandList->SetViewport(viewport);
-
-	for (int i = 0; i < objects.size(); i++)
-	{
-		commandList->Draw(objects[i]->geometry);
-	}
-
 	commandList->TransitionTo(dxResources[currentFrameIndex], D3D12_RESOURCE_STATE_PRESENT);
 	commandList->Close();
 
 	commandQueue->Execute(commandList);
 	dxgiManager->PresentFrame(settings.isVsyncEnabled);
-}
-
-void Sapphire::Renderer::CreateResources(std::vector<GameObject*> objects)
-{
-	for (int i = 0; i < objects.size(); i++)
-	{
-		objects[i]->geometry = new DX12Geometry(device, objects[i]->vertices, sizeof(Math::Point3D), objects[i]->numOfVertices);
-	}
 }
