@@ -8,7 +8,6 @@
 #include "DX12PipelineState.h"
 #include "DX12Device.h"
 #include "DX12Geometry.h"
-#include "DX12Viewport.h"
 
 namespace Sapphire
 {
@@ -58,11 +57,7 @@ namespace Sapphire
 		void Reset();
 
 		// CH08
-		void SetViewport(DX12Viewport* viewport);
 		void SetPipelineState(DX12PipelineState* pipelineState);
-
-		// CH09
-		void Draw(DX12Geometry* geometry);
 
 	private:
 		ID3D12CommandAllocator* commandAllocator;

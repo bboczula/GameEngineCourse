@@ -54,6 +54,5 @@ namespace Sapphire
 		DX12Shader* vertexShader;
 		DX12PipelineState* dxPipelineState;
 		DX12Resource* dxResources[FRAME_COUNT];
-		DX12Viewport* viewport;
 	};
 }

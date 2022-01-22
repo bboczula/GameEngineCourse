@@ -30,14 +30,12 @@ Sapphire::Renderer::Renderer(HWND hwnd, LONG width, LONG height)
 	vertexShader = new DX12Shader("bypass_vs.cso");
 	pixelShader = new DX12Shader("bypass_ps.cso");
 	dxPipelineState = new DX12PipelineState(device, vertexShader, pixelShader);
-	viewport = new DX12Viewport(width, height);
 }
 
 Sapphire::Renderer::~Renderer()
 {
 	Logger::GetInstance().Log("%s\n", "Sapphire::Renderer::~Renderer()");
 
-	delete viewport;
 	delete dxPipelineState;
 	delete pixelShader;
 	delete vertexShader;
@@ -63,7 +61,6 @@ void Sapphire::Renderer::Render()
 	commandList->SetPipelineState(dxPipelineState);
 	commandList->SetRenderTarget(renderTargets[currentFrameIndex]);
 	commandList->ClearRenderTarget(renderTargets[currentFrameIndex], clearColor);
-	commandList->SetViewport(viewport);
 	commandList->TransitionTo(dxResources[currentFrameIndex], D3D12_RESOURCE_STATE_PRESENT);
 	commandList->Close();
 
