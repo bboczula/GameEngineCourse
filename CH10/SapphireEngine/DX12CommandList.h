@@ -7,7 +7,6 @@
 #include "DX12RenderTarget.h"
 #include "DX12PipelineState.h"
 #include "DX12Device.h"
-#include "DX12Geometry.h"
 
 namespace Sapphire
 {

@@ -21,7 +21,6 @@
 #include "DX12RenderTarget.h"
 #include "DX12PipelineState.h"
 #include "DX12Resource.h"
-#include "DX12Geometry.h"
 #include "HardwareCapabilities.h"
 #include "InputFile.h"
 
