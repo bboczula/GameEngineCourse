@@ -15,7 +15,6 @@ namespace Sapphire
 	public:
 		DX12Geometry(DX12Device* device, void* data, UINT vertexSize, UINT numOfVertices);
 		~DX12Geometry();
-		UINT GetNumOfVertices();
 	private:
 		UINT numOfVertices;
 		D3D12_VERTEX_BUFFER_VIEW vertexBufferView;

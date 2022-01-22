@@ -19,8 +19,3 @@ Sapphire::DX12Geometry::~DX12Geometry()
 
 	delete vertexBuffer;
 }
-
-UINT Sapphire::DX12Geometry::GetNumOfVertices()
-{
-	return numOfVertices;
-}
