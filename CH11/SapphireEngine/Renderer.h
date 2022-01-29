@@ -24,6 +24,7 @@
 #include "InputFile.h"
 #include "GameObject.h"
 #include "SimpleMath.h"
+#include "Camera.h"
 
 #pragma comment(lib, "dxgi.lib")
 #pragma comment(lib, "d3d12.lib")
@@ -46,6 +47,7 @@ namespace Sapphire
 	private:
 		RendererSettings settings;
 		DxgiManager* dxgiManager;
+		Camera* camera;
 		DX12Device* device;
 		DX12CommandQueue* commandQueue;
 		DX12CommandList* commandList;

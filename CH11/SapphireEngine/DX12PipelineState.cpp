@@ -20,8 +20,21 @@ void Sapphire::DX12PipelineState::CreateRootSignature(DX12Device* device)
 {
 	Logger::GetInstance().Log("%s\n", "Sapphire::DX12PipelineState::CreateRootSignature()");
 
+	D3D12_ROOT_PARAMETER rootParameters[2];
+	rootParameters[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_32BIT_CONSTANTS;
+	rootParameters[0].Constants.Num32BitValues = 16;
+	rootParameters[0].Constants.RegisterSpace = 0;
+	rootParameters[0].Constants.ShaderRegister = 0;
+	rootParameters[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
+
+	rootParameters[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_32BIT_CONSTANTS;
+	rootParameters[1].Constants.Num32BitValues = 16;
+	rootParameters[1].Constants.RegisterSpace = 0;
+	rootParameters[1].Constants.ShaderRegister = 1;
+	rootParameters[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
+
 	CD3DX12_ROOT_SIGNATURE_DESC rootSignatureDesc;
-	rootSignatureDesc.Init(0, nullptr, 0, nullptr, D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT);
+	rootSignatureDesc.Init(2, rootParameters, 0, nullptr, D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT);
 
 	ID3DBlob* signature;
 	ID3DBlob* error;

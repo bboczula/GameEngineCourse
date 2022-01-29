@@ -59,6 +59,11 @@ void Sapphire::DX12CommandList::ClearRenderTarget(DX12RenderTarget* renderTarget
 	commandList->ClearRenderTargetView(renderTarget->descriptorHandle, color, 0, nullptr);
 }
 
+void Sapphire::DX12CommandList::SetConstantBuffer(UINT slot, UINT numOf32BitValues, void* data)
+{
+	commandList->SetGraphicsRoot32BitConstants(slot, numOf32BitValues, data, 0);
+}
+
 void Sapphire::DX12CommandList::Close()
 {
 	ExitIfFailed(commandList->Close());

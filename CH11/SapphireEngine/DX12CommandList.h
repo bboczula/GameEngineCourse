@@ -47,6 +47,8 @@ namespace Sapphire
 		/// <param name="color">A color of the clear operation</param>
 		void ClearRenderTarget(DX12RenderTarget* renderTarget, const float* color);
 
+		void SetConstantBuffer(UINT slot, UINT numOf32BitValues, void* data);
+
 		/// <summary>
 		/// Close the Command List.
 		/// </summary>

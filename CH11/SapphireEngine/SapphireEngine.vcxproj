@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="d3dx12.h" />
     <ClInclude Include="DX12CommandList.h" />
     <ClInclude Include="DX12CommandQueue.h" />
@@ -64,6 +65,7 @@
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="SimpleMath.cpp" />
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="WindowApplication.cpp" />
   </ItemGroup>
   <ItemGroup>
