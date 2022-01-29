@@ -19,6 +19,9 @@
     <Filter Include="Engine\Rendering\Shaders">
       <UniqueIdentifier>{267fd437-964b-4e26-98f3-9bec8bd0fd08}</UniqueIdentifier>
     </Filter>
+    <Filter Include="External">
+      <UniqueIdentifier>{97f0e8a5-2a53-422b-963f-4e36af9d3746}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utils.h" />
@@ -31,7 +34,6 @@
     <ClInclude Include="Logger.h">
       <Filter>Logger</Filter>
     </ClInclude>
-    <ClInclude Include="d3dx12.h" />
     <ClInclude Include="DX12CommandList.h">
       <Filter>Engine\Rendering\DX12</Filter>
     </ClInclude>
@@ -83,7 +85,12 @@
     <ClInclude Include="DX12Viewport.h">
       <Filter>Engine\Rendering\DX12</Filter>
     </ClInclude>
-    <ClInclude Include="SimpleMath.h" />
+    <ClInclude Include="SimpleMath.h">
+      <Filter>External</Filter>
+    </ClInclude>
+    <ClInclude Include="d3dx12.h">
+      <Filter>External</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WindowApplication.cpp">
@@ -146,7 +153,9 @@
     <ClCompile Include="DX12Viewport.cpp">
       <Filter>Engine\Rendering\DX12</Filter>
     </ClCompile>
-    <ClCompile Include="SimpleMath.cpp" />
+    <ClCompile Include="SimpleMath.cpp">
+      <Filter>External</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="bypass_ps.hlsl">
@@ -157,6 +166,8 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="SimpleMath.inl" />
+    <None Include="SimpleMath.inl">
+      <Filter>External</Filter>
+    </None>
   </ItemGroup>
 </Project>
