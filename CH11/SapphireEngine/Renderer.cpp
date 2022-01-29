@@ -81,6 +81,7 @@ void Sapphire::Renderer::CreateResources(std::vector<GameObject*> objects)
 {
 	for (int i = 0; i < objects.size(); i++)
 	{
-		objects[i]->geometry = new DX12Geometry(device, objects[i]->vertices, sizeof(Math::Point3D), objects[i]->numOfVertices);
+		objects[i]->geometry = new DX12Geometry(device, objects[i]->vertices,
+			sizeof(DirectX::SimpleMath::Vector3), objects[i]->numOfVertices);
 	}
 }

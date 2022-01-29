@@ -9,8 +9,6 @@
 #include <dxgidebug.h>
 #include <vector>
 
-#include "../SapphireMath/SapphireMath.h"
-
 #include "Logger.h"
 #include "Utils.h"
 #include "DX12Device.h"
@@ -25,6 +23,7 @@
 #include "HardwareCapabilities.h"
 #include "InputFile.h"
 #include "GameObject.h"
+#include "SimpleMath.h"
 
 #pragma comment(lib, "dxgi.lib")
 #pragma comment(lib, "d3d12.lib")

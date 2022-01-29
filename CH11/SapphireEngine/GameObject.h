@@ -1,7 +1,8 @@
 #pragma once
 
-#include "../SapphireMath/SapphireMath.h"
+//#include "../SapphireMath/SapphireMath.h"
 #include "DX12Geometry.h"
+#include "SimpleMath.h"
 
 #include <Windows.h>
 
@@ -13,7 +14,7 @@ namespace Sapphire
 	public:
 		GameObject();
 		~GameObject();
-		Math::Point3D* vertices;
+		DirectX::SimpleMath::Vector3* vertices;
 		UINT numOfVertices;
 	private:
 		DX12Geometry* geometry;

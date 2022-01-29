@@ -83,6 +83,7 @@
     <ClInclude Include="DX12Viewport.h">
       <Filter>Engine\Rendering\DX12</Filter>
     </ClInclude>
+    <ClInclude Include="SimpleMath.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WindowApplication.cpp">
@@ -145,6 +146,7 @@
     <ClCompile Include="DX12Viewport.cpp">
       <Filter>Engine\Rendering\DX12</Filter>
     </ClCompile>
+    <ClCompile Include="SimpleMath.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="bypass_ps.hlsl">
@@ -153,5 +155,8 @@
     <FxCompile Include="bypass_vs.hlsl">
       <Filter>Engine\Rendering\Shaders</Filter>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="SimpleMath.inl" />
   </ItemGroup>
 </Project>
