@@ -11,10 +11,10 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
 {
     Sapphire::Engine engine;
 
-    // SierpinskiTriangle sierpinskiTriangle;
-    // engine.Register(&sierpinskiTriangle);
+    SierpinskiTriangle sierpinskiTriangle;
+    engine.Register(&sierpinskiTriangle);
 
-    Triangle triangle;
-    engine.Register(&triangle);
+    //Triangle triangle;
+    //engine.Register(&triangle);
     engine.Run();
 }

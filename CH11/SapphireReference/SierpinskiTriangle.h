@@ -8,7 +8,7 @@ class SierpinskiTriangle : public Sapphire::GameObject
 public:
     SierpinskiTriangle()
     {
-        calculate({ 0.00f,  0.75f, 0.00f }, { 0.50f, -0.75f, 0.00f }, { -0.50f, -0.75f, 0.00f }, 5);
+        calculate({ 0.00f,  2.00f, 0.00f }, { -2.00f, -1.50f, 0.00f }, { 2.00f, -1.50f, 0.00f }, 5);
         vertices = sierpinski.data();
         numOfVertices = sierpinski.size();
     }
