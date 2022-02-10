@@ -12,6 +12,12 @@ public:
         vertices = sierpinski.data();
         numOfVertices = sierpinski.size();
     }
+    void Initialize() override
+    {
+    }
+    void Update(float deltaTime) override
+    {
+    }
 private:
     void calculate(DirectX::SimpleMath::Vector3 a, DirectX::SimpleMath::Vector3 b, DirectX::SimpleMath::Vector3 c, int level)
     {

@@ -31,10 +31,13 @@ void Sapphire::Engine::Initialize()
 	Logger::GetInstance().Log("%s", "Sapphire::Engine::Initialize()\n");
 
 	renderer->CreateResources(gameObjects);
+
+	// Initialize all the resources
 }
 
 void Sapphire::Engine::Tick()
 {
+	// Update all game objects
 	renderer->Render(gameObjects);
 }
 

@@ -72,6 +72,8 @@ void Sapphire::Renderer::Render(std::vector<GameObject*> objects)
 
 	for (int i = 0; i < objects.size(); i++)
 	{
+		// Here you should set the world matrix
+		// The world matrix should be part of game object
 		commandList->Draw(objects[i]->geometry);
 	}
 
