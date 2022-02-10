@@ -56,7 +56,7 @@ Sapphire::Renderer::~Renderer()
 	delete device;
 }
 
-void Sapphire::Renderer::Render(std::vector<GameObject*> objects)
+void Sapphire::Renderer::Render()
 {
 	const float clearColor[] = { 0.1176f, 0.1882f, 0.4470f, 1.0f };
 	unsigned int currentFrameIndex = dxgiManager->currentFrameIndex;
@@ -69,26 +69,9 @@ void Sapphire::Renderer::Render(std::vector<GameObject*> objects)
 	commandList->SetViewport(viewport);
 	commandList->SetConstantBuffer(0, 16, &camera->view);
 	commandList->SetConstantBuffer(1, 16, &camera->projection);
-
-	for (int i = 0; i < objects.size(); i++)
-	{
-		// Here you should set the world matrix
-		// The world matrix should be part of game object
-		commandList->Draw(objects[i]->geometry);
-	}
-
 	commandList->TransitionTo(dxResources[currentFrameIndex], D3D12_RESOURCE_STATE_PRESENT);
 	commandList->Close();
 
 	commandQueue->Execute(commandList);
 	dxgiManager->PresentFrame(settings.isVsyncEnabled);
-}
-
-void Sapphire::Renderer::CreateResources(std::vector<GameObject*> objects)
-{
-	for (int i = 0; i < objects.size(); i++)
-	{
-		objects[i]->geometry = new DX12Geometry(device, objects[i]->vertices,
-			sizeof(DirectX::SimpleMath::Vector3), objects[i]->numOfVertices);
-	}
 }

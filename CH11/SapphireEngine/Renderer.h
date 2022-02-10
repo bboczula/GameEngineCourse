@@ -22,7 +22,6 @@
 #include "DX12Geometry.h"
 #include "HardwareCapabilities.h"
 #include "InputFile.h"
-#include "GameObject.h"
 #include "SimpleMath.h"
 #include "Camera.h"
 
@@ -42,8 +41,7 @@ namespace Sapphire
 	public:
 		Renderer(HWND hwnd, LONG width, LONG height);
 		~Renderer();
-		void Render(std::vector<GameObject*> objects);
-		void CreateResources(std::vector<GameObject*> objects);
+		void Render();
 	private:
 		RendererSettings settings;
 		DxgiManager* dxgiManager;
