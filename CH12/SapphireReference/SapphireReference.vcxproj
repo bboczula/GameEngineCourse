@@ -195,6 +195,10 @@
       <Project>{421f77c4-b3eb-4128-9499-5f952b2f240c}</Project>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="SierpinskiTriangle.h" />
+    <ClInclude Include="Triangle.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

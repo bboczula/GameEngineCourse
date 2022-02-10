@@ -3,4 +3,8 @@
   <ItemGroup>
     <ClCompile Include="SapphireReference.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="SierpinskiTriangle.h" />
+    <ClInclude Include="Triangle.h" />
+  </ItemGroup>
 </Project>
