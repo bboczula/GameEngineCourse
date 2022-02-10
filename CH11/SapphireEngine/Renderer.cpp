@@ -31,15 +31,12 @@ Sapphire::Renderer::Renderer(HWND hwnd, LONG width, LONG height)
 	pixelShader = new DX12Shader("bypass_ps.cso");
 	dxPipelineState = new DX12PipelineState(device, vertexShader, pixelShader);
 	viewport = new DX12Viewport(width, height);
-
-	camera = new Camera;
 }
 
 Sapphire::Renderer::~Renderer()
 {
 	Logger::GetInstance().Log("%s\n", "Sapphire::Renderer::~Renderer()");
 
-	delete camera;
 	delete viewport;
 	delete dxPipelineState;
 	delete pixelShader;
@@ -67,8 +64,6 @@ void Sapphire::Renderer::Render()
 	commandList->SetRenderTarget(renderTargets[currentFrameIndex]);
 	commandList->ClearRenderTarget(renderTargets[currentFrameIndex], clearColor);
 	commandList->SetViewport(viewport);
-	commandList->SetConstantBuffer(0, 16, &camera->view);
-	commandList->SetConstantBuffer(1, 16, &camera->projection);
 	commandList->TransitionTo(dxResources[currentFrameIndex], D3D12_RESOURCE_STATE_PRESENT);
 	commandList->Close();
 
