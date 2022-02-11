@@ -31,6 +31,15 @@ Sapphire::Renderer::Renderer(HWND hwnd, LONG width, LONG height)
 	pixelShader = new DX12Shader("bypass_ps.cso");
 	dxPipelineState = new DX12PipelineState(device, vertexShader, pixelShader);
 	viewport = new DX12Viewport(width, height);
+
+	// Prepare triangle data
+	SMVector3 vertices[] =
+	{
+		{ 0.0f, 0.5f, 0.5f },
+		{ 0.5f, -0.5f, 0.5f },
+		{ -0.5f, -0.5f, 0.5f }
+	};
+	triangle = new DX12Geometry(device, vertices, sizeof(SMVector3), 3);
 }
 
 Sapphire::Renderer::~Renderer()
@@ -64,6 +73,7 @@ void Sapphire::Renderer::Render()
 	commandList->SetRenderTarget(renderTargets[currentFrameIndex]);
 	commandList->ClearRenderTarget(renderTargets[currentFrameIndex], clearColor);
 	commandList->SetViewport(viewport);
+	commandList->Draw(triangle);
 	commandList->TransitionTo(dxResources[currentFrameIndex], D3D12_RESOURCE_STATE_PRESENT);
 	commandList->Close();
 

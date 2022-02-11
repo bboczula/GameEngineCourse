@@ -37,6 +37,7 @@ namespace Sapphire
 
 	class Renderer
 	{
+		using SMVector3 = DirectX::SimpleMath::Vector3;
 	public:
 		Renderer(HWND hwnd, LONG width, LONG height);
 		~Renderer();
@@ -54,5 +55,6 @@ namespace Sapphire
 		DX12PipelineState* dxPipelineState;
 		DX12Resource* dxResources[FRAME_COUNT];
 		DX12Viewport* viewport;
+		DX12Geometry* triangle;
 	};
 }
