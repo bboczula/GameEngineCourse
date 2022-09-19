@@ -13,6 +13,11 @@ Texture2D color : register(t0);
 Texture2D depthMap : register(t1);
 Texture2D bumpMap : register(t2);
 
+cbuffer LightBuffer : register(b3)
+{
+	float4 lightPosition;
+};
+
 SamplerState sampleWrap : register(s0);
 
 float3 PerturbNormal(float3 surf_pos, float3 surf_norm, float height)
@@ -43,7 +48,8 @@ float3 PerturbNormal(float3 surf_pos, float3 surf_norm, float height)
 
 float4 main(VSOutput input) : SV_TARGET
 {
-	float3 DirToLight = float3(0.0f, 1.0f, 0.5f);
+	//float3 DirToLight = float3(0.0f, 1.0f, 0.5f);
+	float3 DirToLight = lightPosition.xyz;
 	float3 DirLightColor = float3(1.0f, 1.0f, 1.0f);
 
 	float normalHeight = (float)bumpMap.Sample(sampleWrap, input.texCoord).r * 2.0f - 1.0f;

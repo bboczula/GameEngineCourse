@@ -1,5 +1,6 @@
 #include "RenderContext.h"
 #include "BlitPass.h"
+#include "DX12ConstantBuffer.h"
 
 Sapphire::RenderContext::RenderContext(DeviceContext* deviceContext) : deviceContext(deviceContext)
 {
@@ -183,6 +184,15 @@ Sapphire::DX12DepthBuffer* Sapphire::RenderContext::CreateDepthBufferWithSrv(Dev
 	srvHandle.ptr = srvDescriptorHeap->AllocateDescriptor();
 
 	return new DX12DepthBuffer(deviceContext->GetDevice(), dsvHandle, width, height, srvHandle, descriptorIndex);
+}
+
+Sapphire::DX12ConstantBuffer* Sapphire::RenderContext::CreateConstantBuffer()
+{
+	auto descriptorIndex = srvDescriptorHeap->GetHeapSize();
+	D3D12_CPU_DESCRIPTOR_HANDLE srvHandle;
+	srvHandle.ptr = srvDescriptorHeap->AllocateDescriptor();
+
+	return new DX12ConstantBuffer(deviceContext->GetDevice(), 256, srvHandle, descriptorIndex);
 }
 
 D3D12_GPU_DESCRIPTOR_HANDLE Sapphire::RenderContext::GetSrvDescriptor(UINT32 index)

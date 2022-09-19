@@ -13,6 +13,7 @@ namespace Sapphire
 {
 	class RenderContext;
 	class DX12InputLayout;
+	class DX12ConstantBuffer;
 
 	class ForwardRenderingPass : public Sapphire::RenderPass
 	{
@@ -28,11 +29,13 @@ namespace Sapphire
 	private:
 		DX12RenderTarget* renderTarget;
 		DX12DepthBuffer* depthBuffer;
+		DX12ConstantBuffer* constantBuffer;
 		DX12Shader* pixelShader;
 		DX12Shader* vertexShader;
 		DX12PipelineState* dxPipelineState;
 		DX12Viewport* viewport;
 		DX12InputLayout* inputLayout;
 		Camera* camera;
+		float positionY = 1.0f;
 	};
 }

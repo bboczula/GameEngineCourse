@@ -118,7 +118,7 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
     {
         StaticModel* model = new StaticModel;
         staticModels.push_back(model);
-        engine.LoadModel(model, "sponzaGroup.obj", groupTextureMapping[i].first);
+        engine.LoadModel(model, "sponzaGroup.obj3d", groupTextureMapping[i].first);
         //engine.LoadDefaultTexture(model);
         engine.LoadTextureFromFile(model, groupTextureMapping[i].second);
         if (groupBumpMapMapping[i].second != "")

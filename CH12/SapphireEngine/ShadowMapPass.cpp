@@ -18,7 +18,7 @@ Sapphire::ShadowMapPass::ShadowMapPass(DeviceContext* deviceContext, RenderConte
 	inputLayout->AppendElement(VertexStream::Position);
 
 	// Create Pipeline State
-	dxPipelineState = new DX12PipelineState(deviceContext->GetDevice(), vertexShader, pixelShader, inputLayout);
+	dxPipelineState = new DX12PipelineState(deviceContext->GetDevice(), vertexShader, pixelShader, inputLayout, true);
 	viewport = new DX12Viewport(1280, 720);
 
 	// Create Camera
@@ -40,6 +40,14 @@ Sapphire::ShadowMapPass::~ShadowMapPass()
 
 void Sapphire::ShadowMapPass::Setup(DX12CommandList* commandList)
 {
+	if (positionY > 0.0f)
+		positionY -= 0.001f;
+	// In this pass camera is fixed
+		camera->SetPosition({ 0.0, positionY * 10, 5.0f });
+	//camera->SetTarget({ 0.0f, 19.0f, 0.0f });
+	//camera->SetUp({ 0.0f, 0.0f, 1.0f });
+	camera->DoIt();
+
 	const float clearColor[] = { 0.1176f, 0.1882f, 0.4470f, 1.0f };
 	//unsigned int currentFrameIndex = deviceContext->GetCurrentFrameIndex();
 

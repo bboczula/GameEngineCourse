@@ -67,6 +67,8 @@ namespace Sapphire
 
 		void SetTexture(UINT slot, D3D12_GPU_DESCRIPTOR_HANDLE textureDescriptorHandle);
 
+		void SetConstantBuffer(UINT slot, D3D12_GPU_DESCRIPTOR_HANDLE textureDescriptorHandle);
+
 		void CopyTextureRegion(DX12Resource* source, DX12Resource* destination);
 
 		void CopyTextureRegion(DX12Resource* source, DX12Texture* destination, UINT width, UINT height);

@@ -1,6 +1,7 @@
 #include "ForwardRenderingPass.h"
 #include "RenderContext.h"
 #include "DX12InputLayout.h"
+#include "DX12ConstantBuffer.h"
 
 Sapphire::ForwardRenderingPass::ForwardRenderingPass(DeviceContext* deviceContext, RenderContext* renderContext)
 {
@@ -11,6 +12,10 @@ Sapphire::ForwardRenderingPass::ForwardRenderingPass(DeviceContext* deviceContex
 	// renderContext->CreateDepthBuffer();
 	renderTarget = renderContext->CreateRenderTarget(deviceContext, 1280, 720);
 	depthBuffer = renderContext->CreateDepthBuffer(deviceContext, 1280, 720);
+
+	// Create Constant Buffer for the light data
+	constantBuffer = renderContext->CreateConstantBuffer();
+	constantBuffer->UploadFloat4(0.0f, positionY, 0.5f, 0.0f);
 
 	// Create Shaders
 	vertexShader = new DX12Shader("directional_texture_vs.cso");
@@ -44,6 +49,11 @@ Sapphire::ForwardRenderingPass::~ForwardRenderingPass()
 
 void Sapphire::ForwardRenderingPass::Setup(DX12CommandList* commandList)
 {
+	// Update the constant buffer
+	if (positionY > 0.0f)
+		positionY -= 0.001f;
+	constantBuffer->UploadFloat4(0.0f, positionY, 0.5f, 0.0f);
+
 	const float clearColor[] = { 0.1176f, 0.1882f, 0.4470f, 1.0f };
 	//unsigned int currentFrameIndex = deviceContext->GetCurrentFrameIndex();
 
@@ -94,6 +104,7 @@ void Sapphire::ForwardRenderingPass::Render(DX12CommandList* commandList, Render
 			commandList->SetTexture(3, renderContext->GetSrvDescriptor(objects[i]->texture->GetDescriptorIndex()));
 			commandList->SetTexture(4, renderContext->GetSrvDescriptor(depthMap->GetDescriptorIndex()));
 			commandList->SetTexture(5, renderContext->GetSrvDescriptor(objects[i]->bumpMap->GetDescriptorIndex()));
+			commandList->SetConstantBuffer(6, renderContext->GetSrvDescriptor(constantBuffer->GetDescriptorIndex()));
 			//commandList->Draw(objects[i]->geometry);
 			//commandList->Draw(objects[i]->positionVertexBuffer, objects[i]->indexBuffer);
 			//commandList->Draw(objects[i]->positionVertexBuffer, objects[i]->normalVertexBuffer, objects[i]->indexBuffer);

@@ -32,5 +32,6 @@ namespace Sapphire
 		DX12PipelineState* dxPipelineState;
 		DX12Viewport* viewport;
 		DX12InputLayout* inputLayout;
+		float positionY = 1.0f;
 	};
 }

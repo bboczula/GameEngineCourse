@@ -124,6 +124,11 @@ void Sapphire::DX12CommandList::SetTexture(UINT slot, D3D12_GPU_DESCRIPTOR_HANDL
 	commandList->SetGraphicsRootDescriptorTable(slot, textureDescriptorHandle);
 }
 
+void Sapphire::DX12CommandList::SetConstantBuffer(UINT slot, D3D12_GPU_DESCRIPTOR_HANDLE textureDescriptorHandle)
+{
+	commandList->SetGraphicsRootDescriptorTable(slot, textureDescriptorHandle);
+}
+
 void Sapphire::DX12CommandList::Close()
 {
 	ExitIfFailed(commandList->Close());

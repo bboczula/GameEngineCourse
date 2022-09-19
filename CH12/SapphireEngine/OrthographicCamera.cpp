@@ -11,14 +11,14 @@ Sapphire::OrthographicCamera::~OrthographicCamera()
 void Sapphire::OrthographicCamera::CalculateProjectionMatrix()
 {
 	//projection = projection.CreatePerspectiveFieldOfView(FOV_IN_RADIANS, aspectRatio, NEAR_PLANE, FAR_PLANE);
-	projection = projection.CreateOrthographic(10.0f, 10.0f, 1.0f, 1000.0f);
+	projection = projection.CreateOrthographic(10.0f, 10.0f, 0.1f, 1000.0f);
 	projection = projection.Transpose();
 }
 
 void Sapphire::OrthographicCamera::CalculateViewProjectionMatrix()
 {
 	view = view.CreateLookAt(position, target, up);
-	projection = projection.CreateOrthographic(10.0f, 10.0f, 1.0f, 1000.0f);
+	projection = projection.CreateOrthographic(30.0f, 30.0f, 0.1f, 1000.0f);
 	viewProjection = view * projection;
 	viewProjection = viewProjection.Transpose();
 }

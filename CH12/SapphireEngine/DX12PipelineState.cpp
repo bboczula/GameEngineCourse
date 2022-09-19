@@ -1,12 +1,12 @@
 #include "DX12PipelineState.h"
 #include "DX12InputLayout.h"
 
-Sapphire::DX12PipelineState::DX12PipelineState(DX12Device* device, DX12Shader* vertexShader, DX12Shader* pixelShader, DX12InputLayout* inputLayout)
+Sapphire::DX12PipelineState::DX12PipelineState(DX12Device* device, DX12Shader* vertexShader, DX12Shader* pixelShader, DX12InputLayout* inputLayout, bool flip)
 {
 	Logger::GetInstance().Log("%s\n", "Sapphire::DX12PipelineState::DX12PipelineState()");
 
 	CreateRootSignature(device);
-	CreatePipelineState(device, vertexShader->GetBytecode(), pixelShader->GetBytecode(), inputLayout);
+	CreatePipelineState(device, vertexShader->GetBytecode(), pixelShader->GetBytecode(), inputLayout, flip);
 }
 
 Sapphire::DX12PipelineState::~DX12PipelineState()
@@ -22,7 +22,7 @@ void Sapphire::DX12PipelineState::CreateRootSignature(DX12Device* device)
 	Logger::GetInstance().Log("%s\n", "Sapphire::DX12PipelineState::CreateRootSignature()");
 
 	// This has to be automated somehow. This could be a vector
-	D3D12_ROOT_PARAMETER rootParameters[6];
+	D3D12_ROOT_PARAMETER rootParameters[7];
 	rootParameters[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_32BIT_CONSTANTS;
 	rootParameters[0].Constants.Num32BitValues = 16;
 	rootParameters[0].Constants.RegisterSpace = 0;
@@ -80,11 +80,21 @@ void Sapphire::DX12PipelineState::CreateRootSignature(DX12Device* device)
 	rootParameters[5].DescriptorTable.pDescriptorRanges = &rangeBump[0];
 	rootParameters[5].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
 
+	// Light Position Constant Buffer
+	CD3DX12_DESCRIPTOR_RANGE rangeLight[1];
+	rangeLight[0].Init(D3D12_DESCRIPTOR_RANGE_TYPE_CBV, 1, 3);
+
+	rootParameters[6].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
+	rootParameters[6].DescriptorTable.NumDescriptorRanges = 1;
+	rootParameters[6].DescriptorTable.pDescriptorRanges = &rangeLight[0];
+	rootParameters[6].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
+
+	// Samplers
 	CD3DX12_STATIC_SAMPLER_DESC staticSampler[1];
 	staticSampler[0].Init(0, D3D12_FILTER_ANISOTROPIC);
 
 	CD3DX12_ROOT_SIGNATURE_DESC rootSignatureDesc;
-	rootSignatureDesc.Init(6, rootParameters, 1, staticSampler, D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT);
+	rootSignatureDesc.Init(7, rootParameters, 1, staticSampler, D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT);
 
 	ID3DBlob* signature;
 	ID3DBlob* error;
@@ -92,7 +102,7 @@ void Sapphire::DX12PipelineState::CreateRootSignature(DX12Device* device)
 	ExitIfFailed(device->GetDevice()->CreateRootSignature(0, signature->GetBufferPointer(), signature->GetBufferSize(), IID_PPV_ARGS(&rootSignature)));
 }
 
-void Sapphire::DX12PipelineState::CreatePipelineState(DX12Device* device, D3D12_SHADER_BYTECODE vs, D3D12_SHADER_BYTECODE ps, DX12InputLayout* inputLayout)
+void Sapphire::DX12PipelineState::CreatePipelineState(DX12Device* device, D3D12_SHADER_BYTECODE vs, D3D12_SHADER_BYTECODE ps, DX12InputLayout* inputLayout, bool flip)
 {
 	Logger::GetInstance().Log("%s\n", "Sapphire::DX12PipelineState::CreatePipelineState()");
 
@@ -111,6 +121,11 @@ void Sapphire::DX12PipelineState::CreatePipelineState(DX12Device* device, D3D12_
 	psoDesc.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM;
 	psoDesc.SampleDesc.Count = 1;
 	psoDesc.DSVFormat = DXGI_FORMAT_D32_FLOAT;
+
+	if (flip)
+	{
+		psoDesc.RasterizerState.CullMode = D3D12_CULL_MODE_NONE;
+	}
 
 	ExitIfFailed(device->GetDevice()->CreateGraphicsPipelineState(&psoDesc, IID_PPV_ARGS(&pipelineState)));
 }

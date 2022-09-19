@@ -19,6 +19,7 @@ namespace Sapphire
 	//class ForwardRenderingPass;
 	//class ShadowMapPass;
 	class BlitPass;
+	class DX12ConstantBuffer;
 
 	class RenderContext
 	{
@@ -31,6 +32,7 @@ namespace Sapphire
 		DX12RenderTarget* CreateRenderTarget(DeviceContext* deviceContext, UINT width, UINT height);
 		DX12DepthBuffer* CreateDepthBuffer(DeviceContext* deviceContext, UINT width, UINT height);
 		DX12DepthBuffer* CreateDepthBufferWithSrv(DeviceContext* deviceContext, UINT width, UINT height);
+		DX12ConstantBuffer* CreateConstantBuffer();
 		D3D12_GPU_DESCRIPTOR_HANDLE GetSrvDescriptor(UINT32 index);
 		void Render(std::vector<GameObject*> objects);
 		void Teardown();
