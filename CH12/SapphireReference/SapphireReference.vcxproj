@@ -196,7 +196,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="SierpinskiTriangle.h" />
+    <ClInclude Include="CameraHandler.h" />
+    <ClInclude Include="StaticModel.h" />
     <ClInclude Include="Triangle.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

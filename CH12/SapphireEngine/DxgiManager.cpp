@@ -54,7 +54,7 @@ void Sapphire::DxgiManager::PresentFrame(bool vsyncEnabled)
 	}
 	else
 	{
-		ExitIfFailed(dxgiSwapChain->Present(4, 0));
+		ExitIfFailed(dxgiSwapChain->Present(1, 0));
 	}
 	currentFrameIndex = dxgiSwapChain->GetCurrentBackBufferIndex();
 }

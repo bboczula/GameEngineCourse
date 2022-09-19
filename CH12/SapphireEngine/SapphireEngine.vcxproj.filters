@@ -22,9 +22,17 @@
     <Filter Include="External">
       <UniqueIdentifier>{97f0e8a5-2a53-422b-963f-4e36af9d3746}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Utils">
+      <UniqueIdentifier>{fd9faaab-4cd4-43c7-afe2-9f70be416916}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Rendering\Camera">
+      <UniqueIdentifier>{79f6bcf4-809f-42d1-833e-e6aa0c5de062}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Rendering\RenderPass">
+      <UniqueIdentifier>{7e98e93f-8faf-4606-8a6e-fbb31ba8d8a3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Utils.h" />
     <ClInclude Include="WindowApplication.h">
       <Filter>Window</Filter>
     </ClInclude>
@@ -76,9 +84,6 @@
     <ClInclude Include="File.h">
       <Filter>Window</Filter>
     </ClInclude>
-    <ClInclude Include="DX12Geometry.h">
-      <Filter>Engine\Rendering\DX12</Filter>
-    </ClInclude>
     <ClInclude Include="GameObject.h">
       <Filter>Engine</Filter>
     </ClInclude>
@@ -91,8 +96,77 @@
     <ClInclude Include="d3dx12.h">
       <Filter>External</Filter>
     </ClInclude>
-    <ClInclude Include="Camera.h">
+    <ClInclude Include="Utils.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexDefinition.h">
       <Filter>Engine\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="DX12DepthBuffer.h">
+      <Filter>Engine\Rendering\DX12</Filter>
+    </ClInclude>
+    <ClInclude Include="MessageQueueObserver.h">
+      <Filter>Window</Filter>
+    </ClInclude>
+    <ClInclude Include="Model.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelLoaderSapphire.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="RawInput.h">
+      <Filter>Window</Filter>
+    </ClInclude>
+    <ClInclude Include="WinMouse.h">
+      <Filter>Window</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderContext.h">
+      <Filter>Engine\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="DeviceContext.h">
+      <Filter>Engine\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="DX12Texture.h">
+      <Filter>Engine\Rendering\DX12</Filter>
+    </ClInclude>
+    <ClInclude Include="PixelDefinition.h">
+      <Filter>Engine\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Engine\Rendering\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="FirstPersonCamera.h">
+      <Filter>Engine\Rendering\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderPass.h">
+      <Filter>Engine\Rendering\RenderPass</Filter>
+    </ClInclude>
+    <ClInclude Include="ForwardRenderingPass.h">
+      <Filter>Engine\Rendering\RenderPass</Filter>
+    </ClInclude>
+    <ClInclude Include="ShadowMapPass.h">
+      <Filter>Engine\Rendering\RenderPass</Filter>
+    </ClInclude>
+    <ClInclude Include="DX12VertexBuffer.h">
+      <Filter>Engine\Rendering\DX12</Filter>
+    </ClInclude>
+    <ClInclude Include="DX12IndexBuffer.h">
+      <Filter>Engine\Rendering\DX12</Filter>
+    </ClInclude>
+    <ClInclude Include="PerspectiveCamera.h">
+      <Filter>Engine\Rendering\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="OrthographicCamera.h">
+      <Filter>Engine\Rendering\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="DX12InputLayout.h">
+      <Filter>Engine\Rendering\DX12</Filter>
+    </ClInclude>
+    <ClInclude Include="DX12ConstantBuffer.h">
+      <Filter>Engine\Rendering\DX12</Filter>
+    </ClInclude>
+    <ClInclude Include="BlitPass.h">
+      <Filter>Engine\Rendering\RenderPass</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -147,9 +221,6 @@
     <ClCompile Include="File.cpp">
       <Filter>Window</Filter>
     </ClCompile>
-    <ClCompile Include="DX12Geometry.cpp">
-      <Filter>Engine\Rendering\DX12</Filter>
-    </ClCompile>
     <ClCompile Include="GameObject.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
@@ -159,8 +230,59 @@
     <ClCompile Include="SimpleMath.cpp">
       <Filter>External</Filter>
     </ClCompile>
-    <ClCompile Include="Camera.cpp">
+    <ClCompile Include="DX12DepthBuffer.cpp">
+      <Filter>Engine\Rendering\DX12</Filter>
+    </ClCompile>
+    <ClCompile Include="ModelLoaderSapphire.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="RawInput.cpp">
+      <Filter>Window</Filter>
+    </ClCompile>
+    <ClCompile Include="WinMouse.cpp">
+      <Filter>Window</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderContext.cpp">
       <Filter>Engine\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="DeviceContext.cpp">
+      <Filter>Engine\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="DX12Texture.cpp">
+      <Filter>Engine\Rendering\DX12</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Engine\Rendering\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="FirstPersonCamera.cpp">
+      <Filter>Engine\Rendering\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="ForwardRenderingPass.cpp">
+      <Filter>Engine\Rendering\RenderPass</Filter>
+    </ClCompile>
+    <ClCompile Include="ShadowMapPass.cpp">
+      <Filter>Engine\Rendering\RenderPass</Filter>
+    </ClCompile>
+    <ClCompile Include="DX12VertexBuffer.cpp">
+      <Filter>Engine\Rendering\DX12</Filter>
+    </ClCompile>
+    <ClCompile Include="DX12IndexBuffer.cpp">
+      <Filter>Engine\Rendering\DX12</Filter>
+    </ClCompile>
+    <ClCompile Include="PerspectiveCamera.cpp">
+      <Filter>Engine\Rendering\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="OrthographicCamera.cpp">
+      <Filter>Engine\Rendering\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="DX12InputLayout.cpp">
+      <Filter>Engine\Rendering\DX12</Filter>
+    </ClCompile>
+    <ClCompile Include="DX12ConstantBuffer.cpp">
+      <Filter>Engine\Rendering\DX12</Filter>
+    </ClCompile>
+    <ClCompile Include="BlitPass.cpp">
+      <Filter>Engine\Rendering\RenderPass</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -168,6 +290,24 @@
       <Filter>Engine\Rendering\Shaders</Filter>
     </FxCompile>
     <FxCompile Include="bypass_vs.hlsl">
+      <Filter>Engine\Rendering\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="directional_vs.hlsl">
+      <Filter>Engine\Rendering\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="directional_ps.hlsl">
+      <Filter>Engine\Rendering\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="directional_texture_vs.hlsl">
+      <Filter>Engine\Rendering\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="directional_texture_ps.hlsl">
+      <Filter>Engine\Rendering\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="shadow_vs.hlsl">
+      <Filter>Engine\Rendering\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="shadow_ps.hlsl">
       <Filter>Engine\Rendering\Shaders</Filter>
     </FxCompile>
   </ItemGroup>

@@ -19,12 +19,16 @@
 #include "DX12RenderTarget.h"
 #include "DX12PipelineState.h"
 #include "DX12Resource.h"
-#include "DX12Geometry.h"
+#include "DX12DepthBuffer.h"
+#include "DX12Texture.h"
 #include "HardwareCapabilities.h"
 #include "InputFile.h"
 #include "GameObject.h"
 #include "SimpleMath.h"
 #include "Camera.h"
+#include "RenderContext.h"
+
+#include "DeviceContext.h"
 
 #pragma comment(lib, "dxgi.lib")
 #pragma comment(lib, "d3d12.lib")
@@ -44,19 +48,9 @@ namespace Sapphire
 		~Renderer();
 		void Render(std::vector<GameObject*> objects);
 		void CreateResources(std::vector<GameObject*> objects);
+		void SetMainCamera(Camera* camera);
 	private:
-		RendererSettings settings;
-		DxgiManager* dxgiManager;
-		Camera* camera;
-		DX12Device* device;
-		DX12CommandQueue* commandQueue;
-		DX12CommandList* commandList;
-		DX12DescriptorHeap* rtvDescriptorHeap;
-		DX12RenderTarget* renderTargets[FRAME_COUNT];
-		DX12Shader* pixelShader;
-		DX12Shader* vertexShader;
-		DX12PipelineState* dxPipelineState;
-		DX12Resource* dxResources[FRAME_COUNT];
-		DX12Viewport* viewport;
+		DeviceContext* deviceContext;
+		RenderContext* renderContext;
 	};
 }

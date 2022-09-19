@@ -4,10 +4,20 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 16.0.30413.136
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SapphireEngine", "SapphireEngine\SapphireEngine.vcxproj", "{421F77C4-B3EB-4128-9499-5F952B2F240C}"
+	ProjectSection(ProjectDependencies) = postProject
+		{171A8EA1-2B43-4810-8B1C-A5B689235766} = {171A8EA1-2B43-4810-8B1C-A5B689235766}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SapphireReference", "SapphireReference\SapphireReference.vcxproj", "{B15AE4C3-D4C1-418C-BE08-4117C1662A50}"
 	ProjectSection(ProjectDependencies) = postProject
 		{421F77C4-B3EB-4128-9499-5F952B2F240C} = {421F77C4-B3EB-4128-9499-5F952B2F240C}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ModelLoader", "ModelLoader\ModelLoader.vcxproj", "{171A8EA1-2B43-4810-8B1C-A5B689235766}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ModelLoaderUnitTest", "ModelLoaderUnitTest\ModelLoaderUnitTest.vcxproj", "{5CFA2536-8584-4034-9DD9-0749787D4D85}"
+	ProjectSection(ProjectDependencies) = postProject
+		{171A8EA1-2B43-4810-8B1C-A5B689235766} = {171A8EA1-2B43-4810-8B1C-A5B689235766}
 	EndProjectSection
 EndProject
 Global
@@ -34,6 +44,22 @@ Global
 		{B15AE4C3-D4C1-418C-BE08-4117C1662A50}.Release|x64.Build.0 = Release|x64
 		{B15AE4C3-D4C1-418C-BE08-4117C1662A50}.Release|x86.ActiveCfg = Release|Win32
 		{B15AE4C3-D4C1-418C-BE08-4117C1662A50}.Release|x86.Build.0 = Release|Win32
+		{171A8EA1-2B43-4810-8B1C-A5B689235766}.Debug|x64.ActiveCfg = Debug|x64
+		{171A8EA1-2B43-4810-8B1C-A5B689235766}.Debug|x64.Build.0 = Debug|x64
+		{171A8EA1-2B43-4810-8B1C-A5B689235766}.Debug|x86.ActiveCfg = Debug|Win32
+		{171A8EA1-2B43-4810-8B1C-A5B689235766}.Debug|x86.Build.0 = Debug|Win32
+		{171A8EA1-2B43-4810-8B1C-A5B689235766}.Release|x64.ActiveCfg = Release|x64
+		{171A8EA1-2B43-4810-8B1C-A5B689235766}.Release|x64.Build.0 = Release|x64
+		{171A8EA1-2B43-4810-8B1C-A5B689235766}.Release|x86.ActiveCfg = Release|Win32
+		{171A8EA1-2B43-4810-8B1C-A5B689235766}.Release|x86.Build.0 = Release|Win32
+		{5CFA2536-8584-4034-9DD9-0749787D4D85}.Debug|x64.ActiveCfg = Debug|x64
+		{5CFA2536-8584-4034-9DD9-0749787D4D85}.Debug|x64.Build.0 = Debug|x64
+		{5CFA2536-8584-4034-9DD9-0749787D4D85}.Debug|x86.ActiveCfg = Debug|Win32
+		{5CFA2536-8584-4034-9DD9-0749787D4D85}.Debug|x86.Build.0 = Debug|Win32
+		{5CFA2536-8584-4034-9DD9-0749787D4D85}.Release|x64.ActiveCfg = Release|x64
+		{5CFA2536-8584-4034-9DD9-0749787D4D85}.Release|x64.Build.0 = Release|x64
+		{5CFA2536-8584-4034-9DD9-0749787D4D85}.Release|x86.ActiveCfg = Release|Win32
+		{5CFA2536-8584-4034-9DD9-0749787D4D85}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

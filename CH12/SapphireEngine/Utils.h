@@ -5,6 +5,16 @@
 
 #define FRAME_COUNT 2
 
+inline UINT Align(UINT location, UINT align)
+{
+	if ((0 == align) || (align & (align - 1)))
+	{
+		exit(1);
+	}
+
+	return ((location + (align - 1)) & ~(align - 1));
+}
+
 inline void ExitIfFailed(HRESULT hr)
 {
 	if (FAILED(hr))

@@ -6,6 +6,14 @@
 #include "Logger.h"
 #include "Renderer.h"
 #include "GameObject.h"
+#include "ModelLoaderSapphire.h"
+#include "RawInput.h"
+#include "Camera.h"
+#include "WinMouse.h"
+#include "FirstPersonCamera.h"
+
+#include "../ModelLoader/ModelLoader.h"
+#include "../ModelLoader/Image.h"
 
 #include <vector>
 
@@ -20,11 +28,20 @@ namespace Sapphire
         Engine(UINT width = DEFAULT_WINDOW_WIDTH, UINT height = DEFAULT_WINDOW_HEIGHT);
         ~Engine();
         void Register(GameObject* gameObject);
+        void RegisterCamera(Camera* camera);
+        void LoadModel(GameObject* gameObject, const std::string& filePath, const std::string& groupName);
+        void LoadDefaultTexture(GameObject* gameObject);
+        void LoadTextureFromFile(GameObject* gameObject, std::string filePath);
+        void LoadBumpMapFromFile(GameObject* gameObject, std::string filePath);
+        RawInput* GetInput();
     private:
         void Initialize() override;
         void Tick() override;
         void ReportLiveObjects();
         Renderer* renderer;
+        RawInput* input;
+        WinMouse* winMouse;
         std::vector<GameObject*> gameObjects;
+        ModelLoader* modelLoader;
     };
 }

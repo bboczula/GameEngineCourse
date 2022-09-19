@@ -14,6 +14,7 @@ namespace Sapphire
 	class DxgiManager
 	{
 		friend class Renderer;
+		friend class DeviceContext;
 	public:
 		DxgiManager();
 		~DxgiManager();

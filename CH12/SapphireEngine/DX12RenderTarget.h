@@ -4,6 +4,7 @@
 #include "Logger.h"
 #include "DX12Device.h"
 #include "DX12Resource.h"
+#include "DX12Viewport.h"
 
 #include <d3d12.h>
 
@@ -24,9 +25,21 @@ namespace Sapphire
 		/// <param name="descriptor">A Descriptor Handle to use during Render Target creation</param>
 		DX12RenderTarget(DX12Device* device, DX12Resource* resource, D3D12_CPU_DESCRIPTOR_HANDLE descriptor);
 
+		/// <summary>
+		/// Creates new Render Target with underlying Texture resource.
+		/// </summary>
+		/// <param name="device"></param>
+		/// <param name="descriptor"></param>
+		/// <param name="width"></param>
+		/// <param name="height"></param>
+		DX12RenderTarget(DX12Device* device, D3D12_CPU_DESCRIPTOR_HANDLE descriptor, UINT width, UINT height);
+
+		DX12Resource* GetResource();
+
 		~DX12RenderTarget();
 	private:
 		DX12Resource* resource;
 		D3D12_CPU_DESCRIPTOR_HANDLE descriptorHandle;
+		DX12Viewport* viewport;
 	};
 }

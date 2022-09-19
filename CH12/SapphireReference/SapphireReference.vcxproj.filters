@@ -4,7 +4,8 @@
     <ClCompile Include="SapphireReference.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="SierpinskiTriangle.h" />
     <ClInclude Include="Triangle.h" />
+    <ClInclude Include="CameraHandler.h" />
+    <ClInclude Include="StaticModel.h" />
   </ItemGroup>
 </Project>

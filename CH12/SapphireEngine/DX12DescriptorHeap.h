@@ -13,6 +13,7 @@ namespace Sapphire
 	/// </summary>
 	class DX12DescriptorHeap
 	{
+		friend class DX12CommandList;
 	public:
 		/// <summary>
 		/// Creates new Descriptor Heap instance of the given type.
@@ -27,6 +28,9 @@ namespace Sapphire
 		/// Returns the first available descriptor handle, then moves the internal index one position up.
 		/// </summary>
 		SIZE_T AllocateDescriptor();
+		D3D12_GPU_DESCRIPTOR_HANDLE GetFirstGpuDescriptor();
+		UINT GetDescriptorSize();
+		UINT GetHeapSize();
 	private:
 		ID3D12DescriptorHeap* heap;
 		UINT descriptorSize;

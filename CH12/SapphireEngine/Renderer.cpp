@@ -1,94 +1,69 @@
 #include "Renderer.h"
+#include "DX12VertexBuffer.h"
+#include "DX12IndexBuffer.h"
 
-Sapphire::Renderer::Renderer(HWND hwnd, LONG width, LONG height)
+Sapphire::Renderer::Renderer(HWND hwnd, LONG width, LONG height) : deviceContext(nullptr), renderContext(nullptr)
 {
 	Logger::GetInstance().Log("%s\n", "Sapphire::Renderer::Renderer()");
 
-	// This kind of shapes up as DX12DeviceContext
-	dxgiManager = new DxgiManager;
-	device = new DX12Device(dxgiManager->dxgiAdapter);
-	commandQueue = new DX12CommandQueue(device);
-	dxgiManager->CreateSwapChain(commandQueue, hwnd, settings.isVsyncEnabled);
-	rtvDescriptorHeap = new DX12DescriptorHeap(device, D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
-
-	// And this kind of shapes up as DX12RenderContext
-	for (UINT i = 0; i < FRAME_COUNT; i++)
-	{
-		// Not really sure how to overcome this; i think i need this temporary pointer, I'll just won't touch the thing it points to
-		ID3D12Resource* tempResource;
-
-		// This one is really hard to undangle. Maybe I can add this to the public interface?
-		ExitIfFailed(dxgiManager->dxgiSwapChain->GetBuffer(i, IID_PPV_ARGS(&tempResource)));
-		dxResources[i] = new DX12Resource(tempResource, D3D12_RESOURCE_STATE_COMMON);
-
-		// Maybe this temporary thing could be avoided if i return the entire handle?
-		D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle;
-		rtvHandle.ptr = rtvDescriptorHeap->AllocateDescriptor();
-		renderTargets[i] = new DX12RenderTarget(device, dxResources[i], rtvHandle);
-	}
-	commandList = new DX12CommandList(device);
-	vertexShader = new DX12Shader("bypass_vs.cso");
-	pixelShader = new DX12Shader("bypass_ps.cso");
-	dxPipelineState = new DX12PipelineState(device, vertexShader, pixelShader);
-	viewport = new DX12Viewport(width, height);
-
-	camera = new Camera;
+	deviceContext = new DeviceContext(hwnd);
+	renderContext = new RenderContext(deviceContext);
 }
 
 Sapphire::Renderer::~Renderer()
 {
 	Logger::GetInstance().Log("%s\n", "Sapphire::Renderer::~Renderer()");
 
-	delete camera;
-	delete viewport;
-	delete dxPipelineState;
-	delete pixelShader;
-	delete vertexShader;
-	for (int i = 0; i < FRAME_COUNT; i++)
-	{
-		delete dxResources[i];
-		delete renderTargets[i];
-	}
-	delete rtvDescriptorHeap;
-	delete commandList;
-	delete commandQueue;
-	delete dxgiManager;
-	delete device;
+	delete renderContext;
+	delete deviceContext;
 }
 
 void Sapphire::Renderer::Render(std::vector<GameObject*> objects)
 {
-	const float clearColor[] = { 0.1176f, 0.1882f, 0.4470f, 1.0f };
-	unsigned int currentFrameIndex = dxgiManager->currentFrameIndex;
-
-	commandList->Reset();
-	commandList->TransitionTo(dxResources[currentFrameIndex], D3D12_RESOURCE_STATE_RENDER_TARGET);
-	commandList->SetPipelineState(dxPipelineState);
-	commandList->SetRenderTarget(renderTargets[currentFrameIndex]);
-	commandList->ClearRenderTarget(renderTargets[currentFrameIndex], clearColor);
-	commandList->SetViewport(viewport);
-	commandList->SetConstantBuffer(0, 16, &camera->view);
-	commandList->SetConstantBuffer(1, 16, &camera->projection);
-
-	for (int i = 0; i < objects.size(); i++)
-	{
-		// Here you should set the world matrix
-		// The world matrix should be part of game object
-		commandList->Draw(objects[i]->geometry);
-	}
-
-	commandList->TransitionTo(dxResources[currentFrameIndex], D3D12_RESOURCE_STATE_PRESENT);
-	commandList->Close();
-
-	commandQueue->Execute(commandList);
-	dxgiManager->PresentFrame(settings.isVsyncEnabled);
+	renderContext->Render(objects);
+	renderContext->Execute(deviceContext);
+	deviceContext->Present();
 }
 
 void Sapphire::Renderer::CreateResources(std::vector<GameObject*> objects)
 {
 	for (int i = 0; i < objects.size(); i++)
 	{
-		objects[i]->geometry = new DX12Geometry(device, objects[i]->vertices,
-			sizeof(DirectX::SimpleMath::Vector3), objects[i]->numOfVertices);
+		// START: Flexible Vertex Buffers (FVB) !--
+		// TODO: needs to decouple Index Buffer
+		if (objects[i]->numOfVertices != 0)
+		{
+			objects[i]->positionVertexBuffer = new DX12VertexBuffer(deviceContext->GetDevice(), objects[i]->position,
+				sizeof(DirectX::SimpleMath::Vector4), objects[i]->numOfVertices);
+		}
+		if (objects[i]->numOfVertices != 0)
+		{
+			objects[i]->normalVertexBuffer = new DX12VertexBuffer(deviceContext->GetDevice(), objects[i]->normal,
+				sizeof(DirectX::SimpleMath::Vector4), objects[i]->numOfVertices);
+		}
+		if (objects[i]->numOfVertices != 0)
+		{
+			objects[i]->tangentVertexBuffer = new DX12VertexBuffer(deviceContext->GetDevice(), objects[i]->tangent,
+				sizeof(DirectX::SimpleMath::Vector4), objects[i]->numOfVertices);
+		}
+		if (objects[i]->numOfVertices != 0)
+		{
+			objects[i]->colorTexCoordVertexBuffer = new DX12VertexBuffer(deviceContext->GetDevice(), objects[i]->albedoTexCoord,
+				sizeof(DirectX::SimpleMath::Vector2), objects[i]->numOfVertices);
+		}
+		if (objects[i]->numOfIndices != 0)
+		{
+			objects[i]->indexBuffer = new DX12IndexBuffer(deviceContext->GetDevice(), objects[i]->indices,
+				sizeof(UINT), objects[i]->numOfIndices);
+		}
+		// END: Flexible Vertex Buffers (FVB) !--
 	}
+
+	// Create per-render-context resources
+	renderContext->CreateResources(deviceContext, objects);
+}
+
+void Sapphire::Renderer::SetMainCamera(Camera* camera)
+{
+	renderContext->SetCamera(camera);
 }

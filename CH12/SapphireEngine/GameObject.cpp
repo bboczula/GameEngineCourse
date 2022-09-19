@@ -1,18 +1,52 @@
 #include "GameObject.h"
 
+Sapphire::GameObject::GameObject() : numOfVertices{ 0 }, indices{ nullptr }, numOfIndices{ 0 }, texture{ nullptr },
+rotation{ 0.0f, 0.0f, 0.0f }, scale{ 1.0f, 1.0f, 1.0f }, translation{ 0.0f, 0.0f, 0.0f }
+{
+	CalculateWorldMatrix();
+}
+
+Sapphire::GameObject::~GameObject()
+{
+}
+
 void Sapphire::GameObject::Initialize()
 {
 }
 
 void Sapphire::GameObject::Update(float deltaTime)
 {
+	CalculateWorldMatrix();
 }
 
-Sapphire::GameObject::GameObject() : vertices{ nullptr }, numOfVertices{ 0 }, geometry{ nullptr }
+void Sapphire::GameObject::CalculateWorldMatrix()
 {
+	DirectX::SimpleMath::Matrix scaleMatrix;
+	scaleMatrix = scaleMatrix.CreateScale(scale);
+
+	DirectX::SimpleMath::Matrix rotationMatrix;
+	rotationMatrix = rotationMatrix.CreateRotationX(rotation.x * 3.1415 / 180.0f);
+	rotationMatrix *= rotationMatrix.CreateRotationY(rotation.y * 3.1415 / 180.0f);
+	rotationMatrix *= rotationMatrix.CreateRotationZ(rotation.z * 3.1415 / 180.0f);
+
+	DirectX::SimpleMath::Matrix translateMatrix;
+	translateMatrix = translateMatrix.CreateTranslation(translation);
+
+	world = translateMatrix * scaleMatrix * rotationMatrix;
+	world = world.Transpose();
 }
 
-Sapphire::GameObject::~GameObject()
+void Sapphire::GameObject::SetRotate(float x, float y, float z)
 {
-	delete geometry;
+	rotation = { x, y, z };
+}
+
+void Sapphire::GameObject::SetScale(float x, float y, float z)
+{
+	scale = { x, y, z };
+}
+
+void Sapphire::GameObject::SetPosition(float x, float y, float z)
+{
+	translation = { x, y, z };
 }

@@ -19,54 +19,91 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BlitPass.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="d3dx12.h" />
+    <ClInclude Include="DeviceContext.h" />
     <ClInclude Include="DX12CommandList.h" />
     <ClInclude Include="DX12CommandQueue.h" />
+    <ClInclude Include="DX12ConstantBuffer.h" />
+    <ClInclude Include="DX12DepthBuffer.h" />
     <ClInclude Include="DX12DescriptorHeap.h" />
     <ClInclude Include="DX12Device.h" />
-    <ClInclude Include="DX12Geometry.h" />
+    <ClInclude Include="DX12IndexBuffer.h" />
+    <ClInclude Include="DX12InputLayout.h" />
     <ClInclude Include="DX12PipelineState.h" />
     <ClInclude Include="DX12RenderTarget.h" />
     <ClInclude Include="DX12Resource.h" />
     <ClInclude Include="DX12Shader.h" />
+    <ClInclude Include="DX12Texture.h" />
+    <ClInclude Include="DX12VertexBuffer.h" />
     <ClInclude Include="DX12Viewport.h" />
     <ClInclude Include="DxgiManager.h" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="File.h" />
+    <ClInclude Include="FirstPersonCamera.h" />
+    <ClInclude Include="ForwardRenderingPass.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="HardwareCapabilities.h" />
+    <ClInclude Include="OrthographicCamera.h" />
+    <ClInclude Include="PerspectiveCamera.h" />
+    <ClInclude Include="PixelDefinition.h" />
+    <ClInclude Include="RawInput.h" />
     <ClInclude Include="InputFile.h" />
+    <ClInclude Include="Model.h" />
+    <ClInclude Include="ModelLoaderSapphire.h" />
     <ClInclude Include="OutputFile.h" />
     <ClInclude Include="Logger.h" />
+    <ClInclude Include="RenderContext.h" />
     <ClInclude Include="Renderer.h" />
+    <ClInclude Include="RenderPass.h" />
+    <ClInclude Include="ShadowMapPass.h" />
     <ClInclude Include="SimpleMath.h" />
     <ClInclude Include="Utils.h" />
+    <ClInclude Include="VertexDefinition.h" />
     <ClInclude Include="WindowApplication.h" />
+    <ClInclude Include="MessageQueueObserver.h" />
+    <ClInclude Include="WinMouse.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BlitPass.cpp" />
+    <ClCompile Include="DeviceContext.cpp" />
     <ClCompile Include="DX12CommandList.cpp" />
     <ClCompile Include="DX12CommandQueue.cpp" />
+    <ClCompile Include="DX12ConstantBuffer.cpp" />
+    <ClCompile Include="DX12DepthBuffer.cpp" />
     <ClCompile Include="DX12DescriptorHeap.cpp" />
     <ClCompile Include="DX12Device.cpp" />
-    <ClCompile Include="DX12Geometry.cpp" />
+    <ClCompile Include="DX12IndexBuffer.cpp" />
+    <ClCompile Include="DX12InputLayout.cpp" />
     <ClCompile Include="DX12PipelineState.cpp" />
     <ClCompile Include="DX12RenderTarget.cpp" />
     <ClCompile Include="DX12Resource.cpp" />
     <ClCompile Include="DX12Shader.cpp" />
+    <ClCompile Include="DX12Texture.cpp" />
+    <ClCompile Include="DX12VertexBuffer.cpp" />
     <ClCompile Include="DX12Viewport.cpp" />
     <ClCompile Include="DxgiManager.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="File.cpp" />
+    <ClCompile Include="FirstPersonCamera.cpp" />
+    <ClCompile Include="ForwardRenderingPass.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="HardwareCapabilities.cpp" />
+    <ClCompile Include="OrthographicCamera.cpp" />
+    <ClCompile Include="PerspectiveCamera.cpp" />
+    <ClCompile Include="RawInput.cpp" />
     <ClCompile Include="InputFile.cpp" />
+    <ClCompile Include="ModelLoaderSapphire.cpp" />
     <ClCompile Include="OutputFile.cpp" />
     <ClCompile Include="Logger.cpp" />
+    <ClCompile Include="RenderContext.cpp" />
     <ClCompile Include="Renderer.cpp" />
+    <ClCompile Include="ShadowMapPass.cpp" />
     <ClCompile Include="SimpleMath.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="WindowApplication.cpp" />
+    <ClCompile Include="WinMouse.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="bypass_ps.hlsl">
@@ -84,6 +121,48 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">6.0</ShaderModel>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">6.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="directional_ps.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">6.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">6.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="directional_texture_ps.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="directional_texture_vs.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+    </FxCompile>
+    <FxCompile Include="directional_vs.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">6.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">6.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="shadow_ps.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="shadow_vs.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
@@ -161,11 +240,18 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\Users\bboczula\source\repos\GameEngineCourse\CH12\ModelLoader\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <Lib>
+      <AdditionalDependencies>ModelLoader.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
+    <Lib>
+      <AdditionalLibraryDirectories>C:\Users\bboczula\source\repos\GameEngineCourse\CH12\x64\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -175,6 +261,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\Users\bboczula\source\repos\GameEngineCourse\CH12\ModelLoader\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -182,6 +269,12 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <Lib>
+      <AdditionalDependencies>ModelLoader.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
+    <Lib>
+      <AdditionalLibraryDirectories>C:\Users\bboczula\source\repos\GameEngineCourse\CH12\x64\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -189,17 +282,25 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\Users\bboczula\source\repos\GameEngineCourse\CH12\ModelLoader\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(TargetDir)*.cso" "$(SolutionDir)SapphireReference"</Command>
+      <Command>copy "$(TargetDir)*.cso" "$(SolutionDir)SapphireReference"
+copy "$(TargetDir)ModelLoader.dll" "$(SolutionDir)SapphireReference"</Command>
     </PostBuildEvent>
     <PostBuildEvent>
-      <Message>Copying compiled shaders...</Message>
+      <Message>Copying compiled shaders and externals...</Message>
     </PostBuildEvent>
+    <Lib>
+      <AdditionalDependencies>ModelLoader.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
+    <Lib>
+      <AdditionalLibraryDirectories>C:\Users\bboczula\source\repos\GameEngineCourse\CH12\x64\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -209,6 +310,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\Users\bboczula\source\repos\GameEngineCourse\CH12\ModelLoader\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -225,11 +327,18 @@
       </Message>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>copy "$(TargetDir)*.cso" "$(SolutionDir)SapphireReference"</Command>
+      <Command>copy "$(TargetDir)*.cso" "$(SolutionDir)SapphireReference"
+copy "$(TargetDir)ModelLoader.dll" "$(SolutionDir)SapphireReference"</Command>
     </PostBuildEvent>
     <PostBuildEvent>
-      <Message>Copying compiled shaders...</Message>
+      <Message>Copying compiled shaders and externals...</Message>
     </PostBuildEvent>
+    <Lib>
+      <AdditionalDependencies>ModelLoader.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
+    <Lib>
+      <AdditionalLibraryDirectories>C:\Users\bboczula\source\repos\GameEngineCourse\CH12\x64\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
