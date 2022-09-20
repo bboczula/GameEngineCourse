@@ -45,6 +45,7 @@
     <ClInclude Include="ForwardRenderingPass.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="HardwareCapabilities.h" />
+    <ClInclude Include="Light.h" />
     <ClInclude Include="OrthographicCamera.h" />
     <ClInclude Include="PerspectiveCamera.h" />
     <ClInclude Include="PixelDefinition.h" />
@@ -90,6 +91,7 @@
     <ClCompile Include="ForwardRenderingPass.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="HardwareCapabilities.cpp" />
+    <ClCompile Include="Light.cpp" />
     <ClCompile Include="OrthographicCamera.cpp" />
     <ClCompile Include="PerspectiveCamera.cpp" />
     <ClCompile Include="RawInput.cpp" />

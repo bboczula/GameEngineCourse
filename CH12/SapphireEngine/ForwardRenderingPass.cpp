@@ -2,8 +2,9 @@
 #include "RenderContext.h"
 #include "DX12InputLayout.h"
 #include "DX12ConstantBuffer.h"
+#include "Light.h"
 
-Sapphire::ForwardRenderingPass::ForwardRenderingPass(DeviceContext* deviceContext, RenderContext* renderContext)
+Sapphire::ForwardRenderingPass::ForwardRenderingPass(DeviceContext* deviceContext, RenderContext* renderContext, Light* light) : light(light)
 {
 	// Do I need Render Context here?
 	// For example, I have to allocate descriptors somehow
@@ -15,7 +16,7 @@ Sapphire::ForwardRenderingPass::ForwardRenderingPass(DeviceContext* deviceContex
 
 	// Create Constant Buffer for the light data
 	constantBuffer = renderContext->CreateConstantBuffer();
-	constantBuffer->UploadFloat4(0.0f, positionY, 0.5f, 0.0f);
+	constantBuffer->UploadFloat4(light->GetPositionX(), light->GetPositionY(), light->GetPositionZ(), 0.0f);
 
 	// Create Shaders
 	vertexShader = new DX12Shader("directional_texture_vs.cso");
@@ -50,9 +51,7 @@ Sapphire::ForwardRenderingPass::~ForwardRenderingPass()
 void Sapphire::ForwardRenderingPass::Setup(DX12CommandList* commandList)
 {
 	// Update the constant buffer
-	if (positionY > 0.0f)
-		positionY -= 0.001f;
-	constantBuffer->UploadFloat4(0.0f, positionY, 0.5f, 0.0f);
+	constantBuffer->UploadFloat4(light->GetPositionX(), light->GetPositionY(), light->GetPositionZ(), 0.0f);
 
 	const float clearColor[] = { 0.1176f, 0.1882f, 0.4470f, 1.0f };
 	//unsigned int currentFrameIndex = deviceContext->GetCurrentFrameIndex();

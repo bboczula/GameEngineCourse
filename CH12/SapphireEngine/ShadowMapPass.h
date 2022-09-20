@@ -13,11 +13,12 @@ namespace Sapphire
 {
 	class RenderContex;
 	class DX12InputLayout;
+	class Light;
 
 	class ShadowMapPass : public Sapphire::RenderPass
 	{
 	public:
-		ShadowMapPass(DeviceContext* deviceContext, RenderContext* renderContext);
+		ShadowMapPass(DeviceContext* deviceContext, RenderContext* renderContext, Light* light);
 		~ShadowMapPass();
 		void Setup(DX12CommandList* commandList) override;
 		void Render(DX12CommandList* commandList, RenderContext* renderContext, std::vector<GameObject*> objects) override;
@@ -32,6 +33,6 @@ namespace Sapphire
 		DX12PipelineState* dxPipelineState;
 		DX12Viewport* viewport;
 		DX12InputLayout* inputLayout;
-		float positionY = 1.0f;
+		Light* light;
 	};
 }

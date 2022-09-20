@@ -3,11 +3,12 @@
 #include "RenderContext.h"
 #include "OrthographicCamera.h"
 #include "DX12InputLayout.h"
+#include "Light.h"
 
-Sapphire::ShadowMapPass::ShadowMapPass(DeviceContext* deviceContext, RenderContext* renderContext)
+Sapphire::ShadowMapPass::ShadowMapPass(DeviceContext* deviceContext, RenderContext* renderContext, Light* light) : light(light)
 {
-	renderTarget = renderContext->CreateRenderTarget(deviceContext, 1024, 1024);
-	depthBuffer = renderContext->CreateDepthBufferWithSrv(deviceContext, 1024, 1024);
+	renderTarget = renderContext->CreateRenderTarget(deviceContext, 2048, 2048);
+	depthBuffer = renderContext->CreateDepthBufferWithSrv(deviceContext, 2048, 2048);
 
 	// Create Shaders
 	vertexShader = new DX12Shader("shadow_vs.cso");
@@ -26,10 +27,11 @@ Sapphire::ShadowMapPass::ShadowMapPass(DeviceContext* deviceContext, RenderConte
 	camera = new OrthographicCamera();
 
 	// In this pass camera is fixed
-	camera->SetPosition({ 0.0f, 10.0f, 5.0f });
+	const float scaleFactor = 20.0f;
+	camera->SetPosition({ scaleFactor * light->GetPositionX(), scaleFactor * light->GetPositionY(), scaleFactor * light->GetPositionZ() });
 	//camera->SetTarget({ 0.0f, 19.0f, 0.0f });
 	//camera->SetUp({ 0.0f, 0.0f, 1.0f });
-	camera->DoIt();
+	//camera->DoIt();
 }
 
 Sapphire::ShadowMapPass::~ShadowMapPass()
@@ -40,10 +42,9 @@ Sapphire::ShadowMapPass::~ShadowMapPass()
 
 void Sapphire::ShadowMapPass::Setup(DX12CommandList* commandList)
 {
-	if (positionY > 0.0f)
-		positionY -= 0.001f;
 	// In this pass camera is fixed
-		camera->SetPosition({ 0.0, positionY * 10, 5.0f });
+	const float scaleFactor = 20.0f;
+	camera->SetPosition({ scaleFactor * light->GetPositionX(), scaleFactor * light->GetPositionY(), scaleFactor * light->GetPositionZ() });
 	//camera->SetTarget({ 0.0f, 19.0f, 0.0f });
 	//camera->SetUp({ 0.0f, 0.0f, 1.0f });
 	camera->DoIt();

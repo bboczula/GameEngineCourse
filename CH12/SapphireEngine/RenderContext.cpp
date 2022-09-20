@@ -1,6 +1,7 @@
 #include "RenderContext.h"
 #include "BlitPass.h"
 #include "DX12ConstantBuffer.h"
+#include "Light.h"
 
 Sapphire::RenderContext::RenderContext(DeviceContext* deviceContext) : deviceContext(deviceContext)
 {
@@ -41,11 +42,14 @@ Sapphire::RenderContext::RenderContext(DeviceContext* deviceContext) : deviceCon
 	// Create main camera
 	//camera = new Camera(1280.0f / 720.0f);
 
+	// Create global directional light
+	directionalLight = new Light(0.0f, 1.0f, 0.0f);
+
 	// Create Shadow Map Pass
-	shadowMapPass = new ShadowMapPass(deviceContext, this);
+	shadowMapPass = new ShadowMapPass(deviceContext, this, directionalLight);
 
 	// Create Render Pass
-	renderPass = new ForwardRenderingPass(deviceContext, this);
+	renderPass = new ForwardRenderingPass(deviceContext, this, directionalLight);
 
 	// Create Blit Pass
 	blitPass = new BlitPass();
@@ -204,6 +208,12 @@ D3D12_GPU_DESCRIPTOR_HANDLE Sapphire::RenderContext::GetSrvDescriptor(UINT32 ind
 
 void Sapphire::RenderContext::Render(std::vector<GameObject*> objects)
 {
+	if (directionalLight->GetPositionY() > 0)
+	{
+		directionalLight->RotateX(0.025f);
+		Logger::GetInstance().Log("Directional Light: %f %f %f\n", directionalLight->GetPositionX(), directionalLight->GetPositionY(), directionalLight->GetPositionZ());
+	}
+
 	shadowMapPass->Setup(commandList);
 	commandList->SetDescriptorHeap(srvDescriptorHeap);
 	shadowMapPass->Render(commandList, this, objects);

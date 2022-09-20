@@ -20,6 +20,7 @@ namespace Sapphire
 	//class ShadowMapPass;
 	class BlitPass;
 	class DX12ConstantBuffer;
+	class Light;
 
 	class RenderContext
 	{
@@ -58,6 +59,7 @@ namespace Sapphire
 		ShadowMapPass* shadowMapPass;
 		BlitPass* blitPass;
 		DeviceContext* deviceContext;
+		Light* directionalLight;
 	};
 }
 

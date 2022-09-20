@@ -168,6 +168,9 @@
     <ClInclude Include="BlitPass.h">
       <Filter>Engine\Rendering\RenderPass</Filter>
     </ClInclude>
+    <ClInclude Include="Light.h">
+      <Filter>Engine\Rendering</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WindowApplication.cpp">
@@ -283,6 +286,9 @@
     </ClCompile>
     <ClCompile Include="BlitPass.cpp">
       <Filter>Engine\Rendering\RenderPass</Filter>
+    </ClCompile>
+    <ClCompile Include="Light.cpp">
+      <Filter>Engine\Rendering</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

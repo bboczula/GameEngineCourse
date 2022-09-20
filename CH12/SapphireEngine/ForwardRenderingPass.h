@@ -14,11 +14,12 @@ namespace Sapphire
 	class RenderContext;
 	class DX12InputLayout;
 	class DX12ConstantBuffer;
+	class Light;
 
 	class ForwardRenderingPass : public Sapphire::RenderPass
 	{
 	public:
-		ForwardRenderingPass(DeviceContext* deviceContext, RenderContext* renderContext);
+		ForwardRenderingPass(DeviceContext* deviceContext, RenderContext* renderContext, Light* light);
 		~ForwardRenderingPass();
 		void Setup(DX12CommandList* commandList) override;
 		void Render(DX12CommandList* commandList, RenderContext* renderContext, std::vector<GameObject*> objects) override;
@@ -36,6 +37,6 @@ namespace Sapphire
 		DX12Viewport* viewport;
 		DX12InputLayout* inputLayout;
 		Camera* camera;
-		float positionY = 1.0f;
+		Light* light;
 	};
 }
