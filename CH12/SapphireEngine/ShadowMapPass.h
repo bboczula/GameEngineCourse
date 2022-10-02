@@ -14,6 +14,7 @@ namespace Sapphire
 	class RenderContex;
 	class DX12InputLayout;
 	class Light;
+	class Arcball;
 
 	class ShadowMapPass : public Sapphire::RenderPass
 	{
@@ -25,6 +26,7 @@ namespace Sapphire
 		void Teardown(DX12CommandList* commandList) override;
 		DX12DepthBuffer* GetDepthBuffer();
 		OrthographicCamera* camera;
+		Arcball* arcball;
 	private:
 		DX12RenderTarget* renderTarget;
 		DX12DepthBuffer* depthBuffer;

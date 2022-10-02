@@ -3,6 +3,8 @@
 #include "DX12InputLayout.h"
 #include "DX12ConstantBuffer.h"
 #include "Light.h"
+#include "Camera.h"
+#include "PerspectiveCamera.h"
 
 Sapphire::ForwardRenderingPass::ForwardRenderingPass(DeviceContext* deviceContext, RenderContext* renderContext, Light* light) : light(light)
 {
@@ -34,7 +36,8 @@ Sapphire::ForwardRenderingPass::ForwardRenderingPass(DeviceContext* deviceContex
 	viewport = new DX12Viewport(1280, 720);
 
 	// Create Camera
-	camera = new Camera(1280.0f / 720.0f);
+	//camera = new Camera(1280.0f / 720.0f);
+	//camera = new PerspectiveCamera(1280.0f / 720.0f);
 }
 
 Sapphire::ForwardRenderingPass::~ForwardRenderingPass()
@@ -50,6 +53,7 @@ Sapphire::ForwardRenderingPass::~ForwardRenderingPass()
 
 void Sapphire::ForwardRenderingPass::Setup(DX12CommandList* commandList)
 {
+	camera->LogInfo();
 	// Update the constant buffer
 	constantBuffer->UploadFloat4(light->GetPositionX(), light->GetPositionY(), light->GetPositionZ(), 0.0f);
 

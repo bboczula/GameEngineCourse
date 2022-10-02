@@ -7,12 +7,7 @@ namespace Sapphire
 	class OrthographicCamera : public Camera
 	{
 	public:
-		OrthographicCamera();
-		~OrthographicCamera();
-		void CalculateProjectionMatrix() override;
+		OrthographicCamera(DirectX::SimpleMath::Vector3 position);
 		void CalculateViewProjectionMatrix() override;
-		void DoIt();
-	private:
-
 	};
 }

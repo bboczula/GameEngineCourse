@@ -10,7 +10,7 @@
 #include "RawInput.h"
 #include "Camera.h"
 #include "WinMouse.h"
-#include "FirstPersonCamera.h"
+#include "FirstPerson.h"
 
 #include "../ModelLoader/ModelLoader.h"
 #include "../ModelLoader/Image.h"

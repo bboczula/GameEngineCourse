@@ -7,7 +7,6 @@
 #include "DX12Viewport.h"
 #include "DeviceContext.h"
 #include "RenderPass.h"
-#include "Camera.h"
 
 namespace Sapphire
 {
@@ -15,6 +14,7 @@ namespace Sapphire
 	class DX12InputLayout;
 	class DX12ConstantBuffer;
 	class Light;
+	class Camera;
 
 	class ForwardRenderingPass : public Sapphire::RenderPass
 	{

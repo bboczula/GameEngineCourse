@@ -135,7 +135,7 @@
     <ClInclude Include="Camera.h">
       <Filter>Engine\Rendering\Camera</Filter>
     </ClInclude>
-    <ClInclude Include="FirstPersonCamera.h">
+    <ClInclude Include="FirstPerson.h">
       <Filter>Engine\Rendering\Camera</Filter>
     </ClInclude>
     <ClInclude Include="RenderPass.h">
@@ -170,6 +170,15 @@
     </ClInclude>
     <ClInclude Include="Light.h">
       <Filter>Engine\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Free.h">
+      <Filter>Engine\Rendering\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraControler.h">
+      <Filter>Engine\Rendering\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Arcball.h">
+      <Filter>Engine\Rendering\Camera</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -257,7 +266,7 @@
     <ClCompile Include="Camera.cpp">
       <Filter>Engine\Rendering\Camera</Filter>
     </ClCompile>
-    <ClCompile Include="FirstPersonCamera.cpp">
+    <ClCompile Include="FirstPerson.cpp">
       <Filter>Engine\Rendering\Camera</Filter>
     </ClCompile>
     <ClCompile Include="ForwardRenderingPass.cpp">
@@ -289,6 +298,12 @@
     </ClCompile>
     <ClCompile Include="Light.cpp">
       <Filter>Engine\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Free.cpp">
+      <Filter>Engine\Rendering\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Arcball.cpp">
+      <Filter>Engine\Rendering\Camera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

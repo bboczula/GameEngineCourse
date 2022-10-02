@@ -32,7 +32,7 @@ void Sapphire::GameObject::CalculateWorldMatrix()
 	DirectX::SimpleMath::Matrix translateMatrix;
 	translateMatrix = translateMatrix.CreateTranslation(translation);
 
-	world = translateMatrix * scaleMatrix * rotationMatrix;
+	world = scaleMatrix * rotationMatrix * translateMatrix;
 	world = world.Transpose();
 }
 

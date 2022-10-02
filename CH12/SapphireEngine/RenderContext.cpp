@@ -211,7 +211,7 @@ void Sapphire::RenderContext::Render(std::vector<GameObject*> objects)
 	if (directionalLight->GetPositionY() > 0)
 	{
 		directionalLight->RotateX(0.025f);
-		Logger::GetInstance().Log("Directional Light: %f %f %f\n", directionalLight->GetPositionX(), directionalLight->GetPositionY(), directionalLight->GetPositionZ());
+		//Logger::GetInstance().Log("Directional Light: %f %f %f\n", directionalLight->GetPositionX(), directionalLight->GetPositionY(), directionalLight->GetPositionZ());
 	}
 
 	shadowMapPass->Setup(commandList);

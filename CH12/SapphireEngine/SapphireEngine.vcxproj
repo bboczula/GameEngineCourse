@@ -19,8 +19,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Arcball.h" />
     <ClInclude Include="BlitPass.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="CameraControler.h" />
     <ClInclude Include="d3dx12.h" />
     <ClInclude Include="DeviceContext.h" />
     <ClInclude Include="DX12CommandList.h" />
@@ -41,8 +43,9 @@
     <ClInclude Include="DxgiManager.h" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="File.h" />
-    <ClInclude Include="FirstPersonCamera.h" />
+    <ClInclude Include="FirstPerson.h" />
     <ClInclude Include="ForwardRenderingPass.h" />
+    <ClInclude Include="Free.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="HardwareCapabilities.h" />
     <ClInclude Include="Light.h" />
@@ -67,6 +70,7 @@
     <ClInclude Include="WinMouse.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Arcball.cpp" />
     <ClCompile Include="BlitPass.cpp" />
     <ClCompile Include="DeviceContext.cpp" />
     <ClCompile Include="DX12CommandList.cpp" />
@@ -87,8 +91,9 @@
     <ClCompile Include="DxgiManager.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="File.cpp" />
-    <ClCompile Include="FirstPersonCamera.cpp" />
+    <ClCompile Include="FirstPerson.cpp" />
     <ClCompile Include="ForwardRenderingPass.cpp" />
+    <ClCompile Include="Free.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="HardwareCapabilities.cpp" />
     <ClCompile Include="Light.cpp" />

@@ -4,6 +4,7 @@
 #include "OrthographicCamera.h"
 #include "DX12InputLayout.h"
 #include "Light.h"
+#include "Arcball.h"
 
 Sapphire::ShadowMapPass::ShadowMapPass(DeviceContext* deviceContext, RenderContext* renderContext, Light* light) : light(light)
 {
@@ -24,14 +25,17 @@ Sapphire::ShadowMapPass::ShadowMapPass(DeviceContext* deviceContext, RenderConte
 
 	// Create Camera
 	//camera = new Camera(1280.0f / 720.0f);
-	camera = new OrthographicCamera();
+	camera = new OrthographicCamera({ 0.0f, 0.0f, 0.0f });
 
 	// In this pass camera is fixed
 	const float scaleFactor = 20.0f;
-	camera->SetPosition({ scaleFactor * light->GetPositionX(), scaleFactor * light->GetPositionY(), scaleFactor * light->GetPositionZ() });
+	//camera->SetPosition({ scaleFactor * light->GetPositionX(), scaleFactor * light->GetPositionY(), scaleFactor * light->GetPositionZ() });
 	//camera->SetTarget({ 0.0f, 19.0f, 0.0f });
 	//camera->SetUp({ 0.0f, 0.0f, 1.0f });
 	//camera->DoIt();
+
+	arcball = new Arcball(camera);
+	arcball->Rotate(-90, 0, 0);
 }
 
 Sapphire::ShadowMapPass::~ShadowMapPass()
@@ -43,11 +47,12 @@ Sapphire::ShadowMapPass::~ShadowMapPass()
 void Sapphire::ShadowMapPass::Setup(DX12CommandList* commandList)
 {
 	// In this pass camera is fixed
-	const float scaleFactor = 20.0f;
-	camera->SetPosition({ scaleFactor * light->GetPositionX(), scaleFactor * light->GetPositionY(), scaleFactor * light->GetPositionZ() });
+	//const float scaleFactor = 20.0f;
+	//camera->SetPosition({ scaleFactor * light->GetPositionX(), scaleFactor * light->GetPositionY(), scaleFactor * light->GetPositionZ() });
 	//camera->SetTarget({ 0.0f, 19.0f, 0.0f });
 	//camera->SetUp({ 0.0f, 0.0f, 1.0f });
-	camera->DoIt();
+	//camera->DoIt();
+	arcball->Rotate(light->GetRotationX(), 0.0f, 0.0f);
 
 	const float clearColor[] = { 0.1176f, 0.1882f, 0.4470f, 1.0f };
 	//unsigned int currentFrameIndex = deviceContext->GetCurrentFrameIndex();

@@ -7,6 +7,9 @@
 #include "CameraHandler.h"
 #include "StaticModel.h"
 #include "../SapphireEngine/Engine.h"
+#include "../SapphireEngine/Free.h"
+#include "../SapphireEngine/Arcball.h"
+#include "../SapphireEngine/PerspectiveCamera.h"
 
 int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWSTR pCmdLine, _In_ int nCmdShow)
 {
@@ -114,23 +117,23 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
 
     std::vector<StaticModel*> staticModels;
 
-    for (int i = 0; i < objectNames.size(); i++)
-    {
-        StaticModel* model = new StaticModel;
-        staticModels.push_back(model);
-        engine.LoadModel(model, "sponzaGroup.obj3d", groupTextureMapping[i].first);
-        //engine.LoadDefaultTexture(model);
-        engine.LoadTextureFromFile(model, groupTextureMapping[i].second);
-        if (groupBumpMapMapping[i].second != "")
-        {
-            engine.LoadBumpMapFromFile(model, groupBumpMapMapping[i].second);
-        }
-        // Something like:
-        // if(groupBumpMapMpaping[i].second != null)
-        // engine.LoadBumpMapFromFile(model, groupBumpMapMapping[i].second);
-        //engine.LoadModel(model, "sibenik.obj", objectNames[i]);
-        engine.Register(model);
-    }
+    //for (int i = 0; i < objectNames.size(); i++)
+    //{
+    //    StaticModel* model = new StaticModel;
+    //    staticModels.push_back(model);
+    //    engine.LoadModel(model, "sponzaGroup.obj3d", groupTextureMapping[i].first);
+    //    //engine.LoadDefaultTexture(model);
+    //    engine.LoadTextureFromFile(model, groupTextureMapping[i].second);
+    //    if (groupBumpMapMapping[i].second != "")
+    //    {
+    //        engine.LoadBumpMapFromFile(model, groupBumpMapMapping[i].second);
+    //    }
+    //    // Something like:
+    //    // if(groupBumpMapMpaping[i].second != null)
+    //    // engine.LoadBumpMapFromFile(model, groupBumpMapMapping[i].second);
+    //    //engine.LoadModel(model, "sibenik.obj", objectNames[i]);
+    //    engine.Register(model);
+    //}
 
     // Shadow Test Scene
     std::vector<std::string> shadowTestObjectNames = { "Cube", "Plane" };
@@ -181,10 +184,48 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
     //    engine.Register(model);
     //}
 
-    Sapphire::FirstPersonCamera* camera = new Sapphire::FirstPersonCamera(static_cast<float>(1280) / static_cast<float>(720));
+    // OSIEDLE
+    std::vector<std::string> osiedleObjectNames = { "Plane_Mesh", "Monkey_Mesh" };
+
+    std::vector<std::pair<std::string, std::string>> osiedleTextureMapping =
+    {
+        std::make_pair("Plane_Mesh", "01_STUB.bmp"),
+        std::make_pair("Monkey_Mesh", "01_STUB.bmp")
+    };
+
+    std::vector<std::pair<std::string, std::string>> osiedleBumpMapping =
+    {
+        std::make_pair("Plane_Mesh", "01_STUB-bump.bmp"),
+        std::make_pair("Monkey_Mesh", "01_STUB.bmp")
+    };
+
+    for (int i = 0; i < osiedleObjectNames.size(); i++)
+    {
+        StaticModel* model = new StaticModel;
+        staticModels.push_back(model);
+        engine.LoadModel(model, "monkey.obj3d", osiedleTextureMapping[i].first);
+        //engine.LoadDefaultTexture(model);
+        engine.LoadTextureFromFile(model, osiedleTextureMapping[i].second);
+        if (osiedleBumpMapping[i].second != "")
+        {
+            engine.LoadBumpMapFromFile(model, osiedleBumpMapping[i].second);
+        }
+        engine.Register(model);
+    }
+
+
+    Sapphire::PerspectiveCamera* myCamera = new Sapphire::PerspectiveCamera(static_cast<float>(1280) / static_cast<float>(720), { 0.0f, 15.0f, 0.0f });
+    //Sapphire::FirstPersonCamera* camera = new Sapphire::FirstPersonCamera(static_cast<float>(1280) / static_cast<float>(720));
+    Sapphire::FreeCamera* camera = new Sapphire::FreeCamera(static_cast<float>(1280) / static_cast<float>(720), { 0.0f, 15.0f, 0.0f });
+    //Sapphire::Arcball* camera = new Sapphire::Arcball(myCamera);
+    //camera->Rotate(0.0f, 90.0f, 0.0f);
+
+    // Bind camera to the controler
+    camera->SetCamera(myCamera);
+
     CameraHandler* cameraHandler = new CameraHandler(camera, engine.GetInput());
     engine.Register(cameraHandler); // This is only to ge the Update method running; maybe the line below would be enough though?
-    engine.RegisterCamera(camera);
+    engine.RegisterCamera(myCamera);
 
     engine.Run();
 }

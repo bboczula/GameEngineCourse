@@ -13,7 +13,9 @@ namespace Sapphire
 		float GetPositionX();
 		float GetPositionY();
 		float GetPositionZ();
+		float GetRotationX();
 	private:
 		DirectX::SimpleMath::Vector3 position;
+		DirectX::SimpleMath::Vector3 rotation;
 	};
 }
