@@ -197,6 +197,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CameraHandler.h" />
+    <ClInclude Include="DynamicModel.h" />
     <ClInclude Include="StaticModel.h" />
     <ClInclude Include="Triangle.h" />
   </ItemGroup>

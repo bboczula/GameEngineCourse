@@ -7,5 +7,6 @@
     <ClInclude Include="Triangle.h" />
     <ClInclude Include="CameraHandler.h" />
     <ClInclude Include="StaticModel.h" />
+    <ClInclude Include="DynamicModel.h" />
   </ItemGroup>
 </Project>

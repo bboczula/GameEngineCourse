@@ -39,8 +39,9 @@ namespace Sapphire
 		UINT bumpMapWidth;
 		UINT bumpMapHeight;
 		DirectX::SimpleMath::Matrix world;
-	private:
+	protected:
 		void CalculateWorldMatrix();
+	private:
 		// START: Flexible Vertex Buffers (FVB) !--
 		DX12VertexBuffer* positionVertexBuffer;
 		DX12VertexBuffer* normalVertexBuffer;
