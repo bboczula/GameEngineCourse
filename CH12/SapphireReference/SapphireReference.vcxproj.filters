@@ -2,11 +2,13 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="SapphireReference.cpp" />
+    <ClCompile Include="SceneDescriptor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Triangle.h" />
     <ClInclude Include="CameraHandler.h" />
     <ClInclude Include="StaticModel.h" />
     <ClInclude Include="DynamicModel.h" />
+    <ClInclude Include="SceneDescriptor.h" />
   </ItemGroup>
 </Project>

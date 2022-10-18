@@ -189,6 +189,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="SapphireReference.cpp" />
+    <ClCompile Include="SceneDescriptor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SapphireEngine\SapphireEngine.vcxproj">
@@ -198,6 +199,7 @@
   <ItemGroup>
     <ClInclude Include="CameraHandler.h" />
     <ClInclude Include="DynamicModel.h" />
+    <ClInclude Include="SceneDescriptor.h" />
     <ClInclude Include="StaticModel.h" />
     <ClInclude Include="Triangle.h" />
   </ItemGroup>

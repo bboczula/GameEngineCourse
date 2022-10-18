@@ -1,7 +1,7 @@
 #include "Arcball.h"
 #include "Camera.h"
 
-Sapphire::Arcball::Arcball(Camera* camera) : radius(20.0f), target(0.0f, 0.0f, 0.0f)
+Sapphire::Arcball::Arcball(Camera* camera) : radius(75.0f), target(0.0f, 0.0f, 0.0f)
 {
 	SetCamera(camera);
 	camera->position = target + DirectX::SimpleMath::Vector3(0.0f, 0.0f, radius);
