@@ -6,8 +6,8 @@ Sapphire::Renderer::Renderer(HWND hwnd, LONG width, LONG height) : deviceContext
 {
 	Logger::GetInstance().Log("%s\n", "Sapphire::Renderer::Renderer()");
 
-	deviceContext = new DeviceContext(hwnd);
-	renderContext = new RenderContext(deviceContext);
+	deviceContext = new DeviceContext(hwnd, width, height);
+	renderContext = new RenderContext(deviceContext, width, height);
 }
 
 Sapphire::Renderer::~Renderer()

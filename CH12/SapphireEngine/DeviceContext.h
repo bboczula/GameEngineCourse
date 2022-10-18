@@ -20,7 +20,7 @@ namespace Sapphire
 	class DeviceContext
 	{
 	public:
-		DeviceContext(HWND hwnd);
+		DeviceContext(HWND hwnd, unsigned int width, unsigned int height);
 		~DeviceContext();
 		DX12Resource* GetBackBuffer(UINT index);
 		UINT GetCurrentFrameIndex();

@@ -15,10 +15,13 @@
 
 int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWSTR pCmdLine, _In_ int nCmdShow)
 {
-    Sapphire::Engine engine;
+    const unsigned int windowWidth = 1920;
+    const unsigned int windowHeight = 1080;
+    Sapphire::Engine engine(windowWidth, windowHeight);
 
     // LoadScene
     SceneDescriptor sceneDesc;
+    //sceneDesc.Load("sponza.scene");
     sceneDesc.Load("crytekSponza.scene");
 
     std::vector<StaticModel*> staticModels;
@@ -36,8 +39,8 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
     }
 
 
-    Sapphire::PerspectiveCamera* myCamera = new Sapphire::PerspectiveCamera(static_cast<float>(1280) / static_cast<float>(720), { 0.0f, 0.0f, 0.0f });
-    Sapphire::FreeCamera* camera = new Sapphire::FreeCamera(static_cast<float>(1280) / static_cast<float>(720), { 0.0f, 0.0f, 0.0f });
+    Sapphire::PerspectiveCamera* myCamera = new Sapphire::PerspectiveCamera(static_cast<float>(windowWidth) / static_cast<float>(windowHeight), { 0.0f, 0.0f, 0.0f });
+    Sapphire::FreeCamera* camera = new Sapphire::FreeCamera(static_cast<float>(windowWidth) / static_cast<float>(windowHeight), { 0.0f, 0.0f, 0.0f });
     camera->SetCamera(myCamera);
 
     CameraHandler* cameraHandler = new CameraHandler(camera, engine.GetInput());

@@ -1,11 +1,11 @@
 #include "DeviceContext.h"
 
-Sapphire::DeviceContext::DeviceContext(HWND hwnd)
+Sapphire::DeviceContext::DeviceContext(HWND hwnd, unsigned int width, unsigned int height)
 {
 	dxgiManager = new DxgiManager;
 	device = new DX12Device(dxgiManager->dxgiAdapter);
 	commandQueue = new DX12CommandQueue(device);
-	dxgiManager->CreateSwapChain(commandQueue, hwnd, settings.isVsyncEnabled);
+	dxgiManager->CreateSwapChain(commandQueue, hwnd, settings.isVsyncEnabled, width, height);
 }
 
 Sapphire::DeviceContext::~DeviceContext()

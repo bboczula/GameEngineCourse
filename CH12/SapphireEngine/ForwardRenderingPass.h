@@ -19,7 +19,7 @@ namespace Sapphire
 	class ForwardRenderingPass : public Sapphire::RenderPass
 	{
 	public:
-		ForwardRenderingPass(DeviceContext* deviceContext, RenderContext* renderContext, Light* light);
+		ForwardRenderingPass(DeviceContext* deviceContext, RenderContext* renderContext, Light* light, unsigned int width, unsigned int height);
 		~ForwardRenderingPass();
 		void Setup(DX12CommandList* commandList) override;
 		void Render(DX12CommandList* commandList, RenderContext* renderContext, std::vector<GameObject*> objects) override;

@@ -6,15 +6,15 @@
 #include "Camera.h"
 #include "PerspectiveCamera.h"
 
-Sapphire::ForwardRenderingPass::ForwardRenderingPass(DeviceContext* deviceContext, RenderContext* renderContext, Light* light) : light(light)
+Sapphire::ForwardRenderingPass::ForwardRenderingPass(DeviceContext* deviceContext, RenderContext* renderContext, Light* light, unsigned int width, unsigned int height) : light(light)
 {
 	// Do I need Render Context here?
 	// For example, I have to allocate descriptors somehow
 	// Or maybe even I can ask RenderContext to create the Render Target for me
 	// renderContext->CreateRenderTarget();
 	// renderContext->CreateDepthBuffer();
-	renderTarget = renderContext->CreateRenderTarget(deviceContext, 1280, 720);
-	depthBuffer = renderContext->CreateDepthBuffer(deviceContext, 1280, 720);
+	renderTarget = renderContext->CreateRenderTarget(deviceContext, width, height);
+	depthBuffer = renderContext->CreateDepthBuffer(deviceContext, width, height);
 
 	// Create Constant Buffer for the light data
 	constantBuffer = renderContext->CreateConstantBuffer();
@@ -33,7 +33,7 @@ Sapphire::ForwardRenderingPass::ForwardRenderingPass(DeviceContext* deviceContex
 
 	// Create Pipeline State
 	dxPipelineState = new DX12PipelineState(deviceContext->GetDevice(), vertexShader, pixelShader, inputLayout);
-	viewport = new DX12Viewport(1280, 720);
+	viewport = new DX12Viewport(width, height);
 
 	// Create Camera
 	//camera = new Camera(1280.0f / 720.0f);
@@ -53,7 +53,7 @@ Sapphire::ForwardRenderingPass::~ForwardRenderingPass()
 
 void Sapphire::ForwardRenderingPass::Setup(DX12CommandList* commandList)
 {
-	camera->LogInfo();
+	// camera->LogInfo();
 	// Update the constant buffer
 	constantBuffer->UploadFloat4(light->GetPositionX(), light->GetPositionY(), light->GetPositionZ(), 0.0f);
 

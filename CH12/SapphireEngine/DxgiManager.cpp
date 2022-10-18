@@ -14,7 +14,7 @@ Sapphire::DxgiManager::~DxgiManager()
 	SafeRelease(&dxgiFactory);
 }
 
-void Sapphire::DxgiManager::CreateSwapChain(DX12CommandQueue* commandQueue, HWND hwnd, bool vsyncEnabled)
+void Sapphire::DxgiManager::CreateSwapChain(DX12CommandQueue* commandQueue, HWND hwnd, bool vsyncEnabled, unsigned int width, unsigned int height)
 {
 	Logger::GetInstance().Log("%s\n", "Sapphire::Renderer::CreateSwapChain()");
 
@@ -25,8 +25,8 @@ void Sapphire::DxgiManager::CreateSwapChain(DX12CommandQueue* commandQueue, HWND
 
 	DXGI_SWAP_CHAIN_DESC1 swapChainDesc;
 	ZeroMemory(&swapChainDesc, sizeof(swapChainDesc));
-	swapChainDesc.Width = 0;
-	swapChainDesc.Height = 0;
+	swapChainDesc.Width = width;
+	swapChainDesc.Height = height;
 	swapChainDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
 	swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
 	swapChainDesc.BufferCount = FRAME_COUNT;

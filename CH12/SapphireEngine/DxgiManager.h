@@ -18,7 +18,7 @@ namespace Sapphire
 	public:
 		DxgiManager();
 		~DxgiManager();
-		void CreateSwapChain(DX12CommandQueue* commandQueue, HWND hwnd, bool vsyncEnabled);
+		void CreateSwapChain(DX12CommandQueue* commandQueue, HWND hwnd, bool vsyncEnabled, unsigned int width, unsigned int height);
 		void PresentFrame(bool vsyncEnabled);
 		void DisableDxgiMsgQueueMonitoring(HWND hwnd);
 	private:

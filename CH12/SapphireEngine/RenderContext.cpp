@@ -3,7 +3,7 @@
 #include "DX12ConstantBuffer.h"
 #include "Light.h"
 
-Sapphire::RenderContext::RenderContext(DeviceContext* deviceContext) : deviceContext(deviceContext)
+Sapphire::RenderContext::RenderContext(DeviceContext* deviceContext, unsigned int width, unsigned int height) : deviceContext(deviceContext)
 {
 	Logger::GetInstance().Log("%s\n", "Sapphire::RenderContext::RenderContext");
 
@@ -49,7 +49,7 @@ Sapphire::RenderContext::RenderContext(DeviceContext* deviceContext) : deviceCon
 	shadowMapPass = new ShadowMapPass(deviceContext, this, directionalLight);
 
 	// Create Render Pass
-	renderPass = new ForwardRenderingPass(deviceContext, this, directionalLight);
+	renderPass = new ForwardRenderingPass(deviceContext, this, directionalLight, width, height);
 
 	// Create Blit Pass
 	blitPass = new BlitPass();

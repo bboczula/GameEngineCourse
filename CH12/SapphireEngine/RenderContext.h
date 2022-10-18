@@ -25,7 +25,7 @@ namespace Sapphire
 	class RenderContext
 	{
 	public:
-		RenderContext(DeviceContext* deviceContext);
+		RenderContext(DeviceContext* deviceContext, unsigned int width, unsigned int height);
 		~RenderContext();
 		void Setup();
 		void CreateResources(DeviceContext* deviceContext, std::vector<GameObject*> objects);
