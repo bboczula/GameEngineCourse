@@ -25,7 +25,7 @@ void SceneDescriptor::Load(std::string fileName)
 
 unsigned int SceneDescriptor::Size()
 {
-    return gameObjectNames.size();
+    return objectData.size();
 }
 
 const std::string& SceneDescriptor::GetMeshLibraryPath()
@@ -33,19 +33,9 @@ const std::string& SceneDescriptor::GetMeshLibraryPath()
     return meshLibrary;
 }
 
-const std::string& SceneDescriptor::GetObjectName(unsigned int index)
+const ObjectData& SceneDescriptor::GetObjectData(unsigned int index)
 {
-    return gameObjectNames[index];
-}
-
-const std::string& SceneDescriptor::GetColorTexturePath(unsigned int index)
-{
-    return gameObjectColor[index];
-}
-
-const std::string& SceneDescriptor::GetBumpTexturePath(unsigned int index)
-{
-    return gameObjectBump[index];
+    return objectData[index];
 }
 
 void SceneDescriptor::ProcessLine(const std::string& line)
@@ -74,8 +64,10 @@ void SceneDescriptor::ProcessLine(const std::string& line)
     }
     else if(tokens[0].compare("staticObject") == 0)
     {
-        gameObjectNames.push_back(tokens[1]);
-        gameObjectColor.push_back(tokens[2]);
-        gameObjectBump.push_back(tokens[3]);
+        ObjectData temp;
+        temp.name.Set(tokens[1]);
+        temp.colorTextureName.Set(tokens[2]);
+        temp.bumpTextureName.Set(tokens[3]);
+        objectData.push_back(temp);
     }
 }

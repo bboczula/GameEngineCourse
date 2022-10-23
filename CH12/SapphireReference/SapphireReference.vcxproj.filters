@@ -10,5 +10,6 @@
     <ClInclude Include="StaticModel.h" />
     <ClInclude Include="DynamicModel.h" />
     <ClInclude Include="SceneDescriptor.h" />
+    <ClInclude Include="Optional.h" />
   </ItemGroup>
 </Project>

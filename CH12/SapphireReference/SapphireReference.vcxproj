@@ -199,6 +199,7 @@
   <ItemGroup>
     <ClInclude Include="CameraHandler.h" />
     <ClInclude Include="DynamicModel.h" />
+    <ClInclude Include="Optional.h" />
     <ClInclude Include="SceneDescriptor.h" />
     <ClInclude Include="StaticModel.h" />
     <ClInclude Include="Triangle.h" />

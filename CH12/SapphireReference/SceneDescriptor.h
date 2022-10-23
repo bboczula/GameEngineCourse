@@ -3,6 +3,15 @@
 #include <string>
 #include <vector>
 
+#include "Optional.h"
+
+struct ObjectData
+{
+    Optional<std::string> name;
+    Optional<std::string> colorTextureName;
+    Optional<std::string> bumpTextureName;
+};
+
 class SceneDescriptor
 {
 public:
@@ -11,13 +20,9 @@ public:
 	void Load(std::string fileName);
 	unsigned int Size();
 	const std::string& GetMeshLibraryPath();
-	const std::string& GetObjectName(unsigned int index);
-	const std::string& GetColorTexturePath(unsigned int index);
-	const std::string& GetBumpTexturePath(unsigned int index);
+    const ObjectData& GetObjectData(unsigned int index);
 private:
 	void ProcessLine(const std::string& line);
 	std::string meshLibrary;
-	std::vector<std::string> gameObjectNames;
-	std::vector<std::string> gameObjectColor;
-	std::vector<std::string> gameObjectBump;
+    std::vector<ObjectData> objectData;
 };
