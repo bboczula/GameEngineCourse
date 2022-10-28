@@ -13,6 +13,17 @@
 #include "ShadowMapPass.h"
 
 #include <vector>
+#include <dxgi1_5.h>
+#include <d3d12.h>
+#include <iostream>
+#include <wrl.h>
+#include <windows.h>
+#include <comdef.h>
+#include <dxgidebug.h>
+
+#pragma comment(lib, "dxgi.lib")
+#pragma comment(lib, "d3d12.lib")
+#pragma comment(lib, "dxguid.lib")
 
 namespace Sapphire
 {
@@ -20,15 +31,17 @@ namespace Sapphire
 	//class ShadowMapPass;
 	class BlitPass;
 	class DX12ConstantBuffer;
+	class DX12VertexBuffer;
+	class DX12IndexBuffer;
 	class Light;
 
 	class RenderContext
 	{
 	public:
-		RenderContext(DeviceContext* deviceContext, unsigned int width, unsigned int height);
+		RenderContext(HWND hwnd, unsigned int width, unsigned int height);
 		~RenderContext();
 		void Setup();
-		void CreateResources(DeviceContext* deviceContext, std::vector<GameObject*> objects);
+		void CreateResources(std::vector<GameObject*> objects);
 		void CreateTextureResource(DeviceContext* deviceContext, DX12Texture*& texture, UINT width, UINT height, PixelDefinition* source);
 		DX12RenderTarget* CreateRenderTarget(DeviceContext* deviceContext, UINT width, UINT height);
 		DX12DepthBuffer* CreateDepthBuffer(DeviceContext* deviceContext, UINT width, UINT height);
@@ -37,7 +50,7 @@ namespace Sapphire
 		D3D12_GPU_DESCRIPTOR_HANDLE GetSrvDescriptor(UINT32 index);
 		void Render(std::vector<GameObject*> objects);
 		void Teardown();
-		void Execute(DeviceContext* deviceContext);
+		void Execute();
 		DX12RenderTarget* GetRenderTarget();
 		void SetCamera(Camera* camera);
 	private:

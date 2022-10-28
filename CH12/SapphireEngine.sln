@@ -20,6 +20,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ModelLoaderUnitTest", "Mode
 		{171A8EA1-2B43-4810-8B1C-A5B689235766} = {171A8EA1-2B43-4810-8B1C-A5B689235766}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DX12Backend", "DX12Backend\DX12Backend.vcxproj", "{29816DCF-2A68-45B9-A4FC-2C709F1FC630}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GpuApi", "GpuApi", "{53909DA9-7395-4E05-961A-FAB72D124406}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -60,9 +64,20 @@ Global
 		{5CFA2536-8584-4034-9DD9-0749787D4D85}.Release|x64.Build.0 = Release|x64
 		{5CFA2536-8584-4034-9DD9-0749787D4D85}.Release|x86.ActiveCfg = Release|Win32
 		{5CFA2536-8584-4034-9DD9-0749787D4D85}.Release|x86.Build.0 = Release|Win32
+		{29816DCF-2A68-45B9-A4FC-2C709F1FC630}.Debug|x64.ActiveCfg = Debug|x64
+		{29816DCF-2A68-45B9-A4FC-2C709F1FC630}.Debug|x64.Build.0 = Debug|x64
+		{29816DCF-2A68-45B9-A4FC-2C709F1FC630}.Debug|x86.ActiveCfg = Debug|Win32
+		{29816DCF-2A68-45B9-A4FC-2C709F1FC630}.Debug|x86.Build.0 = Debug|Win32
+		{29816DCF-2A68-45B9-A4FC-2C709F1FC630}.Release|x64.ActiveCfg = Release|x64
+		{29816DCF-2A68-45B9-A4FC-2C709F1FC630}.Release|x64.Build.0 = Release|x64
+		{29816DCF-2A68-45B9-A4FC-2C709F1FC630}.Release|x86.ActiveCfg = Release|Win32
+		{29816DCF-2A68-45B9-A4FC-2C709F1FC630}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{29816DCF-2A68-45B9-A4FC-2C709F1FC630} = {53909DA9-7395-4E05-961A-FAB72D124406}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {585BDF4F-A48D-41E2-B3BB-3F96F33C047C}

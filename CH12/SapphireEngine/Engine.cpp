@@ -3,7 +3,7 @@
 Sapphire::Engine::Engine(UINT width, UINT height) : WindowApplication{ width, height }, renderer{ nullptr }
 {
 	Logger::GetInstance().Log("%s", "Sapphire::Engine::Engine()\n");
-	renderer = new Renderer(hwnd, width, height);
+	renderer = new RenderContext(hwnd, width, height);
 
 	input = new RawInput();
 	Attach(input);
@@ -37,7 +37,7 @@ void Sapphire::Engine::Register(GameObject* gameObject)
 
 void Sapphire::Engine::RegisterCamera(Camera* camera)
 {
-	renderer->SetMainCamera(camera);
+	renderer->SetCamera(camera);
 }
 
 void Sapphire::Engine::LoadModel(GameObject* gameObject, const std::string& filePath, const std::string& groupName)
@@ -219,6 +219,9 @@ void Sapphire::Engine::Tick()
 
 	// Render from Render Context
 	renderer->Render(gameObjects);
+
+	// Execute the command list
+	renderer->Execute();
 }
 
 void Sapphire::Engine::ReportLiveObjects()

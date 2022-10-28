@@ -4,13 +4,13 @@
 
 #include "WindowApplication.h"
 #include "Logger.h"
-#include "Renderer.h"
 #include "GameObject.h"
 #include "ModelLoaderSapphire.h"
 #include "RawInput.h"
 #include "Camera.h"
 #include "WinMouse.h"
 #include "FirstPerson.h"
+#include "RenderContext.h"
 
 #include "../ModelLoader/ModelLoader.h"
 #include "../ModelLoader/Image.h"
@@ -38,7 +38,7 @@ namespace Sapphire
         void Initialize() override;
         void Tick() override;
         void ReportLiveObjects();
-        Renderer* renderer;
+        RenderContext* renderer;
         RawInput* input;
         WinMouse* winMouse;
         std::vector<GameObject*> gameObjects;

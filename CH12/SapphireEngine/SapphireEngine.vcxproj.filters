@@ -69,9 +69,6 @@
     <ClInclude Include="HardwareCapabilities.h">
       <Filter>Engine\Rendering</Filter>
     </ClInclude>
-    <ClInclude Include="Renderer.h">
-      <Filter>Engine\Rendering</Filter>
-    </ClInclude>
     <ClInclude Include="InputFile.h">
       <Filter>Window</Filter>
     </ClInclude>
@@ -216,9 +213,6 @@
       <Filter>Engine\Rendering</Filter>
     </ClCompile>
     <ClCompile Include="HardwareCapabilities.cpp">
-      <Filter>Engine\Rendering</Filter>
-    </ClCompile>
-    <ClCompile Include="Renderer.cpp">
       <Filter>Engine\Rendering</Filter>
     </ClCompile>
     <ClCompile Include="InputFile.cpp">

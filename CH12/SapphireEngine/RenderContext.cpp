@@ -1,11 +1,15 @@
 #include "RenderContext.h"
 #include "BlitPass.h"
 #include "DX12ConstantBuffer.h"
+#include "DX12VertexBuffer.h"
+#include "DX12IndexBuffer.h"
 #include "Light.h"
 
-Sapphire::RenderContext::RenderContext(DeviceContext* deviceContext, unsigned int width, unsigned int height) : deviceContext(deviceContext)
+Sapphire::RenderContext::RenderContext(HWND hwnd, unsigned int width, unsigned int height) : deviceContext(deviceContext)
 {
 	Logger::GetInstance().Log("%s\n", "Sapphire::RenderContext::RenderContext");
+
+	deviceContext = new DeviceContext(hwnd, width, height);
 
 	// Create all the Descriptor Heaps
 	rtvDescriptorHeap = deviceContext->CreateRtvDescriptorHeap();
@@ -91,12 +95,41 @@ void Sapphire::RenderContext::Setup()
 	commandList->SetDescriptorHeap(srvDescriptorHeap);
 }
 
-void Sapphire::RenderContext::CreateResources(DeviceContext* deviceContext, std::vector<GameObject*> objects)
+void Sapphire::RenderContext::CreateResources(std::vector<GameObject*> objects)
 {
 	commandList->Reset();
 
 	for (int i = 0; i < objects.size(); i++)
 	{
+		// START: Flexible Vertex Buffers (FVB) !--
+		// TODO: needs to decouple Index Buffer
+		if (objects[i]->numOfVertices != 0)
+		{
+			objects[i]->positionVertexBuffer = new DX12VertexBuffer(deviceContext->GetDevice(), objects[i]->position,
+				sizeof(DirectX::SimpleMath::Vector4), objects[i]->numOfVertices);
+		}
+		if (objects[i]->numOfVertices != 0)
+		{
+			objects[i]->normalVertexBuffer = new DX12VertexBuffer(deviceContext->GetDevice(), objects[i]->normal,
+				sizeof(DirectX::SimpleMath::Vector4), objects[i]->numOfVertices);
+		}
+		if (objects[i]->numOfVertices != 0)
+		{
+			objects[i]->tangentVertexBuffer = new DX12VertexBuffer(deviceContext->GetDevice(), objects[i]->tangent,
+				sizeof(DirectX::SimpleMath::Vector4), objects[i]->numOfVertices);
+		}
+		if (objects[i]->numOfVertices != 0)
+		{
+			objects[i]->colorTexCoordVertexBuffer = new DX12VertexBuffer(deviceContext->GetDevice(), objects[i]->albedoTexCoord,
+				sizeof(DirectX::SimpleMath::Vector2), objects[i]->numOfVertices);
+		}
+		if (objects[i]->numOfIndices != 0)
+		{
+			objects[i]->indexBuffer = new DX12IndexBuffer(deviceContext->GetDevice(), objects[i]->indices,
+				sizeof(UINT), objects[i]->numOfIndices);
+		}
+		// END: Flexible Vertex Buffers (FVB) !--
+
 		// Some objects are not renderable, need to think of a better way to handle this
 		if (!objects[i]->numOfVertices)
 		{
@@ -237,9 +270,10 @@ void Sapphire::RenderContext::Teardown()
 	commandList->Close();
 }
 
-void Sapphire::RenderContext::Execute(DeviceContext* deviceContext)
+void Sapphire::RenderContext::Execute()
 {
 	deviceContext->Execute(commandList);
+	deviceContext->Present();
 }
 
 Sapphire::DX12RenderTarget* Sapphire::RenderContext::GetRenderTarget()
