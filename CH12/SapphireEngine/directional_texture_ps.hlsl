@@ -53,8 +53,14 @@ float4 main(VSOutput input) : SV_TARGET
 	float3 DirLightColor = float3(1.0f, 1.0f, 1.0f);
 
 	float normalHeight = (float)bumpMap.Sample(sampleWrap, input.texCoord).r * 2.0f - 1.0f;
-	//float3 inNormal = input.normal.xyz * normalHeight;
+
+#ifdef USE_BUMP_MAP
 	float3 inNormal = PerturbNormal(input.defPosition.xyz, normalize(input.normal.xyz), normalHeight);
+#else
+	float3 inNormal = normalize(input.normal.xyz);
+#endif // USE_BUMP_MAP
+
+	
 
 	float NDotL = dot(DirToLight, inNormal);
 	//float3 finalColor = DirLightColor.rgb * saturate(NDotL);

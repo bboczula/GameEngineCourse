@@ -208,34 +208,34 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="bypass_ps.hlsl">
-      <Filter>Engine\Rendering\Shaders</Filter>
-    </FxCompile>
-    <FxCompile Include="bypass_vs.hlsl">
-      <Filter>Engine\Rendering\Shaders</Filter>
-    </FxCompile>
-    <FxCompile Include="directional_vs.hlsl">
-      <Filter>Engine\Rendering\Shaders</Filter>
-    </FxCompile>
-    <FxCompile Include="directional_ps.hlsl">
-      <Filter>Engine\Rendering\Shaders</Filter>
-    </FxCompile>
-    <FxCompile Include="directional_texture_vs.hlsl">
-      <Filter>Engine\Rendering\Shaders</Filter>
-    </FxCompile>
-    <FxCompile Include="directional_texture_ps.hlsl">
-      <Filter>Engine\Rendering\Shaders</Filter>
-    </FxCompile>
-    <FxCompile Include="shadow_vs.hlsl">
-      <Filter>Engine\Rendering\Shaders</Filter>
-    </FxCompile>
-    <FxCompile Include="shadow_ps.hlsl">
-      <Filter>Engine\Rendering\Shaders</Filter>
-    </FxCompile>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="SimpleMath.inl">
       <Filter>External</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="bypass_ps.hlsl">
+      <Filter>Engine\Rendering\Shaders</Filter>
+    </Text>
+    <Text Include="bypass_vs.hlsl">
+      <Filter>Engine\Rendering\Shaders</Filter>
+    </Text>
+    <Text Include="directional_ps.hlsl">
+      <Filter>Engine\Rendering\Shaders</Filter>
+    </Text>
+    <Text Include="directional_texture_ps.hlsl">
+      <Filter>Engine\Rendering\Shaders</Filter>
+    </Text>
+    <Text Include="directional_texture_vs.hlsl">
+      <Filter>Engine\Rendering\Shaders</Filter>
+    </Text>
+    <Text Include="directional_vs.hlsl">
+      <Filter>Engine\Rendering\Shaders</Filter>
+    </Text>
+    <Text Include="shadow_ps.hlsl">
+      <Filter>Engine\Rendering\Shaders</Filter>
+    </Text>
+    <Text Include="shadow_vs.hlsl">
+      <Filter>Engine\Rendering\Shaders</Filter>
+    </Text>
   </ItemGroup>
 </Project>

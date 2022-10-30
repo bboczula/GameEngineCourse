@@ -32,7 +32,7 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
         ObjectData temp = sceneDesc.GetObjectData(i);
         engine.LoadModel(model, sceneDesc.GetMeshLibraryPath(), temp.name.Get());
         engine.LoadTextureFromFile(model, temp.colorTextureName.Get());
-        if (temp.bumpTextureName.Get() != "")
+        if (temp.bumpTextureName.Get() != "null-texture")
         {
             engine.LoadBumpMapFromFile(model, temp.bumpTextureName.Get());
         }

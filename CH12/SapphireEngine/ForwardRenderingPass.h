@@ -33,7 +33,10 @@ namespace Sapphire
 		DX12ConstantBuffer* constantBuffer;
 		DX12Shader* pixelShader;
 		DX12Shader* vertexShader;
+		DX12Shader* pixelShader_noBump;
+		DX12Shader* vertexShader_noBump;
 		DX12PipelineState* dxPipelineState;
+		DX12PipelineState* dxPipelineState_noBump;
 		DX12Viewport* viewport;
 		DX12InputLayout* inputLayout;
 		Camera* camera;

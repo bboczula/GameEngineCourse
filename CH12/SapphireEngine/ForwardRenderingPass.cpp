@@ -24,6 +24,8 @@ Sapphire::ForwardRenderingPass::ForwardRenderingPass(RenderContext* renderContex
 	// Create Shaders
 	vertexShader = new DX12Shader("directional_texture_vs.cso");
 	pixelShader = new DX12Shader("directional_texture_ps.cso");
+	vertexShader_noBump = new DX12Shader("directional_texture_vs_1.cso");
+	pixelShader_noBump = new DX12Shader("directional_texture_ps_1.cso");
 
 	// Create Input Layout
 	inputLayout = new DX12InputLayout();
@@ -34,6 +36,7 @@ Sapphire::ForwardRenderingPass::ForwardRenderingPass(RenderContext* renderContex
 
 	// Create Pipeline State
 	dxPipelineState = renderContext->CreatePipelineState(vertexShader, pixelShader, inputLayout);
+	dxPipelineState_noBump = renderContext->CreatePipelineState(vertexShader_noBump, pixelShader_noBump, inputLayout);
 	viewport = new DX12Viewport(width, height);
 
 	// Create Camera
@@ -46,8 +49,11 @@ Sapphire::ForwardRenderingPass::~ForwardRenderingPass()
 	delete camera;
 	delete viewport;
 	delete dxPipelineState;
+	delete dxPipelineState_noBump;
 	delete pixelShader;
 	delete vertexShader;
+	delete pixelShader_noBump;
+	delete vertexShader_noBump;
 	delete depthBuffer;
 	delete renderTarget;
 }
@@ -63,7 +69,6 @@ void Sapphire::ForwardRenderingPass::Setup(DX12CommandList* commandList)
 
 	//commandList->Reset();
 	commandList->TransitionTo(renderTarget->GetResource(), D3D12_RESOURCE_STATE_RENDER_TARGET);
-	commandList->SetPipelineState(dxPipelineState);
 	commandList->SetRenderTarget(renderTarget, depthBuffer);
 	commandList->ClearRenderTarget(renderTarget, clearColor);
 	// Do I have to manage resource states?
@@ -100,6 +105,14 @@ void Sapphire::ForwardRenderingPass::Render(DX12CommandList* commandList, Render
 	{
 		if (objects[i]->numOfVertices != 0)
 		{
+			if (objects[i]->bumpMapWidth == 0)
+			{
+				commandList->SetPipelineState(dxPipelineState_noBump);
+			}
+			else
+			{
+				commandList->SetPipelineState(dxPipelineState);
+			}
 			commandList->SetConstantBuffer(1, 16, shadowMapCamera->GetViewProjectionMatrixPtr());
 			commandList->SetConstantBuffer(2, 16, &objects[i]->world);
 			// D3D12_GPU_DESCRIPTOR_HANDLE descriptor;
@@ -107,7 +120,10 @@ void Sapphire::ForwardRenderingPass::Render(DX12CommandList* commandList, Render
 			// commandList->SetTexture(3, descriptor);
 			commandList->SetTexture(3, renderContext->GetSrvDescriptor(objects[i]->texture->GetDescriptorIndex()));
 			commandList->SetTexture(4, renderContext->GetSrvDescriptor(depthMap->GetDescriptorIndex()));
-			commandList->SetTexture(5, renderContext->GetSrvDescriptor(objects[i]->bumpMap->GetDescriptorIndex()));
+			if (objects[i]->bumpMapWidth != 0)
+			{
+				commandList->SetTexture(5, renderContext->GetSrvDescriptor(objects[i]->bumpMap->GetDescriptorIndex()));
+			}
 			commandList->SetConstantBuffer(6, renderContext->GetSrvDescriptor(constantBuffer->GetDescriptorIndex()));
 			//commandList->Draw(objects[i]->geometry);
 			//commandList->Draw(objects[i]->positionVertexBuffer, objects[i]->indexBuffer);
