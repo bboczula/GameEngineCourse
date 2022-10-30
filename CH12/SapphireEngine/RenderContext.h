@@ -42,10 +42,10 @@ namespace Sapphire
 		~RenderContext();
 		void Setup();
 		void CreateResources(std::vector<GameObject*> objects);
-		void CreateTextureResource(DeviceContext* deviceContext, DX12Texture*& texture, UINT width, UINT height, PixelDefinition* source);
-		DX12RenderTarget* CreateRenderTarget(DeviceContext* deviceContext, UINT width, UINT height);
-		DX12DepthBuffer* CreateDepthBuffer(DeviceContext* deviceContext, UINT width, UINT height);
-		DX12DepthBuffer* CreateDepthBufferWithSrv(DeviceContext* deviceContext, UINT width, UINT height);
+		void CreateTextureResource(DX12Texture*& texture, UINT width, UINT height, PixelDefinition* source);
+		DX12RenderTarget* CreateRenderTarget(UINT width, UINT height);
+		DX12DepthBuffer* CreateDepthBuffer(UINT width, UINT height);
+		DX12DepthBuffer* CreateDepthBufferWithSrv(UINT width, UINT height);
 		DX12ConstantBuffer* CreateConstantBuffer();
 		D3D12_GPU_DESCRIPTOR_HANDLE GetSrvDescriptor(UINT32 index);
 		void Render(std::vector<GameObject*> objects);

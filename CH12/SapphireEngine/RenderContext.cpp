@@ -136,12 +136,12 @@ void Sapphire::RenderContext::CreateResources(std::vector<GameObject*> objects)
 			continue;
 		}
 
-		CreateTextureResource(deviceContext, objects[i]->texture, objects[i]->textureWidth, objects[i]->textureHeight, objects[i]->pixels);
+		CreateTextureResource(objects[i]->texture, objects[i]->textureWidth, objects[i]->textureHeight, objects[i]->pixels);
 
 		// If Game Object has some pixels in the bumpMap
 		if (objects[i]->bumpMapPixels != nullptr)
 		{
-			CreateTextureResource(deviceContext, objects[i]->bumpMap, objects[i]->bumpMapWidth, objects[i]->bumpMapHeight, objects[i]->bumpMapPixels);
+			CreateTextureResource(objects[i]->bumpMap, objects[i]->bumpMapWidth, objects[i]->bumpMapHeight, objects[i]->bumpMapPixels);
 		}
 	}
 
@@ -166,7 +166,7 @@ void Sapphire::RenderContext::CreateResources(std::vector<GameObject*> objects)
 	}
 }
 
-void Sapphire::RenderContext::CreateTextureResource(DeviceContext* deviceContext, DX12Texture*& dest, UINT width, UINT height, PixelDefinition* source)
+void Sapphire::RenderContext::CreateTextureResource(DX12Texture*& dest, UINT width, UINT height, PixelDefinition* source)
 {
 	auto descriptorIndex = srvDescriptorHeap->GetHeapSize();
 	D3D12_CPU_DESCRIPTOR_HANDLE srvHandle;
@@ -196,21 +196,21 @@ void Sapphire::RenderContext::CreateTextureResource(DeviceContext* deviceContext
 	commandList->TransitionTo(dest->GetResource(), D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 }
 
-Sapphire::DX12RenderTarget* Sapphire::RenderContext::CreateRenderTarget(DeviceContext* deviceContext, UINT width, UINT height)
+Sapphire::DX12RenderTarget* Sapphire::RenderContext::CreateRenderTarget(UINT width, UINT height)
 {
 	D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle;
 	rtvHandle.ptr = rtvDescriptorHeap->AllocateDescriptor();
 	return new DX12RenderTarget(deviceContext->GetDevice(), rtvHandle, width, height);
 }
 
-Sapphire::DX12DepthBuffer* Sapphire::RenderContext::CreateDepthBuffer(DeviceContext* deviceContext, UINT width, UINT height)
+Sapphire::DX12DepthBuffer* Sapphire::RenderContext::CreateDepthBuffer(UINT width, UINT height)
 {
 	D3D12_CPU_DESCRIPTOR_HANDLE dsvHandle;
 	dsvHandle.ptr = dsvDescriptorHeap->AllocateDescriptor();
 	return new DX12DepthBuffer(deviceContext->GetDevice(), dsvHandle, width, height);
 }
 
-Sapphire::DX12DepthBuffer* Sapphire::RenderContext::CreateDepthBufferWithSrv(DeviceContext* deviceContext, UINT width, UINT height)
+Sapphire::DX12DepthBuffer* Sapphire::RenderContext::CreateDepthBufferWithSrv(UINT width, UINT height)
 {
 	D3D12_CPU_DESCRIPTOR_HANDLE dsvHandle;
 	dsvHandle.ptr = dsvDescriptorHeap->AllocateDescriptor();

@@ -13,8 +13,8 @@ Sapphire::ForwardRenderingPass::ForwardRenderingPass(DeviceContext* deviceContex
 	// Or maybe even I can ask RenderContext to create the Render Target for me
 	// renderContext->CreateRenderTarget();
 	// renderContext->CreateDepthBuffer();
-	renderTarget = renderContext->CreateRenderTarget(deviceContext, width, height);
-	depthBuffer = renderContext->CreateDepthBuffer(deviceContext, width, height);
+	renderTarget = renderContext->CreateRenderTarget(width, height);
+	depthBuffer = renderContext->CreateDepthBuffer(width, height);
 
 	// Create Constant Buffer for the light data
 	constantBuffer = renderContext->CreateConstantBuffer();

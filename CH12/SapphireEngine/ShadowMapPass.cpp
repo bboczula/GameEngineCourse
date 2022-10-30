@@ -8,8 +8,8 @@
 
 Sapphire::ShadowMapPass::ShadowMapPass(DeviceContext* deviceContext, RenderContext* renderContext, Light* light) : light(light)
 {
-	renderTarget = renderContext->CreateRenderTarget(deviceContext, 2048, 2048);
-	depthBuffer = renderContext->CreateDepthBufferWithSrv(deviceContext, 2048, 2048);
+	renderTarget = renderContext->CreateRenderTarget(2048, 2048);
+	depthBuffer = renderContext->CreateDepthBufferWithSrv(2048, 2048);
 
 	// Create Shaders
 	vertexShader = new DX12Shader("shadow_vs.cso");
