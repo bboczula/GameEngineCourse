@@ -1,26 +1,33 @@
 #pragma once
 
+#ifdef DX12BACKEND_EXPORTS
+#define GPUAPI_DX12_API __declspec(dllexport)
+#else
+#define GPUAPI_DX12_API __declspec(dllimport)
+#endif
+
 #include <d3d12.h>
 
 #include "Utils.h"
-#include "DX12RenderTarget.h"
-#include "DX12DepthBuffer.h"
-#include "DX12PipelineState.h"
-#include "DX12Device.h"
-#include "DX12Viewport.h"
-#include "DX12DescriptorHeap.h"
-#include "DX12Texture.h"
 
-namespace GpuApi
+namespace Sapphire
 {
 	// Forward declarations
 	class DX12VertexBuffer;
 	class DX12IndexBuffer;
+	class DX12RenderTarget;
+	class DX12DepthBuffer;
+	class DX12PipelineState;
+	class DX12Device;
+	class DX12Viewport;
+	class DX12DescriptorHeap;
+	class DX12Texture;
+	class DX12Resource;
 
 	/// <summary>
 	/// A wrapper class for the ID3D12CommandList interface. Contains the ID3D12CommandAllocater too.
 	/// </summary>
-	class DX12CommandList
+	extern class GPUAPI_DX12_API DX12CommandList
 	{
 		friend class DX12CommandQueue;
 	public:

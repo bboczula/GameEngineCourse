@@ -2,12 +2,12 @@
 
 #include "File.h"
 
-void GpuApi::File::Close()
+void File::Close()
 {
 	CloseHandle(fileHandle);
 }
 
-void GpuApi::File::Open(LPCSTR fileName, DWORD accessType, DWORD creationType)
+void File::Open(LPCSTR fileName, DWORD accessType, DWORD creationType)
 {
 	fileHandle = CreateFileA(fileName, accessType, 0, nullptr, creationType, FILE_ATTRIBUTE_NORMAL, nullptr);
 

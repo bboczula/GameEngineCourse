@@ -1,10 +1,19 @@
 #pragma once
 
-#include "DX12Resource.h"
+#ifdef DX12BACKEND_EXPORTS
+#define GPUAPI_DX12_API __declspec(dllexport)
+#else
+#define GPUAPI_DX12_API __declspec(dllimport)
+#endif
 
-namespace GpuApi
+#include <d3d12.h>
+
+namespace Sapphire
 {
-	class DX12Texture
+	class DX12Resource;
+	class DX12Device;
+
+	extern class GPUAPI_DX12_API DX12Texture
 	{
 	public:
 		DX12Texture(DX12Device* device, D3D12_CPU_DESCRIPTOR_HANDLE srvDescriptorHandle, UINT width, UINT height, UINT descriptorIndex);

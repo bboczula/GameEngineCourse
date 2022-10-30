@@ -3,7 +3,7 @@
 #include "DX12VertexBuffer.h"
 #include "DX12Resource.h"
 
-GpuApi::DX12VertexBuffer::DX12VertexBuffer(DX12Device* device, void* vertexData, UINT vertexSize, UINT numOfVertices)
+Sapphire::DX12VertexBuffer::DX12VertexBuffer(DX12Device* device, void* vertexData, UINT vertexSize, UINT numOfVertices)
 	: positionVertexBuffer(nullptr), numOfVertices(numOfVertices)
 {
 	UINT bufferSize = vertexSize * numOfVertices;
@@ -15,7 +15,7 @@ GpuApi::DX12VertexBuffer::DX12VertexBuffer(DX12Device* device, void* vertexData,
 	vertexBufferView.SizeInBytes = bufferSize;
 }
 
-GpuApi::DX12VertexBuffer::~DX12VertexBuffer()
+Sapphire::DX12VertexBuffer::~DX12VertexBuffer()
 {
 	delete positionVertexBuffer;
 }

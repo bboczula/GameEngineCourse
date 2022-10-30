@@ -5,8 +5,6 @@
 
 #include "File.h"
 
-namespace GpuApi
-{
 	class InputFile : public File
 	{
 	public:
@@ -20,4 +18,3 @@ namespace GpuApi
 		DWORD fileSize;
 		char* fileBuffer;
 	};
-}

@@ -3,8 +3,6 @@
 #include <Windows.h>
 #include <stdlib.h>
 
-namespace GpuApi
-{
 	class File
 	{
 	public:
@@ -14,4 +12,3 @@ namespace GpuApi
 		void Open(LPCSTR fileName, DWORD accessType, DWORD creationType);
 		HANDLE fileHandle;
 	};
-}

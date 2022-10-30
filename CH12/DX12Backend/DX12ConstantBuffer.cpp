@@ -4,7 +4,7 @@
 #include "DX12Resource.h"
 #include "DX12Device.h"
 
-GpuApi::DX12ConstantBuffer::DX12ConstantBuffer(DX12Device* device, UINT64 bufferSize, D3D12_CPU_DESCRIPTOR_HANDLE srvDescriptorHandle, UINT descriptorIndex)
+Sapphire::DX12ConstantBuffer::DX12ConstantBuffer(DX12Device* device, UINT64 bufferSize, D3D12_CPU_DESCRIPTOR_HANDLE srvDescriptorHandle, UINT descriptorIndex)
 	: descriptorIndex(descriptorIndex)
 {
 	// Allocate the heap to fit the new texture buffer
@@ -18,16 +18,16 @@ GpuApi::DX12ConstantBuffer::DX12ConstantBuffer(DX12Device* device, UINT64 buffer
 	device->GetDevice()->CreateConstantBufferView(&cbvDesc, srvDescriptorHandle);
 }
 
-GpuApi::DX12ConstantBuffer::~DX12ConstantBuffer()
+Sapphire::DX12ConstantBuffer::~DX12ConstantBuffer()
 {
 }
 
-UINT GpuApi::DX12ConstantBuffer::GetDescriptorIndex()
+UINT Sapphire::DX12ConstantBuffer::GetDescriptorIndex()
 {
 	return descriptorIndex;
 }
 
-void GpuApi::DX12ConstantBuffer::UploadFloat4(float a, float b, float c, float d)
+void Sapphire::DX12ConstantBuffer::UploadFloat4(float a, float b, float c, float d)
 {
 	// Upload some hardcoded data
 	float lightPosition[] = { a, b, c, d };

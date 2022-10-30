@@ -6,6 +6,7 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SapphireEngine", "SapphireEngine\SapphireEngine.vcxproj", "{421F77C4-B3EB-4128-9499-5F952B2F240C}"
 	ProjectSection(ProjectDependencies) = postProject
 		{171A8EA1-2B43-4810-8B1C-A5B689235766} = {171A8EA1-2B43-4810-8B1C-A5B689235766}
+		{29816DCF-2A68-45B9-A4FC-2C709F1FC630} = {29816DCF-2A68-45B9-A4FC-2C709F1FC630}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SapphireReference", "SapphireReference\SapphireReference.vcxproj", "{B15AE4C3-D4C1-418C-BE08-4117C1662A50}"

@@ -2,15 +2,15 @@
 
 #include "DX12InputLayout.h"
 
-GpuApi::DX12InputLayout::DX12InputLayout()
+Sapphire::DX12InputLayout::DX12InputLayout()
 {
 }
 
-GpuApi::DX12InputLayout::~DX12InputLayout()
+Sapphire::DX12InputLayout::~DX12InputLayout()
 {
 }
 
-void GpuApi::DX12InputLayout::AppendElement(VertexStream vertexStream)
+void Sapphire::DX12InputLayout::AppendElement(VertexStream vertexStream)
 {
 	D3D12_INPUT_ELEMENT_DESC element;
 	ZeroMemory(&element, sizeof(D3D12_INPUT_ELEMENT_DESC));
@@ -48,7 +48,7 @@ void GpuApi::DX12InputLayout::AppendElement(VertexStream vertexStream)
 	inputElementsList.push_back(element);
 }
 
-D3D12_INPUT_LAYOUT_DESC GpuApi::DX12InputLayout::GetInputLayoutDesc()
+D3D12_INPUT_LAYOUT_DESC Sapphire::DX12InputLayout::GetInputLayoutDesc()
 {
 	D3D12_INPUT_LAYOUT_DESC inputLayout;
 	inputLayout.pInputElementDescs = inputElementsList.data();

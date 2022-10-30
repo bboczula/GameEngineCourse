@@ -1,6 +1,6 @@
 #pragma once
 
-#ifdef GPUAPI_DX12_EXPORTS
+#ifdef DX12BACKEND_EXPORTS
 #define GPUAPI_DX12_API __declspec(dllexport)
 #else
 #define GPUAPI_DX12_API __declspec(dllimport)
@@ -15,9 +15,11 @@
 // These forms imply that the entire class is imported or exported.
 // Classes exported this way are called exportable classes.
 
-namespace GpuApi
+// For DLLs, a.Lib file is not created if the DLL exports nothing for external usage.
+
+namespace Sapphire
 {
-	GPUAPI_DX12_API class DX12Device
+	extern class GPUAPI_DX12_API DX12Device
 	{
 	public:
 		DX12Device(IDXGIAdapter1* adapter);

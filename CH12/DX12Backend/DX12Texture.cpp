@@ -1,8 +1,10 @@
 #include "pch.h"
 
 #include "DX12Texture.h"
+#include "DX12Resource.h"
+#include "DX12Device.h"
 
-GpuApi::DX12Texture::DX12Texture(DX12Device* device, D3D12_CPU_DESCRIPTOR_HANDLE srvDescriptorHandle, UINT width, UINT height, UINT descriptorIndex)
+Sapphire::DX12Texture::DX12Texture(DX12Device* device, D3D12_CPU_DESCRIPTOR_HANDLE srvDescriptorHandle, UINT width, UINT height, UINT descriptorIndex)
 	: textureBuffer(nullptr), descriptorIndex(descriptorIndex)
 {
 	// Allocate the heap to fit the new texture buffer
@@ -18,17 +20,17 @@ GpuApi::DX12Texture::DX12Texture(DX12Device* device, D3D12_CPU_DESCRIPTOR_HANDLE
 	device->GetDevice()->CreateShaderResourceView(textureBuffer->GetResource(), &srvDesc, srvDescriptorHandle);
 }
 
-GpuApi::DX12Resource* GpuApi::DX12Texture::GetResource()
+Sapphire::DX12Resource* Sapphire::DX12Texture::GetResource()
 {
 	return textureBuffer;
 }
 
-GpuApi::DX12Texture::~DX12Texture()
+Sapphire::DX12Texture::~DX12Texture()
 {
 	delete textureBuffer;
 }
 
-UINT GpuApi::DX12Texture::GetDescriptorIndex()
+UINT Sapphire::DX12Texture::GetDescriptorIndex()
 {
 	return descriptorIndex;
 }

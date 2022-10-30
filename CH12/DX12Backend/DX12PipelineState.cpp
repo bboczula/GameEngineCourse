@@ -2,20 +2,22 @@
 
 #include "DX12PipelineState.h"
 #include "DX12InputLayout.h"
+#include "DX12Shader.h"
+#include "DX12Device.h"
 
-GpuApi::DX12PipelineState::DX12PipelineState(DX12Device* device, DX12Shader* vertexShader, DX12Shader* pixelShader, DX12InputLayout* inputLayout, bool flip)
+Sapphire::DX12PipelineState::DX12PipelineState(DX12Device* device, DX12Shader* vertexShader, DX12Shader* pixelShader, DX12InputLayout* inputLayout, bool flip)
 {
 	CreateRootSignature(device);
 	CreatePipelineState(device, vertexShader->GetBytecode(), pixelShader->GetBytecode(), inputLayout, flip);
 }
 
-GpuApi::DX12PipelineState::~DX12PipelineState()
+Sapphire::DX12PipelineState::~DX12PipelineState()
 {
-	SafeRelease(&pipelineState);
-	SafeRelease(&rootSignature);
+	ASafeRelease(&pipelineState);
+	ASafeRelease(&rootSignature);
 }
 
-void GpuApi::DX12PipelineState::CreateRootSignature(DX12Device* device)
+void Sapphire::DX12PipelineState::CreateRootSignature(DX12Device* device)
 {
 	// This has to be automated somehow. This could be a vector
 	D3D12_ROOT_PARAMETER rootParameters[7];
@@ -94,11 +96,11 @@ void GpuApi::DX12PipelineState::CreateRootSignature(DX12Device* device)
 
 	ID3DBlob* signature;
 	ID3DBlob* error;
-	ExitIfFailed(D3D12SerializeRootSignature(&rootSignatureDesc, D3D_ROOT_SIGNATURE_VERSION_1, &signature, &error));
-	ExitIfFailed(device->GetDevice()->CreateRootSignature(0, signature->GetBufferPointer(), signature->GetBufferSize(), IID_PPV_ARGS(&rootSignature)));
+	AExitIfFailed(D3D12SerializeRootSignature(&rootSignatureDesc, D3D_ROOT_SIGNATURE_VERSION_1, &signature, &error));
+	AExitIfFailed(device->GetDevice()->CreateRootSignature(0, signature->GetBufferPointer(), signature->GetBufferSize(), IID_PPV_ARGS(&rootSignature)));
 }
 
-void GpuApi::DX12PipelineState::CreatePipelineState(DX12Device* device, D3D12_SHADER_BYTECODE vs, D3D12_SHADER_BYTECODE ps, DX12InputLayout* inputLayout, bool flip)
+void Sapphire::DX12PipelineState::CreatePipelineState(DX12Device* device, D3D12_SHADER_BYTECODE vs, D3D12_SHADER_BYTECODE ps, DX12InputLayout* inputLayout, bool flip)
 {
 	D3D12_GRAPHICS_PIPELINE_STATE_DESC psoDesc;
 	ZeroMemory(&psoDesc, sizeof(D3D12_GRAPHICS_PIPELINE_STATE_DESC));
@@ -121,5 +123,5 @@ void GpuApi::DX12PipelineState::CreatePipelineState(DX12Device* device, D3D12_SH
 		psoDesc.RasterizerState.CullMode = D3D12_CULL_MODE_NONE;
 	}
 
-	ExitIfFailed(device->GetDevice()->CreateGraphicsPipelineState(&psoDesc, IID_PPV_ARGS(&pipelineState)));
+	AExitIfFailed(device->GetDevice()->CreateGraphicsPipelineState(&psoDesc, IID_PPV_ARGS(&pipelineState)));
 }

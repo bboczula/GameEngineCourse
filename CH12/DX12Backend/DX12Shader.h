@@ -1,13 +1,19 @@
 #pragma once
 
+#ifdef DX12BACKEND_EXPORTS
+#define GPUAPI_DX12_API __declspec(dllexport)
+#else
+#define GPUAPI_DX12_API __declspec(dllimport)
+#endif
+
 #include "Utils.h"
 #include "InputFile.h"
 
 #include <d3d12.h>
 
-namespace GpuApi
+namespace Sapphire
 {
-	class DX12Shader
+	extern class GPUAPI_DX12_API DX12Shader
 	{
 	public:
 		DX12Shader(LPCSTR fileName);

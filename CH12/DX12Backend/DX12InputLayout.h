@@ -1,11 +1,17 @@
 #pragma once
 
+#ifdef DX12BACKEND_EXPORTS
+#define GPUAPI_DX12_API __declspec(dllexport)
+#else
+#define GPUAPI_DX12_API __declspec(dllimport)
+#endif
+
 #include <vector>
 #include <d3d12.h>
 
-namespace GpuApi
+namespace Sapphire
 {
-	enum class VertexStream
+	enum class GPUAPI_DX12_API VertexStream
 	{
 		Position,
 		Normal,
@@ -13,7 +19,7 @@ namespace GpuApi
 		TexCoord
 	};
 
-	class DX12InputLayout
+	extern class GPUAPI_DX12_API DX12InputLayout
 	{
 	public:
 		DX12InputLayout();

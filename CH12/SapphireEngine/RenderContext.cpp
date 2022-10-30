@@ -1,8 +1,9 @@
 #include "RenderContext.h"
 #include "BlitPass.h"
-#include "DX12ConstantBuffer.h"
-#include "DX12VertexBuffer.h"
-#include "DX12IndexBuffer.h"
+#include "../DX12Backend/DX12ConstantBuffer.h"
+#include "../DX12Backend/DX12VertexBuffer.h"
+#include "../DX12Backend/DX12IndexBuffer.h"
+#include "../DX12Backend/DX12Texture.h"
 #include "Light.h"
 
 Sapphire::RenderContext::RenderContext(HWND hwnd, unsigned int width, unsigned int height) : deviceContext(deviceContext)
@@ -181,7 +182,7 @@ void Sapphire::RenderContext::CreateTextureResource(DX12Texture*& dest, UINT wid
 
 	// Then upload the raw data, using Map/Unmap method
 	//uploadBuffer->Upload(objects[i]->pixels, objects[i]->textureWidth * objects[i]->textureHeight * sizeof(PixelDefinition));
-	uploadBuffer->Upload(source, width, height, sizeof(PixelDefinition), Align(width * sizeof(PixelDefinition), D3D12_TEXTURE_DATA_PITCH_ALIGNMENT));
+	uploadBuffer->Upload(&source[0].color.x, width, height, sizeof(PixelDefinition), Align(width * sizeof(PixelDefinition), D3D12_TEXTURE_DATA_PITCH_ALIGNMENT));
 
 	// Finally, you can copy from Upload buffer to Texture buffer using CopyTextureRegion
 	D3D12_SUBRESOURCE_DATA textureData = {};

@@ -1,17 +1,25 @@
 #pragma once
 
+#ifdef DX12BACKEND_EXPORTS
+#define GPUAPI_DX12_API __declspec(dllexport)
+#else
+#define GPUAPI_DX12_API __declspec(dllimport)
+#endif
+
 #include <d3d12.h>
 
-#include "DX12Device.h"
-#include "DX12CommandList.h"
 #include "Utils.h"
 
-namespace GpuApi
+namespace Sapphire
 {
+	// Forward Declarations
+	class DX12Device;
+	class DX12CommandList;
+
 	/// <summary>
 	/// A wrapper class for the ID3D12CommandQueue interface. Contains the Fence  for synchronization.
 	/// </summary>
-	class DX12CommandQueue
+	extern class GPUAPI_DX12_API DX12CommandQueue
 	{
 	public:
 
@@ -51,4 +59,3 @@ namespace GpuApi
 		ID3D12Fence* fence;
 	};
 }
-

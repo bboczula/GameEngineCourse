@@ -1,10 +1,10 @@
 #pragma once
 
-#include "DX12RenderTarget.h"
-#include "DX12DepthBuffer.h"
-#include "DX12Shader.h"
-#include "DX12PipelineState.h"
-#include "DX12Viewport.h"
+#include "../DX12Backend/DX12RenderTarget.h"
+#include "../DX12Backend/DX12DepthBuffer.h"
+#include "../DX12Backend/DX12Shader.h"
+#include "../DX12Backend/DX12PipelineState.h"
+#include "../DX12Backend/DX12Viewport.h"
 #include "RenderPass.h"
 #include "OrthographicCamera.h"
 

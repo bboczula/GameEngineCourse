@@ -3,7 +3,8 @@
 #include "Utils.h"
 #include "Logger.h"
 #include "HardwareCapabilities.h"
-#include "DX12CommandQueue.h"
+
+#include "../DX12Backend/DX12CommandQueue.h"
 
 #include <dxgi1_5.h>
 

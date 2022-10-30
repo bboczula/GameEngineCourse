@@ -1,10 +1,16 @@
 #pragma once
 
+#ifdef DX12BACKEND_EXPORTS
+#define GPUAPI_DX12_API __declspec(dllexport)
+#else
+#define GPUAPI_DX12_API __declspec(dllimport)
+#endif
+
 #include <d3d12.h>
 
-namespace GpuApi
+namespace Sapphire
 {
-	class DX12Viewport
+	extern class GPUAPI_DX12_API DX12Viewport
 	{
 		friend class DX12CommandList;
 	public:

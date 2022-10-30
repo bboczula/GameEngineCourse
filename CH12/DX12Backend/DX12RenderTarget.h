@@ -1,18 +1,23 @@
 #pragma once
 
-#include "Utils.h"
-#include "DX12Device.h"
-#include "DX12Resource.h"
-#include "DX12Viewport.h"
+#ifdef DX12BACKEND_EXPORTS
+#define GPUAPI_DX12_API __declspec(dllexport)
+#else
+#define GPUAPI_DX12_API __declspec(dllimport)
+#endif
 
 #include <d3d12.h>
 
-namespace GpuApi
+namespace Sapphire
 {
+	class DX12Device;
+	class DX12Resource;
+	class DX12Viewport;
+
 	/// <summary>
 	/// This class would be an equivalend of the Render Target View class, if one existed in DirectX 12.
 	/// </summary>
-	class DX12RenderTarget
+	extern class GPUAPI_DX12_API DX12RenderTarget
 	{
 		friend class DX12CommandList;
 	public:

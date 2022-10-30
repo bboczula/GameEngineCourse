@@ -1,14 +1,21 @@
 #pragma once
 
+#ifdef DX12BACKEND_EXPORTS
+#define GPUAPI_DX12_API __declspec(dllexport)
+#else
+#define GPUAPI_DX12_API __declspec(dllimport)
+#endif
+
 #include "Utils.h"
-#include "DX12Device.h"
 #include "d3dx12.h"
 
 #include <d3d12.h>
 
-namespace GpuApi
+namespace Sapphire
 {
-	class DX12Resource
+	class DX12Device;
+
+	extern class GPUAPI_DX12_API DX12Resource
 	{
 		friend class DX12CommandList;
 	public:

@@ -5,41 +5,44 @@
 
 #define FRAME_COUNT 2
 
-inline UINT Align(UINT location, UINT align)
+namespace Sapphire
 {
-	if ((0 == align) || (align & (align - 1)))
+	inline UINT AAlign(UINT location, UINT align)
 	{
-		exit(1);
+		if ((0 == align) || (align & (align - 1)))
+		{
+			exit(1);
+		}
+
+		return ((location + (align - 1)) & ~(align - 1));
 	}
 
-	return ((location + (align - 1)) & ~(align - 1));
-}
-
-inline void ExitIfFailed(HRESULT hr)
-{
-	if (FAILED(hr))
+	inline void AExitIfFailed(HRESULT hr)
 	{
-		_com_error error(hr);
-		MessageBox(nullptr, error.ErrorMessage(), L"Error", MB_OK | MB_ICONERROR);
-		exit(1);
+		if (FAILED(hr))
+		{
+			_com_error error(hr);
+			MessageBox(nullptr, error.ErrorMessage(), L"Error", MB_OK | MB_ICONERROR);
+			exit(1);
+		}
 	}
-}
 
-inline void ExitIfTrue(bool condition, LPCWSTR msg)
-{
-	if (condition)
+	inline void AExitIfTrue(bool condition, LPCWSTR msg)
 	{
-		MessageBox(nullptr, msg, L"Error", MB_OK | MB_ICONERROR);
-		exit(1);
+		if (condition)
+		{
+			MessageBox(nullptr, msg, L"Error", MB_OK | MB_ICONERROR);
+			exit(1);
+		}
 	}
-}
 
-template <class T>
-void SafeRelease(T** comObjectAddresssOf)
-{
-	if (*comObjectAddresssOf)
+	template <class T>
+	void ASafeRelease(T** comObjectAddresssOf)
 	{
-		(*comObjectAddresssOf)->Release();
-		*comObjectAddresssOf = nullptr;
+		if (*comObjectAddresssOf)
+		{
+			(*comObjectAddresssOf)->Release();
+			*comObjectAddresssOf = nullptr;
+		}
 	}
 }

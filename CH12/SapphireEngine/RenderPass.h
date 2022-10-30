@@ -1,12 +1,14 @@
 #pragma once
 
-#include "DX12CommandList.h"
+#include "../DX12Backend/DX12CommandList.h"
+#include <vector>
 
 namespace Sapphire
 {
 	// Including this was causing circular dependency and C2039 error
 	class RenderContext;
 	class GameObject;
+	class DX12CommandList;
 
 	class RenderPass
 	{

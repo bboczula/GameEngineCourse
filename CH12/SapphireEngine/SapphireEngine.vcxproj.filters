@@ -13,9 +13,6 @@
     <Filter Include="Engine\Rendering">
       <UniqueIdentifier>{0183feae-6563-41b8-b098-6cfadff39399}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Rendering\DX12">
-      <UniqueIdentifier>{e854b966-bea6-4995-9b20-578f35d13433}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\Rendering\Shaders">
       <UniqueIdentifier>{267fd437-964b-4e26-98f3-9bec8bd0fd08}</UniqueIdentifier>
     </Filter>
@@ -42,27 +39,6 @@
     <ClInclude Include="Logger.h">
       <Filter>Logger</Filter>
     </ClInclude>
-    <ClInclude Include="DX12CommandList.h">
-      <Filter>Engine\Rendering\DX12</Filter>
-    </ClInclude>
-    <ClInclude Include="DX12CommandQueue.h">
-      <Filter>Engine\Rendering\DX12</Filter>
-    </ClInclude>
-    <ClInclude Include="DX12DescriptorHeap.h">
-      <Filter>Engine\Rendering\DX12</Filter>
-    </ClInclude>
-    <ClInclude Include="DX12PipelineState.h">
-      <Filter>Engine\Rendering\DX12</Filter>
-    </ClInclude>
-    <ClInclude Include="DX12RenderTarget.h">
-      <Filter>Engine\Rendering\DX12</Filter>
-    </ClInclude>
-    <ClInclude Include="DX12Shader.h">
-      <Filter>Engine\Rendering\DX12</Filter>
-    </ClInclude>
-    <ClInclude Include="DX12Device.h">
-      <Filter>Engine\Rendering\DX12</Filter>
-    </ClInclude>
     <ClInclude Include="DxgiManager.h">
       <Filter>Engine\Rendering</Filter>
     </ClInclude>
@@ -75,17 +51,11 @@
     <ClInclude Include="OutputFile.h">
       <Filter>Window</Filter>
     </ClInclude>
-    <ClInclude Include="DX12Resource.h">
-      <Filter>Engine\Rendering\DX12</Filter>
-    </ClInclude>
     <ClInclude Include="File.h">
       <Filter>Window</Filter>
     </ClInclude>
     <ClInclude Include="GameObject.h">
       <Filter>Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="DX12Viewport.h">
-      <Filter>Engine\Rendering\DX12</Filter>
     </ClInclude>
     <ClInclude Include="SimpleMath.h">
       <Filter>External</Filter>
@@ -98,9 +68,6 @@
     </ClInclude>
     <ClInclude Include="VertexDefinition.h">
       <Filter>Engine\Rendering</Filter>
-    </ClInclude>
-    <ClInclude Include="DX12DepthBuffer.h">
-      <Filter>Engine\Rendering\DX12</Filter>
     </ClInclude>
     <ClInclude Include="MessageQueueObserver.h">
       <Filter>Window</Filter>
@@ -123,9 +90,6 @@
     <ClInclude Include="DeviceContext.h">
       <Filter>Engine\Rendering</Filter>
     </ClInclude>
-    <ClInclude Include="DX12Texture.h">
-      <Filter>Engine\Rendering\DX12</Filter>
-    </ClInclude>
     <ClInclude Include="PixelDefinition.h">
       <Filter>Engine\Rendering</Filter>
     </ClInclude>
@@ -144,23 +108,11 @@
     <ClInclude Include="ShadowMapPass.h">
       <Filter>Engine\Rendering\RenderPass</Filter>
     </ClInclude>
-    <ClInclude Include="DX12VertexBuffer.h">
-      <Filter>Engine\Rendering\DX12</Filter>
-    </ClInclude>
-    <ClInclude Include="DX12IndexBuffer.h">
-      <Filter>Engine\Rendering\DX12</Filter>
-    </ClInclude>
     <ClInclude Include="PerspectiveCamera.h">
       <Filter>Engine\Rendering\Camera</Filter>
     </ClInclude>
     <ClInclude Include="OrthographicCamera.h">
       <Filter>Engine\Rendering\Camera</Filter>
-    </ClInclude>
-    <ClInclude Include="DX12InputLayout.h">
-      <Filter>Engine\Rendering\DX12</Filter>
-    </ClInclude>
-    <ClInclude Include="DX12ConstantBuffer.h">
-      <Filter>Engine\Rendering\DX12</Filter>
     </ClInclude>
     <ClInclude Include="BlitPass.h">
       <Filter>Engine\Rendering\RenderPass</Filter>
@@ -188,27 +140,6 @@
     <ClCompile Include="Logger.cpp">
       <Filter>Logger</Filter>
     </ClCompile>
-    <ClCompile Include="DX12CommandList.cpp">
-      <Filter>Engine\Rendering\DX12</Filter>
-    </ClCompile>
-    <ClCompile Include="DX12CommandQueue.cpp">
-      <Filter>Engine\Rendering\DX12</Filter>
-    </ClCompile>
-    <ClCompile Include="DX12DescriptorHeap.cpp">
-      <Filter>Engine\Rendering\DX12</Filter>
-    </ClCompile>
-    <ClCompile Include="DX12PipelineState.cpp">
-      <Filter>Engine\Rendering\DX12</Filter>
-    </ClCompile>
-    <ClCompile Include="DX12RenderTarget.cpp">
-      <Filter>Engine\Rendering\DX12</Filter>
-    </ClCompile>
-    <ClCompile Include="DX12Shader.cpp">
-      <Filter>Engine\Rendering\DX12</Filter>
-    </ClCompile>
-    <ClCompile Include="DX12Device.cpp">
-      <Filter>Engine\Rendering\DX12</Filter>
-    </ClCompile>
     <ClCompile Include="DxgiManager.cpp">
       <Filter>Engine\Rendering</Filter>
     </ClCompile>
@@ -221,23 +152,14 @@
     <ClCompile Include="OutputFile.cpp">
       <Filter>Window</Filter>
     </ClCompile>
-    <ClCompile Include="DX12Resource.cpp">
-      <Filter>Engine\Rendering\DX12</Filter>
-    </ClCompile>
     <ClCompile Include="File.cpp">
       <Filter>Window</Filter>
     </ClCompile>
     <ClCompile Include="GameObject.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
-    <ClCompile Include="DX12Viewport.cpp">
-      <Filter>Engine\Rendering\DX12</Filter>
-    </ClCompile>
     <ClCompile Include="SimpleMath.cpp">
       <Filter>External</Filter>
-    </ClCompile>
-    <ClCompile Include="DX12DepthBuffer.cpp">
-      <Filter>Engine\Rendering\DX12</Filter>
     </ClCompile>
     <ClCompile Include="ModelLoaderSapphire.cpp">
       <Filter>Utils</Filter>
@@ -254,9 +176,6 @@
     <ClCompile Include="DeviceContext.cpp">
       <Filter>Engine\Rendering</Filter>
     </ClCompile>
-    <ClCompile Include="DX12Texture.cpp">
-      <Filter>Engine\Rendering\DX12</Filter>
-    </ClCompile>
     <ClCompile Include="Camera.cpp">
       <Filter>Engine\Rendering\Camera</Filter>
     </ClCompile>
@@ -269,23 +188,11 @@
     <ClCompile Include="ShadowMapPass.cpp">
       <Filter>Engine\Rendering\RenderPass</Filter>
     </ClCompile>
-    <ClCompile Include="DX12VertexBuffer.cpp">
-      <Filter>Engine\Rendering\DX12</Filter>
-    </ClCompile>
-    <ClCompile Include="DX12IndexBuffer.cpp">
-      <Filter>Engine\Rendering\DX12</Filter>
-    </ClCompile>
     <ClCompile Include="PerspectiveCamera.cpp">
       <Filter>Engine\Rendering\Camera</Filter>
     </ClCompile>
     <ClCompile Include="OrthographicCamera.cpp">
       <Filter>Engine\Rendering\Camera</Filter>
-    </ClCompile>
-    <ClCompile Include="DX12InputLayout.cpp">
-      <Filter>Engine\Rendering\DX12</Filter>
-    </ClCompile>
-    <ClCompile Include="DX12ConstantBuffer.cpp">
-      <Filter>Engine\Rendering\DX12</Filter>
     </ClCompile>
     <ClCompile Include="BlitPass.cpp">
       <Filter>Engine\Rendering\RenderPass</Filter>

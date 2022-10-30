@@ -3,12 +3,20 @@
 #include <Windows.h>
 
 #include "DxgiManager.h"
-#include "DX12Device.h"
-#include "DX12CommandQueue.h"
-#include "DX12CommandList.h"
-#include "DX12Resource.h"
-#include "DX12DescriptorHeap.h"
+#include "../DX12Backend/DX12Device.h"
+#include "../DX12Backend/DX12CommandQueue.h"
+#include "../DX12Backend/DX12CommandList.h"
+#include "../DX12Backend/DX12Resource.h"
+#include "../DX12Backend/DX12DescriptorHeap.h"
 #include "Utils.h"
+
+#include "../DX12Backend/DX12Device.h"
+#include "../DX12Backend/DX12CommandQueue.h"
+#include "../DX12Backend/DX12CommandList.h"
+#include "../DX12Backend/DX12Resource.h"
+#include "../DX12Backend/DX12DescriptorHeap.h"
+
+//#pragma comment(lib, "DX12Backend.lib")
 
 namespace Sapphire
 {

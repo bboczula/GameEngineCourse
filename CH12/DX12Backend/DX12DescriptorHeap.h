@@ -1,16 +1,23 @@
 #pragma once
 
+#ifdef DX12BACKEND_EXPORTS
+#define GPUAPI_DX12_API __declspec(dllexport)
+#else
+#define GPUAPI_DX12_API __declspec(dllimport)
+#endif
+
 #include <d3d12.h>
 
-#include "DX12Device.h"
 #include "Utils.h"
 
-namespace GpuApi
+namespace Sapphire
 {
+	class DX12Device;
+
 	/// <summary>
 	/// A wrapper class for the ID3D12DescriptorHeap interface. It allocates the fixed amount of descriptors and then keeps the index of the first one available.
 	/// </summary>
-	class DX12DescriptorHeap
+	extern class GPUAPI_DX12_API DX12DescriptorHeap
 	{
 		friend class DX12CommandList;
 	public:

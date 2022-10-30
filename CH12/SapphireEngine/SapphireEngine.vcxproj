@@ -25,21 +25,6 @@
     <ClInclude Include="CameraControler.h" />
     <ClInclude Include="d3dx12.h" />
     <ClInclude Include="DeviceContext.h" />
-    <ClInclude Include="DX12CommandList.h" />
-    <ClInclude Include="DX12CommandQueue.h" />
-    <ClInclude Include="DX12ConstantBuffer.h" />
-    <ClInclude Include="DX12DepthBuffer.h" />
-    <ClInclude Include="DX12DescriptorHeap.h" />
-    <ClInclude Include="DX12Device.h" />
-    <ClInclude Include="DX12IndexBuffer.h" />
-    <ClInclude Include="DX12InputLayout.h" />
-    <ClInclude Include="DX12PipelineState.h" />
-    <ClInclude Include="DX12RenderTarget.h" />
-    <ClInclude Include="DX12Resource.h" />
-    <ClInclude Include="DX12Shader.h" />
-    <ClInclude Include="DX12Texture.h" />
-    <ClInclude Include="DX12VertexBuffer.h" />
-    <ClInclude Include="DX12Viewport.h" />
     <ClInclude Include="DxgiManager.h" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="File.h" />
@@ -72,21 +57,6 @@
     <ClCompile Include="Arcball.cpp" />
     <ClCompile Include="BlitPass.cpp" />
     <ClCompile Include="DeviceContext.cpp" />
-    <ClCompile Include="DX12CommandList.cpp" />
-    <ClCompile Include="DX12CommandQueue.cpp" />
-    <ClCompile Include="DX12ConstantBuffer.cpp" />
-    <ClCompile Include="DX12DepthBuffer.cpp" />
-    <ClCompile Include="DX12DescriptorHeap.cpp" />
-    <ClCompile Include="DX12Device.cpp" />
-    <ClCompile Include="DX12IndexBuffer.cpp" />
-    <ClCompile Include="DX12InputLayout.cpp" />
-    <ClCompile Include="DX12PipelineState.cpp" />
-    <ClCompile Include="DX12RenderTarget.cpp" />
-    <ClCompile Include="DX12Resource.cpp" />
-    <ClCompile Include="DX12Shader.cpp" />
-    <ClCompile Include="DX12Texture.cpp" />
-    <ClCompile Include="DX12VertexBuffer.cpp" />
-    <ClCompile Include="DX12Viewport.cpp" />
     <ClCompile Include="DxgiManager.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="File.cpp" />
@@ -296,7 +266,8 @@
     </Link>
     <PostBuildEvent>
       <Command>copy "$(TargetDir)*.cso" "$(SolutionDir)SapphireReference"
-copy "$(TargetDir)ModelLoader.dll" "$(SolutionDir)SapphireReference"</Command>
+copy "$(TargetDir)ModelLoader.dll" "$(SolutionDir)SapphireReference"
+copy "$(TargetDir)DX12Backend.dll" "$(SolutionDir)SapphireReference"</Command>
     </PostBuildEvent>
     <PostBuildEvent>
       <Message>Copying compiled shaders and externals...</Message>
@@ -335,13 +306,14 @@ copy "$(TargetDir)ModelLoader.dll" "$(SolutionDir)SapphireReference"</Command>
     </PreBuildEvent>
     <PostBuildEvent>
       <Command>copy "$(TargetDir)*.cso" "$(SolutionDir)SapphireReference"
-copy "$(TargetDir)ModelLoader.dll" "$(SolutionDir)SapphireReference"</Command>
+copy "$(TargetDir)ModelLoader.dll" "$(SolutionDir)SapphireReference"
+copy "$(TargetDir)DX12Backend.dll" "$(SolutionDir)SapphireReference"</Command>
     </PostBuildEvent>
     <PostBuildEvent>
       <Message>Copying compiled shaders and externals...</Message>
     </PostBuildEvent>
     <Lib>
-      <AdditionalDependencies>ModelLoader.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>ModelLoader.lib;DX12Backend.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
     <Lib>
       <AdditionalLibraryDirectories>C:\Users\boczu\source\repos\GameEngineCourse\CH12\x64\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>

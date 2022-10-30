@@ -2,22 +2,22 @@
 
 #include "InputFile.h"
 
-GpuApi::InputFile::InputFile() : fileSize(0), fileBuffer(nullptr)
+InputFile::InputFile() : fileSize(0), fileBuffer(nullptr)
 {
 	OutputDebugStringA("InputFile::InputFile()\n");
 }
 
-GpuApi::InputFile::~InputFile()
+InputFile::~InputFile()
 {
 	OutputDebugStringA("InputFile::~InputFile()\n");
 }
 
-void GpuApi::InputFile::Open(LPCSTR fileName)
+void InputFile::Open(LPCSTR fileName)
 {
 	File::Open(fileName, GENERIC_READ, OPEN_EXISTING);
 }
 
-void GpuApi::InputFile::Read()
+void InputFile::Read()
 {
 	fileSize = GetFileSize(fileHandle, nullptr);
 	fileBuffer = new char[fileSize];
@@ -27,12 +27,12 @@ void GpuApi::InputFile::Read()
 	}
 }
 
-void* GpuApi::InputFile::GetBuffer()
+void* InputFile::GetBuffer()
 {
 	return fileBuffer;
 }
 
-DWORD GpuApi::InputFile::GetSize()
+DWORD InputFile::GetSize()
 {
 	return fileSize;
 }

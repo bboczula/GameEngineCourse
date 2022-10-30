@@ -2,7 +2,10 @@
 
 #include "DX12DepthBuffer.h"
 
-GpuApi::DX12DepthBuffer::DX12DepthBuffer(DX12Device* device, D3D12_CPU_DESCRIPTOR_HANDLE dsvDescriptorHandle, UINT width, UINT height)
+#include "DX12Device.h"
+#include "DX12Resource.h"
+
+Sapphire::DX12DepthBuffer::DX12DepthBuffer(DX12Device* device, D3D12_CPU_DESCRIPTOR_HANDLE dsvDescriptorHandle, UINT width, UINT height)
 	: descriptorHandle(dsvDescriptorHandle)
 {
 	// Create Depth Stencil View
@@ -21,7 +24,7 @@ GpuApi::DX12DepthBuffer::DX12DepthBuffer(DX12Device* device, D3D12_CPU_DESCRIPTO
 	device->GetDevice()->CreateDepthStencilView(depthBuffer->GetResource(), &depthStencilView, dsvDescriptorHandle);
 }
 
-GpuApi::DX12DepthBuffer::DX12DepthBuffer(DX12Device* device, D3D12_CPU_DESCRIPTOR_HANDLE dsvDescriptorHandle, UINT width, UINT height, D3D12_CPU_DESCRIPTOR_HANDLE srvDescriptorHandle, UINT descriptorIndex)
+Sapphire::DX12DepthBuffer::DX12DepthBuffer(DX12Device* device, D3D12_CPU_DESCRIPTOR_HANDLE dsvDescriptorHandle, UINT width, UINT height, D3D12_CPU_DESCRIPTOR_HANDLE srvDescriptorHandle, UINT descriptorIndex)
 	: descriptorHandle(dsvDescriptorHandle), descriptorIndex(descriptorIndex)
 {
 	// Create Depth Stencil View
@@ -50,17 +53,17 @@ GpuApi::DX12DepthBuffer::DX12DepthBuffer(DX12Device* device, D3D12_CPU_DESCRIPTO
 	device->GetDevice()->CreateShaderResourceView(depthBuffer->GetResource(), &shaderResourceView, srvDescriptorHandle);
 }
 
-GpuApi::DX12DepthBuffer::~DX12DepthBuffer()
+Sapphire::DX12DepthBuffer::~DX12DepthBuffer()
 {
 	delete depthBuffer;
 }
 
-UINT GpuApi::DX12DepthBuffer::GetDescriptorIndex()
+UINT Sapphire::DX12DepthBuffer::GetDescriptorIndex()
 {
 	return descriptorIndex;
 }
 
-GpuApi::DX12Resource* GpuApi::DX12DepthBuffer::GetResource()
+Sapphire::DX12Resource* Sapphire::DX12DepthBuffer::GetResource()
 {
 	return depthBuffer;
 }

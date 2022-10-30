@@ -1,10 +1,11 @@
 #pragma once
 
-#include "DX12RenderTarget.h"
-#include "DX12DepthBuffer.h"
-#include "DX12Shader.h"
-#include "DX12PipelineState.h"
-#include "DX12Viewport.h"
+#include "../DX12Backend/DX12RenderTarget.h"
+#include "../DX12Backend/DX12ConstantBuffer.h"
+#include "../DX12Backend/DX12DepthBuffer.h"
+#include "../DX12Backend/DX12Shader.h"
+#include "../DX12Backend/DX12PipelineState.h"
+#include "../DX12Backend/DX12Viewport.h"
 #include "RenderPass.h"
 
 namespace Sapphire
@@ -24,7 +25,7 @@ namespace Sapphire
 		void Render(DX12CommandList* commandList, RenderContext* renderContext, std::vector<GameObject*> objects) override;
 		void Render(DX12CommandList* commandList, RenderContext* renderContext, std::vector<GameObject*> objects, DX12DepthBuffer* depthMap, Camera* shadowMapCamera);
 		void Teardown(DX12CommandList* commandList) override;
-		Sapphire::DX12RenderTarget* GetRenderTarget();
+		DX12RenderTarget* GetRenderTarget();
 		void SetCamera(Camera* camera);
 	private:
 		DX12RenderTarget* renderTarget;

@@ -3,7 +3,7 @@
 #include "DX12IndexBuffer.h"
 #include "DX12Resource.h"
 
-GpuApi::DX12IndexBuffer::DX12IndexBuffer(DX12Device* device, void* indexData, UINT indexSize, UINT numOfIndices)
+Sapphire::DX12IndexBuffer::DX12IndexBuffer(DX12Device* device, void* indexData, UINT indexSize, UINT numOfIndices)
 	: indexBuffer(nullptr), numOfIndices(numOfIndices)
 {
 	UINT indexBufferSize = indexSize * numOfIndices;
@@ -15,11 +15,11 @@ GpuApi::DX12IndexBuffer::DX12IndexBuffer(DX12Device* device, void* indexData, UI
 	indexBufferView.SizeInBytes = indexBufferSize;
 }
 
-GpuApi::DX12IndexBuffer::~DX12IndexBuffer()
+Sapphire::DX12IndexBuffer::~DX12IndexBuffer()
 {
 }
 
-UINT GpuApi::DX12IndexBuffer::GetNumOfIndices()
+UINT Sapphire::DX12IndexBuffer::GetNumOfIndices()
 {
 	return numOfIndices;
 }
