@@ -6,7 +6,7 @@
 #include "Light.h"
 #include "Arcball.h"
 
-Sapphire::ShadowMapPass::ShadowMapPass(DeviceContext* deviceContext, RenderContext* renderContext, Light* light) : light(light)
+Sapphire::ShadowMapPass::ShadowMapPass(RenderContext* renderContext, Light* light) : light(light)
 {
 	renderTarget = renderContext->CreateRenderTarget(2048, 2048);
 	depthBuffer = renderContext->CreateDepthBufferWithSrv(2048, 2048);
@@ -20,7 +20,7 @@ Sapphire::ShadowMapPass::ShadowMapPass(DeviceContext* deviceContext, RenderConte
 	inputLayout->AppendElement(VertexStream::Position);
 
 	// Create Pipeline State
-	dxPipelineState = new DX12PipelineState(deviceContext->GetDevice(), vertexShader, pixelShader, inputLayout, true);
+	dxPipelineState = renderContext->CreatePipelineState(vertexShader, pixelShader, inputLayout);
 	viewport = new DX12Viewport(1280, 720);
 
 	// Create Camera

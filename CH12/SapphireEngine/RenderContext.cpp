@@ -50,10 +50,10 @@ Sapphire::RenderContext::RenderContext(HWND hwnd, unsigned int width, unsigned i
 	directionalLight = new Light(0.0f, 1.0f, 0.0f);
 
 	// Create Shadow Map Pass
-	shadowMapPass = new ShadowMapPass(deviceContext, this, directionalLight);
+	shadowMapPass = new ShadowMapPass(this, directionalLight);
 
 	// Create Render Pass
-	renderPass = new ForwardRenderingPass(deviceContext, this, directionalLight, width, height);
+	renderPass = new ForwardRenderingPass(this, directionalLight, width, height);
 
 	// Create Blit Pass
 	blitPass = new BlitPass();
@@ -230,6 +230,11 @@ Sapphire::DX12ConstantBuffer* Sapphire::RenderContext::CreateConstantBuffer()
 	srvHandle.ptr = srvDescriptorHeap->AllocateDescriptor();
 
 	return new DX12ConstantBuffer(deviceContext->GetDevice(), 256, srvHandle, descriptorIndex);
+}
+
+Sapphire::DX12PipelineState* Sapphire::RenderContext::CreatePipelineState(DX12Shader* vertexShader, DX12Shader* pixelShader, DX12InputLayout* inputLayout)
+{
+	return new DX12PipelineState(deviceContext->GetDevice(), vertexShader, pixelShader, inputLayout, false);
 }
 
 D3D12_GPU_DESCRIPTOR_HANDLE Sapphire::RenderContext::GetSrvDescriptor(UINT32 index)

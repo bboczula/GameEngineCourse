@@ -5,7 +5,6 @@
 #include "DX12Shader.h"
 #include "DX12PipelineState.h"
 #include "DX12Viewport.h"
-#include "DeviceContext.h"
 #include "RenderPass.h"
 #include "OrthographicCamera.h"
 
@@ -19,7 +18,7 @@ namespace Sapphire
 	class ShadowMapPass : public Sapphire::RenderPass
 	{
 	public:
-		ShadowMapPass(DeviceContext* deviceContext, RenderContext* renderContext, Light* light);
+		ShadowMapPass(RenderContext* renderContext, Light* light);
 		~ShadowMapPass();
 		void Setup(DX12CommandList* commandList) override;
 		void Render(DX12CommandList* commandList, RenderContext* renderContext, std::vector<GameObject*> objects) override;

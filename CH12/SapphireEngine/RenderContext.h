@@ -33,6 +33,7 @@ namespace Sapphire
 	class DX12ConstantBuffer;
 	class DX12VertexBuffer;
 	class DX12IndexBuffer;
+	class DX12PipelineState;
 	class Light;
 
 	class RenderContext
@@ -47,6 +48,7 @@ namespace Sapphire
 		DX12DepthBuffer* CreateDepthBuffer(UINT width, UINT height);
 		DX12DepthBuffer* CreateDepthBufferWithSrv(UINT width, UINT height);
 		DX12ConstantBuffer* CreateConstantBuffer();
+		DX12PipelineState* CreatePipelineState(DX12Shader* vertexShader, DX12Shader* pixelShader, DX12InputLayout* inputLayout);
 		D3D12_GPU_DESCRIPTOR_HANDLE GetSrvDescriptor(UINT32 index);
 		void Render(std::vector<GameObject*> objects);
 		void Teardown();

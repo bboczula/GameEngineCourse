@@ -5,7 +5,6 @@
 #include "DX12Shader.h"
 #include "DX12PipelineState.h"
 #include "DX12Viewport.h"
-#include "DeviceContext.h"
 #include "RenderPass.h"
 
 namespace Sapphire
@@ -19,7 +18,7 @@ namespace Sapphire
 	class ForwardRenderingPass : public Sapphire::RenderPass
 	{
 	public:
-		ForwardRenderingPass(DeviceContext* deviceContext, RenderContext* renderContext, Light* light, unsigned int width, unsigned int height);
+		ForwardRenderingPass(RenderContext* renderContext, Light* light, unsigned int width, unsigned int height);
 		~ForwardRenderingPass();
 		void Setup(DX12CommandList* commandList) override;
 		void Render(DX12CommandList* commandList, RenderContext* renderContext, std::vector<GameObject*> objects) override;

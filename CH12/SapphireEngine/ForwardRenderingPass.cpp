@@ -6,7 +6,7 @@
 #include "Camera.h"
 #include "PerspectiveCamera.h"
 
-Sapphire::ForwardRenderingPass::ForwardRenderingPass(DeviceContext* deviceContext, RenderContext* renderContext, Light* light, unsigned int width, unsigned int height) : light(light)
+Sapphire::ForwardRenderingPass::ForwardRenderingPass(RenderContext* renderContext, Light* light, unsigned int width, unsigned int height) : light(light)
 {
 	// Do I need Render Context here?
 	// For example, I have to allocate descriptors somehow
@@ -32,7 +32,7 @@ Sapphire::ForwardRenderingPass::ForwardRenderingPass(DeviceContext* deviceContex
 	inputLayout->AppendElement(VertexStream::TexCoord);
 
 	// Create Pipeline State
-	dxPipelineState = new DX12PipelineState(deviceContext->GetDevice(), vertexShader, pixelShader, inputLayout);
+	dxPipelineState = renderContext->CreatePipelineState(vertexShader, pixelShader, inputLayout);
 	viewport = new DX12Viewport(width, height);
 
 	// Create Camera
