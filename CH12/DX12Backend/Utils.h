@@ -27,7 +27,7 @@ namespace Sapphire
 		}
 	}
 
-	inline void AExitIfTrue(bool condition, LPCWSTR msg)
+	inline void ExitIfTrue(bool condition, LPCWSTR msg)
 	{
 		if (condition)
 		{
