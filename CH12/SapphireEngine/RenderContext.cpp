@@ -1,5 +1,4 @@
 #include "RenderContext.h"
-#include "BlitPass.h"
 #include "../DX12Backend/DX12ConstantBuffer.h"
 #include "../DX12Backend/DX12VertexBuffer.h"
 #include "../DX12Backend/DX12IndexBuffer.h"
@@ -55,9 +54,6 @@ Sapphire::RenderContext::RenderContext(HWND hwnd, unsigned int width, unsigned i
 
 	// Create Render Pass
 	renderPass = new ForwardRenderingPass(this, directionalLight, width, height);
-
-	// Create Blit Pass
-	blitPass = new BlitPass();
 }
 
 Sapphire::RenderContext::~RenderContext()
@@ -264,7 +260,8 @@ void Sapphire::RenderContext::Render(std::vector<GameObject*> objects)
 
 
 	unsigned int currentFrameIndex = deviceContext->GetCurrentFrameIndex();
-	blitPass->Render(commandList, this, GetRenderTarget()->GetResource(), dxResources[currentFrameIndex]);
+	//blitPass->Render(commandList, this, GetRenderTarget()->GetResource(), dxResources[currentFrameIndex]);
+	Blit(GetRenderTarget()->GetResource(), dxResources[currentFrameIndex]);
 
 	commandList->Close();
 }
@@ -292,4 +289,12 @@ void Sapphire::RenderContext::SetCamera(Camera* camera)
 {
 	//this->camera = camera;
 	renderPass->SetCamera(camera);
+}
+
+void Sapphire::RenderContext::Blit(DX12Resource* source, DX12Resource* destination)
+{
+	commandList->TransitionTo(source, D3D12_RESOURCE_STATE_COPY_SOURCE);
+	commandList->TransitionTo(destination, D3D12_RESOURCE_STATE_COPY_DEST);
+	commandList->CopyTextureRegion(source, destination);
+	commandList->TransitionTo(destination, D3D12_RESOURCE_STATE_PRESENT);
 }

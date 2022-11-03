@@ -28,9 +28,6 @@
 
 namespace Sapphire
 {
-	//class ForwardRenderingPass;
-	//class ShadowMapPass;
-	class BlitPass;
 	class DX12ConstantBuffer;
 	class DX12VertexBuffer;
 	class DX12IndexBuffer;
@@ -56,6 +53,7 @@ namespace Sapphire
 		void Execute();
 		DX12RenderTarget* GetRenderTarget();
 		void SetCamera(Camera* camera);
+		void Blit(DX12Resource* source, DX12Resource* destination);
 	private:
 		DX12DescriptorHeap* rtvDescriptorHeap;
 		DX12DescriptorHeap* dsvDescriptorHeap;
@@ -73,7 +71,6 @@ namespace Sapphire
 		//Camera* camera;
 		ForwardRenderingPass* renderPass;
 		ShadowMapPass* shadowMapPass;
-		BlitPass* blitPass;
 		DeviceContext* deviceContext;
 		Light* directionalLight;
 	};

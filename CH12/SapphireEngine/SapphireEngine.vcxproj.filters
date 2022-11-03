@@ -114,9 +114,6 @@
     <ClInclude Include="OrthographicCamera.h">
       <Filter>Engine\Rendering\Camera</Filter>
     </ClInclude>
-    <ClInclude Include="BlitPass.h">
-      <Filter>Engine\Rendering\RenderPass</Filter>
-    </ClInclude>
     <ClInclude Include="Light.h">
       <Filter>Engine\Rendering</Filter>
     </ClInclude>
@@ -193,9 +190,6 @@
     </ClCompile>
     <ClCompile Include="OrthographicCamera.cpp">
       <Filter>Engine\Rendering\Camera</Filter>
-    </ClCompile>
-    <ClCompile Include="BlitPass.cpp">
-      <Filter>Engine\Rendering\RenderPass</Filter>
     </ClCompile>
     <ClCompile Include="Light.cpp">
       <Filter>Engine\Rendering</Filter>

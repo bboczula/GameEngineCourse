@@ -20,7 +20,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Arcball.h" />
-    <ClInclude Include="BlitPass.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CameraControler.h" />
     <ClInclude Include="d3dx12.h" />
@@ -55,7 +54,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Arcball.cpp" />
-    <ClCompile Include="BlitPass.cpp" />
     <ClCompile Include="DeviceContext.cpp" />
     <ClCompile Include="DxgiManager.cpp" />
     <ClCompile Include="Engine.cpp" />
