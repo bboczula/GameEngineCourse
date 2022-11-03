@@ -5,7 +5,8 @@
 #include "../DX12Backend/DX12Texture.h"
 #include "Light.h"
 
-Sapphire::RenderContext::RenderContext(HWND hwnd, unsigned int width, unsigned int height) : deviceContext(deviceContext)
+Sapphire::RenderContext::RenderContext(HWND hwnd, unsigned int width, unsigned int height)
+	: deviceContext(deviceContext), dxResources{nullptr}, renderTargets{nullptr}, uploadBuffer{nullptr}
 {
 	Logger::GetInstance().Log("%s\n", "Sapphire::RenderContext::RenderContext");
 

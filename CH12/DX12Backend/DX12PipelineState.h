@@ -20,7 +20,7 @@ namespace Sapphire
 	class DX12Shader;
 	class DX12Device;
 
-	extern class GPUAPI_DX12_API DX12PipelineState
+	class GPUAPI_DX12_API DX12PipelineState
 	{
 		friend class DX12CommandList;
 	public:

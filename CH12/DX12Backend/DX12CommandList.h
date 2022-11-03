@@ -27,7 +27,7 @@ namespace Sapphire
 	/// <summary>
 	/// A wrapper class for the ID3D12CommandList interface. Contains the ID3D12CommandAllocater too.
 	/// </summary>
-	extern class GPUAPI_DX12_API DX12CommandList
+	class GPUAPI_DX12_API DX12CommandList
 	{
 		friend class DX12CommandQueue;
 	public:

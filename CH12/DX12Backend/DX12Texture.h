@@ -13,7 +13,7 @@ namespace Sapphire
 	class DX12Resource;
 	class DX12Device;
 
-	extern class GPUAPI_DX12_API DX12Texture
+	class GPUAPI_DX12_API DX12Texture
 	{
 	public:
 		DX12Texture(DX12Device* device, D3D12_CPU_DESCRIPTOR_HANDLE srvDescriptorHandle, UINT width, UINT height, UINT descriptorIndex);

@@ -17,7 +17,7 @@ namespace Sapphire
 	/// <summary>
 	/// A wrapper class for the ID3D12DescriptorHeap interface. It allocates the fixed amount of descriptors and then keeps the index of the first one available.
 	/// </summary>
-	extern class GPUAPI_DX12_API DX12DescriptorHeap
+	class GPUAPI_DX12_API DX12DescriptorHeap
 	{
 		friend class DX12CommandList;
 	public:

@@ -10,7 +10,7 @@
 
 namespace Sapphire
 {
-	extern class GPUAPI_DX12_API DX12Viewport
+	class GPUAPI_DX12_API DX12Viewport
 	{
 		friend class DX12CommandList;
 	public:

@@ -15,7 +15,7 @@ namespace Sapphire
 	class DX12Resource;
 	class DX12Device;
 
-	extern class GPUAPI_DX12_API DX12ConstantBuffer
+	class GPUAPI_DX12_API DX12ConstantBuffer
 	{
 	public:
 		DX12ConstantBuffer(DX12Device* device, UINT64 bufferSize, D3D12_CPU_DESCRIPTOR_HANDLE srvDescriptorHandle, UINT descriptorIndex);

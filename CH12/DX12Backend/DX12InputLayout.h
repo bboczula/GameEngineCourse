@@ -19,7 +19,7 @@ namespace Sapphire
 		TexCoord
 	};
 
-	extern class GPUAPI_DX12_API DX12InputLayout
+	class GPUAPI_DX12_API DX12InputLayout
 	{
 	public:
 		DX12InputLayout();

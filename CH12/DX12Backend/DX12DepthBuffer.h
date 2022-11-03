@@ -13,7 +13,7 @@ namespace Sapphire
 	class DX12Device;
 	class DX12Resource;
 
-	extern class GPUAPI_DX12_API DX12DepthBuffer
+	class GPUAPI_DX12_API DX12DepthBuffer
 	{
 		friend class DX12CommandList;
 	public:

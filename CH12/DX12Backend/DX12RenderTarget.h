@@ -17,7 +17,7 @@ namespace Sapphire
 	/// <summary>
 	/// This class would be an equivalend of the Render Target View class, if one existed in DirectX 12.
 	/// </summary>
-	extern class GPUAPI_DX12_API DX12RenderTarget
+	class GPUAPI_DX12_API DX12RenderTarget
 	{
 		friend class DX12CommandList;
 	public:

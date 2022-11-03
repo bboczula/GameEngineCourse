@@ -15,7 +15,7 @@ void Sapphire::DX12InputLayout::AppendElement(VertexStream vertexStream)
 	D3D12_INPUT_ELEMENT_DESC element;
 	ZeroMemory(&element, sizeof(D3D12_INPUT_ELEMENT_DESC));
 
-	element.InputSlot = inputElementsList.size();
+	element.InputSlot = static_cast<UINT>(inputElementsList.size());
 	element.SemanticIndex = 0;
 	element.InstanceDataStepRate = 0;
 	element.InputSlotClass = D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA;
@@ -52,6 +52,6 @@ D3D12_INPUT_LAYOUT_DESC Sapphire::DX12InputLayout::GetInputLayoutDesc()
 {
 	D3D12_INPUT_LAYOUT_DESC inputLayout;
 	inputLayout.pInputElementDescs = inputElementsList.data();
-	inputLayout.NumElements = inputElementsList.size();
+	inputLayout.NumElements = static_cast<UINT>(inputElementsList.size());
 	return inputLayout;
 }

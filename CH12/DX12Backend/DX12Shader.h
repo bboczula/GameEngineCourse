@@ -13,7 +13,7 @@
 
 namespace Sapphire
 {
-	extern class GPUAPI_DX12_API DX12Shader
+	class GPUAPI_DX12_API DX12Shader
 	{
 	public:
 		DX12Shader(LPCSTR fileName);

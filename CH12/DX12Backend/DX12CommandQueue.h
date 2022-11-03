@@ -19,7 +19,7 @@ namespace Sapphire
 	/// <summary>
 	/// A wrapper class for the ID3D12CommandQueue interface. Contains the Fence  for synchronization.
 	/// </summary>
-	extern class GPUAPI_DX12_API DX12CommandQueue
+	class GPUAPI_DX12_API DX12CommandQueue
 	{
 	public:
 

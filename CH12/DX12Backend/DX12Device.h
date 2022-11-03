@@ -19,7 +19,7 @@
 
 namespace Sapphire
 {
-	extern class GPUAPI_DX12_API DX12Device
+	class GPUAPI_DX12_API DX12Device
 	{
 	public:
 		DX12Device(IDXGIAdapter1* adapter);

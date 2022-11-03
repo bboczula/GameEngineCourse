@@ -15,7 +15,7 @@ namespace Sapphire
 	class DX12Resource;
 	class DX12Device;
 
-	extern class GPUAPI_DX12_API DX12VertexBuffer
+	class GPUAPI_DX12_API DX12VertexBuffer
 	{
 		friend class DX12CommandList;
 		friend class RenderContext;
