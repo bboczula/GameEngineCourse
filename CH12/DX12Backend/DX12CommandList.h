@@ -99,6 +99,8 @@ namespace Sapphire
 
 		void Draw(DX12VertexBuffer* positionVertexBuffer, DX12VertexBuffer* normalVertexBuffer, DX12VertexBuffer* tangentVertexBuffer, DX12VertexBuffer* albedoTexCoordVertexBuffer, DX12IndexBuffer* indexBuffer);
 
+		void DrawEmpty();
+
 	private:
 		ID3D12CommandAllocator* commandAllocator;
 		ID3D12GraphicsCommandList* commandList;

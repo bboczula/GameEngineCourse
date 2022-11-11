@@ -151,6 +151,11 @@
       <FileType>CppHeader</FileType>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="fullscreen_vs.hlsl">
+      <FileType>Document</FileType>
+    </Text>
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
