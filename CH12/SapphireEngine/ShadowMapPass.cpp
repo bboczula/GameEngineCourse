@@ -3,6 +3,7 @@
 #include "RenderContext.h"
 #include "OrthographicCamera.h"
 #include "../DX12Backend/DX12InputLayout.h"
+#include "../DX12Backend/DX12RenderTarget.h"
 #include "Light.h"
 #include "Arcball.h"
 
@@ -20,8 +21,7 @@ Sapphire::ShadowMapPass::ShadowMapPass(RenderContext* renderContext, Light* ligh
 	inputLayout->AppendElement(VertexStream::Position);
 
 	// Create Pipeline State
-	dxPipelineState = renderContext->CreatePipelineState(vertexShader, pixelShader, inputLayout);
-	viewport = new DX12Viewport(1280, 720);
+	pipelineStates.push_back(renderContext->CreatePipelineState(vertexShader, pixelShader, inputLayout));
 
 	// Create Camera
 	//camera = new Camera(1280.0f / 720.0f);
@@ -44,7 +44,7 @@ Sapphire::ShadowMapPass::~ShadowMapPass()
 	delete renderTarget;
 }
 
-void Sapphire::ShadowMapPass::Setup(DX12CommandList* commandList)
+void Sapphire::ShadowMapPass::PreRender(DX12CommandList* commandList)
 {
 	// In this pass camera is fixed
 	//const float scaleFactor = 20.0f;
@@ -57,13 +57,13 @@ void Sapphire::ShadowMapPass::Setup(DX12CommandList* commandList)
 	const float clearColor[] = { 0.1176f, 0.1882f, 0.4470f, 1.0f };
 	//unsigned int currentFrameIndex = deviceContext->GetCurrentFrameIndex();
 
-	commandList->Reset();
+	//commandList->Reset();
 	//commandList->TransitionTo(renderTarget->GetResource(), D3D12_RESOURCE_STATE_RENDER_TARGET);
-	commandList->SetPipelineState(dxPipelineState);
-	commandList->SetRenderTarget(renderTarget, depthBuffer);
-	commandList->ClearRenderTarget(renderTarget, clearColor);
+	//commandList->SetPipelineState(dxPipelineState);
+	// commandList->SetRenderTarget(renderTarget, depthBuffer);
+	// commandList->ClearRenderTarget(renderTarget, clearColor);
 	// Do I have to manage resource states?
-	commandList->ClearDepthBuffer(depthBuffer);
+	// commandList->ClearDepthBuffer(depthBuffer);
 	commandList->SetConstantBuffer(0, 16, camera->GetViewProjectionMatrixPtr());
 	//commandList->SetConstantBuffer(1, 16, camera->GetProjectionMatrixPtr());
 }

@@ -32,6 +32,11 @@ ID3D12GraphicsCommandList* Sapphire::DX12CommandList::GetCommandList()
 
 void Sapphire::DX12CommandList::TransitionTo(DX12Resource* resource, D3D12_RESOURCE_STATES nextState)
 {
+	if (resource->state == nextState)
+	{
+		return;
+	}
+
 	D3D12_RESOURCE_BARRIER barrier;
 	ZeroMemory(&barrier, sizeof(barrier));
 	barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;

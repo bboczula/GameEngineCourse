@@ -89,7 +89,7 @@ void Sapphire::RenderContext::Setup()
 	//commandList->SetConstantBuffer(1, 16, camera->GetProjectionMatrixPtr());
 	// For texture development
 	// THIS IS RENDER CONTEXT
-	renderPass->Setup(commandList);
+	renderPass->PreRender(commandList);
 	commandList->SetDescriptorHeap(srvDescriptorHeap);
 }
 
@@ -250,12 +250,15 @@ void Sapphire::RenderContext::Render(std::vector<GameObject*> objects)
 		//Logger::GetInstance().Log("Directional Light: %f %f %f\n", directionalLight->GetPositionX(), directionalLight->GetPositionY(), directionalLight->GetPositionZ());
 	}
 
+	commandList->Reset();
 	shadowMapPass->Setup(commandList);
+	shadowMapPass->PreRender(commandList);
 	commandList->SetDescriptorHeap(srvDescriptorHeap);
 	shadowMapPass->Render(commandList, this, objects);
 	shadowMapPass->Teardown(commandList);
 
 	renderPass->Setup(commandList);
+	renderPass->PreRender(commandList);
 	renderPass->Render(commandList, this, objects, shadowMapPass->GetDepthBuffer(), shadowMapPass->camera);
 	renderPass->Teardown(commandList);
 

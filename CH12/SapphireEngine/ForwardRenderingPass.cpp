@@ -15,6 +15,7 @@ Sapphire::ForwardRenderingPass::ForwardRenderingPass(RenderContext* renderContex
 	// renderContext->CreateRenderTarget();
 	// renderContext->CreateDepthBuffer();
 	renderTarget = renderContext->CreateRenderTarget(width, height);
+	renderTarget->GetResource()->GetResource()->SetName(L"ForwardRendering_RenderTarget");
 	depthBuffer = renderContext->CreateDepthBuffer(width, height);
 
 	// Create Constant Buffer for the light data
@@ -35,9 +36,8 @@ Sapphire::ForwardRenderingPass::ForwardRenderingPass(RenderContext* renderContex
 	inputLayout->AppendElement(VertexStream::TexCoord);
 
 	// Create Pipeline State
-	dxPipelineState = renderContext->CreatePipelineState(vertexShader, pixelShader, inputLayout);
-	dxPipelineState_noBump = renderContext->CreatePipelineState(vertexShader_noBump, pixelShader_noBump, inputLayout);
-	viewport = new DX12Viewport(width, height);
+	pipelineStates.push_back(renderContext->CreatePipelineState(vertexShader, pixelShader, inputLayout));
+	pipelineStates.push_back(renderContext->CreatePipelineState(vertexShader_noBump, pixelShader_noBump, inputLayout));
 
 	// Create Camera
 	//camera = new Camera(1280.0f / 720.0f);
@@ -47,9 +47,6 @@ Sapphire::ForwardRenderingPass::ForwardRenderingPass(RenderContext* renderContex
 Sapphire::ForwardRenderingPass::~ForwardRenderingPass()
 {
 	delete camera;
-	delete viewport;
-	delete dxPipelineState;
-	delete dxPipelineState_noBump;
 	delete pixelShader;
 	delete vertexShader;
 	delete pixelShader_noBump;
@@ -58,7 +55,7 @@ Sapphire::ForwardRenderingPass::~ForwardRenderingPass()
 	delete renderTarget;
 }
 
-void Sapphire::ForwardRenderingPass::Setup(DX12CommandList* commandList)
+void Sapphire::ForwardRenderingPass::PreRender(DX12CommandList* commandList)
 {
 	// camera->LogInfo();
 	// Update the constant buffer
@@ -68,11 +65,11 @@ void Sapphire::ForwardRenderingPass::Setup(DX12CommandList* commandList)
 	//unsigned int currentFrameIndex = deviceContext->GetCurrentFrameIndex();
 
 	//commandList->Reset();
-	commandList->TransitionTo(renderTarget->GetResource(), D3D12_RESOURCE_STATE_RENDER_TARGET);
-	commandList->SetRenderTarget(renderTarget, depthBuffer);
-	commandList->ClearRenderTarget(renderTarget, clearColor);
+	// commandList->TransitionTo(renderTarget->GetResource(), D3D12_RESOURCE_STATE_RENDER_TARGET);
+	// commandList->SetRenderTarget(renderTarget, depthBuffer);
+	// commandList->ClearRenderTarget(renderTarget, clearColor);
 	// Do I have to manage resource states?
-	commandList->ClearDepthBuffer(depthBuffer);
+	// commandList->ClearDepthBuffer(depthBuffer);
 	commandList->SetConstantBuffer(0, 16, camera->GetViewProjectionMatrixPtr());
 	//commandList->SetConstantBuffer(1, 16, camera->GetProjectionMatrixPtr());
 }
@@ -100,18 +97,18 @@ void Sapphire::ForwardRenderingPass::Render(DX12CommandList* commandList, Render
 
 void Sapphire::ForwardRenderingPass::Render(DX12CommandList* commandList, RenderContext* renderContext, std::vector<GameObject*> objects, DX12DepthBuffer* depthMap, Camera* shadowMapCamera)
 {
-	commandList->TransitionTo(depthBuffer->GetResource(), D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+	commandList->TransitionTo(depthMap->GetResource(), D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 	for (int i = 0; i < objects.size(); i++)
 	{
 		if (objects[i]->numOfVertices != 0)
 		{
 			if (objects[i]->bumpMapWidth == 0)
 			{
-				commandList->SetPipelineState(dxPipelineState_noBump);
+				commandList->SetPipelineState(pipelineStates[1]);
 			}
 			else
 			{
-				commandList->SetPipelineState(dxPipelineState);
+				commandList->SetPipelineState(pipelineStates[0]);
 			}
 			commandList->SetConstantBuffer(1, 16, shadowMapCamera->GetViewProjectionMatrixPtr());
 			commandList->SetConstantBuffer(2, 16, &objects[i]->world);
@@ -132,7 +129,7 @@ void Sapphire::ForwardRenderingPass::Render(DX12CommandList* commandList, Render
 			commandList->Draw(objects[i]->positionVertexBuffer, objects[i]->normalVertexBuffer, objects[i]->tangentVertexBuffer, objects[i]->colorTexCoordVertexBuffer, objects[i]->indexBuffer);
 		}
 	}
-	commandList->TransitionTo(depthBuffer->GetResource(), D3D12_RESOURCE_STATE_DEPTH_WRITE);
+	commandList->TransitionTo(depthMap->GetResource(), D3D12_RESOURCE_STATE_DEPTH_WRITE);
 }
 
 void Sapphire::ForwardRenderingPass::Teardown(DX12CommandList* commandList)
@@ -142,10 +139,10 @@ void Sapphire::ForwardRenderingPass::Teardown(DX12CommandList* commandList)
 	//commandList->Close();
 }
 
-Sapphire::DX12RenderTarget* Sapphire::ForwardRenderingPass::GetRenderTarget()
-{
-	return renderTarget;
-}
+//Sapphire::DX12RenderTarget* Sapphire::ForwardRenderingPass::GetRenderTarget()
+//{
+//	return renderTarget;
+//}
 
 void Sapphire::ForwardRenderingPass::SetCamera(Camera* camera)
 {

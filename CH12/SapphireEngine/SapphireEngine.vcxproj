@@ -279,7 +279,7 @@ copy "$(TargetDir)DX12Backend.dll" "$(SolutionDir)SapphireReference"</Command>
       <Message>Copying compiled shaders and externals...</Message>
     </PostBuildEvent>
     <Lib>
-      <AdditionalDependencies>ModelLoader.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>ModelLoader.lib;DX12Backend.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
     <Lib>
       <AdditionalLibraryDirectories>C:\Users\boczu\source\repos\GameEngineCourse\CH12\x64\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
