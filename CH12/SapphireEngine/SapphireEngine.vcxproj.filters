@@ -126,6 +126,9 @@
     <ClInclude Include="Arcball.h">
       <Filter>Engine\Rendering\Camera</Filter>
     </ClInclude>
+    <ClInclude Include="GrayscalePass.h">
+      <Filter>Engine\Rendering\RenderPass</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WindowApplication.cpp">
@@ -200,6 +203,9 @@
     <ClCompile Include="Arcball.cpp">
       <Filter>Engine\Rendering\Camera</Filter>
     </ClCompile>
+    <ClCompile Include="GrayscalePass.cpp">
+      <Filter>Engine\Rendering\RenderPass</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="SimpleMath.inl">
@@ -232,6 +238,9 @@
       <Filter>Engine\Rendering\Shaders</Filter>
     </Text>
     <Text Include="fullscreen_vs.hlsl">
+      <Filter>Engine\Rendering\Shaders</Filter>
+    </Text>
+    <Text Include="grayscale_ps.hlsl">
       <Filter>Engine\Rendering\Shaders</Filter>
     </Text>
   </ItemGroup>

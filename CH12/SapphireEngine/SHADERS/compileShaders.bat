@@ -10,3 +10,4 @@ dxc.exe /E"main" /Fo"C:\Users\boczu\source\repos\GameEngineCourse\CH12\x64\Relea
 dxc.exe /E"main" /Fo"C:\Users\boczu\source\repos\GameEngineCourse\CH12\x64\Release\shadow_ps.cso" /T"ps_5_0" /nologo ../shadow_ps.hlsl
 dxc.exe /E"main" /Fo"C:\Users\boczu\source\repos\GameEngineCourse\CH12\x64\Release\shadow_vs.cso" /T"vs_5_0" /nologo ../shadow_vs.hlsl
 dxc.exe /E"main" /Fo"C:\Users\boczu\source\repos\GameEngineCourse\CH12\x64\Release\fullscreen_vs.cso" /T"vs_5_0" /nologo ../fullscreen_vs.hlsl
+dxc.exe /E"main" /Fo"C:\Users\boczu\source\repos\GameEngineCourse\CH12\x64\Release\grayscale_ps.cso" /T"ps_5_0" /nologo ../grayscale_ps.hlsl

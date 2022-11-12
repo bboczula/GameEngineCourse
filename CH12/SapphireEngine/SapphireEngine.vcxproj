@@ -31,6 +31,7 @@
     <ClInclude Include="ForwardRenderingPass.h" />
     <ClInclude Include="Free.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="GrayscalePass.h" />
     <ClInclude Include="HardwareCapabilities.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="OrthographicCamera.h" />
@@ -62,6 +63,7 @@
     <ClCompile Include="ForwardRenderingPass.cpp" />
     <ClCompile Include="Free.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="GrayscalePass.cpp" />
     <ClCompile Include="HardwareCapabilities.cpp" />
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="OrthographicCamera.cpp" />
@@ -153,6 +155,11 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="fullscreen_vs.hlsl">
+      <FileType>Document</FileType>
+    </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="grayscale_ps.hlsl">
       <FileType>Document</FileType>
     </Text>
   </ItemGroup>

@@ -55,12 +55,16 @@ Sapphire::RenderContext::RenderContext(HWND hwnd, unsigned int width, unsigned i
 
 	// Create Render Pass
 	renderPass = new ForwardRenderingPass(this, directionalLight, width, height);
+
+	// Grayscale Render Pass
+	grayscalePass = new GrayscalePass(this, width, height);
 }
 
 Sapphire::RenderContext::~RenderContext()
 {
 	Logger::GetInstance().Log("%s\n", "Sapphire::RenderContext::~RenderContext");
 
+	delete grayscalePass;
 	delete shadowMapPass;
 	delete renderPass;
 	//delete viewport;
@@ -230,9 +234,9 @@ Sapphire::DX12ConstantBuffer* Sapphire::RenderContext::CreateConstantBuffer()
 	return new DX12ConstantBuffer(deviceContext->GetDevice(), 256, srvHandle, descriptorIndex);
 }
 
-Sapphire::DX12PipelineState* Sapphire::RenderContext::CreatePipelineState(DX12Shader* vertexShader, DX12Shader* pixelShader, DX12InputLayout* inputLayout)
+Sapphire::DX12PipelineState* Sapphire::RenderContext::CreatePipelineState(DX12Shader* vertexShader, DX12Shader* pixelShader, DX12InputLayout* inputLayout, bool flip)
 {
-	return new DX12PipelineState(deviceContext->GetDevice(), vertexShader, pixelShader, inputLayout, false);
+	return new DX12PipelineState(deviceContext->GetDevice(), vertexShader, pixelShader, inputLayout, flip);
 }
 
 D3D12_GPU_DESCRIPTOR_HANDLE Sapphire::RenderContext::GetSrvDescriptor(UINT32 index)
@@ -261,6 +265,11 @@ void Sapphire::RenderContext::Render(std::vector<GameObject*> objects)
 	renderPass->PreRender(commandList);
 	renderPass->Render(commandList, this, objects, shadowMapPass->GetDepthBuffer(), shadowMapPass->camera);
 	renderPass->Teardown(commandList);
+
+	grayscalePass->Setup(commandList);
+	grayscalePass->PreRender(commandList);
+	grayscalePass->Render(commandList, this, objects);
+	grayscalePass->Teardown(commandList);
 
 
 	unsigned int currentFrameIndex = deviceContext->GetCurrentFrameIndex();

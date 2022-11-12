@@ -12,6 +12,7 @@
 #include "Camera.h"
 #include "ForwardRenderingPass.h"
 #include "ShadowMapPass.h"
+#include "GrayscalePass.h"
 
 #include <vector>
 #include <dxgi1_5.h>
@@ -46,7 +47,7 @@ namespace Sapphire
 		DX12DepthBuffer* CreateDepthBuffer(UINT width, UINT height);
 		DX12DepthBuffer* CreateDepthBufferWithSrv(UINT width, UINT height);
 		DX12ConstantBuffer* CreateConstantBuffer();
-		DX12PipelineState* CreatePipelineState(DX12Shader* vertexShader, DX12Shader* pixelShader, DX12InputLayout* inputLayout);
+		DX12PipelineState* CreatePipelineState(DX12Shader* vertexShader, DX12Shader* pixelShader, DX12InputLayout* inputLayout, bool flip = false);
 		D3D12_GPU_DESCRIPTOR_HANDLE GetSrvDescriptor(UINT32 index);
 		void Render(std::vector<GameObject*> objects);
 		void Teardown();
@@ -71,6 +72,7 @@ namespace Sapphire
 		//Camera* camera;
 		ForwardRenderingPass* renderPass;
 		ShadowMapPass* shadowMapPass;
+		GrayscalePass* grayscalePass;
 		DeviceContext* deviceContext;
 		Light* directionalLight;
 	};

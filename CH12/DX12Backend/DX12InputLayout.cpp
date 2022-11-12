@@ -50,8 +50,11 @@ void Sapphire::DX12InputLayout::AppendElement(VertexStream vertexStream)
 
 D3D12_INPUT_LAYOUT_DESC Sapphire::DX12InputLayout::GetInputLayoutDesc()
 {
-	D3D12_INPUT_LAYOUT_DESC inputLayout;
-	inputLayout.pInputElementDescs = inputElementsList.data();
-	inputLayout.NumElements = static_cast<UINT>(inputElementsList.size());
+	D3D12_INPUT_LAYOUT_DESC inputLayout = {};
+	if (inputElementsList.size())
+	{
+		inputLayout.pInputElementDescs = inputElementsList.data();
+		inputLayout.NumElements = static_cast<UINT>(inputElementsList.size());
+	}
 	return inputLayout;
 }

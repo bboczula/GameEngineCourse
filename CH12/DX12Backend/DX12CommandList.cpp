@@ -121,6 +121,7 @@ void Sapphire::DX12CommandList::DrawEmpty()
 	commandList->IASetVertexBuffers(0, 0, NULL);
 	commandList->IASetIndexBuffer(NULL);
 	commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	commandList->DrawInstanced(3, 1, 0, 0);
 }
 
 void Sapphire::DX12CommandList::ClearRenderTarget(DX12RenderTarget* renderTarget, const float* color)

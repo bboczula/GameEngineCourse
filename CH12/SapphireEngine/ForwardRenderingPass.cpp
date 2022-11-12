@@ -15,7 +15,6 @@ Sapphire::ForwardRenderingPass::ForwardRenderingPass(RenderContext* renderContex
 	// renderContext->CreateRenderTarget();
 	// renderContext->CreateDepthBuffer();
 	renderTarget = renderContext->CreateRenderTarget(width, height);
-	renderTarget->GetResource()->GetResource()->SetName(L"ForwardRendering_RenderTarget");
 	depthBuffer = renderContext->CreateDepthBuffer(width, height);
 
 	// Create Constant Buffer for the light data
