@@ -64,14 +64,14 @@ float4 main(VSOutput input) : SV_TARGET
 
 	float NDotL = dot(DirToLight, inNormal);
 	//float3 finalColor = DirLightColor.rgb * saturate(NDotL);
-	float3 baseColor = (float3)color.Sample(sampleWrap, input.texCoord);
+	float4 baseColor = color.Sample(sampleWrap, input.texCoord);
 
 	
 
 	//re-homogenize position after interpolation
 	input.positionLightSpace.xyz /= input.positionLightSpace.w;
 
-	float3 ambientColor = (0.2f * baseColor);
+	float3 ambientColor = (0.2f * baseColor.xyz);
 
 	//if position is not visible to the light - dont illuminate it
 	//results in hard light frustum
@@ -79,7 +79,8 @@ float4 main(VSOutput input) : SV_TARGET
 		input.positionLightSpace.y < -1.0f || input.positionLightSpace.y > 1.0f ||
 		input.positionLightSpace.z < 0.0f || input.positionLightSpace.z > 1.0f)
 	{
-		return float4(ambientColor.rgb, 1.0f);
+		return float4(ambientColor.rgb, baseColor.a);
+		//return float4(0.0f, 1.0f, 0.0f, 1.0f);
 	}
 
 	//transform clip space coords to texture space coords (-1:1 to 0:1)
@@ -94,9 +95,9 @@ float4 main(VSOutput input) : SV_TARGET
 
 	//if clip space z value greater than shadow map value then pixel is in shadow
 	
-	if (shadowMapDepth < input.positionLightSpace.z) return float4(ambientColor, 1.0f);
+	if (shadowMapDepth < input.positionLightSpace.z) return float4(ambientColor.rgb, baseColor.a);
 
-	float3 finalColor = (baseColor * saturate(NDotL) * 0.8f) + ambientColor;
+	float3 finalColor = (baseColor.xyz * saturate(NDotL) * 0.8f) + ambientColor;
 
 	// Calculate if the pixel is in shadow or not
 	// Calculate the projected texture coordinates.
@@ -130,7 +131,8 @@ float4 main(VSOutput input) : SV_TARGET
 	//	//float3 finalColor = float3(input.normal.xyz);
 	//}
 
-	return float4(finalColor.rgb, 1.0f);
+	return float4(finalColor.rgb, baseColor.a);
+	//return float4(1.0f, 0.0f, 0.0f, 1.0f);
 	//return float4(inNormal.rgb, 1.0f);
 	//return float4(normalHeight, normalHeight, normalHeight, 1.0f);
 }

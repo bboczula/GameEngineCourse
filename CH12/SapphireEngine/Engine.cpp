@@ -146,27 +146,53 @@ void Sapphire::Engine::LoadDefaultTexture(GameObject* gameObject)
 
 void Sapphire::Engine::LoadTextureFromFile(GameObject* gameObject, std::string filePath)
 {
+	std::string extension = filePath.substr(filePath.find(".") + 1);
 	Image image;
-	image.loadFromFile(filePath);
-
-	gameObject->textureWidth = image.getWidth();
-	gameObject->textureHeight = image.getHeight();
-	auto bufferSize = gameObject->textureWidth * gameObject->textureHeight;
-	gameObject->pixels = new PixelDefinition[bufferSize];
-
-	unsigned int index = 0;
-	auto sourceImage = image.getPixelData();
-	for (int i = 0; i < bufferSize; i++)
+	// This condition has to be able to 
+	if (extension.compare("bmp") == 0)
 	{
-		gameObject->pixels[i] = { (float)(sourceImage[index + 2] / 255.0f), (float)(sourceImage[index + 1] / 255.0f), (float)(sourceImage[index + 0] / 255.0f), 1.0f };
-		index += 3;
+		image.loadFromFileBmp(filePath);
+
+		gameObject->textureWidth = image.getWidth();
+		gameObject->textureHeight = image.getHeight();
+		auto bufferSize = gameObject->textureWidth * gameObject->textureHeight;
+		gameObject->pixels = new PixelDefinition[bufferSize];
+
+		unsigned int index = 0;
+		auto sourceImage = image.getPixelData();
+		for (int i = 0; i < bufferSize; i++)
+		{
+			//float alpha = image.hasAlphaChannel() ? (float)(sourceImage[index + 2] / 255.0f) : 1.0f;
+			gameObject->pixels[i] = { (float)(sourceImage[index + 2] / 255.0f), (float)(sourceImage[index + 1] / 255.0f), (float)(sourceImage[index + 0] / 255.0f), 1.0f };
+			index += 3;
+		}
 	}
+	else if (extension.compare("png") == 0)
+	{
+		image.loadFromFilePng(filePath);
+
+		gameObject->textureWidth = image.getWidth();
+		gameObject->textureHeight = image.getHeight();
+		auto bufferSize = gameObject->textureWidth * gameObject->textureHeight;
+		gameObject->pixels = new PixelDefinition[bufferSize];
+
+		unsigned int index = 0;
+		auto sourceImage = image.getPixelData();
+		for (int i = 0; i < bufferSize; i++)
+		{
+			//float alpha = image.hasAlphaChannel() ? (float)(sourceImage[index + 2] / 255.0f) : 1.0f;
+			gameObject->pixels[i] = { (float)(sourceImage[index + 0] / 255.0f), (float)(sourceImage[index + 1] / 255.0f), (float)(sourceImage[index + 2] / 255.0f), (float)(sourceImage[index + 3] / 255.0f) };
+			index += 4;
+		}
+	}
+
+	
 }
 
 void Sapphire::Engine::LoadBumpMapFromFile(GameObject* gameObject, std::string filePath)
 {
 	Image image;
-	image.loadFromFile(filePath);
+	image.loadFromFileBmp(filePath);
 
 	gameObject->bumpMapWidth = image.getWidth();
 	gameObject->bumpMapHeight = image.getHeight();

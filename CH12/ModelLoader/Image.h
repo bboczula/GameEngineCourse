@@ -18,21 +18,25 @@ class MODEL_LOADER_EXPORTS Image
 public:
 	Image();
 	~Image();
-	void loadFromFile(std::string fileName);
+	void loadFromFileBmp(std::string fileName);
+	void loadFromFilePng(std::string fileName);
 	BYTE* getPixelData();
+	unsigned char* getPixelDataPng();
 	DWORD getWidth();
 	DWORD getHeight();
+	BOOL hasAlphaChannel();
 private:
+	int decodePNG(std::vector<unsigned char>& out_image, unsigned long& image_width, unsigned long& image_height, const unsigned char* in_png, size_t in_size, bool convert_to_rgba32 = true);
+	int decodeBMP();
+	void readFileToMemory();
+	int calculatePadding(DWORD lineSize);
 	std::string fileName;
 	WORD bitsPerPixel;
 	DWORD pixelDataOffset;
 	UINT numOfColorsInPalette;
 	DWORD width;
 	DWORD height;
-	BYTE* pixelData;
-private:
-	void readHeaders();
-	int calculatePadding(DWORD lineSize);
-	void printInfo();
-	void readPixelData();
+	BOOL hasAlpha;
+	std::vector<unsigned char> buffer;
+	std::vector<unsigned char> image;
 };
