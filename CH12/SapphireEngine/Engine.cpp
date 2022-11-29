@@ -152,47 +152,46 @@ void Sapphire::Engine::LoadTextureFromFile(GameObject* gameObject, std::string f
 	if (extension.compare("bmp") == 0)
 	{
 		image.loadFromFileBmp(filePath);
-
-		gameObject->textureWidth = image.getWidth();
-		gameObject->textureHeight = image.getHeight();
-		auto bufferSize = gameObject->textureWidth * gameObject->textureHeight;
-		gameObject->pixels = new PixelDefinition[bufferSize];
-
-		unsigned int index = 0;
-		auto sourceImage = image.getPixelData();
-		for (int i = 0; i < bufferSize; i++)
-		{
-			//float alpha = image.hasAlphaChannel() ? (float)(sourceImage[index + 2] / 255.0f) : 1.0f;
-			gameObject->pixels[i] = { (float)(sourceImage[index + 2] / 255.0f), (float)(sourceImage[index + 1] / 255.0f), (float)(sourceImage[index + 0] / 255.0f), 1.0f };
-			index += 3;
-		}
 	}
 	else if (extension.compare("png") == 0)
 	{
 		image.loadFromFilePng(filePath);
+	}
 
-		gameObject->textureWidth = image.getWidth();
-		gameObject->textureHeight = image.getHeight();
-		auto bufferSize = gameObject->textureWidth * gameObject->textureHeight;
-		gameObject->pixels = new PixelDefinition[bufferSize];
+	gameObject->textureWidth = image.getWidth();
+	gameObject->textureHeight = image.getHeight();
+	auto bufferSize = gameObject->textureWidth * gameObject->textureHeight;
+	gameObject->pixels = new PixelDefinition[bufferSize];
 
-		unsigned int index = 0;
-		auto sourceImage = image.getPixelData();
-		for (int i = 0; i < bufferSize; i++)
+	unsigned int index = 0;
+	auto sourceImage = image.getPixelData();
+	for (int i = 0; i < bufferSize; i++)
+	{
+		if (image.getFormat() == Image::B8G8R8)
 		{
-			//float alpha = image.hasAlphaChannel() ? (float)(sourceImage[index + 2] / 255.0f) : 1.0f;
+			gameObject->pixels[i] = { (float)(sourceImage[index + 2] / 255.0f), (float)(sourceImage[index + 1] / 255.0f), (float)(sourceImage[index + 0] / 255.0f), 1.0f };
+			index += 3;
+		}
+		else if (image.getFormat() == Image::R8G8B8A8)
+		{
 			gameObject->pixels[i] = { (float)(sourceImage[index + 0] / 255.0f), (float)(sourceImage[index + 1] / 255.0f), (float)(sourceImage[index + 2] / 255.0f), (float)(sourceImage[index + 3] / 255.0f) };
 			index += 4;
 		}
 	}
-
-	
 }
 
 void Sapphire::Engine::LoadBumpMapFromFile(GameObject* gameObject, std::string filePath)
 {
+	std::string extension = filePath.substr(filePath.find(".") + 1);
 	Image image;
-	image.loadFromFileBmp(filePath);
+	if (extension.compare("bmp") == 0)
+	{
+		image.loadFromFileBmp(filePath);
+	}
+	else if (extension.compare("png") == 0)
+	{
+		image.loadFromFilePng(filePath);
+	}
 
 	gameObject->bumpMapWidth = image.getWidth();
 	gameObject->bumpMapHeight = image.getHeight();
@@ -203,8 +202,16 @@ void Sapphire::Engine::LoadBumpMapFromFile(GameObject* gameObject, std::string f
 	auto sourceImage = image.getPixelData();
 	for (int i = 0; i < bufferSize; i++)
 	{
-		gameObject->bumpMapPixels[i] = { (float)(sourceImage[index + 2] / 255.0f), (float)(sourceImage[index + 1] / 255.0f), (float)(sourceImage[index + 0] / 255.0f), 1.0f };
-		index += 3;
+		if (image.getFormat() == Image::B8G8R8)
+		{
+			gameObject->bumpMapPixels[i] = { (float)(sourceImage[index + 2] / 255.0f), (float)(sourceImage[index + 1] / 255.0f), (float)(sourceImage[index + 0] / 255.0f), 1.0f };
+			index += 3;
+		}
+		else if (image.getFormat() == Image::R8G8B8A8)
+		{
+			gameObject->bumpMapPixels[i] = { (float)(sourceImage[index + 0] / 255.0f), (float)(sourceImage[index + 1] / 255.0f), (float)(sourceImage[index + 2] / 255.0f), (float)(sourceImage[index + 3] / 255.0f) };
+			index += 4;
+		}
 	}
 }
 

@@ -2,7 +2,7 @@
 
 #include "Image.h"
 
-Image::Image() : fileName(""), hasAlpha(false)
+Image::Image() : fileName(""), hasAlpha(false), format(UNKNOWN)
 {
 }
 
@@ -17,6 +17,7 @@ void Image::loadFromFileBmp(std::string fileName)
 	this->fileName = fileName;
     readFileToMemory();
     decodeBMP();
+    format = B8G8R8;
 }
 
 void Image::loadFromFilePng(std::string fileName)
@@ -29,6 +30,7 @@ void Image::loadFromFilePng(std::string fileName)
 	if (error != 0) std::cout << "error: " << error << std::endl;
 
     hasAlpha = true;
+    format = R8G8B8A8;
 }
 
 int Image::calculatePadding(DWORD lineSize)
@@ -60,6 +62,11 @@ DWORD Image::getHeight()
 BOOL Image::hasAlphaChannel()
 {
     return hasAlpha;
+}
+
+Image::Format Image::getFormat()
+{
+    return format;
 }
 
 int Image::decodePNG(std::vector<unsigned char>& out_image, unsigned long& image_width, unsigned long& image_height, const unsigned char* in_png, size_t in_size, bool convert_to_rgba32)

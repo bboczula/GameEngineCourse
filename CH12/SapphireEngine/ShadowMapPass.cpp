@@ -21,7 +21,7 @@ Sapphire::ShadowMapPass::ShadowMapPass(RenderContext* renderContext, Light* ligh
 	inputLayout->AppendElement(VertexStream::Position);
 
 	// Create Pipeline State
-	pipelineStates.push_back(renderContext->CreatePipelineState(vertexShader, pixelShader, inputLayout));
+	pipelineStates.PushBack(renderContext->CreatePipelineState(vertexShader, pixelShader, inputLayout));
 
 	// Create Camera
 	//camera = new Camera(1280.0f / 720.0f);

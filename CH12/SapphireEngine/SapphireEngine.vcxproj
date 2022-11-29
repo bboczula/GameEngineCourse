@@ -28,6 +28,7 @@
     <ClInclude Include="Engine.h" />
     <ClInclude Include="File.h" />
     <ClInclude Include="FirstPerson.h" />
+    <ClInclude Include="FixedArray.h" />
     <ClInclude Include="ForwardRenderingPass.h" />
     <ClInclude Include="Free.h" />
     <ClInclude Include="GameObject.h" />

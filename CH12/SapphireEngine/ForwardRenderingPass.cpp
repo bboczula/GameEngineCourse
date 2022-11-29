@@ -35,8 +35,8 @@ Sapphire::ForwardRenderingPass::ForwardRenderingPass(RenderContext* renderContex
 	inputLayout->AppendElement(VertexStream::TexCoord);
 
 	// Create Pipeline State
-	pipelineStates.push_back(renderContext->CreatePipelineState(vertexShader, pixelShader, inputLayout));
-	pipelineStates.push_back(renderContext->CreatePipelineState(vertexShader_noBump, pixelShader_noBump, inputLayout));
+	pipelineStates.PushBack(renderContext->CreatePipelineState(vertexShader, pixelShader, inputLayout));
+	pipelineStates.PushBack(renderContext->CreatePipelineState(vertexShader_noBump, pixelShader_noBump, inputLayout));
 
 	// Create Camera
 	//camera = new Camera(1280.0f / 720.0f);

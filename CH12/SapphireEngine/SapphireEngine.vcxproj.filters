@@ -129,6 +129,7 @@
     <ClInclude Include="GrayscalePass.h">
       <Filter>Engine\Rendering\RenderPass</Filter>
     </ClInclude>
+    <ClInclude Include="FixedArray.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WindowApplication.cpp">

@@ -25,12 +25,18 @@ public:
 	DWORD getWidth();
 	DWORD getHeight();
 	BOOL hasAlphaChannel();
+	enum Format
+	{
+		UNKNOWN, B8G8R8, R8G8B8A8
+	};
+	Format getFormat();
 private:
 	int decodePNG(std::vector<unsigned char>& out_image, unsigned long& image_width, unsigned long& image_height, const unsigned char* in_png, size_t in_size, bool convert_to_rgba32 = true);
 	int decodeBMP();
 	void readFileToMemory();
 	int calculatePadding(DWORD lineSize);
 	std::string fileName;
+	Format format;
 	WORD bitsPerPixel;
 	DWORD pixelDataOffset;
 	UINT numOfColorsInPalette;

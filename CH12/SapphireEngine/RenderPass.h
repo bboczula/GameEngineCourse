@@ -5,6 +5,10 @@
 #include "../DX12Backend/DX12PipelineState.h"
 #include <vector>
 
+#include "FixedArray.h"
+
+#define MAX_PIPELINE_STATE_NUM 2U
+
 namespace Sapphire
 {
 	// Including this was causing circular dependency and C2039 error
@@ -45,9 +49,10 @@ namespace Sapphire
 			return depthBuffer != nullptr;
 		}
 	protected:
+		using PipelineStateArray = TFixedArray<DX12PipelineState*, MAX_PIPELINE_STATE_NUM>;
 		DX12RenderTarget* renderTarget;
 		DX12DepthBuffer* depthBuffer;
-		std::vector<DX12PipelineState*> pipelineStates;
 		DX12InputLayout* inputLayout;
+		PipelineStateArray pipelineStates;
 	};
 }
