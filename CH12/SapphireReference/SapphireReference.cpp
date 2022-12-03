@@ -21,8 +21,8 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
 
     // LoadScene
     SceneDescriptor sceneDesc;
-    //sceneDesc.Load("sponza.scene");
-    sceneDesc.Load("floor.scene");
+    sceneDesc.Load("sponza.scene");
+    //sceneDesc.Load("floor.scene");
 
     std::vector<StaticModel*> staticModels;
     for (int i = 0; i < sceneDesc.Size(); i++)

@@ -38,6 +38,7 @@
     <ClInclude Include="OrthographicCamera.h" />
     <ClInclude Include="PerspectiveCamera.h" />
     <ClInclude Include="PixelDefinition.h" />
+    <ClInclude Include="PositionPass.h" />
     <ClInclude Include="RawInput.h" />
     <ClInclude Include="InputFile.h" />
     <ClInclude Include="Model.h" />
@@ -69,6 +70,7 @@
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="OrthographicCamera.cpp" />
     <ClCompile Include="PerspectiveCamera.cpp" />
+    <ClCompile Include="PositionPass.cpp" />
     <ClCompile Include="RawInput.cpp" />
     <ClCompile Include="InputFile.cpp" />
     <ClCompile Include="ModelLoaderSapphire.cpp" />
@@ -134,6 +136,8 @@
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">6.0</ShaderModel>
       <FileType>Document</FileType>
     </Text>
+    <Text Include="position_ps.hlsl" />
+    <Text Include="position_vs.hlsl" />
     <Text Include="shadow_ps.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>

@@ -34,6 +34,7 @@ namespace Sapphire
 	class DX12IndexBuffer;
 	class DX12PipelineState;
 	class Light;
+	class PositionPass;
 
 	class RenderContext
 	{
@@ -43,7 +44,7 @@ namespace Sapphire
 		void Setup();
 		void CreateResources(std::vector<GameObject*> objects);
 		void CreateTextureResource(DX12Texture*& texture, UINT width, UINT height, PixelDefinition* source);
-		DX12RenderTarget* CreateRenderTarget(UINT width, UINT height);
+		DX12RenderTarget* CreateRenderTarget(UINT width, UINT height, DX12RenderTarget::Format format = DX12RenderTarget::Format::RGBA8_UNORM);
 		DX12DepthBuffer* CreateDepthBuffer(UINT width, UINT height);
 		DX12DepthBuffer* CreateDepthBufferWithSrv(UINT width, UINT height);
 		DX12ConstantBuffer* CreateConstantBuffer();
@@ -73,6 +74,7 @@ namespace Sapphire
 		ForwardRenderingPass* renderPass;
 		ShadowMapPass* shadowMapPass;
 		GrayscalePass* grayscalePass;
+		PositionPass* positionPass;
 		DeviceContext* deviceContext;
 		Light* directionalLight;
 	};

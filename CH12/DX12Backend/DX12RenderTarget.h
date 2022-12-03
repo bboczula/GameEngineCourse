@@ -21,6 +21,13 @@ namespace Sapphire
 	{
 		friend class DX12CommandList;
 	public:
+		enum Format
+		{
+			RGBA8_UNORM,
+			RGBA16_FLOAT
+
+		};
+
 		/// <summary>
 		/// Creates new Render Target instance and stores pointers to associated resource and an empty descriptor handle.
 		/// </summary>
@@ -36,11 +43,12 @@ namespace Sapphire
 		/// <param name="descriptor"></param>
 		/// <param name="width"></param>
 		/// <param name="height"></param>
-		DX12RenderTarget(DX12Device* device, D3D12_CPU_DESCRIPTOR_HANDLE descriptor, UINT width, UINT height);
+		DX12RenderTarget(DX12Device* device, D3D12_CPU_DESCRIPTOR_HANDLE descriptor, UINT width, UINT height, Format format = Format::RGBA8_UNORM);
 
 		DX12Resource* GetResource();
 
 		~DX12RenderTarget();
+
 	private:
 		DX12Resource* resource;
 		D3D12_CPU_DESCRIPTOR_HANDLE descriptorHandle;

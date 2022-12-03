@@ -15,6 +15,7 @@ namespace Sapphire
 		friend class RenderContext;
 		friend class ForwardRenderingPass;
 		friend class ShadowMapPass;
+		friend class PositionPass;
 	public:
 		GameObject();
 		~GameObject();

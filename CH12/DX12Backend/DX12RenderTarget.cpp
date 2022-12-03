@@ -13,10 +13,15 @@ Sapphire::DX12RenderTarget::DX12RenderTarget(DX12Device* device, DX12Resource* r
 	viewport = new DX12Viewport(1280, 720);
 }
 
-Sapphire::DX12RenderTarget::DX12RenderTarget(DX12Device* device, D3D12_CPU_DESCRIPTOR_HANDLE descriptor, UINT width, UINT height)
+Sapphire::DX12RenderTarget::DX12RenderTarget(DX12Device* device, D3D12_CPU_DESCRIPTOR_HANDLE descriptor, UINT width, UINT height, Format format)
 	: descriptorHandle(descriptor), resource(nullptr)
 {
-	resource = DX12Resource::CreateRenderTarget(device, DXGI_FORMAT_R8G8B8A8_UNORM, width, height);
+	auto dxgiFormat = DXGI_FORMAT_R8G8B8A8_UNORM;
+	if (format == Format::RGBA16_FLOAT)
+	{
+		dxgiFormat = DXGI_FORMAT_R16G16B16A16_FLOAT;
+	}
+	resource = DX12Resource::CreateRenderTarget(device, dxgiFormat, width, height);
 	device->GetDevice()->CreateRenderTargetView(resource->GetResource(), nullptr, descriptorHandle);
 	viewport = new DX12Viewport(width, height);
 }
