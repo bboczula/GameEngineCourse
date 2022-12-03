@@ -160,6 +160,7 @@
     <ClInclude Include="DX12Device.h" />
     <ClInclude Include="DX12IndexBuffer.h" />
     <ClInclude Include="DX12InputLayout.h" />
+    <ClInclude Include="DX12MultiRenderTarget.h" />
     <ClInclude Include="DX12PipelineState.h" />
     <ClInclude Include="DX12RenderTarget.h" />
     <ClInclude Include="DX12Resource.h" />
@@ -183,6 +184,7 @@
     <ClCompile Include="DX12Device.cpp" />
     <ClCompile Include="DX12IndexBuffer.cpp" />
     <ClCompile Include="DX12InputLayout.cpp" />
+    <ClCompile Include="DX12MultiRenderTarget.cpp" />
     <ClCompile Include="DX12PipelineState.cpp" />
     <ClCompile Include="DX12RenderTarget.cpp" />
     <ClCompile Include="DX12Resource.cpp" />

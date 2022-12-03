@@ -11,6 +11,7 @@
 #include "DX12DescriptorHeap.h"
 #include "DX12Texture.h"
 #include "DX12Resource.h"
+#include "DX12MultiRenderTarget.h"
 
 Sapphire::DX12CommandList::DX12CommandList(DX12Device* device)
 {
@@ -62,6 +63,13 @@ void Sapphire::DX12CommandList::SetRenderTarget(DX12RenderTarget* renderTarget, 
 	commandList->OMSetRenderTargets(1, &renderTarget->descriptorHandle, FALSE, &depthBuffer->descriptorHandle);
 	commandList->RSSetViewports(1, &renderTarget->viewport->viewport);
 	commandList->RSSetScissorRects(1, &renderTarget->viewport->scissors);
+}
+
+void Sapphire::DX12CommandList::SetRenderTarget(DX12MultiRenderTarget* multiRenderTarget, DX12DepthBuffer* depthBuffer)
+{
+	commandList->OMSetRenderTargets(multiRenderTarget->Size(), multiRenderTarget->GetDescriptorHandlesArray(), FALSE, &depthBuffer->descriptorHandle);
+	commandList->RSSetViewports(1, &multiRenderTarget->Get(0)->viewport->viewport);
+	commandList->RSSetScissorRects(1, &multiRenderTarget->Get(0)->viewport->scissors);
 }
 
 void Sapphire::DX12CommandList::SetDescriptorHeap(DX12DescriptorHeap* descriptorHeap)

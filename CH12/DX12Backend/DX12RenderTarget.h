@@ -20,6 +20,7 @@ namespace Sapphire
 	class GPUAPI_DX12_API DX12RenderTarget
 	{
 		friend class DX12CommandList;
+		friend class DX12MultiRenderTarget;
 	public:
 		enum Format
 		{

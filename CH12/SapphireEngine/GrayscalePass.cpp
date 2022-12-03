@@ -4,7 +4,8 @@
 
 Sapphire::GrayscalePass::GrayscalePass(RenderContext* renderContext, unsigned int width, unsigned int height)
 {
-	renderTarget = renderContext->CreateRenderTarget(width, height);
+	multiRenderTarget = new DX12MultiRenderTarget();
+	multiRenderTarget->Add(renderContext->CreateRenderTarget(width, height));
 	depthBuffer = renderContext->CreateDepthBuffer(width, height);
 
 	// Create Shaders

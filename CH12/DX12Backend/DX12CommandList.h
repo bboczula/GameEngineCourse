@@ -23,6 +23,7 @@ namespace Sapphire
 	class DX12DescriptorHeap;
 	class DX12Texture;
 	class DX12Resource;
+	class DX12MultiRenderTarget;
 
 	/// <summary>
 	/// A wrapper class for the ID3D12CommandList interface. Contains the ID3D12CommandAllocater too.
@@ -56,6 +57,8 @@ namespace Sapphire
 		void SetRenderTarget(DX12RenderTarget* renderTarget);
 
 		void SetRenderTarget(DX12RenderTarget* renderTarget, DX12DepthBuffer* depthBuffer);
+
+		void SetRenderTarget(DX12MultiRenderTarget* multiRenderTarget, DX12DepthBuffer* depthBuffer);
 
 		void SetDescriptorHeap(DX12DescriptorHeap* descriptorHeap);
 

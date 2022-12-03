@@ -9,12 +9,8 @@
 
 Sapphire::ForwardRenderingPass::ForwardRenderingPass(RenderContext* renderContext, Light* light, unsigned int width, unsigned int height) : light(light)
 {
-	// Do I need Render Context here?
-	// For example, I have to allocate descriptors somehow
-	// Or maybe even I can ask RenderContext to create the Render Target for me
-	// renderContext->CreateRenderTarget();
-	// renderContext->CreateDepthBuffer();
-	renderTarget = renderContext->CreateRenderTarget(width, height);
+	multiRenderTarget = new DX12MultiRenderTarget();
+	multiRenderTarget->Add(renderContext->CreateRenderTarget(width, height));
 	depthBuffer = renderContext->CreateDepthBuffer(width, height);
 
 	// Create Constant Buffer for the light data
@@ -51,7 +47,7 @@ Sapphire::ForwardRenderingPass::~ForwardRenderingPass()
 	delete pixelShader_noBump;
 	delete vertexShader_noBump;
 	delete depthBuffer;
-	delete renderTarget;
+	//delete renderTarget;
 }
 
 void Sapphire::ForwardRenderingPass::PreRender(DX12CommandList* commandList)

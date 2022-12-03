@@ -16,12 +16,14 @@ cbuffer PerObjectData : register(b2)
 struct VSInput
 {
 	float4 position : POSITION;
+	float4 normal : NORMAL;
 };
 
 struct VSOutput
 {
 	float4 position : SV_POSITION;
 	float4 position_ws : TEXCOORD;
+	float4 normal : NORMAL;
 };
 
 VSOutput main(VSInput input)
@@ -31,6 +33,8 @@ VSOutput main(VSInput input)
 	float4 position_vs = mul(position_ws, view);
 	output.position = position_vs;
 	output.position_ws = position_ws;
+	//output.normal = mul(world, input.normal);
+	output.normal = input.normal;
 
 	return output;
 }

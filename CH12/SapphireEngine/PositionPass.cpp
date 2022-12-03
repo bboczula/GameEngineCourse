@@ -7,8 +7,9 @@
 
 Sapphire::PositionPass::PositionPass(RenderContext* renderContext, unsigned int width, unsigned int height)
 {
-	// Need the Render Target, already have the member, but need to create
-	renderTarget = renderContext->CreateRenderTarget(width, height, DX12RenderTarget::Format::RGBA16_FLOAT);
+	multiRenderTarget = new DX12MultiRenderTarget();
+	multiRenderTarget->Add(renderContext->CreateRenderTarget(width, height, DX12RenderTarget::Format::RGBA16_FLOAT));
+	multiRenderTarget->Add(renderContext->CreateRenderTarget(width, height, DX12RenderTarget::Format::RGBA16_FLOAT));
 
 	// Probably need the Depth Buffer too, although not optimized
 	depthBuffer = renderContext->CreateDepthBuffer(width, height);
@@ -20,6 +21,7 @@ Sapphire::PositionPass::PositionPass(RenderContext* renderContext, unsigned int 
 	// Need Input Layout
 	inputLayout = new DX12InputLayout();
 	inputLayout->AppendElement(VertexStream::Position);
+	inputLayout->AppendElement(VertexStream::Normal);
 
 	// Need Pipeline State
 	pipelineStates.PushBack(renderContext->CreatePipelineState(vertexShader, pixelShader, inputLayout));
@@ -45,7 +47,7 @@ void Sapphire::PositionPass::Render(DX12CommandList* commandList, RenderContext*
 			//commandList->Draw(objects[i]->positionVertexBuffer, objects[i]->indexBuffer);
 			//commandList->Draw(objects[i]->positionVertexBuffer, objects[i]->normalVertexBuffer, objects[i]->indexBuffer);
 			//commandList->Draw(objects[i]->positionVertexBuffer, objects[i]->normalVertexBuffer, objects[i]->colorTexCoordVertexBuffer, objects[i]->indexBuffer);
-			commandList->Draw(objects[i]->positionVertexBuffer, objects[i]->indexBuffer);
+			commandList->Draw(objects[i]->positionVertexBuffer, objects[i]->normalVertexBuffer, objects[i]->indexBuffer);
 		}
 	}
 }

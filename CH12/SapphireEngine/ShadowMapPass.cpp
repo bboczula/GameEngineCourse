@@ -9,8 +9,9 @@
 
 Sapphire::ShadowMapPass::ShadowMapPass(RenderContext* renderContext, Light* light) : light(light)
 {
-	renderTarget = renderContext->CreateRenderTarget(2048, 2048);
 	depthBuffer = renderContext->CreateDepthBufferWithSrv(2048, 2048);
+	multiRenderTarget = new DX12MultiRenderTarget();
+	multiRenderTarget->Add(renderContext->CreateRenderTarget(2048, 2048));
 
 	// Create Shaders
 	vertexShader = new DX12Shader("shadow_vs.cso");
@@ -41,7 +42,6 @@ Sapphire::ShadowMapPass::ShadowMapPass(RenderContext* renderContext, Light* ligh
 Sapphire::ShadowMapPass::~ShadowMapPass()
 {
 	delete depthBuffer;
-	delete renderTarget;
 }
 
 void Sapphire::ShadowMapPass::PreRender(DX12CommandList* commandList)
