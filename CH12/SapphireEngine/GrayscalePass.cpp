@@ -31,6 +31,6 @@ void Sapphire::GrayscalePass::Render(DX12CommandList* commandList, RenderContext
 	commandList->DrawEmpty();
 }
 
-void Sapphire::GrayscalePass::Teardown(DX12CommandList* commandList)
+void Sapphire::GrayscalePass::PostRender(DX12CommandList* commandList)
 {
 }

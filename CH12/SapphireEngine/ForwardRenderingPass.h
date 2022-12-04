@@ -24,7 +24,7 @@ namespace Sapphire
 		void PreRender(DX12CommandList* commandList) override;
 		void Render(DX12CommandList* commandList, RenderContext* renderContext, std::vector<GameObject*> objects) override;
 		void Render(DX12CommandList* commandList, RenderContext* renderContext, std::vector<GameObject*> objects, DX12DepthBuffer* depthMap, Camera* shadowMapCamera);
-		void Teardown(DX12CommandList* commandList) override;
+		void PostRender(DX12CommandList* commandList) override;
 		void SetCamera(Camera* camera);
 	private:
 		DX12ConstantBuffer* constantBuffer;

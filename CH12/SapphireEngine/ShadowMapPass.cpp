@@ -88,7 +88,7 @@ void Sapphire::ShadowMapPass::Render(DX12CommandList* commandList, RenderContext
 	}
 }
 
-void Sapphire::ShadowMapPass::Teardown(DX12CommandList* commandList)
+void Sapphire::ShadowMapPass::PostRender(DX12CommandList* commandList)
 {
 	//commandList->Close();
 }

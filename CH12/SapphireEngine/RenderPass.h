@@ -23,7 +23,7 @@ namespace Sapphire
 	public:
 		virtual void PreRender(DX12CommandList* commandList) = 0;
 		virtual void Render(DX12CommandList* commandList, RenderContext* renderContext, std::vector<GameObject*> objects) = 0;
-		virtual void Teardown(DX12CommandList* commandList) = 0;
+		virtual void PostRender(DX12CommandList* commandList) = 0;
 		void Setup(DX12CommandList* commandList)
 		{
 			const float clearColor[] = { 0.1176f, 0.1882f, 0.4470f, 1.0f };

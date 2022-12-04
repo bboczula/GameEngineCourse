@@ -264,22 +264,22 @@ void Sapphire::RenderContext::Render(std::vector<GameObject*> objects)
 	shadowMapPass->PreRender(commandList);
 	commandList->SetDescriptorHeap(srvDescriptorHeap);
 	shadowMapPass->Render(commandList, this, objects);
-	shadowMapPass->Teardown(commandList);
+	shadowMapPass->PostRender(commandList);
 
 	positionPass->Setup(commandList);
 	positionPass->PreRender(commandList);
 	positionPass->Render(commandList, this, objects);
-	positionPass->Teardown(commandList);
+	positionPass->PostRender(commandList);
 
 	renderPass->Setup(commandList);
 	renderPass->PreRender(commandList);
 	renderPass->Render(commandList, this, objects, shadowMapPass->GetDepthBuffer(), shadowMapPass->camera);
-	renderPass->Teardown(commandList);
+	renderPass->PostRender(commandList);
 
 	grayscalePass->Setup(commandList);
 	grayscalePass->PreRender(commandList);
 	grayscalePass->Render(commandList, this, objects);
-	grayscalePass->Teardown(commandList);
+	grayscalePass->PostRender(commandList);
 
 
 	unsigned int currentFrameIndex = deviceContext->GetCurrentFrameIndex();
@@ -292,7 +292,7 @@ void Sapphire::RenderContext::Render(std::vector<GameObject*> objects)
 void Sapphire::RenderContext::Teardown()
 {
 	//commandList->TransitionTo(renderTarget->GetResource(), D3D12_RESOURCE_STATE_COPY_SOURCE);
-	renderPass->Teardown(commandList);
+	renderPass->PostRender(commandList);
 	commandList->Close();
 }
 

@@ -52,7 +52,7 @@ void Sapphire::PositionPass::Render(DX12CommandList* commandList, RenderContext*
 	}
 }
 
-void Sapphire::PositionPass::Teardown(DX12CommandList* commandList)
+void Sapphire::PositionPass::PostRender(DX12CommandList* commandList)
 {
 }
 

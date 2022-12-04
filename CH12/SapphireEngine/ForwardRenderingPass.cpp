@@ -127,7 +127,7 @@ void Sapphire::ForwardRenderingPass::Render(DX12CommandList* commandList, Render
 	commandList->TransitionTo(depthMap->GetResource(), D3D12_RESOURCE_STATE_DEPTH_WRITE);
 }
 
-void Sapphire::ForwardRenderingPass::Teardown(DX12CommandList* commandList)
+void Sapphire::ForwardRenderingPass::PostRender(DX12CommandList* commandList)
 {
 	// THis is needed only for last Render Pass, maybe we should move it Render Context then?
 	//commandList->TransitionTo(renderTarget->GetResource(), D3D12_RESOURCE_STATE_COPY_SOURCE);
