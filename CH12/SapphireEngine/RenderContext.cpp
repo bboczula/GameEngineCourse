@@ -62,6 +62,12 @@ Sapphire::RenderContext::RenderContext(HWND hwnd, unsigned int width, unsigned i
 
 	// Position Render Pass
 	positionPass = new PositionPass(this, width, height);
+
+	// Setup the connections
+	// Connect resources - this can't be called at runtime
+	renderPass->AddInputResource(positionPass->GetRenderTarget(0)->GetResource());	// Position Texture
+	renderPass->AddInputResource(positionPass->GetRenderTarget(1)->GetResource());	// Normal Texture
+	renderPass->AddInputResource(shadowMapPass->GetDepthBuffer()->GetResource());	// Shadow Map Texture
 }
 
 Sapphire::RenderContext::~RenderContext()
@@ -305,7 +311,7 @@ void Sapphire::RenderContext::Execute()
 Sapphire::DX12RenderTarget* Sapphire::RenderContext::GetRenderTarget()
 {
 	//return renderTarget;
-	return renderPass->GetRenderTarget();
+	return renderPass->GetRenderTarget(0);
 }
 
 void Sapphire::RenderContext::SetCamera(Camera* camera)

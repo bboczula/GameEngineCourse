@@ -92,7 +92,6 @@ void Sapphire::ForwardRenderingPass::Render(DX12CommandList* commandList, Render
 
 void Sapphire::ForwardRenderingPass::Render(DX12CommandList* commandList, RenderContext* renderContext, std::vector<GameObject*> objects, DX12DepthBuffer* depthMap, Camera* shadowMapCamera)
 {
-	commandList->TransitionTo(depthMap->GetResource(), D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 	for (int i = 0; i < objects.size(); i++)
 	{
 		if (objects[i]->numOfVertices != 0)
