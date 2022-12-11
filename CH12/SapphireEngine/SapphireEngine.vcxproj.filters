@@ -218,6 +218,7 @@
     <None Include="SimpleMath.inl">
       <Filter>External</Filter>
     </None>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="bypass_ps.hlsl">

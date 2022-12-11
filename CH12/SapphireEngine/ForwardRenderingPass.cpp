@@ -6,11 +6,12 @@
 #include "Light.h"
 #include "Camera.h"
 #include "PerspectiveCamera.h"
+#include "pix3.h"
 
 Sapphire::ForwardRenderingPass::ForwardRenderingPass(RenderContext* renderContext, Light* light, unsigned int width, unsigned int height) : light(light)
 {
 	multiRenderTarget = new DX12MultiRenderTarget();
-	multiRenderTarget->Add(renderContext->CreateRenderTarget(width, height));
+	multiRenderTarget->Add(renderContext->CreateRenderTarget(ForwardRenderingRT, width, height));
 	depthBuffer = renderContext->CreateDepthBuffer(width, height);
 
 	// Create Constant Buffer for the light data
@@ -90,8 +91,9 @@ void Sapphire::ForwardRenderingPass::Render(DX12CommandList* commandList, Render
 	}
 }
 
-void Sapphire::ForwardRenderingPass::Render(DX12CommandList* commandList, RenderContext* renderContext, std::vector<GameObject*> objects, DX12DepthBuffer* depthMap, Camera* shadowMapCamera)
+void Sapphire::ForwardRenderingPass::Render(DX12CommandList* commandList, RenderContext* renderContext, std::vector<GameObject*> objects, Camera* shadowMapCamera)
 {
+	commandList->GetCommandList()->BeginEvent(1, "ForwardRenderingPass", sizeof("ForwardRenderingPass"));
 	for (int i = 0; i < objects.size(); i++)
 	{
 		if (objects[i]->numOfVertices != 0)
@@ -106,11 +108,8 @@ void Sapphire::ForwardRenderingPass::Render(DX12CommandList* commandList, Render
 			}
 			commandList->SetConstantBuffer(1, 16, shadowMapCamera->GetViewProjectionMatrixPtr());
 			commandList->SetConstantBuffer(2, 16, &objects[i]->world);
-			// D3D12_GPU_DESCRIPTOR_HANDLE descriptor;
-			// descriptor.ptr = srvDescriptorHeap->GetFirstGpuDescriptor().ptr + i * srvDescriptorHeap->GetDescriptorSize();
-			// commandList->SetTexture(3, descriptor);
 			commandList->SetTexture(3, renderContext->GetSrvDescriptor(objects[i]->texture->GetDescriptorIndex()));
-			commandList->SetTexture(4, renderContext->GetSrvDescriptor(depthMap->GetDescriptorIndex()));
+			commandList->SetTexture(4, renderContext->GetSrvDescriptor(ShadowMapDepth));
 			if (objects[i]->bumpMapWidth != 0)
 			{
 				commandList->SetTexture(5, renderContext->GetSrvDescriptor(objects[i]->bumpMap->GetDescriptorIndex()));
@@ -123,7 +122,9 @@ void Sapphire::ForwardRenderingPass::Render(DX12CommandList* commandList, Render
 			commandList->Draw(objects[i]->positionVertexBuffer, objects[i]->normalVertexBuffer, objects[i]->tangentVertexBuffer, objects[i]->colorTexCoordVertexBuffer, objects[i]->indexBuffer);
 		}
 	}
-	commandList->TransitionTo(depthMap->GetResource(), D3D12_RESOURCE_STATE_DEPTH_WRITE);
+	// Here it would be great to know where is the Depth in Input Resource
+	commandList->TransitionTo(inputResources[2], D3D12_RESOURCE_STATE_DEPTH_WRITE);
+	commandList->GetCommandList()->EndEvent();
 }
 
 void Sapphire::ForwardRenderingPass::PostRender(DX12CommandList* commandList)

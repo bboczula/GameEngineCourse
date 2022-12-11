@@ -208,8 +208,13 @@ void Sapphire::RenderContext::CreateTextureResource(DX12Texture*& dest, UINT wid
 	commandList->TransitionTo(dest->GetResource(), D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 }
 
-Sapphire::DX12RenderTarget* Sapphire::RenderContext::CreateRenderTarget(UINT width, UINT height, DX12RenderTarget::Format format)
+Sapphire::DX12RenderTarget* Sapphire::RenderContext::CreateRenderTarget(RenderTargetNames name, UINT width, UINT height, DX12RenderTarget::Format format)
 {
+	// Store GPU Descriptor Handle for easy usage
+	auto heapSize = rtvDescriptorHeap->GetHeapSize();
+	auto descriptorSize = rtvDescriptorHeap->GetDescriptorSize();
+	renderTargetList[name] = rtvDescriptorHeap->GetFirstGpuDescriptor().ptr + INT64(heapSize) * INT64(descriptorSize);
+
 	D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle;
 	rtvHandle.ptr = rtvDescriptorHeap->AllocateDescriptor();
 	return new DX12RenderTarget(deviceContext->GetDevice(), rtvHandle, width, height, format);
@@ -222,17 +227,20 @@ Sapphire::DX12DepthBuffer* Sapphire::RenderContext::CreateDepthBuffer(UINT width
 	return new DX12DepthBuffer(deviceContext->GetDevice(), dsvHandle, width, height);
 }
 
-Sapphire::DX12DepthBuffer* Sapphire::RenderContext::CreateDepthBufferWithSrv(UINT width, UINT height)
+Sapphire::DX12DepthBuffer* Sapphire::RenderContext::CreateDepthBufferWithSrv(RenderTargetNames name, UINT width, UINT height)
 {
 	D3D12_CPU_DESCRIPTOR_HANDLE dsvHandle;
 	dsvHandle.ptr = dsvDescriptorHeap->AllocateDescriptor();
 
-	auto descriptorIndex = srvDescriptorHeap->GetHeapSize();
+	// Store GPU Descriptor Handle for easy usage
+	auto heapSize = rtvDescriptorHeap->GetHeapSize();
+	auto descriptorSize = rtvDescriptorHeap->GetDescriptorSize();
+	renderTargetList[name] = rtvDescriptorHeap->GetFirstGpuDescriptor().ptr + INT64(heapSize) * INT64(descriptorSize);
 
 	D3D12_CPU_DESCRIPTOR_HANDLE srvHandle;
 	srvHandle.ptr = srvDescriptorHeap->AllocateDescriptor();
 
-	return new DX12DepthBuffer(deviceContext->GetDevice(), dsvHandle, width, height, srvHandle, descriptorIndex);
+	return new DX12DepthBuffer(deviceContext->GetDevice(), dsvHandle, width, height, srvHandle, heapSize);
 }
 
 Sapphire::DX12ConstantBuffer* Sapphire::RenderContext::CreateConstantBuffer()
@@ -254,6 +262,13 @@ D3D12_GPU_DESCRIPTOR_HANDLE Sapphire::RenderContext::GetSrvDescriptor(UINT32 ind
 	D3D12_GPU_DESCRIPTOR_HANDLE descriptor;
 	descriptor.ptr = srvDescriptorHeap->GetFirstGpuDescriptor().ptr + index * srvDescriptorHeap->GetDescriptorSize();
 	return descriptor;
+}
+
+D3D12_GPU_DESCRIPTOR_HANDLE Sapphire::RenderContext::GetSrvDescriptor(RenderTargetNames name)
+{
+	D3D12_GPU_DESCRIPTOR_HANDLE output;
+	output.ptr = renderTargetList[name];
+	return output;
 }
 
 void Sapphire::RenderContext::Render(std::vector<GameObject*> objects)
@@ -279,7 +294,7 @@ void Sapphire::RenderContext::Render(std::vector<GameObject*> objects)
 
 	renderPass->Setup(commandList);
 	renderPass->PreRender(commandList);
-	renderPass->Render(commandList, this, objects, shadowMapPass->GetDepthBuffer(), shadowMapPass->camera);
+	renderPass->Render(commandList, this, objects, shadowMapPass->camera);
 	renderPass->PostRender(commandList);
 
 	grayscalePass->Setup(commandList);

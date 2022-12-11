@@ -44,6 +44,11 @@ namespace Sapphire
 			commandList->SetRenderTarget(multiRenderTarget, depthBuffer);
 			commandList->ClearDepthBuffer(depthBuffer);
 			commandList->SetPipelineState(pipelineStates[0]);
+
+			// Here you can bind the input resources to necessary slots
+			// Or maybe you can have a map where named resource has GPU_Handles
+			// For example like this:
+			// commandList->SetTexture(4, renderContext->GetSrvDescriptor(depthMap->GetDescriptorIndex()));
 		}
 		DX12RenderTarget* GetRenderTarget(unsigned int index)
 		{
@@ -76,5 +81,6 @@ namespace Sapphire
 		DX12MultiRenderTarget* multiRenderTarget;
 		PipelineStateArray pipelineStates;
 		std::vector<DX12Resource*> inputResources;
+		// You have to have slot and GPU Handle, and it has to be generic type
 	};
 }

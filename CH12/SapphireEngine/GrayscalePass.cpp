@@ -5,7 +5,7 @@
 Sapphire::GrayscalePass::GrayscalePass(RenderContext* renderContext, unsigned int width, unsigned int height)
 {
 	multiRenderTarget = new DX12MultiRenderTarget();
-	multiRenderTarget->Add(renderContext->CreateRenderTarget(width, height));
+	multiRenderTarget->Add(renderContext->CreateRenderTarget(GrayscaleRT, width, height));
 	depthBuffer = renderContext->CreateDepthBuffer(width, height);
 
 	// Create Shaders
@@ -28,7 +28,9 @@ void Sapphire::GrayscalePass::PreRender(DX12CommandList* commandList)
 
 void Sapphire::GrayscalePass::Render(DX12CommandList* commandList, RenderContext* renderContext, std::vector<GameObject*> objects)
 {
+	commandList->GetCommandList()->BeginEvent(1, "GrayscalePass", sizeof("GrayscalePass"));
 	commandList->DrawEmpty();
+	commandList->GetCommandList()->EndEvent();
 }
 
 void Sapphire::GrayscalePass::PostRender(DX12CommandList* commandList)

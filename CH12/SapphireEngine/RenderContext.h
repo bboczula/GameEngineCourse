@@ -27,6 +27,17 @@
 #pragma comment(lib, "d3d12.lib")
 #pragma comment(lib, "dxguid.lib")
 
+enum RenderTargetNames
+{
+	ForwardRenderingRT,
+	Position_ColorRT,
+	Position_NormalRT,
+	GrayscaleRT,
+	ShadowMapRT,
+	ShadowMapDepth,
+	EnumSize
+};
+
 namespace Sapphire
 {
 	class DX12ConstantBuffer;
@@ -44,12 +55,13 @@ namespace Sapphire
 		void Setup();
 		void CreateResources(std::vector<GameObject*> objects);
 		void CreateTextureResource(DX12Texture*& texture, UINT width, UINT height, PixelDefinition* source);
-		DX12RenderTarget* CreateRenderTarget(UINT width, UINT height, DX12RenderTarget::Format format = DX12RenderTarget::Format::RGBA8_UNORM);
+		DX12RenderTarget* CreateRenderTarget(RenderTargetNames name, UINT width, UINT height, DX12RenderTarget::Format format = DX12RenderTarget::Format::RGBA8_UNORM);
 		DX12DepthBuffer* CreateDepthBuffer(UINT width, UINT height);
-		DX12DepthBuffer* CreateDepthBufferWithSrv(UINT width, UINT height);
+		DX12DepthBuffer* CreateDepthBufferWithSrv(RenderTargetNames name, UINT width, UINT height);
 		DX12ConstantBuffer* CreateConstantBuffer();
 		DX12PipelineState* CreatePipelineState(DX12Shader* vertexShader, DX12Shader* pixelShader, DX12InputLayout* inputLayout, bool flip = false);
 		D3D12_GPU_DESCRIPTOR_HANDLE GetSrvDescriptor(UINT32 index);
+		D3D12_GPU_DESCRIPTOR_HANDLE GetSrvDescriptor(RenderTargetNames name);
 		void Render(std::vector<GameObject*> objects);
 		void Teardown();
 		void Execute();
@@ -77,6 +89,9 @@ namespace Sapphire
 		PositionPass* positionPass;
 		DeviceContext* deviceContext;
 		Light* directionalLight;
+		// List of all render targets
+		SIZE_T renderTargetList[RenderTargetNames::EnumSize];
+
 	};
 }
 

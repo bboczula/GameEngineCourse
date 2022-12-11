@@ -8,8 +8,8 @@
 Sapphire::PositionPass::PositionPass(RenderContext* renderContext, unsigned int width, unsigned int height)
 {
 	multiRenderTarget = new DX12MultiRenderTarget();
-	multiRenderTarget->Add(renderContext->CreateRenderTarget(width, height, DX12RenderTarget::Format::RGBA16_FLOAT));
-	multiRenderTarget->Add(renderContext->CreateRenderTarget(width, height, DX12RenderTarget::Format::RGBA16_FLOAT));
+	multiRenderTarget->Add(renderContext->CreateRenderTarget(Position_ColorRT, width, height, DX12RenderTarget::Format::RGBA16_FLOAT));
+	multiRenderTarget->Add(renderContext->CreateRenderTarget(Position_NormalRT, width, height, DX12RenderTarget::Format::RGBA16_FLOAT));
 
 	// Probably need the Depth Buffer too, although not optimized
 	depthBuffer = renderContext->CreateDepthBuffer(width, height);
@@ -34,6 +34,7 @@ void Sapphire::PositionPass::PreRender(DX12CommandList* commandList)
 
 void Sapphire::PositionPass::Render(DX12CommandList* commandList, RenderContext* renderContext, std::vector<GameObject*> objects)
 {
+	commandList->GetCommandList()->BeginEvent(1, "PositionPass", sizeof("PositionPass"));
 	for (int i = 0; i < objects.size(); i++)
 	{
 		if (objects[i]->numOfVertices != 0)
@@ -50,6 +51,7 @@ void Sapphire::PositionPass::Render(DX12CommandList* commandList, RenderContext*
 			commandList->Draw(objects[i]->positionVertexBuffer, objects[i]->normalVertexBuffer, objects[i]->indexBuffer);
 		}
 	}
+	commandList->GetCommandList()->EndEvent();
 }
 
 void Sapphire::PositionPass::PostRender(DX12CommandList* commandList)
