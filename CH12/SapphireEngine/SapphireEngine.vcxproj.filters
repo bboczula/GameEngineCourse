@@ -129,9 +129,11 @@
     <ClInclude Include="GrayscalePass.h">
       <Filter>Engine\Rendering\RenderPass</Filter>
     </ClInclude>
-    <ClInclude Include="FixedArray.h" />
     <ClInclude Include="PositionPass.h">
       <Filter>Engine\Rendering\RenderPass</Filter>
+    </ClInclude>
+    <ClInclude Include="FixedArray.h">
+      <Filter>Utils</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
