@@ -19,7 +19,7 @@ Sapphire::ShadowMapPass::ShadowMapPass(RenderContext* renderContext, Light* ligh
 
 	// Create Input Layout
 	inputLayout = new DX12InputLayout();
-	inputLayout->AppendElement(VertexStream::Position);
+	inputLayout->AppendElementT(VertexStream::Position);
 
 	// Create Pipeline State
 	pipelineStates.PushBack(renderContext->CreatePipelineState(vertexShader, pixelShader, inputLayout));

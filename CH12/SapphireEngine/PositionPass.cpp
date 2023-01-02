@@ -20,8 +20,7 @@ Sapphire::PositionPass::PositionPass(RenderContext* renderContext, unsigned int 
 
 	// Need Input Layout
 	inputLayout = new DX12InputLayout();
-	inputLayout->AppendElement(VertexStream::Position);
-	inputLayout->AppendElement(VertexStream::Normal);
+	inputLayout->AppendElementT(VertexStream::Position, VertexStream::Normal);
 
 	// Need Pipeline State
 	pipelineStates.PushBack(renderContext->CreatePipelineState(vertexShader, pixelShader, inputLayout));

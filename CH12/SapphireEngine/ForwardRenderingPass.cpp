@@ -26,10 +26,7 @@ Sapphire::ForwardRenderingPass::ForwardRenderingPass(RenderContext* renderContex
 
 	// Create Input Layout
 	inputLayout = new DX12InputLayout();
-	inputLayout->AppendElement(VertexStream::Position);
-	inputLayout->AppendElement(VertexStream::Normal);
-	inputLayout->AppendElement(VertexStream::Tangent);
-	inputLayout->AppendElement(VertexStream::TexCoord);
+	inputLayout->AppendElementT(VertexStream::Position, VertexStream::Normal, VertexStream::Tangent, VertexStream::TexCoord);
 
 	// Create Pipeline State
 	pipelineStates.PushBack(renderContext->CreatePipelineState(vertexShader, pixelShader, inputLayout));
