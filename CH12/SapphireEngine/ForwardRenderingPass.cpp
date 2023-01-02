@@ -109,6 +109,7 @@ void Sapphire::ForwardRenderingPass::Render(DX12CommandList* commandList, Render
 			commandList->SetConstantBuffer(1, 16, shadowMapCamera->GetViewProjectionMatrixPtr());
 			commandList->SetConstantBuffer(2, 16, &objects[i]->world);
 			commandList->SetTexture(3, renderContext->GetSrvDescriptor(objects[i]->texture->GetDescriptorIndex()));
+			// This is incorrect! I need a descriptr from the Input Resource, not the given Render Target
 			commandList->SetTexture(4, renderContext->GetSrvDescriptor(ShadowMapDepth));
 			if (objects[i]->bumpMapWidth != 0)
 			{

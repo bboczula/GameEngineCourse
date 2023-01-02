@@ -229,13 +229,13 @@ Sapphire::DX12DepthBuffer* Sapphire::RenderContext::CreateDepthBuffer(UINT width
 
 Sapphire::DX12DepthBuffer* Sapphire::RenderContext::CreateDepthBufferWithSrv(RenderTargetNames name, UINT width, UINT height)
 {
+	// Store GPU Descriptor Handle for easy usage
+	auto heapSize = srvDescriptorHeap->GetHeapSize();
+	auto descriptorSize = srvDescriptorHeap->GetDescriptorSize();
+	renderTargetList[name] = srvDescriptorHeap->GetFirstGpuDescriptor().ptr + INT64(heapSize) * INT64(descriptorSize);
+
 	D3D12_CPU_DESCRIPTOR_HANDLE dsvHandle;
 	dsvHandle.ptr = dsvDescriptorHeap->AllocateDescriptor();
-
-	// Store GPU Descriptor Handle for easy usage
-	auto heapSize = rtvDescriptorHeap->GetHeapSize();
-	auto descriptorSize = rtvDescriptorHeap->GetDescriptorSize();
-	renderTargetList[name] = rtvDescriptorHeap->GetFirstGpuDescriptor().ptr + INT64(heapSize) * INT64(descriptorSize);
 
 	D3D12_CPU_DESCRIPTOR_HANDLE srvHandle;
 	srvHandle.ptr = srvDescriptorHeap->AllocateDescriptor();
