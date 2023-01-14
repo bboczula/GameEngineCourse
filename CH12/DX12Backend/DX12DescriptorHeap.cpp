@@ -6,7 +6,7 @@
 
 #define HEAP_SIZE 1000
 
-Sapphire::DX12DescriptorHeap::DX12DescriptorHeap(DX12Device* device, D3D12_DESCRIPTOR_HEAP_TYPE type)
+Sapphire::DX12DescriptorHeap::DX12DescriptorHeap(DX12Device* device, D3D12_DESCRIPTOR_HEAP_TYPE type) : isShaderVisible(false)
 {
 	D3D12_DESCRIPTOR_HEAP_DESC rtvDescHeapDesc;
 	ZeroMemory(&rtvDescHeapDesc, sizeof(rtvDescHeapDesc));
@@ -17,6 +17,7 @@ Sapphire::DX12DescriptorHeap::DX12DescriptorHeap(DX12Device* device, D3D12_DESCR
 	{
 		// This type of Descriptor Heap needs to be shader-visible
 		rtvDescHeapDesc.Flags |= D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
+		isShaderVisible = true;
 	}
 	AExitIfFailed(device->GetDevice()->CreateDescriptorHeap(&rtvDescHeapDesc, IID_PPV_ARGS(&heap)));
 	descriptorSize = device->GetDevice()->GetDescriptorHandleIncrementSize(type);
@@ -36,7 +37,13 @@ SIZE_T Sapphire::DX12DescriptorHeap::AllocateDescriptor()
 
 D3D12_GPU_DESCRIPTOR_HANDLE Sapphire::DX12DescriptorHeap::GetFirstGpuDescriptor()
 {
+	ExitIfTrue(!isShaderVisible, L"Asking for GPU descriptor handle from non-shader visible Desciptor Heap");
 	return heap->GetGPUDescriptorHandleForHeapStart();
+}
+
+D3D12_CPU_DESCRIPTOR_HANDLE Sapphire::DX12DescriptorHeap::GetFirstCpuDescriptor()
+{
+	return heap->GetCPUDescriptorHandleForHeapStart();
 }
 
 UINT Sapphire::DX12DescriptorHeap::GetDescriptorSize()

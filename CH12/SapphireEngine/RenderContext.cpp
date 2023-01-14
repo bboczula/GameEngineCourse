@@ -213,7 +213,7 @@ Sapphire::DX12RenderTarget* Sapphire::RenderContext::CreateRenderTarget(RenderTa
 	// Store GPU Descriptor Handle for easy usage
 	auto heapSize = rtvDescriptorHeap->GetHeapSize();
 	auto descriptorSize = rtvDescriptorHeap->GetDescriptorSize();
-	renderTargetList[name] = rtvDescriptorHeap->GetFirstGpuDescriptor().ptr + INT64(heapSize) * INT64(descriptorSize);
+	renderTargetList[name] = rtvDescriptorHeap->GetFirstCpuDescriptor().ptr + INT64(heapSize) * INT64(descriptorSize);
 
 	D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle;
 	rtvHandle.ptr = rtvDescriptorHeap->AllocateDescriptor();
