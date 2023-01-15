@@ -38,17 +38,26 @@ Sapphire::DX12Resource::DX12Resource(DX12Device* device, DXGI_FORMAT textureForm
 	desc.MipLevels = 1;
 	desc.Flags |= flags;
 
-	if (flags == D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL)
+	bool isClearValueRequired = (flags == D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL) || (flags == D3D12_RESOURCE_FLAG_ALLOW_RENDER_TARGET);
+	if (isClearValueRequired)
 	{
-		D3D12_CLEAR_VALUE depthClearValue;
-		ZeroMemory(&depthClearValue, sizeof(D3D12_CLEAR_VALUE));
-		depthClearValue.Format = DXGI_FORMAT_D32_FLOAT;
-		depthClearValue.DepthStencil.Depth = 1.0f;
-
-		state = D3D12_RESOURCE_STATE_DEPTH_WRITE;
-
+		D3D12_CLEAR_VALUE clearValue;
+		ZeroMemory(&clearValue, sizeof(D3D12_CLEAR_VALUE));
+		clearValue.Format = textureFormat;
+		if (flags == D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL)
+		{
+			clearValue.DepthStencil.Depth = 1.0f;
+			state = D3D12_RESOURCE_STATE_DEPTH_WRITE;
+		}
+		else if (flags == D3D12_RESOURCE_FLAG_ALLOW_RENDER_TARGET)
+		{
+			// We've picked this color because we clear render target to get the sky, we will change it later
+			// Looks like arrays are not really assignable, so I have to copy instead
+			const FLOAT defaultClearColor[] = { 0.1176f, 0.1882f, 0.4470f, 1.0f };
+			std::copy(defaultClearColor, defaultClearColor + 4, clearValue.Color);
+		}
 		AExitIfFailed(device->GetDevice()->CreateCommittedResource(&heapProps, D3D12_HEAP_FLAG_NONE,
-			&desc, D3D12_RESOURCE_STATE_DEPTH_WRITE, &depthClearValue, IID_PPV_ARGS(&resource)));
+			&desc, state, &clearValue, IID_PPV_ARGS(&resource)));
 	}
 	else
 	{
