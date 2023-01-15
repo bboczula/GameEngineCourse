@@ -42,8 +42,8 @@ VSOutput main(VSInput input)
 	//output.position = mul(position_vs, projection);
 	output.position = position_vs;
 	output.positionLightSpace = position_vs_light;
-	// output.normal = float4(1.0f, 0.0f, 0.0f, 1.0f);
-	output.normal = mul(world, input.normal);
+	//output.normal = mul(world, input.normal);
+	output.normal = mul(input.normal, world);
 	output.texCoord = float2(input.texCoord.x, -1.0f * input.texCoord.y);
 	//output.texCoord = float2(0.0f, 0.0f);
 

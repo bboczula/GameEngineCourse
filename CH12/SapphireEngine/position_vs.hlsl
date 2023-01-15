@@ -34,7 +34,7 @@ VSOutput main(VSInput input)
 	output.position = position_vs;
 	output.position_ws = position_ws;
 	//output.normal = mul(world, input.normal);
-	output.normal = input.normal;
+	output.normal = mul(input.normal, world);
 
 	return output;
 }
