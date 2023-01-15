@@ -253,10 +253,10 @@
     <Text Include="grayscale_ps.hlsl">
       <Filter>Engine\Rendering\Shaders</Filter>
     </Text>
-    <Text Include="position_vs.hlsl">
+    <Text Include="deferred_vs.hlsl">
       <Filter>Engine\Rendering\Shaders</Filter>
     </Text>
-    <Text Include="position_ps.hlsl">
+    <Text Include="deferred_ps.hlsl">
       <Filter>Engine\Rendering\Shaders</Filter>
     </Text>
   </ItemGroup>

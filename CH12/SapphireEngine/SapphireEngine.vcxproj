@@ -136,8 +136,8 @@
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">6.0</ShaderModel>
       <FileType>Document</FileType>
     </Text>
-    <Text Include="position_ps.hlsl" />
-    <Text Include="position_vs.hlsl" />
+    <Text Include="deferred_ps.hlsl" />
+    <Text Include="deferred_vs.hlsl" />
     <Text Include="shadow_ps.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>

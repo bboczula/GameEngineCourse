@@ -16,8 +16,8 @@ Sapphire::DeferredRenderingPass::DeferredRenderingPass(RenderContext* renderCont
 	depthBuffer = renderContext->CreateDepthBuffer(width, height);
 
 	// Need Shaders (and add them to the compilation process)
-	vertexShader = new DX12Shader("position_vs.cso");
-	pixelShader = new DX12Shader("position_ps.cso");
+	vertexShader = new DX12Shader("deferred_vs.cso");
+	pixelShader = new DX12Shader("deferred_ps.cso");
 
 	// Need Input Layout
 	inputLayout = new DX12InputLayout();
