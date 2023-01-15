@@ -30,7 +30,12 @@ Sapphire::ForwardRenderingPass::ForwardRenderingPass(RenderContext* renderContex
 
 	// Create Pipeline State
 	pipelineStates.PushBack(renderContext->CreatePipelineState(vertexShader, pixelShader, inputLayout));
+	pipelineStates[0]->AddRenderTarget(multiRenderTarget->Get(0)->GetDxgiFormat());
+	pipelineStates[0]->CreatePipelineState(renderContext->GetDevice(), vertexShader->GetBytecode(), pixelShader->GetBytecode(), inputLayout);
+	
 	pipelineStates.PushBack(renderContext->CreatePipelineState(vertexShader_noBump, pixelShader_noBump, inputLayout));
+	pipelineStates[1]->AddRenderTarget(multiRenderTarget->Get(0)->GetDxgiFormat());
+	pipelineStates[1]->CreatePipelineState(renderContext->GetDevice(), vertexShader->GetBytecode(), pixelShader->GetBytecode(), inputLayout);
 
 	// Create Camera
 	//camera = new Camera(1280.0f / 720.0f);

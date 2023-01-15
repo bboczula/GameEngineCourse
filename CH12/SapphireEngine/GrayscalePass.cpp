@@ -16,6 +16,8 @@ Sapphire::GrayscalePass::GrayscalePass(RenderContext* renderContext, unsigned in
 	inputLayout = new DX12InputLayout();
 
 	pipelineStates.PushBack(renderContext->CreatePipelineState(vertexShader, pixelShader, inputLayout));
+	pipelineStates[0]->AddRenderTarget(multiRenderTarget->Get(0)->GetDxgiFormat());
+	pipelineStates[0]->CreatePipelineState(renderContext->GetDevice(), vertexShader->GetBytecode(), pixelShader->GetBytecode(), inputLayout);
 }
 
 Sapphire::GrayscalePass::~GrayscalePass()

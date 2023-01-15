@@ -8,6 +8,7 @@
 
 #include <d3d12.h>
 #include <d3dcompiler.h>
+#include <vector>
 
 #include "Utils.h"
 #include "d3dx12.h"
@@ -24,12 +25,14 @@ namespace Sapphire
 	{
 		friend class DX12CommandList;
 	public:
-		DX12PipelineState(DX12Device* device, DX12Shader* vertexShader, DX12Shader* pixelShader, DX12InputLayout* inputLayout);
+		DX12PipelineState(DX12Device* device);
+		void CreatePipelineState(DX12Device* device, D3D12_SHADER_BYTECODE vs, D3D12_SHADER_BYTECODE ps, DX12InputLayout* inputLayout);
+		void AddRenderTarget(DXGI_FORMAT format);
 		~DX12PipelineState();
 	private:
 		void CreateRootSignature(DX12Device* device);
-		void CreatePipelineState(DX12Device* device, D3D12_SHADER_BYTECODE vs, D3D12_SHADER_BYTECODE ps, DX12InputLayout* inputLayout);
 		ID3D12RootSignature* rootSignature;
 		ID3D12PipelineState* pipelineState;
+		std::vector<DXGI_FORMAT> rtFormats;
 	};
 }

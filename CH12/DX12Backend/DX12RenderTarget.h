@@ -25,8 +25,8 @@ namespace Sapphire
 		enum Format
 		{
 			RGBA8_UNORM,
-			RGBA16_FLOAT
-
+			RGBA16_FLOAT,
+			UNDEFINED
 		};
 
 		/// <summary>
@@ -46,13 +46,26 @@ namespace Sapphire
 		/// <param name="height"></param>
 		DX12RenderTarget(DX12Device* device, D3D12_CPU_DESCRIPTOR_HANDLE descriptor, UINT width, UINT height, Format format = Format::RGBA8_UNORM);
 
+		/// <summary>
+		/// Returns the pixel format of the Render Target.
+		/// </summary>
+		/// <returns>A format of the Render Target</returns>
+		Format GetFormat();
+
+		/// <summary>
+		/// Returns the DXGI pixel format of the Render Target
+		/// </summary>
+		/// <returns>A DXGI format of the Render Target</returns>
+		DXGI_FORMAT GetDxgiFormat();
+
 		DX12Resource* GetResource();
 
 		~DX12RenderTarget();
 
 	private:
 		DX12Resource* resource;
-		D3D12_CPU_DESCRIPTOR_HANDLE descriptorHandle;
 		DX12Viewport* viewport;
+		D3D12_CPU_DESCRIPTOR_HANDLE descriptorHandle;
+		Format format;
 	};
 }

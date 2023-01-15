@@ -68,6 +68,7 @@ namespace Sapphire
 		DX12RenderTarget* GetRenderTarget();
 		void SetCamera(Camera* camera);
 		void Blit(DX12Resource* source, DX12Resource* destination);
+		DX12Device* GetDevice();
 	private:
 		DX12DescriptorHeap* rtvDescriptorHeap;
 		DX12DescriptorHeap* dsvDescriptorHeap;
@@ -77,7 +78,6 @@ namespace Sapphire
 		DX12CommandList* commandList;
 		//DX12Shader* pixelShader;
 		//DX12Shader* vertexShader;
-		//DX12PipelineState* dxPipelineState;
 		//DX12Viewport* viewport;
 		DX12Resource* uploadBuffer;
 		DX12RenderTarget* renderTargets[FRAME_COUNT];

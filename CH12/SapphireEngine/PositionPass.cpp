@@ -24,6 +24,9 @@ Sapphire::PositionPass::PositionPass(RenderContext* renderContext, unsigned int 
 
 	// Need Pipeline State
 	pipelineStates.PushBack(renderContext->CreatePipelineState(vertexShader, pixelShader, inputLayout));
+	pipelineStates[0]->AddRenderTarget(multiRenderTarget->Get(0)->GetDxgiFormat());
+	pipelineStates[0]->AddRenderTarget(multiRenderTarget->Get(1)->GetDxgiFormat());
+	pipelineStates[0]->CreatePipelineState(renderContext->GetDevice(), vertexShader->GetBytecode(), pixelShader->GetBytecode(), inputLayout);
 }
 
 void Sapphire::PositionPass::PreRender(DX12CommandList* commandList)

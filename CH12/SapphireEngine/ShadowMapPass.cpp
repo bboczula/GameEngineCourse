@@ -23,6 +23,8 @@ Sapphire::ShadowMapPass::ShadowMapPass(RenderContext* renderContext, Light* ligh
 
 	// Create Pipeline State
 	pipelineStates.PushBack(renderContext->CreatePipelineState(vertexShader, pixelShader, inputLayout));
+	pipelineStates[0]->AddRenderTarget(multiRenderTarget->Get(0)->GetDxgiFormat());
+	pipelineStates[0]->CreatePipelineState(renderContext->GetDevice(), vertexShader->GetBytecode(), pixelShader->GetBytecode(), inputLayout);
 
 	// Create Camera
 	//camera = new Camera(1280.0f / 720.0f);

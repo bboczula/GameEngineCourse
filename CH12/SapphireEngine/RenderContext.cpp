@@ -41,10 +41,6 @@ Sapphire::RenderContext::RenderContext(HWND hwnd, unsigned int width, unsigned i
 	//vertexShader = new DX12Shader("directional_texture_vs.cso");
 	//pixelShader = new DX12Shader("directional_texture_ps.cso");
 
-	// Create pipeline states and viewport
-	//dxPipelineState = new DX12PipelineState(deviceContext->GetDevice(), vertexShader, pixelShader);
-	//viewport = new DX12Viewport(1280, 720);
-
 	// Create main camera
 	//camera = new Camera(1280.0f / 720.0f);
 
@@ -254,7 +250,7 @@ Sapphire::DX12ConstantBuffer* Sapphire::RenderContext::CreateConstantBuffer()
 
 Sapphire::DX12PipelineState* Sapphire::RenderContext::CreatePipelineState(DX12Shader* vertexShader, DX12Shader* pixelShader, DX12InputLayout* inputLayout)
 {
-	return new DX12PipelineState(deviceContext->GetDevice(), vertexShader, pixelShader, inputLayout);
+	return new DX12PipelineState(deviceContext->GetDevice());
 }
 
 D3D12_GPU_DESCRIPTOR_HANDLE Sapphire::RenderContext::GetSrvDescriptor(UINT32 index)
@@ -342,4 +338,9 @@ void Sapphire::RenderContext::Blit(DX12Resource* source, DX12Resource* destinati
 	commandList->TransitionTo(destination, D3D12_RESOURCE_STATE_COPY_DEST);
 	commandList->CopyTextureRegion(source, destination);
 	commandList->TransitionTo(destination, D3D12_RESOURCE_STATE_PRESENT);
+}
+
+Sapphire::DX12Device* Sapphire::RenderContext::GetDevice()
+{
+	return deviceContext->GetDevice();
 }
