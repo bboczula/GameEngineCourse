@@ -7,12 +7,12 @@ namespace Sapphire
 	class RenderContex;
 	class Camera;
 
-	class PositionPass : public RenderPass
+	class DeferredRenderingPass : public RenderPass
 	{
 	public:
 		// You manually have to create Constructors
-		PositionPass(RenderContext* renderContext, unsigned int width, unsigned int height);
-		~PositionPass();
+		DeferredRenderingPass(RenderContext* renderContext, unsigned int width, unsigned int height);
+		~DeferredRenderingPass();
 		void PreRender(DX12CommandList* commandList) override;
 		void Render(DX12CommandList* commandList, RenderContext* renderContext, std::vector<GameObject*> objects) override;
 		void PostRender(DX12CommandList* commandList) override;

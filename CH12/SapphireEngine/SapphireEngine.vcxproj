@@ -38,7 +38,7 @@
     <ClInclude Include="OrthographicCamera.h" />
     <ClInclude Include="PerspectiveCamera.h" />
     <ClInclude Include="PixelDefinition.h" />
-    <ClInclude Include="PositionPass.h" />
+    <ClInclude Include="DeferredRenderingPass.h" />
     <ClInclude Include="RawInput.h" />
     <ClInclude Include="InputFile.h" />
     <ClInclude Include="Model.h" />
@@ -70,7 +70,7 @@
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="OrthographicCamera.cpp" />
     <ClCompile Include="PerspectiveCamera.cpp" />
-    <ClCompile Include="PositionPass.cpp" />
+    <ClCompile Include="DeferredRenderingPass.cpp" />
     <ClCompile Include="RawInput.cpp" />
     <ClCompile Include="InputFile.cpp" />
     <ClCompile Include="ModelLoaderSapphire.cpp" />

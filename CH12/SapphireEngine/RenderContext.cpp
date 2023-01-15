@@ -3,7 +3,7 @@
 #include "../DX12Backend/DX12VertexBuffer.h"
 #include "../DX12Backend/DX12IndexBuffer.h"
 #include "../DX12Backend/DX12Texture.h"
-#include "PositionPass.h"
+#include "DeferredRenderingPass.h"
 #include "Light.h"
 
 Sapphire::RenderContext::RenderContext(HWND hwnd, unsigned int width, unsigned int height)
@@ -57,12 +57,12 @@ Sapphire::RenderContext::RenderContext(HWND hwnd, unsigned int width, unsigned i
 	grayscalePass = new GrayscalePass(this, width, height);
 
 	// Position Render Pass
-	positionPass = new PositionPass(this, width, height);
+	defferedRenderingPass = new DeferredRenderingPass(this, width, height);
 
 	// Setup the connections
 	// Connect resources - this can't be called at runtime
-	renderPass->AddInputResource(positionPass->GetRenderTarget(0)->GetResource());	// Position Texture
-	renderPass->AddInputResource(positionPass->GetRenderTarget(1)->GetResource());	// Normal Texture
+	renderPass->AddInputResource(defferedRenderingPass->GetRenderTarget(0)->GetResource());	// Position Texture
+	renderPass->AddInputResource(defferedRenderingPass->GetRenderTarget(1)->GetResource());	// Normal Texture
 	renderPass->AddInputResource(shadowMapPass->GetDepthBuffer()->GetResource());	// Shadow Map Texture
 }
 
@@ -283,10 +283,10 @@ void Sapphire::RenderContext::Render(std::vector<GameObject*> objects)
 	shadowMapPass->Render(commandList, this, objects);
 	shadowMapPass->PostRender(commandList);
 
-	positionPass->Setup(commandList);
-	positionPass->PreRender(commandList);
-	positionPass->Render(commandList, this, objects);
-	positionPass->PostRender(commandList);
+	defferedRenderingPass->Setup(commandList);
+	defferedRenderingPass->PreRender(commandList);
+	defferedRenderingPass->Render(commandList, this, objects);
+	defferedRenderingPass->PostRender(commandList);
 
 	renderPass->Setup(commandList);
 	renderPass->PreRender(commandList);
@@ -329,7 +329,7 @@ void Sapphire::RenderContext::SetCamera(Camera* camera)
 {
 	//this->camera = camera;
 	renderPass->SetCamera(camera);
-	positionPass->SetCamera(camera);
+	defferedRenderingPass->SetCamera(camera);
 }
 
 void Sapphire::RenderContext::Blit(DX12Resource* source, DX12Resource* destination)

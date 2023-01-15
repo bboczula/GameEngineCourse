@@ -129,7 +129,7 @@
     <ClInclude Include="GrayscalePass.h">
       <Filter>Engine\Rendering\RenderPass</Filter>
     </ClInclude>
-    <ClInclude Include="PositionPass.h">
+    <ClInclude Include="DeferredRenderingPass.h">
       <Filter>Engine\Rendering\RenderPass</Filter>
     </ClInclude>
     <ClInclude Include="FixedArray.h">
@@ -212,7 +212,7 @@
     <ClCompile Include="GrayscalePass.cpp">
       <Filter>Engine\Rendering\RenderPass</Filter>
     </ClCompile>
-    <ClCompile Include="PositionPass.cpp">
+    <ClCompile Include="DeferredRenderingPass.cpp">
       <Filter>Engine\Rendering\RenderPass</Filter>
     </ClCompile>
   </ItemGroup>

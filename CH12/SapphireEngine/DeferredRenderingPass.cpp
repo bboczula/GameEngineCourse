@@ -1,11 +1,11 @@
-#include "PositionPass.h"
+#include "DeferredRenderingPass.h"
 
 #include "RenderContext.h"
 #include "../DX12Backend/DX12Shader.h"
 #include "../DX12Backend/DX12InputLayout.h"
 #include "../DX12Backend/DX12RenderTarget.h"
 
-Sapphire::PositionPass::PositionPass(RenderContext* renderContext, unsigned int width, unsigned int height)
+Sapphire::DeferredRenderingPass::DeferredRenderingPass(RenderContext* renderContext, unsigned int width, unsigned int height)
 {
 	multiRenderTarget = new DX12MultiRenderTarget();
 	multiRenderTarget->Add(renderContext->CreateRenderTarget(Position_ColorRT, width, height, DX12RenderTarget::Format::RGBA16_FLOAT));
@@ -29,14 +29,14 @@ Sapphire::PositionPass::PositionPass(RenderContext* renderContext, unsigned int 
 	pipelineStates[0]->CreatePipelineState(renderContext->GetDevice(), vertexShader->GetBytecode(), pixelShader->GetBytecode(), inputLayout);
 }
 
-void Sapphire::PositionPass::PreRender(DX12CommandList* commandList)
+void Sapphire::DeferredRenderingPass::PreRender(DX12CommandList* commandList)
 {
 	commandList->SetConstantBuffer(0, 16, camera->GetViewProjectionMatrixPtr());
 }
 
-void Sapphire::PositionPass::Render(DX12CommandList* commandList, RenderContext* renderContext, std::vector<GameObject*> objects)
+void Sapphire::DeferredRenderingPass::Render(DX12CommandList* commandList, RenderContext* renderContext, std::vector<GameObject*> objects)
 {
-	commandList->GetCommandList()->BeginEvent(1, "PositionPass", sizeof("PositionPass"));
+	commandList->GetCommandList()->BeginEvent(1, "DeferredRenderingPass", sizeof("DeferredRenderingPass"));
 	for (int i = 0; i < objects.size(); i++)
 	{
 		if (objects[i]->numOfVertices != 0)
@@ -56,11 +56,11 @@ void Sapphire::PositionPass::Render(DX12CommandList* commandList, RenderContext*
 	commandList->GetCommandList()->EndEvent();
 }
 
-void Sapphire::PositionPass::PostRender(DX12CommandList* commandList)
+void Sapphire::DeferredRenderingPass::PostRender(DX12CommandList* commandList)
 {
 }
 
-void Sapphire::PositionPass::SetCamera(Camera* camera)
+void Sapphire::DeferredRenderingPass::SetCamera(Camera* camera)
 {
 	this->camera = camera;
 }

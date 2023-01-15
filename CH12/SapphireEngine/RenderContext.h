@@ -45,7 +45,7 @@ namespace Sapphire
 	class DX12IndexBuffer;
 	class DX12PipelineState;
 	class Light;
-	class PositionPass;
+	class DeferredRenderingPass;
 
 	class RenderContext
 	{
@@ -86,7 +86,7 @@ namespace Sapphire
 		ForwardRenderingPass* renderPass;
 		ShadowMapPass* shadowMapPass;
 		GrayscalePass* grayscalePass;
-		PositionPass* positionPass;
+		DeferredRenderingPass* defferedRenderingPass;
 		DeviceContext* deviceContext;
 		Light* directionalLight;
 		// List of all render targets
