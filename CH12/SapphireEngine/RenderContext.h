@@ -59,7 +59,7 @@ namespace Sapphire
 		DX12DepthBuffer* CreateDepthBuffer(UINT width, UINT height);
 		DX12DepthBuffer* CreateDepthBufferWithSrv(RenderTargetNames name, UINT width, UINT height);
 		DX12ConstantBuffer* CreateConstantBuffer();
-		DX12PipelineState* CreatePipelineState(DX12Shader* vertexShader, DX12Shader* pixelShader, DX12InputLayout* inputLayout, bool flip = false);
+		DX12PipelineState* CreatePipelineState(DX12Shader* vertexShader, DX12Shader* pixelShader, DX12InputLayout* inputLayout);
 		D3D12_GPU_DESCRIPTOR_HANDLE GetSrvDescriptor(UINT32 index);
 		D3D12_GPU_DESCRIPTOR_HANDLE GetSrvDescriptor(RenderTargetNames name);
 		void Render(std::vector<GameObject*> objects);

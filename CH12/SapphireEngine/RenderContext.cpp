@@ -252,9 +252,9 @@ Sapphire::DX12ConstantBuffer* Sapphire::RenderContext::CreateConstantBuffer()
 	return new DX12ConstantBuffer(deviceContext->GetDevice(), 256, srvHandle, descriptorIndex);
 }
 
-Sapphire::DX12PipelineState* Sapphire::RenderContext::CreatePipelineState(DX12Shader* vertexShader, DX12Shader* pixelShader, DX12InputLayout* inputLayout, bool flip)
+Sapphire::DX12PipelineState* Sapphire::RenderContext::CreatePipelineState(DX12Shader* vertexShader, DX12Shader* pixelShader, DX12InputLayout* inputLayout)
 {
-	return new DX12PipelineState(deviceContext->GetDevice(), vertexShader, pixelShader, inputLayout, flip);
+	return new DX12PipelineState(deviceContext->GetDevice(), vertexShader, pixelShader, inputLayout);
 }
 
 D3D12_GPU_DESCRIPTOR_HANDLE Sapphire::RenderContext::GetSrvDescriptor(UINT32 index)

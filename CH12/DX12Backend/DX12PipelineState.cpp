@@ -5,10 +5,10 @@
 #include "DX12Shader.h"
 #include "DX12Device.h"
 
-Sapphire::DX12PipelineState::DX12PipelineState(DX12Device* device, DX12Shader* vertexShader, DX12Shader* pixelShader, DX12InputLayout* inputLayout, bool flip)
+Sapphire::DX12PipelineState::DX12PipelineState(DX12Device* device, DX12Shader* vertexShader, DX12Shader* pixelShader, DX12InputLayout* inputLayout)
 {
 	CreateRootSignature(device);
-	CreatePipelineState(device, vertexShader->GetBytecode(), pixelShader->GetBytecode(), inputLayout, flip);
+	CreatePipelineState(device, vertexShader->GetBytecode(), pixelShader->GetBytecode(), inputLayout);
 }
 
 Sapphire::DX12PipelineState::~DX12PipelineState()
@@ -100,7 +100,7 @@ void Sapphire::DX12PipelineState::CreateRootSignature(DX12Device* device)
 	AExitIfFailed(device->GetDevice()->CreateRootSignature(0, signature->GetBufferPointer(), signature->GetBufferSize(), IID_PPV_ARGS(&rootSignature)));
 }
 
-void Sapphire::DX12PipelineState::CreatePipelineState(DX12Device* device, D3D12_SHADER_BYTECODE vs, D3D12_SHADER_BYTECODE ps, DX12InputLayout* inputLayout, bool flip)
+void Sapphire::DX12PipelineState::CreatePipelineState(DX12Device* device, D3D12_SHADER_BYTECODE vs, D3D12_SHADER_BYTECODE ps, DX12InputLayout* inputLayout)
 {
 	D3D12_GRAPHICS_PIPELINE_STATE_DESC psoDesc;
 	ZeroMemory(&psoDesc, sizeof(D3D12_GRAPHICS_PIPELINE_STATE_DESC));
@@ -118,22 +118,12 @@ void Sapphire::DX12PipelineState::CreatePipelineState(DX12Device* device, D3D12_
 	psoDesc.BlendState.RenderTarget[0].BlendOpAlpha = D3D12_BLEND_OP_ADD;
 	//psoDesc.BlendState.RenderTarget[0].RenderTargetWriteMask = 0x0F;
 	psoDesc.DepthStencilState = CD3DX12_DEPTH_STENCIL_DESC(D3D12_DEFAULT);
-	if (flip)
-	{
-		psoDesc.DepthStencilState.DepthEnable = false;
-		psoDesc.DepthStencilState.StencilEnable = false;
-	}
 	psoDesc.SampleMask = UINT_MAX;
 	psoDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
 	psoDesc.NumRenderTargets = 1;
-	psoDesc.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM;
+	psoDesc.RTVFormats[0] = DXGI_FORMAT_R16G16B16A16_FLOAT;
 	psoDesc.SampleDesc.Count = 1;
 	psoDesc.DSVFormat = DXGI_FORMAT_D32_FLOAT;
-
-	if (flip)
-	{
-		psoDesc.RasterizerState.CullMode = D3D12_CULL_MODE_NONE;
-	}
 
 	AExitIfFailed(device->GetDevice()->CreateGraphicsPipelineState(&psoDesc, IID_PPV_ARGS(&pipelineState)));
 }

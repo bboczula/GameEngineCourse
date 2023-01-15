@@ -15,7 +15,7 @@ Sapphire::GrayscalePass::GrayscalePass(RenderContext* renderContext, unsigned in
 	// Create Input Layout (has to be done before PSO, fix that)
 	inputLayout = new DX12InputLayout();
 
-	pipelineStates.PushBack(renderContext->CreatePipelineState(vertexShader, pixelShader, inputLayout, true));
+	pipelineStates.PushBack(renderContext->CreatePipelineState(vertexShader, pixelShader, inputLayout));
 }
 
 Sapphire::GrayscalePass::~GrayscalePass()
