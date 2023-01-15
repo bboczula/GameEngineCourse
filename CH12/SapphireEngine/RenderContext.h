@@ -30,8 +30,9 @@
 enum RenderTargetNames
 {
 	ForwardRenderingRT,
-	Position_ColorRT,
-	Position_NormalRT,
+	Deferred_PositionRT,
+	Deferred_AlbedoRT,
+	Deferred_NormalRT,
 	GrayscaleRT,
 	ShadowMapRT,
 	ShadowMapDepth,

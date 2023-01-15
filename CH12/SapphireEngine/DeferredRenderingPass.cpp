@@ -8,8 +8,9 @@
 Sapphire::DeferredRenderingPass::DeferredRenderingPass(RenderContext* renderContext, unsigned int width, unsigned int height)
 {
 	multiRenderTarget = new DX12MultiRenderTarget();
-	multiRenderTarget->Add(renderContext->CreateRenderTarget(Position_ColorRT, width, height, DX12RenderTarget::Format::RGBA16_FLOAT));
-	multiRenderTarget->Add(renderContext->CreateRenderTarget(Position_NormalRT, width, height, DX12RenderTarget::Format::RGBA16_FLOAT));
+	multiRenderTarget->Add(renderContext->CreateRenderTarget(Deferred_PositionRT, width, height, DX12RenderTarget::Format::RGBA16_FLOAT));
+	multiRenderTarget->Add(renderContext->CreateRenderTarget(Deferred_NormalRT, width, height, DX12RenderTarget::Format::RGBA16_FLOAT));
+	multiRenderTarget->Add(renderContext->CreateRenderTarget(Deferred_AlbedoRT, width, height, DX12RenderTarget::Format::RGBA16_FLOAT));
 
 	// Probably need the Depth Buffer too, although not optimized
 	depthBuffer = renderContext->CreateDepthBuffer(width, height);
@@ -26,6 +27,7 @@ Sapphire::DeferredRenderingPass::DeferredRenderingPass(RenderContext* renderCont
 	pipelineStates.PushBack(renderContext->CreatePipelineState(vertexShader, pixelShader, inputLayout));
 	pipelineStates[0]->AddRenderTarget(multiRenderTarget->Get(0)->GetDxgiFormat());
 	pipelineStates[0]->AddRenderTarget(multiRenderTarget->Get(1)->GetDxgiFormat());
+	pipelineStates[0]->AddRenderTarget(multiRenderTarget->Get(2)->GetDxgiFormat());
 	pipelineStates[0]->CreatePipelineState(renderContext->GetDevice(), vertexShader->GetBytecode(), pixelShader->GetBytecode(), inputLayout);
 }
 

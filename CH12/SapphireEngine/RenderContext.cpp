@@ -18,31 +18,8 @@ Sapphire::RenderContext::RenderContext(HWND hwnd, unsigned int width, unsigned i
 	dsvDescriptorHeap = deviceContext->CreateDsvDescriptorHeap();
 	srvDescriptorHeap = deviceContext->CreateSrvDescriptorHeap();
 
-	// Each Render Context should have an active Render Target
-	// Do I have to double buffer the Render Target? Probably not, since I do the lock-step rendering really
-	// I need to update the DX12RenderTarget interface
-	// renderTarget = new DX12RenderTarget()
-	
-	// D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle;
-	// rtvHandle.ptr = rtvDescriptorHeap->AllocateDescriptor();
-	// renderTarget = new DX12RenderTarget(deviceContext->GetDevice(), rtvHandle, 1280, 720);
-	//renderTarget = CreateRenderTarget(deviceContext);
-
-	// Need to think if the the depth buffer is required for Render Context
-	// D3D12_CPU_DESCRIPTOR_HANDLE dsvHandle;
-	// dsvHandle.ptr = dsvDescriptorHeap->AllocateDescriptor();
-	// depthBuffer = new DX12DepthBuffer(deviceContext->GetDevice(), dsvHandle);
-	//depthBuffer = CreateDepthBuffer(deviceContext);
-
 	// Create the Command List
 	commandList = deviceContext->CreateCommandList(); // new DX12CommandList(deviceContext->GetDevice());
-
-	// Create required shaders
-	//vertexShader = new DX12Shader("directional_texture_vs.cso");
-	//pixelShader = new DX12Shader("directional_texture_ps.cso");
-
-	// Create main camera
-	//camera = new Camera(1280.0f / 720.0f);
 
 	// Create global directional light
 	directionalLight = new Light(0.0f, 1.0f, 0.0f);
