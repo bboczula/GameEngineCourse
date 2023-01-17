@@ -4,6 +4,7 @@
 #include "../DX12Backend/DX12Shader.h"
 #include "../DX12Backend/DX12InputLayout.h"
 #include "../DX12Backend/DX12RenderTarget.h"
+#include "../DX12Backend/DX12Texture.h"
 
 Sapphire::DeferredRenderingPass::DeferredRenderingPass(RenderContext* renderContext, unsigned int width, unsigned int height)
 {
@@ -21,7 +22,7 @@ Sapphire::DeferredRenderingPass::DeferredRenderingPass(RenderContext* renderCont
 
 	// Need Input Layout
 	inputLayout = new DX12InputLayout();
-	inputLayout->AppendElementT(VertexStream::Position, VertexStream::Normal);
+	inputLayout->AppendElementT(VertexStream::Position, VertexStream::Normal, VertexStream::TexCoord);
 
 	// Need Pipeline State
 	pipelineStates.PushBack(renderContext->CreatePipelineState(vertexShader, pixelShader, inputLayout));
@@ -44,6 +45,7 @@ void Sapphire::DeferredRenderingPass::Render(DX12CommandList* commandList, Rende
 		if (objects[i]->numOfVertices != 0)
 		{
 			commandList->SetConstantBuffer(2, 16, &objects[i]->world);
+			commandList->SetTexture(3, renderContext->GetSrvDescriptor(objects[i]->texture->GetDescriptorIndex()));
 			// D3D12_GPU_DESCRIPTOR_HANDLE descriptor;
 			// descriptor.ptr = srvDescriptorHeap->GetFirstGpuDescriptor().ptr + i * srvDescriptorHeap->GetDescriptorSize();
 			// commandList->SetTexture(3, descriptor);
@@ -51,8 +53,8 @@ void Sapphire::DeferredRenderingPass::Render(DX12CommandList* commandList, Rende
 			//commandList->Draw(objects[i]->geometry);
 			//commandList->Draw(objects[i]->positionVertexBuffer, objects[i]->indexBuffer);
 			//commandList->Draw(objects[i]->positionVertexBuffer, objects[i]->normalVertexBuffer, objects[i]->indexBuffer);
-			//commandList->Draw(objects[i]->positionVertexBuffer, objects[i]->normalVertexBuffer, objects[i]->colorTexCoordVertexBuffer, objects[i]->indexBuffer);
-			commandList->Draw(objects[i]->positionVertexBuffer, objects[i]->normalVertexBuffer, objects[i]->indexBuffer);
+			commandList->Draw(objects[i]->positionVertexBuffer, objects[i]->normalVertexBuffer, objects[i]->colorTexCoordVertexBuffer, objects[i]->indexBuffer);
+			//commandList->Draw(objects[i]->positionVertexBuffer, objects[i]->normalVertexBuffer, objects[i]->indexBuffer);
 		}
 	}
 	commandList->GetCommandList()->EndEvent();

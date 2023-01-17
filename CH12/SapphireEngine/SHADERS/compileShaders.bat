@@ -13,3 +13,5 @@ dxc.exe /E"main" /Fo"C:\Users\boczu\source\repos\GameEngineCourse\CH12\x64\Relea
 dxc.exe /E"main" /Fo"C:\Users\boczu\source\repos\GameEngineCourse\CH12\x64\Release\grayscale_ps.cso" /T"ps_5_0" /nologo ../grayscale_ps.hlsl
 dxc.exe /E"main" /Fo"C:\Users\boczu\source\repos\GameEngineCourse\CH12\x64\Release\deferred_ps.cso" /T"ps_6_0" /nologo ../deferred_ps.hlsl
 dxc.exe /E"main" /Fo"C:\Users\boczu\source\repos\GameEngineCourse\CH12\x64\Release\deferred_vs.cso" /T"vs_6_0" /nologo ../deferred_vs.hlsl
+xcopy /y "C:\Users\boczu\source\repos\GameEngineCourse\CH12\x64\Release\*.cso" "C:\Users\boczu\source\repos\GameEngineCourse\CH12\x64\Debug"
+xcopy /y "C:\Users\boczu\source\repos\GameEngineCourse\CH12\x64\Release\*.cso" "C:\Users\boczu\source\repos\GameEngineCourse\CH12\SapphireReference"

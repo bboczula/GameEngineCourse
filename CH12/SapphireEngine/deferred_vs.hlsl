@@ -17,6 +17,7 @@ struct VSInput
 {
 	float4 position : POSITION;
 	float4 normal : NORMAL;
+	float2 texCoord : TEXCOORD;
 };
 
 struct VSOutput
@@ -24,6 +25,7 @@ struct VSOutput
 	float4 position : SV_POSITION;
 	float4 position_ws : TEXCOORD;
 	float4 normal : NORMAL;
+	float2 texCoord : TEXCOORD1;
 };
 
 VSOutput main(VSInput input)
@@ -35,6 +37,7 @@ VSOutput main(VSInput input)
 	output.position_ws = position_ws;
 	//output.normal = mul(world, input.normal);
 	output.normal = mul(input.normal, world);
+	output.texCoord = float2(input.texCoord.x, -1.0f * input.texCoord.y);
 
 	return output;
 }
