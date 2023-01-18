@@ -17,6 +17,7 @@ struct VSInput
 {
 	float4 position : POSITION;
 	float4 normal : NORMAL;
+	float4 tangent : TANGENT;
 	float2 texCoord : TEXCOORD;
 };
 
@@ -25,6 +26,9 @@ struct VSOutput
 	float4 position : SV_POSITION;
 	float4 position_ws : TEXCOORD;
 	float4 normal : NORMAL;
+	float4 tangent : TANGENT;
+	float4 binormal : BINORMAL;
+	float4 defPosition : TEXCOORD2;
 	float2 texCoord : TEXCOORD1;
 };
 
@@ -38,6 +42,18 @@ VSOutput main(VSInput input)
 	//output.normal = mul(world, input.normal);
 	output.normal = mul(input.normal, world);
 	output.texCoord = float2(input.texCoord.x, -1.0f * input.texCoord.y);
+
+	// We have to calculate the bi-tangent
+	float3 binormal = cross(input.normal, input.tangent);
+
+	// Calculate the TBN matrix
+	output.tangent = mul(input.tangent, world);
+	output.tangent = normalize(output.tangent);
+
+	output.binormal = mul(binormal, world);
+	output.binormal = normalize(output.binormal);
+
+	output.defPosition = position_ws;
 
 	return output;
 }
