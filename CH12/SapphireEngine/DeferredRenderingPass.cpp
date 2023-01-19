@@ -32,6 +32,10 @@ Sapphire::DeferredRenderingPass::DeferredRenderingPass(RenderContext* renderCont
 	pipelineStates[0]->CreatePipelineState(renderContext->GetDevice(), vertexShader->GetBytecode(), pixelShader->GetBytecode(), inputLayout);
 }
 
+Sapphire::DeferredRenderingPass::~DeferredRenderingPass()
+{
+}
+
 void Sapphire::DeferredRenderingPass::PreRender(DX12CommandList* commandList)
 {
 	commandList->SetConstantBuffer(0, 16, camera->GetViewProjectionMatrixPtr());

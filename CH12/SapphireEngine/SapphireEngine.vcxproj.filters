@@ -135,6 +135,9 @@
     <ClInclude Include="FixedArray.h">
       <Filter>Utils</Filter>
     </ClInclude>
+    <ClInclude Include="LightResolvePass.h">
+      <Filter>Engine\Rendering\RenderPass</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WindowApplication.cpp">
@@ -213,6 +216,9 @@
       <Filter>Engine\Rendering\RenderPass</Filter>
     </ClCompile>
     <ClCompile Include="DeferredRenderingPass.cpp">
+      <Filter>Engine\Rendering\RenderPass</Filter>
+    </ClCompile>
+    <ClCompile Include="LightResolvePass.cpp">
       <Filter>Engine\Rendering\RenderPass</Filter>
     </ClCompile>
   </ItemGroup>

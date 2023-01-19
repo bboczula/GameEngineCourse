@@ -26,6 +26,12 @@ namespace Sapphire
 		virtual void PostRender(DX12CommandList* commandList) = 0;
 		void Setup(DX12CommandList* commandList)
 		{
+			// Check if you have any Render Targets
+			if (multiRenderTarget->Size() == 0)
+			{
+				return;
+			}
+			
 			// Barrier for all input resources
 			for (unsigned int i = 0; i < inputResources.size(); i++)
 			{

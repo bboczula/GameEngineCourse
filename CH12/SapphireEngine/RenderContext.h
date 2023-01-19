@@ -47,6 +47,7 @@ namespace Sapphire
 	class DX12PipelineState;
 	class Light;
 	class DeferredRenderingPass;
+	class LightResolvePass;
 
 	class RenderContext
 	{
@@ -89,6 +90,7 @@ namespace Sapphire
 		GrayscalePass* grayscalePass;
 		DeferredRenderingPass* defferedRenderingPass;
 		DeviceContext* deviceContext;
+		LightResolvePass* lightResolvePass;
 		Light* directionalLight;
 		// List of all render targets
 		SIZE_T renderTargetList[RenderTargetNames::EnumSize];

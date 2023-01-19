@@ -35,6 +35,7 @@
     <ClInclude Include="GrayscalePass.h" />
     <ClInclude Include="HardwareCapabilities.h" />
     <ClInclude Include="Light.h" />
+    <ClInclude Include="LightResolvePass.h" />
     <ClInclude Include="OrthographicCamera.h" />
     <ClInclude Include="PerspectiveCamera.h" />
     <ClInclude Include="PixelDefinition.h" />
@@ -68,6 +69,7 @@
     <ClCompile Include="GrayscalePass.cpp" />
     <ClCompile Include="HardwareCapabilities.cpp" />
     <ClCompile Include="Light.cpp" />
+    <ClCompile Include="LightResolvePass.cpp" />
     <ClCompile Include="OrthographicCamera.cpp" />
     <ClCompile Include="PerspectiveCamera.cpp" />
     <ClCompile Include="DeferredRenderingPass.cpp" />

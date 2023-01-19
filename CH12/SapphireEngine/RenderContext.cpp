@@ -4,6 +4,7 @@
 #include "../DX12Backend/DX12IndexBuffer.h"
 #include "../DX12Backend/DX12Texture.h"
 #include "DeferredRenderingPass.h"
+#include "LightResolvePass.h"
 #include "Light.h"
 
 Sapphire::RenderContext::RenderContext(HWND hwnd, unsigned int width, unsigned int height)
@@ -36,6 +37,9 @@ Sapphire::RenderContext::RenderContext(HWND hwnd, unsigned int width, unsigned i
 	// Position Render Pass
 	defferedRenderingPass = new DeferredRenderingPass(this, width, height);
 
+	// Light Resolve Pass
+	lightResolvePass = new LightResolvePass();
+
 	// Setup the connections
 	// Connect resources - this can't be called at runtime
 	renderPass->AddInputResource(defferedRenderingPass->GetRenderTarget(0)->GetResource());	// Position Texture
@@ -47,6 +51,8 @@ Sapphire::RenderContext::~RenderContext()
 {
 	Logger::GetInstance().Log("%s\n", "Sapphire::RenderContext::~RenderContext");
 
+	delete lightResolvePass;
+	delete defferedRenderingPass;
 	delete grayscalePass;
 	delete shadowMapPass;
 	delete renderPass;
@@ -264,6 +270,11 @@ void Sapphire::RenderContext::Render(std::vector<GameObject*> objects)
 	defferedRenderingPass->PreRender(commandList);
 	defferedRenderingPass->Render(commandList, this, objects);
 	defferedRenderingPass->PostRender(commandList);
+
+	lightResolvePass->Setup(commandList);
+	lightResolvePass->PreRender(commandList);
+	lightResolvePass->Render(commandList, this, objects);
+	lightResolvePass->PostRender(commandList);
 
 	renderPass->Setup(commandList);
 	renderPass->PreRender(commandList);
