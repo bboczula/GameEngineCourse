@@ -108,8 +108,6 @@ void Sapphire::ForwardRenderingPass::Render(DX12CommandList* commandList, Render
 			commandList->Draw(objects[i]->positionVertexBuffer, objects[i]->normalVertexBuffer, objects[i]->tangentVertexBuffer, objects[i]->colorTexCoordVertexBuffer, objects[i]->indexBuffer);
 		}
 	}
-	// Here it would be great to know where is the Depth in Input Resource
-	commandList->TransitionTo(inputResources[2], D3D12_RESOURCE_STATE_DEPTH_WRITE);
 	commandList->GetCommandList()->EndEvent();
 }
 

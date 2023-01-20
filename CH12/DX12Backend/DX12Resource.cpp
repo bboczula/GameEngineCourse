@@ -4,12 +4,12 @@
 #include "DX12Device.h"
 
 Sapphire::DX12Resource::DX12Resource(void* source, D3D12_RESOURCE_STATES state)
-	: resource(static_cast<ID3D12Resource*>(source)), state(state)
+	: resource(static_cast<ID3D12Resource*>(source)), currentState(state), previousState(state)
 {
 }
 
 Sapphire::DX12Resource::DX12Resource(DX12Device* device, UINT64 bufferSize)
-	: resource(nullptr), state(D3D12_RESOURCE_STATE_GENERIC_READ)
+	: resource(nullptr), currentState(D3D12_RESOURCE_STATE_GENERIC_READ), previousState(currentState)
 {
 	auto heapProps = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
 	auto desc = CD3DX12_RESOURCE_DESC::Buffer(bufferSize);
@@ -19,7 +19,7 @@ Sapphire::DX12Resource::DX12Resource(DX12Device* device, UINT64 bufferSize)
 }
 
 Sapphire::DX12Resource::DX12Resource(DX12Device* device, DXGI_FORMAT textureFormat, UINT width, UINT height)
-	: state(D3D12_RESOURCE_STATE_COPY_DEST)
+	: currentState(D3D12_RESOURCE_STATE_COPY_DEST), previousState(currentState)
 {
 	// For now this will cover the Depth Buffer
 	auto heapProps = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT);
@@ -31,7 +31,7 @@ Sapphire::DX12Resource::DX12Resource(DX12Device* device, DXGI_FORMAT textureForm
 }
 
 Sapphire::DX12Resource::DX12Resource(DX12Device* device, DXGI_FORMAT textureFormat, UINT width, UINT height, D3D12_RESOURCE_FLAGS flags)
-	: state(D3D12_RESOURCE_STATE_COPY_DEST)
+	: currentState(D3D12_RESOURCE_STATE_COPY_DEST), previousState(currentState)
 {
 	auto heapProps = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT);
 	auto desc = CD3DX12_RESOURCE_DESC::Tex2D(textureFormat, width, height);
@@ -47,7 +47,8 @@ Sapphire::DX12Resource::DX12Resource(DX12Device* device, DXGI_FORMAT textureForm
 		if (flags == D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL)
 		{
 			clearValue.DepthStencil.Depth = 1.0f;
-			state = D3D12_RESOURCE_STATE_DEPTH_WRITE;
+			currentState = D3D12_RESOURCE_STATE_DEPTH_WRITE;
+			previousState = currentState;
 		}
 		else if (flags == D3D12_RESOURCE_FLAG_ALLOW_RENDER_TARGET)
 		{
@@ -57,7 +58,7 @@ Sapphire::DX12Resource::DX12Resource(DX12Device* device, DXGI_FORMAT textureForm
 			std::copy(defaultClearColor, defaultClearColor + 4, clearValue.Color);
 		}
 		AExitIfFailed(device->GetDevice()->CreateCommittedResource(&heapProps, D3D12_HEAP_FLAG_NONE,
-			&desc, state, &clearValue, IID_PPV_ARGS(&resource)));
+			&desc, currentState, &clearValue, IID_PPV_ARGS(&resource)));
 	}
 	else
 	{
@@ -103,4 +104,20 @@ D3D12_GPU_VIRTUAL_ADDRESS Sapphire::DX12Resource::GetGpuVirtualAddress()
 ID3D12Resource* Sapphire::DX12Resource::GetResource()
 {
 	return resource;
+}
+
+D3D12_RESOURCE_STATES Sapphire::DX12Resource::GetState()
+{
+	return currentState;
+}
+
+D3D12_RESOURCE_STATES Sapphire::DX12Resource::GetPreviousState()
+{
+	return previousState;
+}
+
+void Sapphire::DX12Resource::SetState(D3D12_RESOURCE_STATES state)
+{
+	previousState = currentState;
+	currentState = state;
 }

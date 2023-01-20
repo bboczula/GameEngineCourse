@@ -51,6 +51,12 @@ namespace Sapphire
 		void TransitionTo(DX12Resource* resource, D3D12_RESOURCE_STATES nextState);
 
 		/// <summary>
+		/// Transitions a Resource back to its previous state
+		/// </summary>
+		/// <param name="resource">A Resource we want to transition</param>
+		void TransitionBack(DX12Resource* resource);
+
+		/// <summary>
 		/// Sets given Render Target as the current Render Target.
 		/// </summary>
 		/// <param name="renderTarget">A Render Target we want as the new Render Target</param>

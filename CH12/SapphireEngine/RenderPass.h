@@ -56,6 +56,14 @@ namespace Sapphire
 			// For example like this:
 			// commandList->SetTexture(4, renderContext->GetSrvDescriptor(depthMap->GetDescriptorIndex()));
 		}
+		void Teardown(DX12CommandList* commandList)
+		{
+			// Barrier for all input resources
+			for (unsigned int i = 0; i < inputResources.size(); i++)
+			{
+				commandList->TransitionBack(inputResources[i]);
+			}
+		}
 		DX12RenderTarget* GetRenderTarget(unsigned int index)
 		{
 			return multiRenderTarget->Get(index);

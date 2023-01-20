@@ -33,7 +33,7 @@ ID3D12GraphicsCommandList* Sapphire::DX12CommandList::GetCommandList()
 
 void Sapphire::DX12CommandList::TransitionTo(DX12Resource* resource, D3D12_RESOURCE_STATES nextState)
 {
-	if (resource->state == nextState)
+	if (resource->GetState() == nextState)
 	{
 		return;
 	}
@@ -42,13 +42,18 @@ void Sapphire::DX12CommandList::TransitionTo(DX12Resource* resource, D3D12_RESOU
 	ZeroMemory(&barrier, sizeof(barrier));
 	barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
 	barrier.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
-	barrier.Transition.pResource = resource->resource;
-	barrier.Transition.StateBefore = resource->state;
+	barrier.Transition.pResource = resource->GetResource();
+	barrier.Transition.StateBefore = resource->GetState();
 	barrier.Transition.StateAfter = nextState;
 	barrier.Transition.Subresource = D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES;
 	commandList->ResourceBarrier(1, &barrier);
 
-	resource->state = nextState;
+	resource->SetState(nextState);
+}
+
+void Sapphire::DX12CommandList::TransitionBack(DX12Resource* resource)
+{
+	TransitionTo(resource, resource->GetPreviousState());
 }
 
 void Sapphire::DX12CommandList::SetRenderTarget(DX12RenderTarget* renderTarget)

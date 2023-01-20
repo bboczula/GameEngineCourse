@@ -265,26 +265,31 @@ void Sapphire::RenderContext::Render(std::vector<GameObject*> objects)
 	commandList->SetDescriptorHeap(srvDescriptorHeap);
 	shadowMapPass->Render(commandList, this, objects);
 	shadowMapPass->PostRender(commandList);
+	shadowMapPass->Teardown(commandList);
 
 	defferedRenderingPass->Setup(commandList);
 	defferedRenderingPass->PreRender(commandList);
 	defferedRenderingPass->Render(commandList, this, objects);
 	defferedRenderingPass->PostRender(commandList);
+	defferedRenderingPass->Teardown(commandList);
 
 	lightResolvePass->Setup(commandList);
 	lightResolvePass->PreRender(commandList);
 	lightResolvePass->Render(commandList, this, objects);
 	lightResolvePass->PostRender(commandList);
+	lightResolvePass->Teardown(commandList);
 
 	renderPass->Setup(commandList);
 	renderPass->PreRender(commandList);
 	renderPass->Render(commandList, this, objects, shadowMapPass->camera);
 	renderPass->PostRender(commandList);
+	renderPass->Teardown(commandList);
 
 	grayscalePass->Setup(commandList);
 	grayscalePass->PreRender(commandList);
 	grayscalePass->Render(commandList, this, objects);
 	grayscalePass->PostRender(commandList);
+	grayscalePass->Teardown(commandList);
 
 
 	unsigned int currentFrameIndex = deviceContext->GetCurrentFrameIndex();
