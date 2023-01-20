@@ -33,6 +33,7 @@ enum RenderTargetNames
 	Deferred_PositionRT,
 	Deferred_AlbedoRT,
 	Deferred_NormalRT,
+	LightResolveRT,
 	GrayscaleRT,
 	ShadowMapRT,
 	ShadowMapDepth,

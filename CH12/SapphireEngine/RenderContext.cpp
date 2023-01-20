@@ -38,7 +38,7 @@ Sapphire::RenderContext::RenderContext(HWND hwnd, unsigned int width, unsigned i
 	defferedRenderingPass = new DeferredRenderingPass(this, width, height);
 
 	// Light Resolve Pass
-	lightResolvePass = new LightResolvePass();
+	lightResolvePass = new LightResolvePass(this, width, height);
 
 	// Setup the connections
 	// Connect resources - this can't be called at runtime
