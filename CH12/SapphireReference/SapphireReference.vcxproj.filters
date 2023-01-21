@@ -12,4 +12,7 @@
     <ClInclude Include="SceneDescriptor.h" />
     <ClInclude Include="Optional.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
 </Project>

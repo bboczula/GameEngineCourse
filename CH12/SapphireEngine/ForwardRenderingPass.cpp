@@ -6,6 +6,8 @@
 #include "Light.h"
 #include "Camera.h"
 #include "PerspectiveCamera.h"
+
+#define USE_PIX
 #include "pix3.h"
 
 Sapphire::ForwardRenderingPass::ForwardRenderingPass(RenderContext* renderContext, Light* light, unsigned int width, unsigned int height) : light(light)
@@ -78,7 +80,7 @@ void Sapphire::ForwardRenderingPass::Render(DX12CommandList* commandList, Render
 
 void Sapphire::ForwardRenderingPass::Render(DX12CommandList* commandList, RenderContext* renderContext, std::vector<GameObject*> objects, Camera* shadowMapCamera)
 {
-	commandList->GetCommandList()->BeginEvent(1, "ForwardRenderingPass", sizeof("ForwardRenderingPass"));
+	PIXBeginEvent(commandList->GetCommandList(), PIX_COLOR(255, 255, 255), "ForwardRenderingPass");
 	for (int i = 0; i < objects.size(); i++)
 	{
 		if (objects[i]->numOfVertices != 0)
@@ -108,7 +110,7 @@ void Sapphire::ForwardRenderingPass::Render(DX12CommandList* commandList, Render
 			commandList->Draw(objects[i]->positionVertexBuffer, objects[i]->normalVertexBuffer, objects[i]->tangentVertexBuffer, objects[i]->colorTexCoordVertexBuffer, objects[i]->indexBuffer);
 		}
 	}
-	commandList->GetCommandList()->EndEvent();
+	PIXEndEvent(commandList->GetCommandList());
 }
 
 void Sapphire::ForwardRenderingPass::PostRender(DX12CommandList* commandList)

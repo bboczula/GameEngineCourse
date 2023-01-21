@@ -4,6 +4,9 @@
 #include "../DX12Backend/DX12InputLayout.h"
 #include "../DX12Backend/DX12RenderTarget.h"
 
+#define USE_PIX
+#include "pix3.h"
+
 Sapphire::LightResolvePass::LightResolvePass(RenderContext* renderContext, unsigned int width, unsigned int height)
 {
 	// You have to create at leas empty Multi Render Target
@@ -40,8 +43,8 @@ void Sapphire::LightResolvePass::PreRender(DX12CommandList* commandList)
 
 void Sapphire::LightResolvePass::Render(DX12CommandList* commandList, RenderContext* renderContext, std::vector<GameObject*> objects)
 {
-	commandList->GetCommandList()->BeginEvent(1, "LightResolvePass", sizeof("LightResolvePass"));
-	commandList->GetCommandList()->EndEvent();
+	PIXBeginEvent(commandList->GetCommandList(), PIX_COLOR(255, 255, 255), "LightResolvePass");
+	PIXEndEvent(commandList->GetCommandList());
 }
 
 void Sapphire::LightResolvePass::PostRender(DX12CommandList* commandList)

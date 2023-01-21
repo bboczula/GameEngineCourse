@@ -1,5 +1,8 @@
 #include "DeferredRenderingPass.h"
 
+#define USE_PIX
+#include "pix3.h"
+
 #include "RenderContext.h"
 #include "../DX12Backend/DX12Shader.h"
 #include "../DX12Backend/DX12InputLayout.h"
@@ -43,7 +46,7 @@ void Sapphire::DeferredRenderingPass::PreRender(DX12CommandList* commandList)
 
 void Sapphire::DeferredRenderingPass::Render(DX12CommandList* commandList, RenderContext* renderContext, std::vector<GameObject*> objects)
 {
-	commandList->GetCommandList()->BeginEvent(1, "DeferredRenderingPass", sizeof("DeferredRenderingPass"));
+	PIXBeginEvent(commandList->GetCommandList(), PIX_COLOR(255, 255, 255), "DeferredRenderingPass");
 	for (int i = 0; i < objects.size(); i++)
 	{
 		if (objects[i]->numOfVertices != 0)
@@ -66,7 +69,7 @@ void Sapphire::DeferredRenderingPass::Render(DX12CommandList* commandList, Rende
 			commandList->Draw(objects[i]->positionVertexBuffer, objects[i]->normalVertexBuffer, objects[i]->tangentVertexBuffer, objects[i]->colorTexCoordVertexBuffer, objects[i]->indexBuffer);
 		}
 	}
-	commandList->GetCommandList()->EndEvent();
+	PIXEndEvent(commandList->GetCommandList());
 }
 
 void Sapphire::DeferredRenderingPass::PostRender(DX12CommandList* commandList)

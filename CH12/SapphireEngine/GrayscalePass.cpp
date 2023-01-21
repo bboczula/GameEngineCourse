@@ -2,6 +2,9 @@
 #include "RenderContext.h"
 #include "../DX12Backend/DX12InputLayout.h"
 
+#define USE_PIX
+#include "pix3.h"
+
 Sapphire::GrayscalePass::GrayscalePass(RenderContext* renderContext, unsigned int width, unsigned int height)
 {
 	multiRenderTarget = new DX12MultiRenderTarget();
@@ -30,9 +33,9 @@ void Sapphire::GrayscalePass::PreRender(DX12CommandList* commandList)
 
 void Sapphire::GrayscalePass::Render(DX12CommandList* commandList, RenderContext* renderContext, std::vector<GameObject*> objects)
 {
-	commandList->GetCommandList()->BeginEvent(1, "GrayscalePass", sizeof("GrayscalePass"));
+	PIXBeginEvent(commandList->GetCommandList(), PIX_COLOR(255, 255, 255), "GrayscalePass");
 	commandList->DrawEmpty();
-	commandList->GetCommandList()->EndEvent();
+	PIXEndEvent(commandList->GetCommandList());
 }
 
 void Sapphire::GrayscalePass::PostRender(DX12CommandList* commandList)
