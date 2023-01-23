@@ -3,6 +3,7 @@
 #include "../DX12Backend/DX12InputLayout.h"
 #include "../DX12Backend/DX12ConstantBuffer.h"
 #include "../DX12Backend/DX12Texture.h"
+#include "../DX12Backend/DX12RootSignature.h"
 #include "Light.h"
 #include "Camera.h"
 #include "PerspectiveCamera.h"
@@ -30,14 +31,18 @@ Sapphire::ForwardRenderingPass::ForwardRenderingPass(RenderContext* renderContex
 	inputLayout = new DX12InputLayout();
 	inputLayout->AppendElementT(VertexStream::Position, VertexStream::Normal, VertexStream::Tangent, VertexStream::TexCoord);
 
+	// Need Root Signature
+	rootSignature = new DX12RootSignature();
+	rootSignature->CreateRootSignature(renderContext->GetDevice());
+
 	// Create Pipeline State
 	pipelineStates.PushBack(renderContext->CreatePipelineState(vertexShader, pixelShader, inputLayout));
 	pipelineStates[0]->AddRenderTarget(multiRenderTarget->Get(0)->GetDxgiFormat());
-	pipelineStates[0]->CreatePipelineState(renderContext->GetDevice(), vertexShader->GetBytecode(), pixelShader->GetBytecode(), inputLayout);
+	pipelineStates[0]->CreatePipelineState(renderContext->GetDevice(), vertexShader->GetBytecode(), pixelShader->GetBytecode(), inputLayout, rootSignature);
 	
 	pipelineStates.PushBack(renderContext->CreatePipelineState(vertexShader_noBump, pixelShader_noBump, inputLayout));
 	pipelineStates[1]->AddRenderTarget(multiRenderTarget->Get(0)->GetDxgiFormat());
-	pipelineStates[1]->CreatePipelineState(renderContext->GetDevice(), vertexShader->GetBytecode(), pixelShader->GetBytecode(), inputLayout);
+	pipelineStates[1]->CreatePipelineState(renderContext->GetDevice(), vertexShader->GetBytecode(), pixelShader->GetBytecode(), inputLayout, rootSignature);
 
 	// Create Camera
 	//camera = new Camera(1280.0f / 720.0f);
@@ -87,11 +92,11 @@ void Sapphire::ForwardRenderingPass::Render(DX12CommandList* commandList, Render
 		{
 			if (objects[i]->bumpMapWidth == 0)
 			{
-				commandList->SetPipelineState(pipelineStates[1]);
+				commandList->SetPipelineState(pipelineStates[1], rootSignature);
 			}
 			else
 			{
-				commandList->SetPipelineState(pipelineStates[0]);
+				commandList->SetPipelineState(pipelineStates[0], rootSignature);
 			}
 			commandList->SetConstantBuffer(1, 16, shadowMapCamera->GetViewProjectionMatrixPtr());
 			commandList->SetConstantBuffer(2, 16, &objects[i]->world);

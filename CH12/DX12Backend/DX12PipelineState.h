@@ -20,18 +20,17 @@ namespace Sapphire
 	class DX12InputLayout;
 	class DX12Shader;
 	class DX12Device;
+	class DX12RootSignature;
 
 	class GPUAPI_DX12_API DX12PipelineState
 	{
 		friend class DX12CommandList;
 	public:
 		DX12PipelineState(DX12Device* device);
-		void CreatePipelineState(DX12Device* device, D3D12_SHADER_BYTECODE vs, D3D12_SHADER_BYTECODE ps, DX12InputLayout* inputLayout);
+		void CreatePipelineState(DX12Device* device, D3D12_SHADER_BYTECODE vs, D3D12_SHADER_BYTECODE ps, DX12InputLayout* inputLayout, DX12RootSignature* rootSignature);
 		void AddRenderTarget(DXGI_FORMAT format);
 		~DX12PipelineState();
 	private:
-		void CreateRootSignature(DX12Device* device);
-		ID3D12RootSignature* rootSignature;
 		ID3D12PipelineState* pipelineState;
 		std::vector<DXGI_FORMAT> rtFormats;
 	};

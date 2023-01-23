@@ -3,6 +3,7 @@
 #include "RenderContext.h"
 #include "../DX12Backend/DX12InputLayout.h"
 #include "../DX12Backend/DX12RenderTarget.h"
+#include "../DX12Backend/DX12RootSignature.h"
 
 #define USE_PIX
 #include "pix3.h"
@@ -26,11 +27,15 @@ Sapphire::LightResolvePass::LightResolvePass(RenderContext* renderContext, unsig
 	inputLayout = new DX12InputLayout();
 	inputLayout->AppendElementT(VertexStream::Position, VertexStream::Normal, VertexStream::TexCoord);
 
+	// Need Root Signature
+	rootSignature = new DX12RootSignature();
+	rootSignature->CreateRootSignature(renderContext->GetDevice());
+
 	// Once you have Render Target, PSO is required
 	// Create Pipeline State
 	pipelineStates.PushBack(renderContext->CreatePipelineState(vertexShader, pixelShader, inputLayout));
 	pipelineStates[0]->AddRenderTarget(multiRenderTarget->Get(0)->GetDxgiFormat());
-	pipelineStates[0]->CreatePipelineState(renderContext->GetDevice(), vertexShader->GetBytecode(), pixelShader->GetBytecode(), inputLayout);
+	pipelineStates[0]->CreatePipelineState(renderContext->GetDevice(), vertexShader->GetBytecode(), pixelShader->GetBytecode(), inputLayout, rootSignature);
 }
 
 Sapphire::LightResolvePass::~LightResolvePass()

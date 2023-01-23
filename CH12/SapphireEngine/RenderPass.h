@@ -17,6 +17,7 @@ namespace Sapphire
 	class GameObject;
 	class DX12CommandList;
 	class DX12RenderTarget;
+	class DX12RootSignature;
 
 	class RenderPass
 	{
@@ -49,7 +50,7 @@ namespace Sapphire
 			}
 			commandList->SetRenderTarget(multiRenderTarget, depthBuffer);
 			commandList->ClearDepthBuffer(depthBuffer);
-			commandList->SetPipelineState(pipelineStates[0]);
+			commandList->SetPipelineState(pipelineStates[0],rootSignature);
 
 			// Here you can bind the input resources to necessary slots
 			// Or maybe you can have a map where named resource has GPU_Handles
@@ -93,6 +94,7 @@ namespace Sapphire
 		DX12DepthBuffer* depthBuffer;
 		DX12InputLayout* inputLayout;
 		DX12MultiRenderTarget* multiRenderTarget;
+		DX12RootSignature* rootSignature;
 		PipelineStateArray pipelineStates;
 		std::vector<DX12Resource*> inputResources;
 		// You have to have slot and GPU Handle, and it has to be generic type

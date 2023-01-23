@@ -12,6 +12,7 @@
 #include "DX12Texture.h"
 #include "DX12Resource.h"
 #include "DX12MultiRenderTarget.h"
+#include "DX12RootSignature.h"
 
 Sapphire::DX12CommandList::DX12CommandList(DX12Device* device)
 {
@@ -82,9 +83,9 @@ void Sapphire::DX12CommandList::SetDescriptorHeap(DX12DescriptorHeap* descriptor
 	commandList->SetDescriptorHeaps(1, &descriptorHeap->heap);
 }
 
-void Sapphire::DX12CommandList::SetPipelineState(DX12PipelineState* pipelineState)
+void Sapphire::DX12CommandList::SetPipelineState(DX12PipelineState* pipelineState, DX12RootSignature* rootSignature)
 {
-	commandList->SetGraphicsRootSignature(pipelineState->rootSignature);
+	commandList->SetGraphicsRootSignature(rootSignature->GetRootSignature());
 	commandList->SetPipelineState(pipelineState->pipelineState);
 }
 

@@ -4,6 +4,7 @@
 #include "OrthographicCamera.h"
 #include "../DX12Backend/DX12InputLayout.h"
 #include "../DX12Backend/DX12RenderTarget.h"
+#include "../DX12Backend/DX12RootSignature.h"
 #include "Light.h"
 #include "Arcball.h"
 
@@ -24,10 +25,14 @@ Sapphire::ShadowMapPass::ShadowMapPass(RenderContext* renderContext, Light* ligh
 	inputLayout = new DX12InputLayout();
 	inputLayout->AppendElementT(VertexStream::Position);
 
+	// Need Root Signature
+	rootSignature = new DX12RootSignature();
+	rootSignature->CreateRootSignature(renderContext->GetDevice());
+
 	// Create Pipeline State
 	pipelineStates.PushBack(renderContext->CreatePipelineState(vertexShader, pixelShader, inputLayout));
 	pipelineStates[0]->AddRenderTarget(multiRenderTarget->Get(0)->GetDxgiFormat());
-	pipelineStates[0]->CreatePipelineState(renderContext->GetDevice(), vertexShader->GetBytecode(), pixelShader->GetBytecode(), inputLayout);
+	pipelineStates[0]->CreatePipelineState(renderContext->GetDevice(), vertexShader->GetBytecode(), pixelShader->GetBytecode(), inputLayout, rootSignature);
 
 	// Create Camera
 	//camera = new Camera(1280.0f / 720.0f);

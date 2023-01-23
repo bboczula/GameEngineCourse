@@ -1,6 +1,7 @@
 #include "GrayscalePass.h"
 #include "RenderContext.h"
 #include "../DX12Backend/DX12InputLayout.h"
+#include "../DX12Backend/DX12RootSignature.h"
 
 #define USE_PIX
 #include "pix3.h"
@@ -18,9 +19,13 @@ Sapphire::GrayscalePass::GrayscalePass(RenderContext* renderContext, unsigned in
 	// Create Input Layout (has to be done before PSO, fix that)
 	inputLayout = new DX12InputLayout();
 
+	// Need Root Signature
+	rootSignature = new DX12RootSignature();
+	rootSignature->CreateRootSignature(renderContext->GetDevice());
+
 	pipelineStates.PushBack(renderContext->CreatePipelineState(vertexShader, pixelShader, inputLayout));
 	pipelineStates[0]->AddRenderTarget(multiRenderTarget->Get(0)->GetDxgiFormat());
-	pipelineStates[0]->CreatePipelineState(renderContext->GetDevice(), vertexShader->GetBytecode(), pixelShader->GetBytecode(), inputLayout);
+	pipelineStates[0]->CreatePipelineState(renderContext->GetDevice(), vertexShader->GetBytecode(), pixelShader->GetBytecode(), inputLayout, rootSignature);
 }
 
 Sapphire::GrayscalePass::~GrayscalePass()

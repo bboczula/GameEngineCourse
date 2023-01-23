@@ -24,6 +24,7 @@ namespace Sapphire
 	class DX12Texture;
 	class DX12Resource;
 	class DX12MultiRenderTarget;
+	class DX12RootSignature;
 
 	/// <summary>
 	/// A wrapper class for the ID3D12CommandList interface. Contains the ID3D12CommandAllocater too.
@@ -98,7 +99,7 @@ namespace Sapphire
 		void Reset();
 
 		// CH08
-		void SetPipelineState(DX12PipelineState* pipelineState);
+		void SetPipelineState(DX12PipelineState* pipelineState, DX12RootSignature* rootSignature);
 
 		void Draw(DX12VertexBuffer* vertexBuffer, DX12IndexBuffer* indexBuffer);
 

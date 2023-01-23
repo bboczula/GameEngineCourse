@@ -8,6 +8,7 @@
 #include "../DX12Backend/DX12InputLayout.h"
 #include "../DX12Backend/DX12RenderTarget.h"
 #include "../DX12Backend/DX12Texture.h"
+#include "../DX12Backend/DX12RootSignature.h"
 
 Sapphire::DeferredRenderingPass::DeferredRenderingPass(RenderContext* renderContext, unsigned int width, unsigned int height)
 {
@@ -27,12 +28,16 @@ Sapphire::DeferredRenderingPass::DeferredRenderingPass(RenderContext* renderCont
 	inputLayout = new DX12InputLayout();
 	inputLayout->AppendElementT(VertexStream::Position, VertexStream::Normal, VertexStream::Tangent, VertexStream::TexCoord);
 
+	// Need Root Signature
+	rootSignature = new DX12RootSignature();
+	rootSignature->CreateRootSignature(renderContext->GetDevice());
+
 	// Need Pipeline State
 	pipelineStates.PushBack(renderContext->CreatePipelineState(vertexShader, pixelShader, inputLayout));
 	pipelineStates[0]->AddRenderTarget(multiRenderTarget->Get(0)->GetDxgiFormat());
 	pipelineStates[0]->AddRenderTarget(multiRenderTarget->Get(1)->GetDxgiFormat());
 	pipelineStates[0]->AddRenderTarget(multiRenderTarget->Get(2)->GetDxgiFormat());
-	pipelineStates[0]->CreatePipelineState(renderContext->GetDevice(), vertexShader->GetBytecode(), pixelShader->GetBytecode(), inputLayout);
+	pipelineStates[0]->CreatePipelineState(renderContext->GetDevice(), vertexShader->GetBytecode(), pixelShader->GetBytecode(), inputLayout, rootSignature);
 }
 
 Sapphire::DeferredRenderingPass::~DeferredRenderingPass()
