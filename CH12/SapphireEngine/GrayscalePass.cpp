@@ -19,7 +19,7 @@ Sapphire::GrayscalePass::GrayscalePass(RenderContext* renderContext, unsigned in
 	// Create Input Layout (has to be done before PSO, fix that)
 	inputLayout = new DX12InputLayout();
 
-	// Need Root Signature
+	// Need Root Signature, even if empty
 	rootSignature = new DX12RootSignature();
 	rootSignature->CreateRootSignature(renderContext->GetDevice());
 

@@ -3,12 +3,7 @@ cbuffer PerFrameData : register(b0)
 	float4x4 view;
 };
 
-cbuffer PerFrameData2 : register(b1)
-{
-	float4x4 projection;
-};
-
-cbuffer PerObjectData : register(b2)
+cbuffer PerObjectData : register(b1)
 {
 	float4x4 world;
 }

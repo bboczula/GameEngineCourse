@@ -10,7 +10,7 @@ struct VSOutput
 };
 
 Texture2D color : register(t0);
-Texture2D bumpMap : register(t2);
+Texture2D bumpMap : register(t1);
 SamplerState sampleWrap : register(s0);
 
 float3 PerturbNormal(float3 surf_pos, float3 surf_norm, float height)

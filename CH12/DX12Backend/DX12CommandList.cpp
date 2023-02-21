@@ -85,7 +85,10 @@ void Sapphire::DX12CommandList::SetDescriptorHeap(DX12DescriptorHeap* descriptor
 
 void Sapphire::DX12CommandList::SetPipelineState(DX12PipelineState* pipelineState, DX12RootSignature* rootSignature)
 {
-	commandList->SetGraphicsRootSignature(rootSignature->GetRootSignature());
+	if (rootSignature)
+	{
+		commandList->SetGraphicsRootSignature(rootSignature->GetRootSignature());
+	}
 	commandList->SetPipelineState(pipelineState->pipelineState);
 }
 

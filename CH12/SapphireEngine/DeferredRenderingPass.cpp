@@ -30,6 +30,10 @@ Sapphire::DeferredRenderingPass::DeferredRenderingPass(RenderContext* renderCont
 
 	// Need Root Signature
 	rootSignature = new DX12RootSignature();
+	rootSignature->AddParameter(DX12RootSignature::Type::Matrix); // 0 - ViewProjectionMatrix, b0
+	rootSignature->AddParameter(DX12RootSignature::Type::Matrix); // 1 - WorldMatrix, b1
+	rootSignature->AddParameter(DX12RootSignature::Type::Texture); // 2 - Color Texture, t0
+	rootSignature->AddParameter(DX12RootSignature::Type::Texture); // 3 - Bump Texture, t1
 	rootSignature->CreateRootSignature(renderContext->GetDevice());
 
 	// Need Pipeline State
@@ -56,11 +60,11 @@ void Sapphire::DeferredRenderingPass::Render(DX12CommandList* commandList, Rende
 	{
 		if (objects[i]->numOfVertices != 0)
 		{
-			commandList->SetConstantBuffer(2, 16, &objects[i]->world);
-			commandList->SetTexture(3, renderContext->GetSrvDescriptor(objects[i]->texture->GetDescriptorIndex()));
+			commandList->SetConstantBuffer(1, 16, &objects[i]->world);
+			commandList->SetTexture(2, renderContext->GetSrvDescriptor(objects[i]->texture->GetDescriptorIndex()));
 			if (objects[i]->bumpMapWidth != 0)
 			{
-				commandList->SetTexture(5, renderContext->GetSrvDescriptor(objects[i]->bumpMap->GetDescriptorIndex()));
+				commandList->SetTexture(3, renderContext->GetSrvDescriptor(objects[i]->bumpMap->GetDescriptorIndex()));
 			}
 			// D3D12_GPU_DESCRIPTOR_HANDLE descriptor;
 			// descriptor.ptr = srvDescriptorHeap->GetFirstGpuDescriptor().ptr + i * srvDescriptorHeap->GetDescriptorSize();

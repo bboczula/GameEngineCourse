@@ -29,6 +29,13 @@ Sapphire::LightResolvePass::LightResolvePass(RenderContext* renderContext, unsig
 
 	// Need Root Signature
 	rootSignature = new DX12RootSignature();
+	rootSignature->AddParameter(DX12RootSignature::Type::Matrix); // Not Needed
+	rootSignature->AddParameter(DX12RootSignature::Type::Matrix); // Not Needed
+	rootSignature->AddParameter(DX12RootSignature::Type::Matrix); // Not Needed
+	rootSignature->AddParameter(DX12RootSignature::Type::Texture); // Not Needed
+	rootSignature->AddParameter(DX12RootSignature::Type::Texture); // Not Needed
+	rootSignature->AddParameter(DX12RootSignature::Type::Texture); // Not Needed
+	rootSignature->AddParameter(DX12RootSignature::Type::ConstantBuffer); // Not Needed
 	rootSignature->CreateRootSignature(renderContext->GetDevice());
 
 	// Once you have Render Target, PSO is required

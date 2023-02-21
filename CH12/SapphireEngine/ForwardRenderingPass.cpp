@@ -33,6 +33,13 @@ Sapphire::ForwardRenderingPass::ForwardRenderingPass(RenderContext* renderContex
 
 	// Need Root Signature
 	rootSignature = new DX12RootSignature();
+	rootSignature->AddParameter(DX12RootSignature::Type::Matrix); // 0 - ViewProjectionMatrix, b0
+	rootSignature->AddParameter(DX12RootSignature::Type::Matrix); // 1 - viewProjectionMatrix, b1
+	rootSignature->AddParameter(DX12RootSignature::Type::Matrix); // 2 - WorldMatrix, b2
+	rootSignature->AddParameter(DX12RootSignature::Type::Texture); // 3 - Color Texture, t0
+	rootSignature->AddParameter(DX12RootSignature::Type::Texture); // 4 - Shadow Map Depth, t1
+	rootSignature->AddParameter(DX12RootSignature::Type::Texture); // 5 - Bump Texture, t2
+	rootSignature->AddParameter(DX12RootSignature::Type::ConstantBuffer); // 6 - Light Data, b3
 	rootSignature->CreateRootSignature(renderContext->GetDevice());
 
 	// Create Pipeline State

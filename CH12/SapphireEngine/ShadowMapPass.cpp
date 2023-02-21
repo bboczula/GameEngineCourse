@@ -27,6 +27,8 @@ Sapphire::ShadowMapPass::ShadowMapPass(RenderContext* renderContext, Light* ligh
 
 	// Need Root Signature
 	rootSignature = new DX12RootSignature();
+	rootSignature->AddParameter(DX12RootSignature::Type::Matrix); // 0 - View Projection Matrix
+	rootSignature->AddParameter(DX12RootSignature::Type::Matrix); // 1 - World Matrix
 	rootSignature->CreateRootSignature(renderContext->GetDevice());
 
 	// Create Pipeline State
@@ -86,7 +88,7 @@ void Sapphire::ShadowMapPass::Render(DX12CommandList* commandList, RenderContext
 	{
 		if (objects[i]->numOfVertices != 0)
 		{
-			commandList->SetConstantBuffer(2, 16, &objects[i]->world);
+			commandList->SetConstantBuffer(1, 16, &objects[i]->world);
 			// D3D12_GPU_DESCRIPTOR_HANDLE descriptor;
 			// descriptor.ptr = srvDescriptorHeap->GetFirstGpuDescriptor().ptr + i * srvDescriptorHeap->GetDescriptorSize();
 			// commandList->SetTexture(3, descriptor);
@@ -102,7 +104,6 @@ void Sapphire::ShadowMapPass::Render(DX12CommandList* commandList, RenderContext
 
 void Sapphire::ShadowMapPass::PostRender(DX12CommandList* commandList)
 {
-	//commandList->Close();
 }
 
 Sapphire::DX12DepthBuffer* Sapphire::ShadowMapPass::GetDepthBuffer()
