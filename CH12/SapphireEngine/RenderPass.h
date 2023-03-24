@@ -90,13 +90,13 @@ namespace Sapphire
 			return inputResources[index];
 		}
 	protected:
+		DX12MultiRenderTarget* multiRenderTarget;
+		std::vector<DX12Resource*> inputResources;
+		// Maybe all below should be automated and hidden
 		using PipelineStateArray = TFixedArray<DX12PipelineState*, MAX_PIPELINE_STATE_NUM>;
 		DX12DepthBuffer* depthBuffer;
 		DX12InputLayout* inputLayout;
-		DX12MultiRenderTarget* multiRenderTarget;
 		DX12RootSignature* rootSignature;
 		PipelineStateArray pipelineStates;
-		std::vector<DX12Resource*> inputResources;
-		// You have to have slot and GPU Handle, and it has to be generic type
 	};
 }

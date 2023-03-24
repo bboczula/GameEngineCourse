@@ -47,6 +47,7 @@
     <ClInclude Include="OutputFile.h" />
     <ClInclude Include="Logger.h" />
     <ClInclude Include="RenderContext.h" />
+    <ClInclude Include="Renderer.h" />
     <ClInclude Include="RenderPass.h" />
     <ClInclude Include="ShadowMapPass.h" />
     <ClInclude Include="SimpleMath.h" />
@@ -79,6 +80,7 @@
     <ClCompile Include="OutputFile.cpp" />
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="RenderContext.cpp" />
+    <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="ShadowMapPass.cpp" />
     <ClCompile Include="SimpleMath.cpp" />
     <ClCompile Include="Camera.cpp" />

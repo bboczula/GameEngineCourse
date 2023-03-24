@@ -55,7 +55,6 @@ namespace Sapphire
 	public:
 		RenderContext(HWND hwnd, unsigned int width, unsigned int height);
 		~RenderContext();
-		void Setup();
 		void CreateResources(std::vector<GameObject*> objects);
 		void CreateTextureResource(DX12Texture*& texture, UINT width, UINT height, PixelDefinition* source);
 		DX12RenderTarget* CreateRenderTarget(RenderTargetNames name, UINT width, UINT height, DX12RenderTarget::Format format = DX12RenderTarget::Format::RGBA8_UNORM);
@@ -65,35 +64,21 @@ namespace Sapphire
 		DX12PipelineState* CreatePipelineState(DX12Shader* vertexShader, DX12Shader* pixelShader, DX12InputLayout* inputLayout);
 		D3D12_GPU_DESCRIPTOR_HANDLE GetSrvDescriptor(UINT32 index);
 		D3D12_GPU_DESCRIPTOR_HANDLE GetSrvDescriptor(RenderTargetNames name);
-		void Render(std::vector<GameObject*> objects);
-		void Teardown();
+		void Blit(DX12Resource* input);
 		void Execute();
-		DX12RenderTarget* GetRenderTarget();
-		void SetCamera(Camera* camera);
-		void Blit(DX12Resource* source, DX12Resource* destination);
 		DX12Device* GetDevice();
+		DX12CommandList* GetCommandList();
+		void SetSrvDescriptorHeap();
 	private:
+		void Blit(DX12Resource* source, DX12Resource* destination);
 		DX12DescriptorHeap* rtvDescriptorHeap;
 		DX12DescriptorHeap* dsvDescriptorHeap;
 		DX12DescriptorHeap* srvDescriptorHeap;
-		//DX12RenderTarget* renderTarget;
-		//DX12DepthBuffer* depthBuffer;
 		DX12CommandList* commandList;
-		//DX12Shader* pixelShader;
-		//DX12Shader* vertexShader;
-		//DX12Viewport* viewport;
 		DX12Resource* uploadBuffer;
 		DX12RenderTarget* renderTargets[FRAME_COUNT];
 		DX12Resource* dxResources[FRAME_COUNT];
-		//Camera* camera;
-		ForwardRenderingPass* renderPass;
-		ShadowMapPass* shadowMapPass;
-		GrayscalePass* grayscalePass;
-		DeferredRenderingPass* defferedRenderingPass;
 		DeviceContext* deviceContext;
-		LightResolvePass* lightResolvePass;
-		Light* directionalLight;
-		// List of all render targets
 		SIZE_T renderTargetList[RenderTargetNames::EnumSize];
 
 	};

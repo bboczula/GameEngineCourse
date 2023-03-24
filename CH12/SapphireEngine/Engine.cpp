@@ -1,9 +1,12 @@
 #include "Engine.h"
+#include "Renderer.h"
 
 Sapphire::Engine::Engine(UINT width, UINT height) : WindowApplication{ width, height }, renderer{ nullptr }
 {
 	Logger::GetInstance().Log("%s", "Sapphire::Engine::Engine()\n");
-	renderer = new RenderContext(hwnd, width, height);
+	//renderer = new RenderContext(hwnd, width, height);
+
+	newRenderer = new Renderer(hwnd, width, height);
 
 	input = new RawInput();
 	Attach(input);
@@ -37,7 +40,8 @@ void Sapphire::Engine::Register(GameObject* gameObject)
 
 void Sapphire::Engine::RegisterCamera(Camera* camera)
 {
-	renderer->SetCamera(camera);
+	//renderer->SetCamera(camera);
+	newRenderer->SetCamera(camera);
 }
 
 void Sapphire::Engine::LoadModel(GameObject* gameObject, const std::string& filePath, const std::string& groupName)
@@ -227,7 +231,8 @@ void Sapphire::Engine::Initialize()
 
 	Logger::GetInstance().Log("%s", "Sapphire::Engine::Initialize()\n");
 
-	renderer->CreateResources(gameObjects);
+	//renderer->CreateResources(gameObjects);
+	newRenderer->CreateResources(gameObjects);
 
 	// Initialize all the resources
 	for (int i = 0; i < gameObjects.size(); i++)
@@ -251,10 +256,12 @@ void Sapphire::Engine::Tick()
 	}
 
 	// Render from Render Context
-	renderer->Render(gameObjects);
+	// renderer->Render(gameObjects);
+	newRenderer->Render(gameObjects);
 
 	// Execute the command list
-	renderer->Execute();
+	//renderer->Execute();
+	newRenderer->Execute();
 }
 
 void Sapphire::Engine::ReportLiveObjects()

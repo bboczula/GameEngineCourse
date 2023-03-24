@@ -22,6 +22,7 @@
 
 namespace Sapphire
 {
+      class Renderer;
     class Engine : public WindowApplication
     {
     public:
@@ -39,6 +40,7 @@ namespace Sapphire
         void Tick() override;
         void ReportLiveObjects();
         RenderContext* renderer;
+        Renderer* newRenderer;
         RawInput* input;
         WinMouse* winMouse;
         std::vector<GameObject*> gameObjects;

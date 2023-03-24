@@ -8,7 +8,7 @@
 #include "Light.h"
 
 Sapphire::RenderContext::RenderContext(HWND hwnd, unsigned int width, unsigned int height)
-	: deviceContext(deviceContext), dxResources{nullptr}, renderTargets{nullptr}, uploadBuffer{nullptr}
+	: deviceContext(deviceContext), dxResources{ nullptr }, renderTargets{ nullptr }, uploadBuffer{ nullptr }
 {
 	Logger::GetInstance().Log("%s\n", "Sapphire::RenderContext::RenderContext");
 
@@ -20,71 +20,17 @@ Sapphire::RenderContext::RenderContext(HWND hwnd, unsigned int width, unsigned i
 	srvDescriptorHeap = deviceContext->CreateSrvDescriptorHeap();
 
 	// Create the Command List
-	commandList = deviceContext->CreateCommandList(); // new DX12CommandList(deviceContext->GetDevice());
-
-	// Create global directional light
-	directionalLight = new Light(0.0f, 1.0f, 0.0f);
-
-	// Create Shadow Map Pass
-	shadowMapPass = new ShadowMapPass(this, directionalLight);
-
-	// Create Render Pass
-	renderPass = new ForwardRenderingPass(this, directionalLight, width, height);
-
-	// Grayscale Render Pass
-	grayscalePass = new GrayscalePass(this, width, height);
-
-	// Position Render Pass
-	defferedRenderingPass = new DeferredRenderingPass(this, width, height);
-
-	// Light Resolve Pass
-	lightResolvePass = new LightResolvePass(this, width, height);
-
-	// Setup the connections
-	// Connect resources - this can't be called at runtime
-	renderPass->AddInputResource(defferedRenderingPass->GetRenderTarget(0)->GetResource());	// Position Texture
-	renderPass->AddInputResource(defferedRenderingPass->GetRenderTarget(1)->GetResource());	// Normal Texture
-	renderPass->AddInputResource(defferedRenderingPass->GetRenderTarget(2)->GetResource());	// Albedo Texture
-	renderPass->AddInputResource(shadowMapPass->GetDepthBuffer()->GetResource());	// Shadow Map Texture
+	commandList = deviceContext->CreateCommandList();
 }
 
 Sapphire::RenderContext::~RenderContext()
 {
 	Logger::GetInstance().Log("%s\n", "Sapphire::RenderContext::~RenderContext");
 
-	delete lightResolvePass;
-	delete defferedRenderingPass;
-	delete grayscalePass;
-	delete shadowMapPass;
-	delete renderPass;
-	//delete viewport;
-	//delete dxPipelineState;
 	delete commandList;
-	//delete depthBuffer;
-	//delete renderTarget;
 	delete srvDescriptorHeap;
 	delete dsvDescriptorHeap;
 	delete rtvDescriptorHeap;
-}
-
-void Sapphire::RenderContext::Setup()
-{
-	//const float clearColor[] = { 0.1176f, 0.1882f, 0.4470f, 1.0f };
-	////unsigned int currentFrameIndex = deviceContext->GetCurrentFrameIndex();
-	//
-	//commandList->Reset();
-	//commandList->TransitionTo(renderTarget->GetResource(), D3D12_RESOURCE_STATE_RENDER_TARGET);
-	//commandList->SetPipelineState(dxPipelineState);
-	//commandList->SetRenderTarget(renderTarget, depthBuffer);
-	//commandList->ClearRenderTarget(renderTarget, clearColor);
-	//// Do I have to manage resource states?
-	//commandList->ClearDepthBuffer(depthBuffer);
-	//commandList->SetConstantBuffer(0, 16, camera->GetViewMatrixPtr());
-	//commandList->SetConstantBuffer(1, 16, camera->GetProjectionMatrixPtr());
-	// For texture development
-	// THIS IS RENDER CONTEXT
-	renderPass->PreRender(commandList);
-	commandList->SetDescriptorHeap(srvDescriptorHeap);
 }
 
 void Sapphire::RenderContext::CreateResources(std::vector<GameObject*> objects)
@@ -251,79 +197,16 @@ D3D12_GPU_DESCRIPTOR_HANDLE Sapphire::RenderContext::GetSrvDescriptor(RenderTarg
 	return output;
 }
 
-void Sapphire::RenderContext::Render(std::vector<GameObject*> objects)
+void Sapphire::RenderContext::Blit(DX12Resource* input)
 {
-	if (directionalLight->GetPositionY() > 0)
-	{
-		directionalLight->RotateX(0.025f);
-		//Logger::GetInstance().Log("Directional Light: %f %f %f\n", directionalLight->GetPositionX(), directionalLight->GetPositionY(), directionalLight->GetPositionZ());
-	}
-
-	commandList->Reset();
-
-	shadowMapPass->Setup(commandList);
-	shadowMapPass->PreRender(commandList);
-	commandList->SetDescriptorHeap(srvDescriptorHeap);
-	shadowMapPass->Render(commandList, this, objects);
-	shadowMapPass->PostRender(commandList);
-	shadowMapPass->Teardown(commandList);
-
-	defferedRenderingPass->Setup(commandList);
-	defferedRenderingPass->PreRender(commandList);
-	defferedRenderingPass->Render(commandList, this, objects);
-	defferedRenderingPass->PostRender(commandList);
-	defferedRenderingPass->Teardown(commandList);
-
-	lightResolvePass->Setup(commandList);
-	lightResolvePass->PreRender(commandList);
-	lightResolvePass->Render(commandList, this, objects);
-	lightResolvePass->PostRender(commandList);
-	lightResolvePass->Teardown(commandList);
-
-	renderPass->Setup(commandList);
-	renderPass->PreRender(commandList);
-	renderPass->Render(commandList, this, objects, shadowMapPass->camera);
-	renderPass->PostRender(commandList);
-	renderPass->Teardown(commandList);
-
-	grayscalePass->Setup(commandList);
-	grayscalePass->PreRender(commandList);
-	grayscalePass->Render(commandList, this, objects);
-	grayscalePass->PostRender(commandList);
-	grayscalePass->Teardown(commandList);
-
-
 	unsigned int currentFrameIndex = deviceContext->GetCurrentFrameIndex();
-	//blitPass->Render(commandList, this, GetRenderTarget()->GetResource(), dxResources[currentFrameIndex]);
-	Blit(GetRenderTarget()->GetResource(), dxResources[currentFrameIndex]);
-
-	commandList->Close();
-}
-
-void Sapphire::RenderContext::Teardown()
-{
-	//commandList->TransitionTo(renderTarget->GetResource(), D3D12_RESOURCE_STATE_COPY_SOURCE);
-	renderPass->PostRender(commandList);
-	commandList->Close();
+	Blit(input, dxResources[currentFrameIndex]);
 }
 
 void Sapphire::RenderContext::Execute()
 {
 	deviceContext->Execute(commandList);
 	deviceContext->Present();
-}
-
-Sapphire::DX12RenderTarget* Sapphire::RenderContext::GetRenderTarget()
-{
-	//return renderTarget;
-	return renderPass->GetRenderTarget(0);
-}
-
-void Sapphire::RenderContext::SetCamera(Camera* camera)
-{
-	//this->camera = camera;
-	renderPass->SetCamera(camera);
-	defferedRenderingPass->SetCamera(camera);
 }
 
 void Sapphire::RenderContext::Blit(DX12Resource* source, DX12Resource* destination)
@@ -337,4 +220,14 @@ void Sapphire::RenderContext::Blit(DX12Resource* source, DX12Resource* destinati
 Sapphire::DX12Device* Sapphire::RenderContext::GetDevice()
 {
 	return deviceContext->GetDevice();
+}
+
+Sapphire::DX12CommandList* Sapphire::RenderContext::GetCommandList()
+{
+	return commandList;
+}
+
+void Sapphire::RenderContext::SetSrvDescriptorHeap()
+{
+	commandList->SetDescriptorHeap(srvDescriptorHeap);
 }

@@ -138,6 +138,9 @@
     <ClInclude Include="LightResolvePass.h">
       <Filter>Engine\Rendering\RenderPass</Filter>
     </ClInclude>
+    <ClInclude Include="Renderer.h">
+      <Filter>Engine\Rendering</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WindowApplication.cpp">
@@ -220,6 +223,9 @@
     </ClCompile>
     <ClCompile Include="LightResolvePass.cpp">
       <Filter>Engine\Rendering\RenderPass</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer.cpp">
+      <Filter>Engine\Rendering</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
