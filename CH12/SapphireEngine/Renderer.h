@@ -14,6 +14,7 @@ namespace Sapphire
 	class LightResolvePass;
 	class GameObject;
 	class Camera;
+	class RenderPass;
 
 	class Renderer
 	{
@@ -26,6 +27,7 @@ namespace Sapphire
 		void Execute();
 	private:
 		RenderInterface* renderInterface;
+		std::vector<RenderPass*> renderPasses;
 		Light* directionalLight;
 		ShadowMapPass* shadowMapPass;
 		ForwardRenderingPass* forwardRenderingPass;

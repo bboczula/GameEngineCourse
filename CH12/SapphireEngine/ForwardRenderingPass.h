@@ -26,6 +26,7 @@ namespace Sapphire
 		void Render(DX12CommandList* commandList, RenderInterface* renderInterface, std::vector<GameObject*> objects, Camera* shadowMapCamera);
 		void PostRender(DX12CommandList* commandList) override;
 		void SetCamera(Camera* camera);
+		void SetShadowCamera(Camera* camera);
 	private:
 		DX12ConstantBuffer* constantBuffer;
 		DX12Shader* pixelShader;
@@ -33,6 +34,7 @@ namespace Sapphire
 		DX12Shader* pixelShader_noBump;
 		DX12Shader* vertexShader_noBump;
 		Camera* camera;
+		Camera* shadowCamera;
 		Light* light;
 	};
 }

@@ -36,6 +36,16 @@ Sapphire::Renderer::Renderer(HWND hwnd, UINT width, UINT height)
 	forwardRenderingPass->AddInputResource(defferedRenderingPass->GetRenderTarget(1)->GetResource());	// Normal Texture
 	forwardRenderingPass->AddInputResource(defferedRenderingPass->GetRenderTarget(2)->GetResource());	// Albedo Texture
 	forwardRenderingPass->AddInputResource(shadowMapPass->GetDepthBuffer()->GetResource());	// Shadow Map Texture
+
+	// Fill the vector for automatic execution
+	// This also determines the execution order, since this is all single threaded
+	renderPasses.push_back(shadowMapPass);
+	renderPasses.push_back(forwardRenderingPass);
+	renderPasses.push_back(grayscalePass);
+	renderPasses.push_back(defferedRenderingPass);
+	renderPasses.push_back(lightResolvePass);
+
+	forwardRenderingPass->SetShadowCamera(shadowMapPass->camera);
 }
 
 Sapphire::Renderer::~Renderer()
@@ -57,37 +67,16 @@ void Sapphire::Renderer::Render(std::vector<GameObject*> objects)
 	auto commandList = renderInterface->GetCommandList();
 	commandList->Reset();
 
-	shadowMapPass->Setup(commandList);
-	shadowMapPass->PreRender(commandList);
-	// Why the line below?
 	renderInterface->SetSrvDescriptorHeap();
-	shadowMapPass->Render(commandList, renderInterface, objects);
-	shadowMapPass->PostRender(commandList);
-	shadowMapPass->Teardown(commandList);
 
-	defferedRenderingPass->Setup(commandList);
-	defferedRenderingPass->PreRender(commandList);
-	defferedRenderingPass->Render(commandList, renderInterface, objects);
-	defferedRenderingPass->PostRender(commandList);
-	defferedRenderingPass->Teardown(commandList);
-
-	lightResolvePass->Setup(commandList);
-	lightResolvePass->PreRender(commandList);
-	lightResolvePass->Render(commandList, renderInterface, objects);
-	lightResolvePass->PostRender(commandList);
-	lightResolvePass->Teardown(commandList);
-
-	forwardRenderingPass->Setup(commandList);
-	forwardRenderingPass->PreRender(commandList);
-	forwardRenderingPass->Render(commandList, renderInterface, objects, shadowMapPass->camera);
-	forwardRenderingPass->PostRender(commandList);
-	forwardRenderingPass->Teardown(commandList);
-
-	grayscalePass->Setup(commandList);
-	grayscalePass->PreRender(commandList);
-	grayscalePass->Render(commandList, renderInterface, objects);
-	grayscalePass->PostRender(commandList);
-	grayscalePass->Teardown(commandList);
+	for (int i = 0; i < renderPasses.size(); i++)
+	{
+		renderPasses[i]->Setup(commandList);
+		renderPasses[i]->PreRender(commandList);
+		renderPasses[i]->Render(commandList, renderInterface, objects);
+		renderPasses[i]->PostRender(commandList);
+		renderPasses[i]->Teardown(commandList);
+	}
 
 	renderInterface->Blit(forwardRenderingPass->GetRenderTarget(0)->GetResource());
 

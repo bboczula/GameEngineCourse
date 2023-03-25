@@ -88,6 +88,37 @@ void Sapphire::ForwardRenderingPass::PreRender(DX12CommandList* commandList)
 
 void Sapphire::ForwardRenderingPass::Render(DX12CommandList* commandList, RenderInterface* renderInterface, std::vector<GameObject*> objects)
 {
+	PIXBeginEvent(commandList->GetCommandList(), PIX_COLOR(255, 255, 255), "ForwardRenderingPass");
+	for (int i = 0; i < objects.size(); i++)
+	{
+		if (objects[i]->numOfVertices != 0)
+		{
+			if (objects[i]->bumpMapWidth == 0)
+			{
+				commandList->SetPipelineState(pipelineStates[1], rootSignature);
+			}
+			else
+			{
+				commandList->SetPipelineState(pipelineStates[0], rootSignature);
+			}
+			commandList->SetConstantBuffer(1, 16, shadowCamera->GetViewProjectionMatrixPtr());
+			commandList->SetConstantBuffer(2, 16, &objects[i]->world);
+			commandList->SetTexture(3, renderInterface->GetSrvDescriptor(objects[i]->texture->GetDescriptorIndex()));
+			// This is incorrect! I need a descriptr from the Input Resource, not the given Render Target
+			commandList->SetTexture(4, renderInterface->GetSrvDescriptor(ShadowMapDepth));
+			if (objects[i]->bumpMapWidth != 0)
+			{
+				commandList->SetTexture(5, renderInterface->GetSrvDescriptor(objects[i]->bumpMap->GetDescriptorIndex()));
+			}
+			commandList->SetConstantBuffer(6, renderInterface->GetSrvDescriptor(constantBuffer->GetDescriptorIndex()));
+			//commandList->Draw(objects[i]->geometry);
+			//commandList->Draw(objects[i]->positionVertexBuffer, objects[i]->indexBuffer);
+			//commandList->Draw(objects[i]->positionVertexBuffer, objects[i]->normalVertexBuffer, objects[i]->indexBuffer);
+			//commandList->Draw(objects[i]->positionVertexBuffer, objects[i]->normalVertexBuffer, objects[i]->colorTexCoordVertexBuffer, objects[i]->indexBuffer);
+			commandList->Draw(objects[i]->positionVertexBuffer, objects[i]->normalVertexBuffer, objects[i]->tangentVertexBuffer, objects[i]->colorTexCoordVertexBuffer, objects[i]->indexBuffer);
+		}
+	}
+	PIXEndEvent(commandList->GetCommandList());
 }
 
 void Sapphire::ForwardRenderingPass::Render(DX12CommandList* commandList, RenderInterface* renderInterface, std::vector<GameObject*> objects, Camera* shadowMapCamera)
@@ -140,4 +171,9 @@ void Sapphire::ForwardRenderingPass::PostRender(DX12CommandList* commandList)
 void Sapphire::ForwardRenderingPass::SetCamera(Camera* camera)
 {
 	this->camera = camera;
+}
+
+void Sapphire::ForwardRenderingPass::SetShadowCamera(Camera* camera)
+{
+	this->shadowCamera = camera;
 }
