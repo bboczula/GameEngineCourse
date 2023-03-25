@@ -28,6 +28,9 @@
     <Filter Include="Engine\Rendering\RenderPass">
       <UniqueIdentifier>{7e98e93f-8faf-4606-8a6e-fbb31ba8d8a3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\ImGui">
+      <UniqueIdentifier>{cb6610e5-f35e-4c03-8c3f-f879b5f0e5d8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WindowApplication.h">
@@ -141,6 +144,18 @@
     <ClInclude Include="Renderer.h">
       <Filter>Engine\Rendering</Filter>
     </ClInclude>
+    <ClInclude Include="imgui_impl_dx12.h">
+      <Filter>Engine\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui.h">
+      <Filter>Engine\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="imconfig.h">
+      <Filter>Engine\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui_impl_win32.h">
+      <Filter>Engine\ImGui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WindowApplication.cpp">
@@ -226,6 +241,15 @@
     </ClCompile>
     <ClCompile Include="Renderer.cpp">
       <Filter>Engine\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_impl_dx12.cpp">
+      <Filter>Engine\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui.cpp">
+      <Filter>Engine\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_impl_win32.cpp">
+      <Filter>Engine\ImGui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
