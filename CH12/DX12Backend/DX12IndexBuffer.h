@@ -18,7 +18,7 @@ namespace Sapphire
 	class GPUAPI_DX12_API DX12IndexBuffer
 	{
 		friend class DX12CommandList;
-		friend class RenderContext;
+		friend class RenderInterface;
 	public:
 		DX12IndexBuffer(DX12Device* device, void* indexData, UINT indexSize, UINT numOfIndices);
 		~DX12IndexBuffer();

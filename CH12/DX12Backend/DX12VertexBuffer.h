@@ -18,7 +18,7 @@ namespace Sapphire
 	class GPUAPI_DX12_API DX12VertexBuffer
 	{
 		friend class DX12CommandList;
-		friend class RenderContext;
+		friend class RenderInterface;
 	public:
 		DX12VertexBuffer(DX12Device* device, void* vertexData, UINT vertexSize, UINT numOfVertices);
 		~DX12VertexBuffer();

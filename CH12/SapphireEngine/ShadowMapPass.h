@@ -17,10 +17,10 @@ namespace Sapphire
 	class ShadowMapPass : public Sapphire::RenderPass
 	{
 	public:
-		ShadowMapPass(RenderContext* renderContext, Light* light);
+		ShadowMapPass(RenderInterface* renderInterface, Light* light);
 		~ShadowMapPass();
 		void PreRender(DX12CommandList* commandList) override;
-		void Render(DX12CommandList* commandList, RenderContext* renderContext, std::vector<GameObject*> objects) override;
+		void Render(DX12CommandList* commandList, RenderInterface* renderInterface, std::vector<GameObject*> objects) override;
 		void PostRender(DX12CommandList* commandList) override;
 		DX12DepthBuffer* GetDepthBuffer();
 		OrthographicCamera* camera;

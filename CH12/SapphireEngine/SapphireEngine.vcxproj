@@ -46,7 +46,7 @@
     <ClInclude Include="ModelLoaderSapphire.h" />
     <ClInclude Include="OutputFile.h" />
     <ClInclude Include="Logger.h" />
-    <ClInclude Include="RenderContext.h" />
+    <ClInclude Include="RenderInterface.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="RenderPass.h" />
     <ClInclude Include="ShadowMapPass.h" />
@@ -79,7 +79,7 @@
     <ClCompile Include="ModelLoaderSapphire.cpp" />
     <ClCompile Include="OutputFile.cpp" />
     <ClCompile Include="Logger.cpp" />
-    <ClCompile Include="RenderContext.cpp" />
+    <ClCompile Include="RenderInterface.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="ShadowMapPass.cpp" />
     <ClCompile Include="SimpleMath.cpp" />

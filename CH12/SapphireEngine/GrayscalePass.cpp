@@ -1,16 +1,16 @@
 #include "GrayscalePass.h"
-#include "RenderContext.h"
+#include "RenderInterface.h"
 #include "../DX12Backend/DX12InputLayout.h"
 #include "../DX12Backend/DX12RootSignature.h"
 
 #define USE_PIX
 #include "pix3.h"
 
-Sapphire::GrayscalePass::GrayscalePass(RenderContext* renderContext, unsigned int width, unsigned int height)
+Sapphire::GrayscalePass::GrayscalePass(RenderInterface* renderInterface, unsigned int width, unsigned int height)
 {
 	multiRenderTarget = new DX12MultiRenderTarget();
-	multiRenderTarget->Add(renderContext->CreateRenderTarget(GrayscaleRT, width, height));
-	depthBuffer = renderContext->CreateDepthBuffer(width, height);
+	multiRenderTarget->Add(renderInterface->CreateRenderTarget(GrayscaleRT, width, height));
+	depthBuffer = renderInterface->CreateDepthBuffer(width, height);
 
 	// Create Shaders
 	vertexShader = new DX12Shader("fullscreen_vs.cso");
@@ -21,11 +21,11 @@ Sapphire::GrayscalePass::GrayscalePass(RenderContext* renderContext, unsigned in
 
 	// Need Root Signature, even if empty
 	rootSignature = new DX12RootSignature();
-	rootSignature->CreateRootSignature(renderContext->GetDevice());
+	rootSignature->CreateRootSignature(renderInterface->GetDevice());
 
-	pipelineStates.PushBack(renderContext->CreatePipelineState(vertexShader, pixelShader, inputLayout));
+	pipelineStates.PushBack(renderInterface->CreatePipelineState(vertexShader, pixelShader, inputLayout));
 	pipelineStates[0]->AddRenderTarget(multiRenderTarget->Get(0)->GetDxgiFormat());
-	pipelineStates[0]->CreatePipelineState(renderContext->GetDevice(), vertexShader->GetBytecode(), pixelShader->GetBytecode(), inputLayout, rootSignature);
+	pipelineStates[0]->CreatePipelineState(renderInterface->GetDevice(), vertexShader->GetBytecode(), pixelShader->GetBytecode(), inputLayout, rootSignature);
 }
 
 Sapphire::GrayscalePass::~GrayscalePass()
@@ -36,7 +36,7 @@ void Sapphire::GrayscalePass::PreRender(DX12CommandList* commandList)
 {
 }
 
-void Sapphire::GrayscalePass::Render(DX12CommandList* commandList, RenderContext* renderContext, std::vector<GameObject*> objects)
+void Sapphire::GrayscalePass::Render(DX12CommandList* commandList, RenderInterface* renderInterface, std::vector<GameObject*> objects)
 {
 	PIXBeginEvent(commandList->GetCommandList(), PIX_COLOR(255, 255, 255), "GrayscalePass");
 	commandList->DrawEmpty();

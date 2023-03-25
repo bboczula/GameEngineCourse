@@ -11,10 +11,10 @@ namespace Sapphire
 	{
 	public:
 		// You manually have to create Constructors
-		DeferredRenderingPass(RenderContext* renderContext, unsigned int width, unsigned int height);
+		DeferredRenderingPass(RenderInterface* renderInterface, unsigned int width, unsigned int height);
 		~DeferredRenderingPass();
 		void PreRender(DX12CommandList* commandList) override;
-		void Render(DX12CommandList* commandList, RenderContext* renderContext, std::vector<GameObject*> objects) override;
+		void Render(DX12CommandList* commandList, RenderInterface* renderInterface, std::vector<GameObject*> objects) override;
 		void PostRender(DX12CommandList* commandList) override;
 		void SetCamera(Camera* camera);
 	private:

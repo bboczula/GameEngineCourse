@@ -13,7 +13,7 @@
 namespace Sapphire
 {
 	// Including this was causing circular dependency and C2039 error
-	class RenderContext;
+	class RenderInterface;
 	class GameObject;
 	class DX12CommandList;
 	class DX12RenderTarget;
@@ -23,7 +23,7 @@ namespace Sapphire
 	{
 	public:
 		virtual void PreRender(DX12CommandList* commandList) = 0;
-		virtual void Render(DX12CommandList* commandList, RenderContext* renderContext, std::vector<GameObject*> objects) = 0;
+		virtual void Render(DX12CommandList* commandList, RenderInterface* renderInterface, std::vector<GameObject*> objects) = 0;
 		virtual void PostRender(DX12CommandList* commandList) = 0;
 		void Setup(DX12CommandList* commandList)
 		{
@@ -55,7 +55,7 @@ namespace Sapphire
 			// Here you can bind the input resources to necessary slots
 			// Or maybe you can have a map where named resource has GPU_Handles
 			// For example like this:
-			// commandList->SetTexture(4, renderContext->GetSrvDescriptor(depthMap->GetDescriptorIndex()));
+			// commandList->SetTexture(4, renderInterface->GetSrvDescriptor(depthMap->GetDescriptorIndex()));
 		}
 		void Teardown(DX12CommandList* commandList)
 		{

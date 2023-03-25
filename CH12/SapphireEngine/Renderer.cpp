@@ -1,5 +1,5 @@
 #include "Renderer.h"
-#include "RenderContext.h"
+#include "RenderInterface.h"
 #include "Light.h"
 #include "ShadowMapPass.h"
 #include "ForwardRenderingPass.h"
@@ -10,25 +10,25 @@
 Sapphire::Renderer::Renderer(HWND hwnd, UINT width, UINT height)
 {
 	// Create Render Context
-	renderContext = new RenderContext(hwnd, width, height);
+	renderInterface = new RenderInterface(hwnd, width, height);
 
 	// Create global directional light
 	directionalLight = new Light(0.0f, 1.0f, 0.0f);
 
 	// Create Shadow Map Pass
-	shadowMapPass = new ShadowMapPass(renderContext, directionalLight);
+	shadowMapPass = new ShadowMapPass(renderInterface, directionalLight);
 
 	// Create Forward Rendering Pass
-	forwardRenderingPass = new ForwardRenderingPass(renderContext, directionalLight, width, height);
+	forwardRenderingPass = new ForwardRenderingPass(renderInterface, directionalLight, width, height);
 
 	// Grayscale Render Pass
-	grayscalePass = new GrayscalePass(renderContext, width, height);
+	grayscalePass = new GrayscalePass(renderInterface, width, height);
 
 	// Position Render Pass
-	defferedRenderingPass = new DeferredRenderingPass(renderContext, width, height);
+	defferedRenderingPass = new DeferredRenderingPass(renderInterface, width, height);
 
 	// Light Resolve Pass
-	lightResolvePass = new LightResolvePass(renderContext, width, height);
+	lightResolvePass = new LightResolvePass(renderInterface, width, height);
 
 	// Setup the connections
 	// Connect resources - this can't be called at runtime
@@ -54,42 +54,42 @@ void Sapphire::Renderer::Render(std::vector<GameObject*> objects)
 		directionalLight->RotateX(0.025f);
 	}
 
-	auto commandList = renderContext->GetCommandList();
+	auto commandList = renderInterface->GetCommandList();
 	commandList->Reset();
 
 	shadowMapPass->Setup(commandList);
 	shadowMapPass->PreRender(commandList);
 	// Why the line below?
-	renderContext->SetSrvDescriptorHeap();
-	shadowMapPass->Render(commandList, renderContext, objects);
+	renderInterface->SetSrvDescriptorHeap();
+	shadowMapPass->Render(commandList, renderInterface, objects);
 	shadowMapPass->PostRender(commandList);
 	shadowMapPass->Teardown(commandList);
 
 	defferedRenderingPass->Setup(commandList);
 	defferedRenderingPass->PreRender(commandList);
-	defferedRenderingPass->Render(commandList, renderContext, objects);
+	defferedRenderingPass->Render(commandList, renderInterface, objects);
 	defferedRenderingPass->PostRender(commandList);
 	defferedRenderingPass->Teardown(commandList);
 
 	lightResolvePass->Setup(commandList);
 	lightResolvePass->PreRender(commandList);
-	lightResolvePass->Render(commandList, renderContext, objects);
+	lightResolvePass->Render(commandList, renderInterface, objects);
 	lightResolvePass->PostRender(commandList);
 	lightResolvePass->Teardown(commandList);
 
 	forwardRenderingPass->Setup(commandList);
 	forwardRenderingPass->PreRender(commandList);
-	forwardRenderingPass->Render(commandList, renderContext, objects, shadowMapPass->camera);
+	forwardRenderingPass->Render(commandList, renderInterface, objects, shadowMapPass->camera);
 	forwardRenderingPass->PostRender(commandList);
 	forwardRenderingPass->Teardown(commandList);
 
 	grayscalePass->Setup(commandList);
 	grayscalePass->PreRender(commandList);
-	grayscalePass->Render(commandList, renderContext, objects);
+	grayscalePass->Render(commandList, renderInterface, objects);
 	grayscalePass->PostRender(commandList);
 	grayscalePass->Teardown(commandList);
 
-	renderContext->Blit(forwardRenderingPass->GetRenderTarget(0)->GetResource());
+	renderInterface->Blit(forwardRenderingPass->GetRenderTarget(0)->GetResource());
 
 	commandList->Close();
 }
@@ -102,10 +102,10 @@ void Sapphire::Renderer::SetCamera(Camera* camera)
 
 void Sapphire::Renderer::CreateResources(std::vector<GameObject*> objects)
 {
-	renderContext->CreateResources(objects);
+	renderInterface->CreateResources(objects);
 }
 
 void Sapphire::Renderer::Execute()
 {
-	renderContext->Execute();
+	renderInterface->Execute();
 }

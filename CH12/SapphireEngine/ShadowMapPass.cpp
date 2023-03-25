@@ -1,6 +1,6 @@
 #include "ShadowMapPass.h"
 
-#include "RenderContext.h"
+#include "RenderInterface.h"
 #include "OrthographicCamera.h"
 #include "../DX12Backend/DX12InputLayout.h"
 #include "../DX12Backend/DX12RenderTarget.h"
@@ -11,11 +11,11 @@
 #define USE_PIX
 #include "pix3.h"
 
-Sapphire::ShadowMapPass::ShadowMapPass(RenderContext* renderContext, Light* light) : light(light)
+Sapphire::ShadowMapPass::ShadowMapPass(RenderInterface* renderInterface, Light* light) : light(light)
 {
-	depthBuffer = renderContext->CreateDepthBufferWithSrv(ShadowMapDepth, 2048, 2048);
+	depthBuffer = renderInterface->CreateDepthBufferWithSrv(ShadowMapDepth, 2048, 2048);
 	multiRenderTarget = new DX12MultiRenderTarget();
-	multiRenderTarget->Add(renderContext->CreateRenderTarget(ShadowMapRT, 2048, 2048));
+	multiRenderTarget->Add(renderInterface->CreateRenderTarget(ShadowMapRT, 2048, 2048));
 
 	// Create Shaders
 	vertexShader = new DX12Shader("shadow_vs.cso");
@@ -29,12 +29,12 @@ Sapphire::ShadowMapPass::ShadowMapPass(RenderContext* renderContext, Light* ligh
 	rootSignature = new DX12RootSignature();
 	rootSignature->AddParameter(DX12RootSignature::Type::Matrix); // 0 - View Projection Matrix
 	rootSignature->AddParameter(DX12RootSignature::Type::Matrix); // 1 - World Matrix
-	rootSignature->CreateRootSignature(renderContext->GetDevice());
+	rootSignature->CreateRootSignature(renderInterface->GetDevice());
 
 	// Create Pipeline State
-	pipelineStates.PushBack(renderContext->CreatePipelineState(vertexShader, pixelShader, inputLayout));
+	pipelineStates.PushBack(renderInterface->CreatePipelineState(vertexShader, pixelShader, inputLayout));
 	pipelineStates[0]->AddRenderTarget(multiRenderTarget->Get(0)->GetDxgiFormat());
-	pipelineStates[0]->CreatePipelineState(renderContext->GetDevice(), vertexShader->GetBytecode(), pixelShader->GetBytecode(), inputLayout, rootSignature);
+	pipelineStates[0]->CreatePipelineState(renderInterface->GetDevice(), vertexShader->GetBytecode(), pixelShader->GetBytecode(), inputLayout, rootSignature);
 
 	// Create Camera
 	//camera = new Camera(1280.0f / 720.0f);
@@ -80,7 +80,7 @@ void Sapphire::ShadowMapPass::PreRender(DX12CommandList* commandList)
 	//commandList->SetConstantBuffer(1, 16, camera->GetProjectionMatrixPtr());
 }
 
-void Sapphire::ShadowMapPass::Render(DX12CommandList* commandList, RenderContext* renderContext, std::vector<GameObject*> objects)
+void Sapphire::ShadowMapPass::Render(DX12CommandList* commandList, RenderInterface* renderInterface, std::vector<GameObject*> objects)
 {
 	PIXBeginEvent(commandList->GetCommandList(), PIX_COLOR(255, 255, 255), "ShadowMapPass");
 	// This could potentially be Render Pass
@@ -92,7 +92,7 @@ void Sapphire::ShadowMapPass::Render(DX12CommandList* commandList, RenderContext
 			// D3D12_GPU_DESCRIPTOR_HANDLE descriptor;
 			// descriptor.ptr = srvDescriptorHeap->GetFirstGpuDescriptor().ptr + i * srvDescriptorHeap->GetDescriptorSize();
 			// commandList->SetTexture(3, descriptor);
-			//commandList->SetTexture(3, renderContext->GetSrvDescriptor(i));
+			//commandList->SetTexture(3, renderInterface->GetSrvDescriptor(i));
 			//commandList->Draw(objects[i]->geometry);
 			commandList->Draw(objects[i]->positionVertexBuffer, objects[i]->indexBuffer);
 			//commandList->Draw(objects[i]->positionVertexBuffer, objects[i]->normalVertexBuffer, objects[i]->indexBuffer);

@@ -5,7 +5,7 @@
 
 namespace Sapphire
 {
-	class RenderContext;
+	class RenderInterface;
 	class Light;
 	class ShadowMapPass;
 	class ForwardRenderingPass;
@@ -25,7 +25,7 @@ namespace Sapphire
 		void CreateResources(std::vector<GameObject*> objects);
 		void Execute();
 	private:
-		RenderContext* renderContext;
+		RenderInterface* renderInterface;
 		Light* directionalLight;
 		ShadowMapPass* shadowMapPass;
 		ForwardRenderingPass* forwardRenderingPass;

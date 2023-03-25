@@ -12,7 +12,7 @@ namespace Sapphire
 	class GameObject
 	{
 		friend class Renderer;
-		friend class RenderContext;
+		friend class RenderInterface;
 		friend class ForwardRenderingPass;
 		friend class ShadowMapPass;
 		friend class DeferredRenderingPass;

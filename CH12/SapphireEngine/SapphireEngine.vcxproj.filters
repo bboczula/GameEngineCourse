@@ -84,7 +84,7 @@
     <ClInclude Include="WinMouse.h">
       <Filter>Window</Filter>
     </ClInclude>
-    <ClInclude Include="RenderContext.h">
+    <ClInclude Include="RenderInterface.h">
       <Filter>Engine\Rendering</Filter>
     </ClInclude>
     <ClInclude Include="DeviceContext.h">
@@ -182,7 +182,7 @@
     <ClCompile Include="WinMouse.cpp">
       <Filter>Window</Filter>
     </ClCompile>
-    <ClCompile Include="RenderContext.cpp">
+    <ClCompile Include="RenderInterface.cpp">
       <Filter>Engine\Rendering</Filter>
     </ClCompile>
     <ClCompile Include="DeviceContext.cpp">

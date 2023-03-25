@@ -10,7 +10,7 @@
 #include "Camera.h"
 #include "WinMouse.h"
 #include "FirstPerson.h"
-#include "RenderContext.h"
+#include "RenderInterface.h"
 
 #include "../ModelLoader/ModelLoader.h"
 #include "../ModelLoader/Image.h"
@@ -39,7 +39,7 @@ namespace Sapphire
         void Initialize() override;
         void Tick() override;
         void ReportLiveObjects();
-        RenderContext* renderer;
+        RenderInterface* renderer;
         Renderer* newRenderer;
         RawInput* input;
         WinMouse* winMouse;

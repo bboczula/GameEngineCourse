@@ -4,7 +4,6 @@
 Sapphire::Engine::Engine(UINT width, UINT height) : WindowApplication{ width, height }, renderer{ nullptr }
 {
 	Logger::GetInstance().Log("%s", "Sapphire::Engine::Engine()\n");
-	//renderer = new RenderContext(hwnd, width, height);
 
 	newRenderer = new Renderer(hwnd, width, height);
 

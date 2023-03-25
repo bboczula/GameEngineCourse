@@ -1,4 +1,4 @@
-#include "RenderContext.h"
+#include "RenderInterface.h"
 #include "../DX12Backend/DX12ConstantBuffer.h"
 #include "../DX12Backend/DX12VertexBuffer.h"
 #include "../DX12Backend/DX12IndexBuffer.h"
@@ -7,10 +7,10 @@
 #include "LightResolvePass.h"
 #include "Light.h"
 
-Sapphire::RenderContext::RenderContext(HWND hwnd, unsigned int width, unsigned int height)
+Sapphire::RenderInterface::RenderInterface(HWND hwnd, unsigned int width, unsigned int height)
 	: deviceContext(deviceContext), dxResources{ nullptr }, renderTargets{ nullptr }, uploadBuffer{ nullptr }
 {
-	Logger::GetInstance().Log("%s\n", "Sapphire::RenderContext::RenderContext");
+	Logger::GetInstance().Log("%s\n", "Sapphire::RenderInterface::RenderInterface");
 
 	deviceContext = new DeviceContext(hwnd, width, height);
 
@@ -23,9 +23,9 @@ Sapphire::RenderContext::RenderContext(HWND hwnd, unsigned int width, unsigned i
 	commandList = deviceContext->CreateCommandList();
 }
 
-Sapphire::RenderContext::~RenderContext()
+Sapphire::RenderInterface::~RenderInterface()
 {
-	Logger::GetInstance().Log("%s\n", "Sapphire::RenderContext::~RenderContext");
+	Logger::GetInstance().Log("%s\n", "Sapphire::RenderInterface::~RenderInterface");
 
 	delete commandList;
 	delete srvDescriptorHeap;
@@ -33,7 +33,7 @@ Sapphire::RenderContext::~RenderContext()
 	delete rtvDescriptorHeap;
 }
 
-void Sapphire::RenderContext::CreateResources(std::vector<GameObject*> objects)
+void Sapphire::RenderInterface::CreateResources(std::vector<GameObject*> objects)
 {
 	commandList->Reset();
 
@@ -104,7 +104,7 @@ void Sapphire::RenderContext::CreateResources(std::vector<GameObject*> objects)
 	}
 }
 
-void Sapphire::RenderContext::CreateTextureResource(DX12Texture*& dest, UINT width, UINT height, PixelDefinition* source)
+void Sapphire::RenderInterface::CreateTextureResource(DX12Texture*& dest, UINT width, UINT height, PixelDefinition* source)
 {
 	auto descriptorIndex = srvDescriptorHeap->GetHeapSize();
 	D3D12_CPU_DESCRIPTOR_HANDLE srvHandle;
@@ -134,7 +134,7 @@ void Sapphire::RenderContext::CreateTextureResource(DX12Texture*& dest, UINT wid
 	commandList->TransitionTo(dest->GetResource(), D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 }
 
-Sapphire::DX12RenderTarget* Sapphire::RenderContext::CreateRenderTarget(RenderTargetNames name, UINT width, UINT height, DX12RenderTarget::Format format)
+Sapphire::DX12RenderTarget* Sapphire::RenderInterface::CreateRenderTarget(RenderTargetNames name, UINT width, UINT height, DX12RenderTarget::Format format)
 {
 	// Store GPU Descriptor Handle for easy usage
 	auto heapSize = rtvDescriptorHeap->GetHeapSize();
@@ -146,14 +146,14 @@ Sapphire::DX12RenderTarget* Sapphire::RenderContext::CreateRenderTarget(RenderTa
 	return new DX12RenderTarget(deviceContext->GetDevice(), rtvHandle, width, height, format);
 }
 
-Sapphire::DX12DepthBuffer* Sapphire::RenderContext::CreateDepthBuffer(UINT width, UINT height)
+Sapphire::DX12DepthBuffer* Sapphire::RenderInterface::CreateDepthBuffer(UINT width, UINT height)
 {
 	D3D12_CPU_DESCRIPTOR_HANDLE dsvHandle;
 	dsvHandle.ptr = dsvDescriptorHeap->AllocateDescriptor();
 	return new DX12DepthBuffer(deviceContext->GetDevice(), dsvHandle, width, height);
 }
 
-Sapphire::DX12DepthBuffer* Sapphire::RenderContext::CreateDepthBufferWithSrv(RenderTargetNames name, UINT width, UINT height)
+Sapphire::DX12DepthBuffer* Sapphire::RenderInterface::CreateDepthBufferWithSrv(RenderTargetNames name, UINT width, UINT height)
 {
 	// Store GPU Descriptor Handle for easy usage
 	auto heapSize = srvDescriptorHeap->GetHeapSize();
@@ -169,7 +169,7 @@ Sapphire::DX12DepthBuffer* Sapphire::RenderContext::CreateDepthBufferWithSrv(Ren
 	return new DX12DepthBuffer(deviceContext->GetDevice(), dsvHandle, width, height, srvHandle, heapSize);
 }
 
-Sapphire::DX12ConstantBuffer* Sapphire::RenderContext::CreateConstantBuffer()
+Sapphire::DX12ConstantBuffer* Sapphire::RenderInterface::CreateConstantBuffer()
 {
 	auto descriptorIndex = srvDescriptorHeap->GetHeapSize();
 	D3D12_CPU_DESCRIPTOR_HANDLE srvHandle;
@@ -178,38 +178,38 @@ Sapphire::DX12ConstantBuffer* Sapphire::RenderContext::CreateConstantBuffer()
 	return new DX12ConstantBuffer(deviceContext->GetDevice(), 256, srvHandle, descriptorIndex);
 }
 
-Sapphire::DX12PipelineState* Sapphire::RenderContext::CreatePipelineState(DX12Shader* vertexShader, DX12Shader* pixelShader, DX12InputLayout* inputLayout)
+Sapphire::DX12PipelineState* Sapphire::RenderInterface::CreatePipelineState(DX12Shader* vertexShader, DX12Shader* pixelShader, DX12InputLayout* inputLayout)
 {
 	return new DX12PipelineState(deviceContext->GetDevice());
 }
 
-D3D12_GPU_DESCRIPTOR_HANDLE Sapphire::RenderContext::GetSrvDescriptor(UINT32 index)
+D3D12_GPU_DESCRIPTOR_HANDLE Sapphire::RenderInterface::GetSrvDescriptor(UINT32 index)
 {
 	D3D12_GPU_DESCRIPTOR_HANDLE descriptor;
 	descriptor.ptr = srvDescriptorHeap->GetFirstGpuDescriptor().ptr + index * srvDescriptorHeap->GetDescriptorSize();
 	return descriptor;
 }
 
-D3D12_GPU_DESCRIPTOR_HANDLE Sapphire::RenderContext::GetSrvDescriptor(RenderTargetNames name)
+D3D12_GPU_DESCRIPTOR_HANDLE Sapphire::RenderInterface::GetSrvDescriptor(RenderTargetNames name)
 {
 	D3D12_GPU_DESCRIPTOR_HANDLE output;
 	output.ptr = renderTargetList[name];
 	return output;
 }
 
-void Sapphire::RenderContext::Blit(DX12Resource* input)
+void Sapphire::RenderInterface::Blit(DX12Resource* input)
 {
 	unsigned int currentFrameIndex = deviceContext->GetCurrentFrameIndex();
 	Blit(input, dxResources[currentFrameIndex]);
 }
 
-void Sapphire::RenderContext::Execute()
+void Sapphire::RenderInterface::Execute()
 {
 	deviceContext->Execute(commandList);
 	deviceContext->Present();
 }
 
-void Sapphire::RenderContext::Blit(DX12Resource* source, DX12Resource* destination)
+void Sapphire::RenderInterface::Blit(DX12Resource* source, DX12Resource* destination)
 {
 	commandList->TransitionTo(source, D3D12_RESOURCE_STATE_COPY_SOURCE);
 	commandList->TransitionTo(destination, D3D12_RESOURCE_STATE_COPY_DEST);
@@ -217,17 +217,17 @@ void Sapphire::RenderContext::Blit(DX12Resource* source, DX12Resource* destinati
 	commandList->TransitionTo(destination, D3D12_RESOURCE_STATE_PRESENT);
 }
 
-Sapphire::DX12Device* Sapphire::RenderContext::GetDevice()
+Sapphire::DX12Device* Sapphire::RenderInterface::GetDevice()
 {
 	return deviceContext->GetDevice();
 }
 
-Sapphire::DX12CommandList* Sapphire::RenderContext::GetCommandList()
+Sapphire::DX12CommandList* Sapphire::RenderInterface::GetCommandList()
 {
 	return commandList;
 }
 
-void Sapphire::RenderContext::SetSrvDescriptorHeap()
+void Sapphire::RenderInterface::SetSrvDescriptorHeap()
 {
 	commandList->SetDescriptorHeap(srvDescriptorHeap);
 }
