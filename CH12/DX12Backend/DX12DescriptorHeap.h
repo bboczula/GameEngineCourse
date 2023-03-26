@@ -35,9 +35,11 @@ namespace Sapphire
 		/// </summary>
 		SIZE_T AllocateDescriptor();
 		D3D12_GPU_DESCRIPTOR_HANDLE GetFirstGpuDescriptor();
+		SIZE_T GetGpuDescriptor(unsigned int index);
 		D3D12_CPU_DESCRIPTOR_HANDLE GetFirstCpuDescriptor();
 		UINT GetDescriptorSize();
 		UINT GetHeapSize();
+		ID3D12DescriptorHeap* GetRawDescriptorHeap();
 	private:
 		ID3D12DescriptorHeap* heap;
 		UINT descriptorSize;

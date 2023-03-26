@@ -8,7 +8,7 @@
 #include "Light.h"
 
 Sapphire::RenderInterface::RenderInterface(HWND hwnd, unsigned int width, unsigned int height)
-	: deviceContext(deviceContext), dxResources{ nullptr }, renderTargets{ nullptr }, uploadBuffer{ nullptr }
+	: deviceContext(deviceContext), dxResources{ nullptr }, renderTargets{ nullptr }, uploadBuffer{ nullptr }, hwnd{ hwnd }
 {
 	Logger::GetInstance().Log("%s\n", "Sapphire::RenderInterface::RenderInterface");
 
@@ -197,6 +197,11 @@ D3D12_GPU_DESCRIPTOR_HANDLE Sapphire::RenderInterface::GetSrvDescriptor(RenderTa
 	return output;
 }
 
+Sapphire::DX12DescriptorHeap* Sapphire::RenderInterface::GetSrvDescriptorHeap()
+{
+	return srvDescriptorHeap;
+}
+
 void Sapphire::RenderInterface::Blit(DX12Resource* input)
 {
 	unsigned int currentFrameIndex = deviceContext->GetCurrentFrameIndex();
@@ -230,4 +235,9 @@ Sapphire::DX12CommandList* Sapphire::RenderInterface::GetCommandList()
 void Sapphire::RenderInterface::SetSrvDescriptorHeap()
 {
 	commandList->SetDescriptorHeap(srvDescriptorHeap);
+}
+
+HWND Sapphire::RenderInterface::GetHwnd()
+{
+	return hwnd;
 }

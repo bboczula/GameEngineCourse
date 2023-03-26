@@ -64,11 +64,13 @@ namespace Sapphire
 		DX12PipelineState* CreatePipelineState(DX12Shader* vertexShader, DX12Shader* pixelShader, DX12InputLayout* inputLayout);
 		D3D12_GPU_DESCRIPTOR_HANDLE GetSrvDescriptor(UINT32 index);
 		D3D12_GPU_DESCRIPTOR_HANDLE GetSrvDescriptor(RenderTargetNames name);
+		DX12DescriptorHeap* GetSrvDescriptorHeap();
 		void Blit(DX12Resource* input);
 		void Execute();
 		DX12Device* GetDevice();
 		DX12CommandList* GetCommandList();
 		void SetSrvDescriptorHeap();
+		HWND GetHwnd();
 	private:
 		void Blit(DX12Resource* source, DX12Resource* destination);
 		DX12DescriptorHeap* rtvDescriptorHeap;
@@ -80,7 +82,7 @@ namespace Sapphire
 		DX12Resource* dxResources[FRAME_COUNT];
 		DeviceContext* deviceContext;
 		SIZE_T renderTargetList[RenderTargetNames::EnumSize];
-
+		HWND hwnd;
 	};
 }
 

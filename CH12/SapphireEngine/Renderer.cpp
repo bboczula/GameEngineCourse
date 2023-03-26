@@ -6,6 +6,7 @@
 #include "GrayscalePass.h"
 #include "DeferredRenderingPass.h"
 #include "LightResolvePass.h"
+#include "ImGuiPass.h"
 
 Sapphire::Renderer::Renderer(HWND hwnd, UINT width, UINT height)
 {
@@ -30,6 +31,9 @@ Sapphire::Renderer::Renderer(HWND hwnd, UINT width, UINT height)
 	// Light Resolve Pass
 	lightResolvePass = new LightResolvePass(renderInterface, width, height);
 
+	// Im GUI Pass
+	imGuiPass = new ImGuiPass(renderInterface, width, height);
+
 	// Setup the connections
 	// Connect resources - this can't be called at runtime
 	forwardRenderingPass->AddInputResource(defferedRenderingPass->GetRenderTarget(0)->GetResource());	// Position Texture
@@ -44,6 +48,7 @@ Sapphire::Renderer::Renderer(HWND hwnd, UINT width, UINT height)
 	renderPasses.push_back(grayscalePass);
 	renderPasses.push_back(defferedRenderingPass);
 	renderPasses.push_back(lightResolvePass);
+	renderPasses.push_back(imGuiPass);
 
 	forwardRenderingPass->SetShadowCamera(shadowMapPass->camera);
 }

@@ -15,6 +15,7 @@ namespace Sapphire
 	class GameObject;
 	class Camera;
 	class RenderPass;
+	class ImGuiPass;
 
 	class Renderer
 	{
@@ -34,5 +35,6 @@ namespace Sapphire
 		GrayscalePass* grayscalePass;
 		DeferredRenderingPass* defferedRenderingPass;
 		LightResolvePass* lightResolvePass;
+		ImGuiPass* imGuiPass;
 	};
 }
