@@ -7,6 +7,8 @@ Sapphire::Engine::Engine(UINT width, UINT height) : WindowApplication{ width, he
 
 	newRenderer = new Renderer(hwnd, width, height);
 
+	imGuiHandler = new ImGuiHandler();
+	Attach(imGuiHandler);
 	input = new RawInput();
 	Attach(input);
 	winMouse = new WinMouse();

@@ -32,7 +32,7 @@ Sapphire::Renderer::Renderer(HWND hwnd, UINT width, UINT height)
 	lightResolvePass = new LightResolvePass(renderInterface, width, height);
 
 	// Im GUI Pass
-	imGuiPass = new ImGuiPass(renderInterface, width, height);
+	imGuiPass = new ImGuiPass(renderInterface, width, height, forwardRenderingPass->GetMultiRenderTarget());
 
 	// Setup the connections
 	// Connect resources - this can't be called at runtime

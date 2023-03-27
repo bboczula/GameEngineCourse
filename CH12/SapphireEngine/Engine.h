@@ -7,6 +7,7 @@
 #include "GameObject.h"
 #include "ModelLoaderSapphire.h"
 #include "RawInput.h"
+#include "ImGuiHandler.h"
 #include "Camera.h"
 #include "WinMouse.h"
 #include "FirstPerson.h"
@@ -43,6 +44,7 @@ namespace Sapphire
         Renderer* newRenderer;
         RawInput* input;
         WinMouse* winMouse;
+        ImGuiHandler* imGuiHandler;
         std::vector<GameObject*> gameObjects;
         ModelLoader* modelLoader;
     };

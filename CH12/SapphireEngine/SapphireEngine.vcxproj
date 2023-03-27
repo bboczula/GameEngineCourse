@@ -42,6 +42,7 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GrayscalePass.h" />
     <ClInclude Include="HardwareCapabilities.h" />
+    <ClInclude Include="ImGuiHandler.h" />
     <ClInclude Include="ImGuiPass.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="LightResolvePass.h" />
@@ -85,6 +86,7 @@
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GrayscalePass.cpp" />
     <ClCompile Include="HardwareCapabilities.cpp" />
+    <ClCompile Include="ImGuiHandler.cpp" />
     <ClCompile Include="ImGuiPass.cpp" />
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="LightResolvePass.cpp" />

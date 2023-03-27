@@ -46,7 +46,10 @@ namespace Sapphire
 			for (unsigned int i = 0; i < multiRenderTarget->Size(); i++)
 			{
 				commandList->TransitionTo(multiRenderTarget->Get(i)->GetResource(), D3D12_RESOURCE_STATE_RENDER_TARGET);
-				commandList->ClearRenderTarget(multiRenderTarget->Get(i), clearColor);
+				if (clearRenderTargets)
+				{
+					commandList->ClearRenderTarget(multiRenderTarget->Get(i), clearColor);
+				}
 			}
 			commandList->SetRenderTarget(multiRenderTarget, depthBuffer);
 			commandList->ClearDepthBuffer(depthBuffer);
@@ -89,6 +92,10 @@ namespace Sapphire
 		{
 			return inputResources[index];
 		}
+		DX12MultiRenderTarget* GetMultiRenderTarget()
+		{
+			return multiRenderTarget;
+		}
 	protected:
 		DX12MultiRenderTarget* multiRenderTarget;
 		std::vector<DX12Resource*> inputResources;
@@ -98,5 +105,6 @@ namespace Sapphire
 		DX12InputLayout* inputLayout;
 		DX12RootSignature* rootSignature;
 		PipelineStateArray pipelineStates;
+		bool clearRenderTargets = true;
 	};
 }

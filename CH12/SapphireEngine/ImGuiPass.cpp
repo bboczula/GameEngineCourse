@@ -10,11 +10,13 @@
 #define USE_PIX
 #include "pix3.h"
 
-Sapphire::ImGuiPass::ImGuiPass(RenderInterface* renderInterface, unsigned int width, unsigned int height)
+Sapphire::ImGuiPass::ImGuiPass(RenderInterface* renderInterface, unsigned int width, unsigned int height, DX12MultiRenderTarget* multiRenderTarget)
 {
-	multiRenderTarget = new DX12MultiRenderTarget();
-	multiRenderTarget->Add(renderInterface->CreateRenderTarget(GrayscaleRT, width, height));
+	// multiRenderTarget = new DX12MultiRenderTarget();
+	// multiRenderTarget->Add(renderInterface->CreateRenderTarget(GrayscaleRT, width, height));
+	this->multiRenderTarget = multiRenderTarget;
 	depthBuffer = renderInterface->CreateDepthBuffer(width, height);
+	clearRenderTargets = false;
 
 	// Create Shaders
 	vertexShader = new DX12Shader("fullscreen_vs.cso");
@@ -37,6 +39,7 @@ Sapphire::ImGuiPass::ImGuiPass(RenderInterface* renderInterface, unsigned int wi
 	ImGuiIO& io = ImGui::GetIO();
 	(void)io;
 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
+	//io.ConfigFlags |= ImGuiConfigFlags_NoMouse;
 
 	// Setup Dear ImGui style
 	ImGui::StyleColorsDark();
@@ -73,13 +76,17 @@ void Sapphire::ImGuiPass::Render(DX12CommandList* commandList, RenderInterface* 
 	ImGui::NewFrame();
 
 	bool show_another_window = false;
+	ImGui::SetNextWindowSize(ImVec2(550, 680), ImGuiCond_Once);
 	ImGui::Begin("Another Window", &show_another_window);   // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
 	ImGui::Text("Hello from another window!");
+	ImGui::Text("And another line");
 	if (ImGui::Button("Close Me"))
 		show_another_window = false;
 	ImGui::End();
 
 	ImGui::Render();
+
+	ImGui::EndFrame();
 
 	// Resource Barrier
 
@@ -87,6 +94,7 @@ void Sapphire::ImGuiPass::Render(DX12CommandList* commandList, RenderInterface* 
 	ImGui_ImplDX12_RenderDrawData(ImGui::GetDrawData(), renderInterface->GetCommandList()->GetCommandList());
 
 	// Resrource Barrier
+
 
 	PIXEndEvent(commandList->GetCommandList());
 }

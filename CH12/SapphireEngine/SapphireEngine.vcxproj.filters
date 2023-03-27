@@ -168,6 +168,9 @@
     <ClInclude Include="EXTERNALS\imgui-master\backends\imgui_impl_win32.h">
       <Filter>External</Filter>
     </ClInclude>
+    <ClInclude Include="ImGuiHandler.h">
+      <Filter>Window</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WindowApplication.cpp">
@@ -277,6 +280,9 @@
     </ClCompile>
     <ClCompile Include="EXTERNALS\imgui-master\backends\imgui_impl_win32.cpp">
       <Filter>External</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGuiHandler.cpp">
+      <Filter>Window</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
