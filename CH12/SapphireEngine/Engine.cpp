@@ -47,7 +47,11 @@ void Sapphire::Engine::RegisterCamera(Camera* camera)
 
 void Sapphire::Engine::LoadModel(GameObject* gameObject, const std::string& filePath, const std::string& groupName)
 {
-	modelLoader->LoadFromFile(filePath);
+	
+	std::string directory = "assets";
+	std::string fullPath = directory + "/" + filePath;
+	Logger::GetInstance().Log("Loading model library %s", fullPath.c_str());
+	modelLoader->LoadFromFile(fullPath);
 
 	// Fetch the group data
 	auto groupOffset = modelLoader->GetGroupOffset(groupName);
@@ -126,6 +130,8 @@ void Sapphire::Engine::LoadModel(GameObject* gameObject, const std::string& file
 	gameObject->indices = outputIndices;
 	gameObject->numOfIndices = groupSize * 3;
 	gameObject->name = groupName;
+
+	Logger::GetInstance().Log("Loaded object %s\n", groupName.c_str());
 }
 
 void Sapphire::Engine::LoadDefaultTexture(GameObject* gameObject)
@@ -152,16 +158,20 @@ void Sapphire::Engine::LoadDefaultTexture(GameObject* gameObject)
 
 void Sapphire::Engine::LoadTextureFromFile(GameObject* gameObject, std::string filePath)
 {
+	
+	std::string directory = "C:/Users/boczu/source/repos/GameEngineCourse/CH12/x64/Release/assets";
+	std::string fullPath = directory + "/" + filePath;
+
 	std::string extension = filePath.substr(filePath.find(".") + 1);
 	Image image;
 	// This condition has to be able to 
 	if (extension.compare("bmp") == 0)
 	{
-		image.loadFromFileBmp(filePath);
+		image.loadFromFileBmp(fullPath);
 	}
 	else if (extension.compare("png") == 0)
 	{
-		image.loadFromFilePng(filePath);
+		image.loadFromFilePng(fullPath);
 	}
 
 	gameObject->textureWidth = image.getWidth();
@@ -188,15 +198,19 @@ void Sapphire::Engine::LoadTextureFromFile(GameObject* gameObject, std::string f
 
 void Sapphire::Engine::LoadBumpMapFromFile(GameObject* gameObject, std::string filePath)
 {
+	//std::filesystem
+	std::string directory = "C:/Users/boczu/source/repos/GameEngineCourse/CH12/x64/Release/assets";
+	std::string fullPath = directory + "/" + filePath;
+
 	std::string extension = filePath.substr(filePath.find(".") + 1);
 	Image image;
 	if (extension.compare("bmp") == 0)
 	{
-		image.loadFromFileBmp(filePath);
+		image.loadFromFileBmp(fullPath);
 	}
 	else if (extension.compare("png") == 0)
 	{
-		image.loadFromFilePng(filePath);
+		image.loadFromFilePng(fullPath);
 	}
 
 	gameObject->bumpMapWidth = image.getWidth();
