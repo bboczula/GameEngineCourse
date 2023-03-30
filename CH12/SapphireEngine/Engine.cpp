@@ -125,6 +125,7 @@ void Sapphire::Engine::LoadModel(GameObject* gameObject, const std::string& file
 	gameObject->numOfVertices = groupSize * 3;
 	gameObject->indices = outputIndices;
 	gameObject->numOfIndices = groupSize * 3;
+	gameObject->name = groupName;
 }
 
 void Sapphire::Engine::LoadDefaultTexture(GameObject* gameObject)

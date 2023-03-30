@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Windows.h>
+#include <string>
 #include "PixelDefinition.h"
 
 namespace Sapphire
@@ -40,6 +41,7 @@ namespace Sapphire
 		UINT bumpMapWidth;
 		UINT bumpMapHeight;
 		DirectX::SimpleMath::Matrix world;
+		std::string name;
 	protected:
 		void CalculateWorldMatrix();
 	private:

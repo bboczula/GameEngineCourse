@@ -76,13 +76,19 @@ void Sapphire::ImGuiPass::Render(DX12CommandList* commandList, RenderInterface* 
 	ImGui::NewFrame();
 
 	bool show_another_window = false;
-	ImGui::SetNextWindowSize(ImVec2(550, 680), ImGuiCond_Once);
-	ImGui::Begin("Another Window", &show_another_window);   // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
-	ImGui::Text("Hello from another window!");
-	ImGui::Text("And another line");
-	if (ImGui::Button("Close Me"))
-		show_another_window = false;
+	ImGui::SetNextWindowPos(ImVec2(0, 0), 0, ImVec2(0, 0));
+	ImGui::SetNextWindowSize(ImVec2(400, 600), ImGuiCond_Once);
+	ImGui::Begin("Game Object Tree", &show_another_window);   // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
+	for (int i = 0; i < objects.size(); i++)
+	{
+		ImGui::Text(objects[i]->name.c_str());
+	}
 	ImGui::End();
+
+	ImGui::SetNextWindowPos(ImVec2(0, 600), 0, ImVec2(0, 0));
+	ImGui::SetNextWindowSize(ImVec2(400, 200), ImGuiCond_Once);
+	ImGui::Begin("Game Object Properties", &show_another_window);
+	ImGui::End();;
 
 	ImGui::Render();
 
