@@ -15,6 +15,7 @@ namespace Sapphire
 		~ImGuiPass();
 		void PreRender(DX12CommandList* commandList) override;
 		void Render(DX12CommandList* commandList, RenderInterface* renderInterface, std::vector<GameObject*> objects) override;
+		void SetupGlobalStyle();
 		void PostRender(DX12CommandList* commandList) override;
 	private:
 		DX12Shader* pixelShader;
