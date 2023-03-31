@@ -1,2 +1,3 @@
 meshLibrary floorUv.obj3d
+sceneName floor
 staticObject Plane_Plane WoodFloorColor.png null-texture

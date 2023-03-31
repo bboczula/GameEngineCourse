@@ -1,5 +1,0 @@
-meshLibrary monkey.obj3d
-staticObject Plane_Mesh 01_STUB.bmp 01_STUB-bump.bmp
-staticObject Monkey_Mesh hair.bmp 01_STUB-bump.bmp
-resolution 1280 720
-camera 0.0 15.0 0.0

@@ -20,9 +20,11 @@ public:
 	void Load(std::string fileName);
 	unsigned int Size();
 	const std::string& GetMeshLibraryPath();
+	const std::string& GetSceneName();
     const ObjectData& GetObjectData(unsigned int index);
 private:
 	void ProcessLine(const std::string& line);
 	std::string meshLibrary;
+	std::string sceneName;
     std::vector<ObjectData> objectData;
 };

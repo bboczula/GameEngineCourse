@@ -1,4 +1,5 @@
 meshLibrary crytekSponza.obj
+sceneName crytekSponza
 staticObject sponza_sponza_vase_round vase_round.bmp vase_round_bump.bmp
 staticObject sponza_sponza_Material__298 background.bmp background_bump.bmp
 staticObject sponza_sponza_bricks spnza_bricks_a_diff.bmp spnza_bricks_a_bump.bmp

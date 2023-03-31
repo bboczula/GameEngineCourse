@@ -33,6 +33,11 @@ const std::string& SceneDescriptor::GetMeshLibraryPath()
     return meshLibrary;
 }
 
+const std::string& SceneDescriptor::GetSceneName()
+{
+      return sceneName;
+}
+
 const ObjectData& SceneDescriptor::GetObjectData(unsigned int index)
 {
     return objectData[index];
@@ -61,6 +66,10 @@ void SceneDescriptor::ProcessLine(const std::string& line)
     if (tokens[0].compare("meshLibrary") == 0)
     {
         meshLibrary = tokens[1];
+    }
+    else if (tokens[0].compare("sceneName") == 0)
+    {
+          sceneName = tokens[1];
     }
     else if(tokens[0].compare("staticObject") == 0)
     {
