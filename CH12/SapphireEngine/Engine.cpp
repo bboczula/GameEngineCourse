@@ -46,10 +46,11 @@ void Sapphire::Engine::RegisterCamera(Camera* camera)
 	newRenderer->SetCamera(camera);
 }
 
-void Sapphire::Engine::LoadModel(GameObject* gameObject, const std::string& filePath, const std::string& groupName)
+void Sapphire::Engine::LoadModel(GameObject* gameObject, const std::string& filePath, std::string sceneName, const std::string& groupName)
 {
 	std::filesystem::path currentPath = std::filesystem::current_path();
 	currentPath.append("assets");
+	currentPath.append(sceneName);
 	currentPath.append(filePath);
 	Logger::GetInstance().Log("Current Directory %s\n", currentPath.string().c_str());
 	modelLoader->LoadFromFile(currentPath.string());
@@ -157,10 +158,11 @@ void Sapphire::Engine::LoadDefaultTexture(GameObject* gameObject)
 	}
 }
 
-void Sapphire::Engine::LoadTextureFromFile(GameObject* gameObject, std::string filePath)
+void Sapphire::Engine::LoadTextureFromFile(GameObject* gameObject, std::string sceneName, std::string filePath)
 {
 	std::filesystem::path currentPath = std::filesystem::current_path();
 	currentPath.append("assets");
+	currentPath.append(sceneName);
 	currentPath.append(filePath);
 
 	std::string extension = currentPath.extension().string();
@@ -197,10 +199,11 @@ void Sapphire::Engine::LoadTextureFromFile(GameObject* gameObject, std::string f
 	}
 }
 
-void Sapphire::Engine::LoadBumpMapFromFile(GameObject* gameObject, std::string filePath)
+void Sapphire::Engine::LoadBumpMapFromFile(GameObject* gameObject, std::string sceneName, std::string filePath)
 {
 	std::filesystem::path currentPath = std::filesystem::current_path();
 	currentPath.append("assets");
+	currentPath.append(sceneName);
 	currentPath.append(filePath);
 
 	std::string extension = currentPath.extension().string();

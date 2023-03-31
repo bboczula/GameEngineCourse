@@ -30,13 +30,13 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
         StaticModel* model = new StaticModel;
         staticModels.push_back(model);
         ObjectData temp = sceneDesc.GetObjectData(i);
-        engine.LoadModel(model, sceneDesc.GetMeshLibraryPath(), temp.name.Get());
+        engine.LoadModel(model, sceneDesc.GetMeshLibraryPath(), "crytekSponza", temp.name.Get());
 
-        engine.LoadTextureFromFile(model, temp.colorTextureName.Get());
+        engine.LoadTextureFromFile(model, "crytekSponza", temp.colorTextureName.Get());
         if (temp.bumpTextureName.Get() != "null-texture")
         {
             std::string bumpTextureExtension = temp.bumpTextureName.Get().substr(temp.bumpTextureName.Get().find(".") + 1);
-            engine.LoadBumpMapFromFile(model, temp.bumpTextureName.Get());
+            engine.LoadBumpMapFromFile(model, "crytekSponza", temp.bumpTextureName.Get());
         }
         engine.Register(model);
     }

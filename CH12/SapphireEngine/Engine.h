@@ -31,10 +31,10 @@ namespace Sapphire
         ~Engine();
         void Register(GameObject* gameObject);
         void RegisterCamera(Camera* camera);
-        void LoadModel(GameObject* gameObject, const std::string& filePath, const std::string& groupName);
+        void LoadModel(GameObject* gameObject, const std::string& filePath, std::string sceneName, const std::string& groupName);
         void LoadDefaultTexture(GameObject* gameObject);
-        void LoadTextureFromFile(GameObject* gameObject, std::string filePath);
-        void LoadBumpMapFromFile(GameObject* gameObject, std::string filePath);
+        void LoadTextureFromFile(GameObject* gameObject, std::string sceneName, std::string filePath);
+        void LoadBumpMapFromFile(GameObject* gameObject, std::string sceneName, std::string filePath);
         RawInput* GetInput();
     private:
         void Initialize() override;
