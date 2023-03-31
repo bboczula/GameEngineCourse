@@ -1,5 +1,6 @@
 #include "Engine.h"
 #include "Renderer.h"
+#include <filesystem>
 
 Sapphire::Engine::Engine(UINT width, UINT height) : WindowApplication{ width, height }, renderer{ nullptr }
 {
@@ -47,11 +48,11 @@ void Sapphire::Engine::RegisterCamera(Camera* camera)
 
 void Sapphire::Engine::LoadModel(GameObject* gameObject, const std::string& filePath, const std::string& groupName)
 {
-	
-	std::string directory = "assets";
-	std::string fullPath = directory + "/" + filePath;
-	Logger::GetInstance().Log("Loading model library %s", fullPath.c_str());
-	modelLoader->LoadFromFile(fullPath);
+	std::filesystem::path currentPath = std::filesystem::current_path();
+	currentPath.append("assets");
+	currentPath.append(filePath);
+	Logger::GetInstance().Log("Current Directory %s\n", currentPath.string().c_str());
+	modelLoader->LoadFromFile(currentPath.string());
 
 	// Fetch the group data
 	auto groupOffset = modelLoader->GetGroupOffset(groupName);
@@ -158,20 +159,20 @@ void Sapphire::Engine::LoadDefaultTexture(GameObject* gameObject)
 
 void Sapphire::Engine::LoadTextureFromFile(GameObject* gameObject, std::string filePath)
 {
-	
-	std::string directory = "C:/Users/boczu/source/repos/GameEngineCourse/CH12/x64/Release/assets";
-	std::string fullPath = directory + "/" + filePath;
+	std::filesystem::path currentPath = std::filesystem::current_path();
+	currentPath.append("assets");
+	currentPath.append(filePath);
 
-	std::string extension = filePath.substr(filePath.find(".") + 1);
+	std::string extension = currentPath.extension().string();
 	Image image;
 	// This condition has to be able to 
-	if (extension.compare("bmp") == 0)
+	if (extension.compare(".bmp") == 0)
 	{
-		image.loadFromFileBmp(fullPath);
+		image.loadFromFileBmp(currentPath.string());
 	}
-	else if (extension.compare("png") == 0)
+	else if (extension.compare(".png") == 0)
 	{
-		image.loadFromFilePng(fullPath);
+		image.loadFromFilePng(currentPath.string());
 	}
 
 	gameObject->textureWidth = image.getWidth();
@@ -198,19 +199,20 @@ void Sapphire::Engine::LoadTextureFromFile(GameObject* gameObject, std::string f
 
 void Sapphire::Engine::LoadBumpMapFromFile(GameObject* gameObject, std::string filePath)
 {
-	//std::filesystem
-	std::string directory = "C:/Users/boczu/source/repos/GameEngineCourse/CH12/x64/Release/assets";
-	std::string fullPath = directory + "/" + filePath;
+	std::filesystem::path currentPath = std::filesystem::current_path();
+	currentPath.append("assets");
+	currentPath.append(filePath);
 
-	std::string extension = filePath.substr(filePath.find(".") + 1);
+	std::string extension = currentPath.extension().string();
 	Image image;
-	if (extension.compare("bmp") == 0)
+	// This condition has to be able to 
+	if (extension.compare(".bmp") == 0)
 	{
-		image.loadFromFileBmp(fullPath);
+		image.loadFromFileBmp(currentPath.string());
 	}
-	else if (extension.compare("png") == 0)
+	else if (extension.compare(".png") == 0)
 	{
-		image.loadFromFilePng(fullPath);
+		image.loadFromFilePng(currentPath.string());
 	}
 
 	gameObject->bumpMapWidth = image.getWidth();
