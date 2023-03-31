@@ -1,0 +1,4 @@
+meshLibrary house.obj3d
+sceneName house
+staticObject House_Mesh wall.png null-texture
+staticObject Plane_Mesh asphalt.png null-texture

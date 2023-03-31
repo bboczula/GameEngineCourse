@@ -22,7 +22,8 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
     // LoadScene
     SceneDescriptor sceneDesc;
     //sceneDesc.Load("crytekSponza.scene");
-    sceneDesc.Load("floor.scene");
+    //sceneDesc.Load("floor.scene");
+    sceneDesc.Load("house.scene");
     auto sceneName = sceneDesc.GetSceneName();
 
     std::vector<StaticModel*> staticModels;
