@@ -120,6 +120,9 @@ void Sapphire::ImGuiPass::Render(DX12CommandList* commandList, RenderInterface* 
 	ImGui::Begin("Game Object Properties", &show_another_window);
 	if (node_clicked >= 0)
 	{
+		bool isVisible = objects[node_clicked]->GetIsVisible();
+		ImGui::Checkbox("IsVisible: ", &isVisible);
+		objects[node_clicked]->SetIsVisible(isVisible);
 		ImGui::Text("Name: %s", objects[node_clicked]->name.c_str());
 		ImGui::Text("Indices: %d", objects[node_clicked]->numOfIndices);
 		ImGui::Text("Vertices: %d", objects[node_clicked]->numOfVertices);
