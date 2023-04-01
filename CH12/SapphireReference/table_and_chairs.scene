@@ -1,0 +1,18 @@
+meshLibrary table_and_chairs.obj3d
+sceneName table
+staticObject Chair_1_Mesh western-red-cedar-1.png null-texture
+staticObject Chair_2_Mesh western-red-cedar-1.png null-texture
+staticObject Chair_3_Mesh western-red-cedar-1.png null-texture
+staticObject Chair_4_Mesh western-red-cedar-1.png null-texture
+staticObject Chair_5_Mesh western-red-cedar-1.png null-texture
+staticObject Chair_6_Mesh western-red-cedar-1.png null-texture
+staticObject Bottle_1_Mesh bottle-glass.png null-texture
+staticObject Bottle_2_Mesh bottle-glass.png null-texture
+staticObject Bowl_1_Mesh birch-plywood.png null-texture
+staticObject Bowl_2_Mesh birch-plywood.png null-texture
+staticObject Plane_Mesh wooden_floor_1.png null-texture
+staticObject Flat_Mesh oak_1.png null-texture
+staticObject Leg_1_Mesh oak_1.png null-texture
+staticObject Leg_2_Mesh oak_1.png null-texture
+staticObject Leg_3_Mesh oak_1.png null-texture
+staticObject Leg_4_Mesh oak_1.png null-texture
