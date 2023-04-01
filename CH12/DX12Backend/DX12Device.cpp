@@ -3,10 +3,15 @@
 #include "DX12Device.h"
 #include "Utils.h"
 
-Sapphire::DX12Device::DX12Device(IDXGIAdapter1* adapter)
+Sapphire::DX12Device::DX12Device(IDXGIAdapter1* adapter, bool enableDebugLayer)
 {
 #if _DEBUG
 	EnableDebugLayer();
+#else
+	if (enableDebugLayer)
+	{
+		EnableDebugLayer();
+	}
 #endif
 
 	AExitIfFailed(D3D12CreateDevice(adapter, D3D_FEATURE_LEVEL_11_0, IID_PPV_ARGS(&device)));

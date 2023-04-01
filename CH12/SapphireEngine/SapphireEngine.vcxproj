@@ -61,6 +61,7 @@
     <ClInclude Include="RenderPass.h" />
     <ClInclude Include="ShadowMapPass.h" />
     <ClInclude Include="SimpleMath.h" />
+    <ClInclude Include="TConfigVariable.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="VertexDefinition.h" />
     <ClInclude Include="WindowApplication.h" />

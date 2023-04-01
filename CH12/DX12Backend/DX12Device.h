@@ -22,11 +22,11 @@ namespace Sapphire
 	class GPUAPI_DX12_API DX12Device
 	{
 	public:
-		DX12Device(IDXGIAdapter1* adapter);
+		DX12Device(IDXGIAdapter1* adapter, bool enableDebugLayer);
 		~DX12Device();
 		ID3D12Device* GetDevice();
-	private:
 		void EnableDebugLayer();
+	private:
 		ID3D12Device* device;
 	};
 }
