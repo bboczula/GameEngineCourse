@@ -86,6 +86,10 @@ void Sapphire::ShadowMapPass::Render(DX12CommandList* commandList, RenderInterfa
 	// This could potentially be Render Pass
 	for (int i = 0; i < objects.size(); i++)
 	{
+		if (!objects[i]->GetIsVisible())
+		{
+			continue;
+		}
 		if (objects[i]->numOfVertices != 0)
 		{
 			commandList->SetConstantBuffer(1, 16, &objects[i]->world);

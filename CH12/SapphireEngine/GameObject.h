@@ -25,6 +25,8 @@ namespace Sapphire
 		void SetRotate(float x, float y, float z);
 		void SetScale(float x, float y, float z);
 		void SetPosition(float x, float y, float z);
+		bool GetIsVisible();
+		void SetIsVisible(bool isVisible);
 		// START: Flexible Vertex Buffers (FVB) !--
 		DirectX::SimpleMath::Vector4* position;
 		DirectX::SimpleMath::Vector4* normal;
@@ -57,5 +59,6 @@ namespace Sapphire
 		DirectX::SimpleMath::Vector3 rotation;
 		DirectX::SimpleMath::Vector3 scale;
 		DirectX::SimpleMath::Vector3 translation;
+		bool isVisible;
 	};
 }

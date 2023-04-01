@@ -58,6 +58,10 @@ void Sapphire::DeferredRenderingPass::Render(DX12CommandList* commandList, Rende
 	PIXBeginEvent(commandList->GetCommandList(), PIX_COLOR(255, 255, 255), "DeferredRenderingPass");
 	for (int i = 0; i < objects.size(); i++)
 	{
+		if (!objects[i]->GetIsVisible())
+		{
+			continue;
+		}
 		if (objects[i]->numOfVertices != 0)
 		{
 			commandList->SetConstantBuffer(1, 16, &objects[i]->world);

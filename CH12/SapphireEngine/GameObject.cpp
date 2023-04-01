@@ -1,7 +1,7 @@
 #include "GameObject.h"
 
 Sapphire::GameObject::GameObject() : numOfVertices{ 0 }, indices{ nullptr }, numOfIndices{ 0 }, texture{ nullptr },
-rotation{ 0.0f, 0.0f, 0.0f }, scale{ 1.0f, 1.0f, 1.0f }, translation{ 0.0f, 0.0f, 0.0f }
+rotation{ 0.0f, 0.0f, 0.0f }, scale{ 1.0f, 1.0f, 1.0f }, translation{ 0.0f, 0.0f, 0.0f }, isVisible { true }
 {
 	CalculateWorldMatrix();
 }
@@ -49,4 +49,14 @@ void Sapphire::GameObject::SetScale(float x, float y, float z)
 void Sapphire::GameObject::SetPosition(float x, float y, float z)
 {
 	translation = { x, y, z };
+}
+
+bool Sapphire::GameObject::GetIsVisible()
+{
+	return isVisible;
+}
+
+void Sapphire::GameObject::SetIsVisible(bool isVisible)
+{
+	this->isVisible = isVisible;
 }
