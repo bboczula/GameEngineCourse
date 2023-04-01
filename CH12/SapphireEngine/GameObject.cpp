@@ -60,3 +60,24 @@ void Sapphire::GameObject::SetIsVisible(bool isVisible)
 {
 	this->isVisible = isVisible;
 }
+
+DirectX::SimpleMath::Vector3 Sapphire::GameObject::GetTranslation()
+{
+	return translation;
+}
+
+void Sapphire::GameObject::SetTranslation(float x, float y, float z)
+{
+	translation = { x, y, z };
+	//translation.x = x;
+}
+
+DirectX::SimpleMath::Vector3 Sapphire::GameObject::GetScale()
+{
+	return scale;
+}
+
+DirectX::SimpleMath::Vector3 Sapphire::GameObject::GetRotate()
+{
+	return rotation;
+}

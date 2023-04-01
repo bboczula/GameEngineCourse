@@ -15,7 +15,7 @@ public:
     }
     void Initialize() override
     {
-        SetScale(0.5f, 0.5f, 0.5f);
+        //SetScale(0.5f, 0.5f, 0.5f);
     }
     void Update(float deltaTime) override
     {

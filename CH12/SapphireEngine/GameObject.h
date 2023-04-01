@@ -27,6 +27,11 @@ namespace Sapphire
 		void SetPosition(float x, float y, float z);
 		bool GetIsVisible();
 		void SetIsVisible(bool isVisible);
+		DirectX::SimpleMath::Vector3 GetTranslation();
+		void SetTranslation(float x, float y, float z);
+		DirectX::SimpleMath::Vector3 GetScale();
+		DirectX::SimpleMath::Vector3 GetRotate();
+		//void SetScale(float x, float y, float z);
 		// START: Flexible Vertex Buffers (FVB) !--
 		DirectX::SimpleMath::Vector4* position;
 		DirectX::SimpleMath::Vector4* normal;
@@ -44,7 +49,6 @@ namespace Sapphire
 		UINT bumpMapHeight;
 		DirectX::SimpleMath::Matrix world;
 		std::string name;
-	protected:
 		void CalculateWorldMatrix();
 	private:
 		// START: Flexible Vertex Buffers (FVB) !--

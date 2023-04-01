@@ -116,8 +116,9 @@ void Sapphire::ImGuiPass::Render(DX12CommandList* commandList, RenderInterface* 
 	ImGui::End();
 
 	ImGui::SetNextWindowPos(ImVec2(0, 600), 0, ImVec2(0, 0));
-	ImGui::SetNextWindowSize(ImVec2(400, 200), ImGuiCond_Once);
+	ImGui::SetNextWindowSize(ImVec2(400, 400), ImGuiCond_Once);
 	ImGui::Begin("Game Object Properties", &show_another_window);
+	//DirectX::SimpleMath::Vector3 translation;
 	if (node_clicked >= 0)
 	{
 		bool isVisible = objects[node_clicked]->GetIsVisible();
@@ -126,7 +127,34 @@ void Sapphire::ImGuiPass::Render(DX12CommandList* commandList, RenderInterface* 
 		ImGui::Text("Name: %s", objects[node_clicked]->name.c_str());
 		ImGui::Text("Indices: %d", objects[node_clicked]->numOfIndices);
 		ImGui::Text("Vertices: %d", objects[node_clicked]->numOfVertices);
-		ImGui::Text("Position: (%f, %f, %f)", objects[node_clicked]->position->x, objects[node_clicked]->position->y, objects[node_clicked]->position->z);
+		auto translation = objects[node_clicked]->GetTranslation();
+		float x = translation.x;
+		float y = translation.y;
+		float z = translation.z;
+		ImGui::Text("Position:");
+		ImGui::InputFloat("x: ", &x, 0.1f, 0.5f);
+		ImGui::InputFloat("y: ", &y, 0.1f, 0.5f);
+		ImGui::InputFloat("z: ", &z, 0.1f, 0.5f);
+		objects[node_clicked]->SetTranslation(x, y, z);
+		auto scale = objects[node_clicked]->GetScale();
+		float sx = scale.x;
+		float sy = scale.y;
+		float sz = scale.z;
+		ImGui::Text("Scale:");
+		ImGui::InputFloat("sx: ", &sx, 0.1f, 0.5f);
+		ImGui::InputFloat("sy: ", &sy, 0.1f, 0.5f);
+		ImGui::InputFloat("sz: ", &sz, 0.1f, 0.5f);
+		objects[node_clicked]->SetScale(sx, sy, sz);
+		auto rotate = objects[node_clicked]->GetRotate();
+		float rx = rotate.x;
+		float ry = rotate.y;
+		float rz = rotate.z;
+		ImGui::Text("Rotation:");
+		ImGui::InputFloat("rx: ", &rx, 0.1f, 0.5f);
+		ImGui::InputFloat("ry: ", &ry, 0.1f, 0.5f);
+		ImGui::InputFloat("rz: ", &rz, 0.1f, 0.5f);
+		objects[node_clicked]->SetRotate(rx, ry, rz);
+		objects[node_clicked]->CalculateWorldMatrix();
 		ImGui::Text("Color Texture: %d x %d", objects[node_clicked]->textureWidth, objects[node_clicked]->textureHeight);
 		ImGui::Text("Bump Texture: %d x %d", objects[node_clicked]->bumpMapWidth, objects[node_clicked]->bumpMapHeight);
 	}
