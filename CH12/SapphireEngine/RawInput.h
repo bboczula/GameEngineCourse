@@ -19,8 +19,12 @@ public:
 	long getMouseXDelta();
 	long getMouseYDelta();
 	bool isKeyDown(WPARAM virtualKeyCode);
+	bool wasKeyDown(WPARAM virtualKeyCode);
 private:
-	long deltaX, deltaY;
+	void HandleKeyboardInput(const RAWINPUT& rawInput);
+	void HandleMouseInput(const RAWINPUT& rawInput);
 	BOOL virtualKeyState[MAX_NUM_OF_KEYS];
+	BOOL prevVirtualKeyState[MAX_NUM_OF_KEYS];
+	std::pair<LONG, LONG> mouseDelta;
 	std::vector<BYTE> rawBuffer;
 };

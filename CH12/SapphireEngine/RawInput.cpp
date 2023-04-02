@@ -6,44 +6,42 @@ void RawInput::Handle(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
     {
     case WM_INPUT:
     {
-#if 1
         UINT dwSize = { 0 };
         GetRawInputData((HRAWINPUT)lParam, RID_INPUT, NULL, &dwSize, sizeof(RAWINPUTHEADER));
 
         rawBuffer.resize(dwSize);
         GetRawInputData((HRAWINPUT)lParam, RID_INPUT, rawBuffer.data(), &dwSize, sizeof(RAWINPUTHEADER));
 
-        // You can check for GetRawInputData return value for errors
-
-        auto& ri = reinterpret_cast<const RAWINPUT&>(*rawBuffer.data());
-        ri.data.mouse;
-
-        if (ri.header.dwType == RIM_TYPEKEYBOARD)
+        auto& rawInput = reinterpret_cast<const RAWINPUT&>(*rawBuffer.data());
+        if (rawInput.header.dwType == RIM_TYPEKEYBOARD)
         {
-            // std::cout << "Keyboard: makeCode: " << raw->data.keyboard.MakeCode << ", flags: " << raw->data.keyboard.Flags << ", reserved: " << raw->data.keyboard.Reserved << ", extraInformation: " << raw->data.keyboard.ExtraInformation << ", message: " << raw->data.keyboard.Message << ", vKey: " << raw->data.keyboard.VKey << std::endl;
-            if (ri.data.keyboard.Flags == 0)
-            {
-                virtualKeyState[ri.data.keyboard.VKey] = true;
-            }
-            else
-            {
-                virtualKeyState[ri.data.keyboard.VKey] = false;
-            }
+              HandleKeyboardInput(rawInput);
         }
-        else if (ri.header.dwType == RIM_TYPEMOUSE)
+        else if (rawInput.header.dwType == RIM_TYPEMOUSE)
         {
-            //std::cout << "Mouse: usFlags: " << raw->data.mouse.usFlags << ", ulButtons: " << raw->data.mouse.ulButtons << ", usButtonFlags: " << raw->data.mouse.usButtonFlags << ", usButtonData: " << raw->data.mouse.usButtonData << ", ulRawButtons: " << raw->data.mouse.ulRawButtons << ", lastX: " << raw->data.mouse.lLastX << ", lastY: " << raw->data.mouse.lLastY << ", extraInfo: " << raw->data.mouse.ulExtraInformation << std::endl;
-            auto tempDeltaX = ri.data.mouse.lLastX;
-            auto tempDeltaY = ri.data.mouse.lLastY;
-            deltaX += tempDeltaX;
-            deltaY += tempDeltaY;
-            // Sapphire::Logger::GetInstance().Log("WM_INPUT(%d, %d) delta(%d, %d)\n", tempDeltaX, tempDeltaY, deltaX, deltaY);
+              HandleMouseInput(rawInput);
         }
-#else
-#endif
-        break;
     }
     }
+}
+
+void RawInput::HandleKeyboardInput(const RAWINPUT& rawInput)
+{
+      prevVirtualKeyState[rawInput.data.keyboard.VKey] = virtualKeyState[rawInput.data.keyboard.VKey];
+      if (rawInput.data.keyboard.Flags == 0)
+      {
+            virtualKeyState[rawInput.data.keyboard.VKey] = true;
+      }
+      else
+      {
+            virtualKeyState[rawInput.data.keyboard.VKey] = false;
+      }
+}
+
+void RawInput::HandleMouseInput(const RAWINPUT& rawInput)
+{
+      mouseDelta.first += rawInput.data.mouse.lLastX;
+      mouseDelta.second += rawInput.data.mouse.lLastY;
 }
 
 void RawInput::Initialize()
@@ -72,21 +70,26 @@ void RawInput::Initialize()
 
 void RawInput::PostFrame()
 {
-    deltaX = 0;
-    deltaY = 0;
+    mouseDelta.first = 0;
+    mouseDelta.second = 0;
 }
 
 long RawInput::getMouseXDelta()
 {
-    return deltaX;
+    return mouseDelta.first;
 }
 
 long RawInput::getMouseYDelta()
 {
-    return deltaY;
+    return mouseDelta.second;
 }
 
 bool RawInput::isKeyDown(WPARAM virtualKeyCode)
 {
     return virtualKeyState[virtualKeyCode];
+}
+
+bool RawInput::wasKeyDown(WPARAM virtualKeyCode)
+{
+    return prevVirtualKeyState[virtualKeyCode] and !virtualKeyState[virtualKeyCode];
 }
