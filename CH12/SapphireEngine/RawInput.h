@@ -16,10 +16,10 @@ public:
 	void Handle(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) override;
 	void Initialize() override;
 	void PostFrame() override;
-	long getMouseXDelta();
-	long getMouseYDelta();
-	bool isKeyDown(WPARAM virtualKeyCode);
-	bool wasKeyDown(WPARAM virtualKeyCode);
+	long GetMouseXDelta();
+	long GetMouseYDelta();
+	bool IsKeyDown(WPARAM virtualKeyCode);
+	bool WasKeyDown(WPARAM virtualKeyCode);
 private:
 	void HandleKeyboardInput(const RAWINPUT& rawInput);
 	void HandleMouseInput(const RAWINPUT& rawInput);

@@ -14,19 +14,19 @@ public:
     }
     void Update(float deltaTime) override
     {
-        if (input->isKeyDown(0x53))
+        if (input->IsKeyDown(0x53))
         {
             camera->MoveForward(-0.1f);
         }
-        if (input->isKeyDown(0x57))
+        if (input->IsKeyDown(0x57))
         {
             camera->MoveBackward(-0.1f);
         }
-        if (input->isKeyDown(0x44))
+        if (input->IsKeyDown(0x44))
         {
             camera->MoveRight(0.1f);
         }
-        if (input->isKeyDown(0x41))
+        if (input->IsKeyDown(0x41))
         {
             camera->MoveLeft(0.1f);
         }
@@ -34,7 +34,7 @@ public:
         // For now this have to be after position changes :/ Maybe I have to add some PostUpdate virtual method or something
         //camera->Yaw(input->getMouseXDelta() * -0.5f);
         //camera->Pitch(input->getMouseYDelta() * 0.5f);
-        camera->Rotate(input->getMouseYDelta() * -0.5f, input->getMouseXDelta() * -0.5f, 0.0f);
+        camera->Rotate(input->GetMouseYDelta() * -0.5f, input->GetMouseXDelta() * -0.5f, 0.0f);
     }
 private:
     Sapphire::CameraControler* camera;

@@ -74,22 +74,22 @@ void RawInput::PostFrame()
     mouseDelta.second = 0;
 }
 
-long RawInput::getMouseXDelta()
+long RawInput::GetMouseXDelta()
 {
     return mouseDelta.first;
 }
 
-long RawInput::getMouseYDelta()
+long RawInput::GetMouseYDelta()
 {
     return mouseDelta.second;
 }
 
-bool RawInput::isKeyDown(WPARAM virtualKeyCode)
+bool RawInput::IsKeyDown(WPARAM virtualKeyCode)
 {
     return virtualKeyState[virtualKeyCode];
 }
 
-bool RawInput::wasKeyDown(WPARAM virtualKeyCode)
+bool RawInput::WasKeyDown(WPARAM virtualKeyCode)
 {
     return prevVirtualKeyState[virtualKeyCode] and !virtualKeyState[virtualKeyCode];
 }

@@ -265,7 +265,7 @@ void Sapphire::Engine::Initialize()
 void Sapphire::Engine::Tick()
 {
 	// Check for Esc key
-	if (input->isKeyDown(VK_ESCAPE))
+	if (input->IsKeyDown(VK_ESCAPE))
 	{
 		exit(0);
 	}
