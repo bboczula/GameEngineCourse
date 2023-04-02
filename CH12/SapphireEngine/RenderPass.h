@@ -5,6 +5,7 @@
 #include "../DX12Backend/DX12MultiRenderTarget.h"
 #include "../DX12Backend/DX12PipelineState.h"
 #include <vector>
+#include <assert.h>
 
 #include "FixedArray.h"
 
@@ -27,11 +28,14 @@ namespace Sapphire
 		virtual void PostRender(DX12CommandList* commandList) = 0;
 		void Setup(DX12CommandList* commandList)
 		{
-			// Check if you have any Render Targets
-			if (multiRenderTarget->Size() == 0)
-			{
-				return;
-			}
+			// Each Render Pass has to have Multi Render Target
+			assert(multiRenderTarget);
+
+			// Each Multi Render Target has to have at least one Render Target
+			assert(multiRenderTarget->Size() > 0);
+
+			// Each Render Pass has to have Depth Buffer
+			assert(depthBuffer);
 			
 			// Barrier for all input resources
 			for (unsigned int i = 0; i < inputResources.size(); i++)
@@ -41,8 +45,6 @@ namespace Sapphire
 
 			// Setup the mandatory resources
 			const float clearColor[] = { 0.1176f, 0.1882f, 0.4470f, 1.0f };
-			// Why do you really need this transition? Ah, ok, maybe because sometimes this resource might transition to other state in different passes
-			// This is conditional though, should be denoted
 			for (unsigned int i = 0; i < multiRenderTarget->Size(); i++)
 			{
 				commandList->TransitionTo(multiRenderTarget->Get(i)->GetResource(), D3D12_RESOURCE_STATE_RENDER_TARGET);
@@ -54,11 +56,6 @@ namespace Sapphire
 			commandList->SetRenderTarget(multiRenderTarget, depthBuffer);
 			commandList->ClearDepthBuffer(depthBuffer);
 			commandList->SetPipelineState(pipelineStates[0],rootSignature);
-
-			// Here you can bind the input resources to necessary slots
-			// Or maybe you can have a map where named resource has GPU_Handles
-			// For example like this:
-			// commandList->SetTexture(4, renderInterface->GetSrvDescriptor(depthMap->GetDescriptorIndex()));
 		}
 		void Teardown(DX12CommandList* commandList)
 		{
@@ -75,14 +72,6 @@ namespace Sapphire
 		DX12DepthBuffer* GetDepthBuffer()
 		{
 			return depthBuffer;
-		}
-		bool HasRenderTarget()
-		{
-			return multiRenderTarget->Get(0) != nullptr;
-		}
-		bool HasDepthBuffer()
-		{
-			return depthBuffer != nullptr;
 		}
 		void AddInputResource(DX12Resource* resource)
 		{
