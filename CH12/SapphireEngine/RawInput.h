@@ -27,4 +27,5 @@ private:
 	BOOL prevVirtualKeyState[MAX_NUM_OF_KEYS];
 	std::pair<LONG, LONG> mouseDelta;
 	std::vector<BYTE> rawBuffer;
+	std::pair<BOOL, USHORT> clearNextFrame;
 };

@@ -2,7 +2,7 @@
 #include "Renderer.h"
 #include <filesystem>
 
-Sapphire::Engine::Engine(UINT width, UINT height) : WindowApplication{ width, height }, renderer{ nullptr }
+Sapphire::Engine::Engine(UINT width, UINT height) : WindowApplication{ width, height }, renderer{ nullptr }, isPaused { false }
 {
 	Logger::GetInstance().Log("%s", "Sapphire::Engine::Engine()\n");
 
@@ -265,15 +265,23 @@ void Sapphire::Engine::Initialize()
 void Sapphire::Engine::Tick()
 {
 	// Check for Esc key
-	if (input->IsKeyDown(VK_ESCAPE))
+	if (input->WasKeyDown(VK_TAB))
+	{
+		Logger::GetInstance().Log("WasKeyDown\n");
+		isPaused = !isPaused;
+	}
+	else if (input->IsKeyDown(VK_ESCAPE))
 	{
 		exit(0);
 	}
 
 	// Update all game objects
-	for (int i = 0; i < gameObjects.size(); i++)
+	if (!isPaused)
 	{
-		gameObjects[i]->Update(0.0f);
+		for (int i = 0; i < gameObjects.size(); i++)
+		{
+			gameObjects[i]->Update(0.0f);
+		}
 	}
 
 	// Render from Render Context

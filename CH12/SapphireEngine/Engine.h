@@ -47,5 +47,6 @@ namespace Sapphire
         ImGuiHandler* imGuiHandler;
         std::vector<GameObject*> gameObjects;
         ModelLoader* modelLoader;
+        bool isPaused;
     };
 }

@@ -2,39 +2,41 @@
 
 void RawInput::Handle(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-    switch (msg)
-    {
-    case WM_INPUT:
-    {
-        UINT dwSize = { 0 };
-        GetRawInputData((HRAWINPUT)lParam, RID_INPUT, NULL, &dwSize, sizeof(RAWINPUTHEADER));
+	switch (msg)
+	{
+	case WM_INPUT:
+	{
+		UINT dwSize = { 0 };
+		GetRawInputData((HRAWINPUT)lParam, RID_INPUT, NULL, &dwSize, sizeof(RAWINPUTHEADER));
 
-        rawBuffer.resize(dwSize);
-        GetRawInputData((HRAWINPUT)lParam, RID_INPUT, rawBuffer.data(), &dwSize, sizeof(RAWINPUTHEADER));
+		rawBuffer.resize(dwSize);
+		GetRawInputData((HRAWINPUT)lParam, RID_INPUT, rawBuffer.data(), &dwSize, sizeof(RAWINPUTHEADER));
 
-        auto& rawInput = reinterpret_cast<const RAWINPUT&>(*rawBuffer.data());
-        if (rawInput.header.dwType == RIM_TYPEKEYBOARD)
-        {
-              HandleKeyboardInput(rawInput);
-        }
-        else if (rawInput.header.dwType == RIM_TYPEMOUSE)
-        {
-              HandleMouseInput(rawInput);
-        }
-    }
-    }
+		auto& rawInput = reinterpret_cast<const RAWINPUT&>(*rawBuffer.data());
+		if (rawInput.header.dwType == RIM_TYPEKEYBOARD)
+		{
+			HandleKeyboardInput(rawInput);
+		}
+		else if (rawInput.header.dwType == RIM_TYPEMOUSE)
+		{
+			HandleMouseInput(rawInput);
+		}
+	}
+	}
 }
 
 void RawInput::HandleKeyboardInput(const RAWINPUT& rawInput)
 {
-      prevVirtualKeyState[rawInput.data.keyboard.VKey] = virtualKeyState[rawInput.data.keyboard.VKey];
+      auto virtualKey = rawInput.data.keyboard.VKey;
+      prevVirtualKeyState[virtualKey] = virtualKeyState[virtualKey];
       if (rawInput.data.keyboard.Flags == 0)
       {
-            virtualKeyState[rawInput.data.keyboard.VKey] = true;
+            virtualKeyState[virtualKey] = true;
       }
       else
       {
-            virtualKeyState[rawInput.data.keyboard.VKey] = false;
+            virtualKeyState[virtualKey] = false;
+            clearNextFrame = { true, virtualKey };
       }
 }
 
@@ -72,6 +74,12 @@ void RawInput::PostFrame()
 {
     mouseDelta.first = 0;
     mouseDelta.second = 0;
+
+    if (clearNextFrame.first)
+    {
+	    prevVirtualKeyState[clearNextFrame.second] = false;
+	    clearNextFrame = { false, 0 };
+    }
 }
 
 long RawInput::GetMouseXDelta()
@@ -91,5 +99,5 @@ bool RawInput::IsKeyDown(WPARAM virtualKeyCode)
 
 bool RawInput::WasKeyDown(WPARAM virtualKeyCode)
 {
-    return prevVirtualKeyState[virtualKeyCode] and !virtualKeyState[virtualKeyCode];
+    return (prevVirtualKeyState[virtualKeyCode] && !virtualKeyState[virtualKeyCode]);
 }
