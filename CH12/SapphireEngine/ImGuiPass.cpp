@@ -121,9 +121,28 @@ void Sapphire::ImGuiPass::Render(DX12CommandList* commandList, RenderInterface* 
 	//DirectX::SimpleMath::Vector3 translation;
 	if (node_clicked >= 0)
 	{
-		bool isVisible = objects[node_clicked]->GetIsVisible();
-		ImGui::Checkbox("IsVisible: ", &isVisible);
-		objects[node_clicked]->SetIsVisible(isVisible);
+		// struct GameObjectProperty
+		// {
+		//	BOOL isEditable;
+		//	TYPE type; // BOOL, FLOAT3, INT3, STRING, LABEL
+		//	STRING name/label;
+		//	PTR* update;
+		//	Callback Function to update value
+		// }
+		// Is it possible to automate this?
+		// You have a list of properties, BOOL, FLOAT3, INT2, STRING and so on
+		// For each property
+		//   Check if it is editeable or not
+		// if(property.type == BOOL)
+		//   bool temp = property.GetBoundValue();
+		//   ImGui::Checkbox(property.GetLabel(), &temp);
+		//   callback function?
+		// bool isVisible = objects[node_clicked]->GetIsVisible();
+		// ImGui::Checkbox("IsVisible: ", &isVisible);
+		// objects[node_clicked]->SetIsVisible(isVisible);
+
+		ImGui::Checkbox(objects[node_clicked]->metaIsVisible.GetName(), &objects[node_clicked]->metaIsVisible.value);
+
 		ImGui::Text("Name: %s", objects[node_clicked]->name.c_str());
 		ImGui::Text("Indices: %d", objects[node_clicked]->numOfIndices);
 		ImGui::Text("Vertices: %d", objects[node_clicked]->numOfVertices);
@@ -136,15 +155,18 @@ void Sapphire::ImGuiPass::Render(DX12CommandList* commandList, RenderInterface* 
 		ImGui::InputFloat("y: ", &y, 0.1f, 0.5f);
 		ImGui::InputFloat("z: ", &z, 0.1f, 0.5f);
 		objects[node_clicked]->SetTranslation(x, y, z);
-		auto scale = objects[node_clicked]->GetScale();
-		float sx = scale.x;
-		float sy = scale.y;
-		float sz = scale.z;
-		ImGui::Text("Scale:");
-		ImGui::InputFloat("sx: ", &sx, 0.1f, 0.5f);
-		ImGui::InputFloat("sy: ", &sy, 0.1f, 0.5f);
-		ImGui::InputFloat("sz: ", &sz, 0.1f, 0.5f);
-		objects[node_clicked]->SetScale(sx, sy, sz);
+		//auto scale = objects[node_clicked]->GetScale();
+		//float sx = scale.x;
+		//float sy = scale.y;
+		//float sz = scale.z;
+		//ImGui::Text("Scale:");
+		//ImGui::InputFloat("sx: ", &sx, 0.1f, 0.5f);
+		//ImGui::InputFloat("sy: ", &sy, 0.1f, 0.5f);
+		//ImGui::InputFloat("sz: ", &sz, 0.1f, 0.5f);
+		//objects[node_clicked]->SetScale(sx, sy, sz);
+		ImGui::InputFloat(objects[node_clicked]->metaScaleX.GetName(), &objects[node_clicked]->metaScaleX.value, 0.1f, 0.5f);
+		ImGui::InputFloat(objects[node_clicked]->metaScaleY.GetName(), &objects[node_clicked]->metaScaleY.value, 0.1f, 0.5f);
+		ImGui::InputFloat(objects[node_clicked]->metaScaleZ.GetName(), &objects[node_clicked]->metaScaleZ.value, 0.1f, 0.5f);
 		auto rotate = objects[node_clicked]->GetRotate();
 		float rx = rotate.x;
 		float ry = rotate.y;

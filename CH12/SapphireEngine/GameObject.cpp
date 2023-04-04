@@ -1,7 +1,7 @@
 #include "GameObject.h"
 
 Sapphire::GameObject::GameObject() : numOfVertices{ 0 }, indices{ nullptr }, numOfIndices{ 0 }, texture{ nullptr },
-rotation{ 0.0f, 0.0f, 0.0f }, scale{ 1.0f, 1.0f, 1.0f }, translation{ 0.0f, 0.0f, 0.0f }, isVisible { true }
+rotation{ 0.0f, 0.0f, 0.0f }, scale{ 1.0f, 1.0f, 1.0f }, translation{ 0.0f, 0.0f, 0.0f }//, isVisible { true }
 {
 	CalculateWorldMatrix();
 }
@@ -22,7 +22,7 @@ void Sapphire::GameObject::Update(float deltaTime)
 void Sapphire::GameObject::CalculateWorldMatrix()
 {
 	DirectX::SimpleMath::Matrix scaleMatrix;
-	scaleMatrix = scaleMatrix.CreateScale(scale);
+	scaleMatrix = scaleMatrix.CreateScale(DirectX::SimpleMath::Vector3( metaScaleX.value, metaScaleY.value, metaScaleZ.value ));
 
 	DirectX::SimpleMath::Matrix rotationMatrix;
 	rotationMatrix = rotationMatrix.CreateRotationX(rotation.x * 3.1415 / 180.0f);
@@ -43,6 +43,9 @@ void Sapphire::GameObject::SetRotate(float x, float y, float z)
 
 void Sapphire::GameObject::SetScale(float x, float y, float z)
 {
+	metaScaleX.value = x;
+	metaScaleY.value = y;
+	metaScaleZ.value = z;
 	scale = { x, y, z };
 }
 
@@ -51,15 +54,15 @@ void Sapphire::GameObject::SetPosition(float x, float y, float z)
 	translation = { x, y, z };
 }
 
-bool Sapphire::GameObject::GetIsVisible()
-{
-	return isVisible;
-}
-
-void Sapphire::GameObject::SetIsVisible(bool isVisible)
-{
-	this->isVisible = isVisible;
-}
+//bool Sapphire::GameObject::GetIsVisible()
+//{
+//	return isVisible;
+//}
+//
+//void Sapphire::GameObject::SetIsVisible(bool isVisible)
+//{
+//	this->isVisible = isVisible;
+//}
 
 DirectX::SimpleMath::Vector3 Sapphire::GameObject::GetTranslation()
 {
