@@ -79,7 +79,7 @@ void Sapphire::ImGuiPass::Render(DX12CommandList* commandList, RenderInterface* 
 	ImGui::NewFrame();
 	bool show_another_window = false;
 	ImGui::SetNextWindowPos(ImVec2(0, 0), 0, ImVec2(0, 0));
-	ImGui::SetNextWindowSize(ImVec2(400, 600), ImGuiCond_Once);
+	ImGui::SetNextWindowSize(ImVec2(400, 400), ImGuiCond_Once);
 	ImGui::Begin("Game Object Tree", &show_another_window);   // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
 	static int selection_mask = (1 << 2);
 	static int node_clicked = -1;
@@ -115,7 +115,7 @@ void Sapphire::ImGuiPass::Render(DX12CommandList* commandList, RenderInterface* 
 	ImGui::TreePop();
 	ImGui::End();
 
-	ImGui::SetNextWindowPos(ImVec2(0, 600), 0, ImVec2(0, 0));
+	ImGui::SetNextWindowPos(ImVec2(0, 400), 0, ImVec2(0, 0));
 	ImGui::SetNextWindowSize(ImVec2(400, 400), ImGuiCond_Once);
 	ImGui::Begin("Game Object Properties", &show_another_window);
 	//DirectX::SimpleMath::Vector3 translation;
@@ -180,7 +180,14 @@ void Sapphire::ImGuiPass::Render(DX12CommandList* commandList, RenderInterface* 
 		ImGui::Text("Color Texture: %d x %d", objects[node_clicked]->textureWidth, objects[node_clicked]->textureHeight);
 		ImGui::Text("Bump Texture: %d x %d", objects[node_clicked]->bumpMapWidth, objects[node_clicked]->bumpMapHeight);
 	}
-	ImGui::End();;
+	ImGui::End();
+
+	ImGui::SetNextWindowPos(ImVec2(0, 800), 0, ImVec2(0, 0));
+	ImGui::SetNextWindowSize(ImVec2(400, 280), ImGuiCond_Once);
+	ImGui::Begin("Main Light Properties", &show_another_window);
+	// So who has the light? How can I get the light information? Maybe I need some separate tree with lights?
+	// I could also fetch some data from the render interface
+	ImGui::End();
 
 	ImGui::Render();
 
