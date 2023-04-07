@@ -58,7 +58,7 @@ void Sapphire::DeferredRenderingPass::Render(DX12CommandList* commandList, Rende
 	PIXBeginEvent(commandList->GetCommandList(), PIX_COLOR(255, 255, 255), "DeferredRenderingPass");
 	for (int i = 0; i < objects.size(); i++)
 	{
-		if (!objects[i]->GetIsVisible())
+		if (!objects[i]->metaIsVisible.value)
 		{
 			continue;
 		}

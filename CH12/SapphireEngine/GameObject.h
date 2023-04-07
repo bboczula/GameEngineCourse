@@ -6,6 +6,34 @@
 
 namespace Sapphire
 {
+	struct TypeMetaData
+	{
+	public:
+		TypeMetaData(const char* name, const char* type) : name(name), type(type)
+		{
+		}
+		const char* GetName()
+		{
+			return name;
+		}
+		const char* GetType()
+		{
+			return type;
+		}
+	private:
+		const char* name;
+		const char* type;
+	};
+
+	template<typename T>
+	struct MetaData : public TypeMetaData
+	{
+		MetaData(const char* name, const char* type, T value) : TypeMetaData(name, type), value(value)
+		{
+		}
+		T value;
+	};
+
 	class DX12Texture;
 	class DX12VertexBuffer;
 	class DX12IndexBuffer;
@@ -25,8 +53,8 @@ namespace Sapphire
 		void SetRotate(float x, float y, float z);
 		void SetScale(float x, float y, float z);
 		void SetPosition(float x, float y, float z);
-		bool GetIsVisible();
-		void SetIsVisible(bool isVisible);
+		//bool GetIsVisible();
+		//void SetIsVisible(bool isVisible);
 		DirectX::SimpleMath::Vector3 GetTranslation();
 		void SetTranslation(float x, float y, float z);
 		DirectX::SimpleMath::Vector3 GetScale();
@@ -50,6 +78,11 @@ namespace Sapphire
 		DirectX::SimpleMath::Matrix world;
 		std::string name;
 		void CalculateWorldMatrix();
+		MetaData<bool> metaIsVisible = { "metaIsVisible", "bool", true };
+		MetaData<float> metaScaleX = { "metaScaleX", "float", 1.0f };
+		MetaData<float> metaScaleY = { "metaScaleY", "float", 1.0f };
+		MetaData<float> metaScaleZ = { "metaScaleZ", "float", 1.0f };
+		// You could have a list of T
 	private:
 		// START: Flexible Vertex Buffers (FVB) !--
 		DX12VertexBuffer* positionVertexBuffer;
@@ -63,6 +96,6 @@ namespace Sapphire
 		DirectX::SimpleMath::Vector3 rotation;
 		DirectX::SimpleMath::Vector3 scale;
 		DirectX::SimpleMath::Vector3 translation;
-		bool isVisible;
+		//bool isVisible;
 	};
 }

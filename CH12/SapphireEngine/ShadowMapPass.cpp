@@ -86,7 +86,7 @@ void Sapphire::ShadowMapPass::Render(DX12CommandList* commandList, RenderInterfa
 	// This could potentially be Render Pass
 	for (int i = 0; i < objects.size(); i++)
 	{
-		if (!objects[i]->GetIsVisible())
+		if (!objects[i]->metaIsVisible.value)
 		{
 			continue;
 		}
