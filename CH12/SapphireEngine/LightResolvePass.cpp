@@ -53,7 +53,7 @@ void Sapphire::LightResolvePass::PreRender(DX12CommandList* commandList)
 {
 }
 
-void Sapphire::LightResolvePass::Render(DX12CommandList* commandList, RenderInterface* renderInterface, std::vector<GameObject*> objects)
+void Sapphire::LightResolvePass::Render(DX12CommandList* commandList, RenderInterface* renderInterface, std::vector<GameObject*> objects, std::vector<LightObject*> lights)
 {
 	PIXBeginEvent(commandList->GetCommandList(), PIX_COLOR(255, 255, 255), "LightResolvePass");
 	PIXEndEvent(commandList->GetCommandList());

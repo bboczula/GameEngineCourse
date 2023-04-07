@@ -114,9 +114,6 @@
     <ClInclude Include="OrthographicCamera.h">
       <Filter>Engine\Rendering\Camera</Filter>
     </ClInclude>
-    <ClInclude Include="Light.h">
-      <Filter>Engine\Rendering</Filter>
-    </ClInclude>
     <ClInclude Include="Free.h">
       <Filter>Engine\Rendering\Camera</Filter>
     </ClInclude>
@@ -172,6 +169,9 @@
       <Filter>Window</Filter>
     </ClInclude>
     <ClInclude Include="TConfigVariable.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="LightObject.h">
       <Filter>Engine</Filter>
     </ClInclude>
   </ItemGroup>
@@ -239,9 +239,6 @@
     <ClCompile Include="OrthographicCamera.cpp">
       <Filter>Engine\Rendering\Camera</Filter>
     </ClCompile>
-    <ClCompile Include="Light.cpp">
-      <Filter>Engine\Rendering</Filter>
-    </ClCompile>
     <ClCompile Include="Free.cpp">
       <Filter>Engine\Rendering\Camera</Filter>
     </ClCompile>
@@ -286,6 +283,9 @@
     </ClCompile>
     <ClCompile Include="ImGuiHandler.cpp">
       <Filter>Window</Filter>
+    </ClCompile>
+    <ClCompile Include="LightObject.cpp">
+      <Filter>Engine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

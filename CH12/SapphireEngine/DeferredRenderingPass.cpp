@@ -53,7 +53,7 @@ void Sapphire::DeferredRenderingPass::PreRender(DX12CommandList* commandList)
 	commandList->SetConstantBuffer(0, 16, camera->GetViewProjectionMatrixPtr());
 }
 
-void Sapphire::DeferredRenderingPass::Render(DX12CommandList* commandList, RenderInterface* renderInterface, std::vector<GameObject*> objects)
+void Sapphire::DeferredRenderingPass::Render(DX12CommandList* commandList, RenderInterface* renderInterface, std::vector<GameObject*> objects, std::vector<LightObject*> lights)
 {
 	PIXBeginEvent(commandList->GetCommandList(), PIX_COLOR(255, 255, 255), "DeferredRenderingPass");
 	for (int i = 0; i < objects.size(); i++)
@@ -70,15 +70,6 @@ void Sapphire::DeferredRenderingPass::Render(DX12CommandList* commandList, Rende
 			{
 				commandList->SetTexture(3, renderInterface->GetSrvDescriptor(objects[i]->bumpMap->GetDescriptorIndex()));
 			}
-			// D3D12_GPU_DESCRIPTOR_HANDLE descriptor;
-			// descriptor.ptr = srvDescriptorHeap->GetFirstGpuDescriptor().ptr + i * srvDescriptorHeap->GetDescriptorSize();
-			// commandList->SetTexture(3, descriptor);
-			//commandList->SetTexture(3, renderInterface->GetSrvDescriptor(objects[i]->texture->GetDescriptorIndex()));
-			//commandList->Draw(objects[i]->geometry);
-			//commandList->Draw(objects[i]->positionVertexBuffer, objects[i]->indexBuffer);
-			//commandList->Draw(objects[i]->positionVertexBuffer, objects[i]->normalVertexBuffer, objects[i]->indexBuffer);
-			// commandList->Draw(objects[i]->positionVertexBuffer, objects[i]->normalVertexBuffer, objects[i]->colorTexCoordVertexBuffer, objects[i]->indexBuffer);
-			//commandList->Draw(objects[i]->positionVertexBuffer, objects[i]->normalVertexBuffer, objects[i]->indexBuffer);
 			commandList->Draw(objects[i]->positionVertexBuffer, objects[i]->normalVertexBuffer, objects[i]->tangentVertexBuffer, objects[i]->colorTexCoordVertexBuffer, objects[i]->indexBuffer);
 		}
 	}

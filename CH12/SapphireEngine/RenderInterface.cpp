@@ -5,7 +5,6 @@
 #include "../DX12Backend/DX12Texture.h"
 #include "DeferredRenderingPass.h"
 #include "LightResolvePass.h"
-#include "Light.h"
 
 Sapphire::RenderInterface::RenderInterface(HWND hwnd, unsigned int width, unsigned int height)
 	: deviceContext(deviceContext), dxResources{ nullptr }, renderTargets{ nullptr }, uploadBuffer{ nullptr }, hwnd{ hwnd }

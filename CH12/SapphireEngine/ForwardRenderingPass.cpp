@@ -4,14 +4,14 @@
 #include "../DX12Backend/DX12ConstantBuffer.h"
 #include "../DX12Backend/DX12Texture.h"
 #include "../DX12Backend/DX12RootSignature.h"
-#include "Light.h"
 #include "Camera.h"
 #include "PerspectiveCamera.h"
+#include "LightObject.h"
 
 #define USE_PIX
 #include "pix3.h"
 
-Sapphire::ForwardRenderingPass::ForwardRenderingPass(RenderInterface* renderInterface, Light* light, unsigned int width, unsigned int height) : light(light)
+Sapphire::ForwardRenderingPass::ForwardRenderingPass(RenderInterface* renderInterface, unsigned int width, unsigned int height)
 {
 	multiRenderTarget = new DX12MultiRenderTarget();
 	multiRenderTarget->Add(renderInterface->CreateRenderTarget(ForwardRenderingRT, width, height));
@@ -19,7 +19,7 @@ Sapphire::ForwardRenderingPass::ForwardRenderingPass(RenderInterface* renderInte
 
 	// Create Constant Buffer for the light data
 	constantBuffer = renderInterface->CreateConstantBuffer();
-	constantBuffer->UploadFloat4(light->GetPositionX(), light->GetPositionY(), light->GetPositionZ(), 0.0f);
+	//constantBuffer->UploadFloat4(light->GetPositionX(), light->GetPositionY(), light->GetPositionZ(), 0.0f);
 
 	// Create Shaders
 	vertexShader = new DX12Shader("directional_texture_vs.cso");
@@ -50,10 +50,6 @@ Sapphire::ForwardRenderingPass::ForwardRenderingPass(RenderInterface* renderInte
 	pipelineStates.PushBack(renderInterface->CreatePipelineState(vertexShader_noBump, pixelShader_noBump, inputLayout));
 	pipelineStates[1]->AddRenderTarget(multiRenderTarget->Get(0)->GetDxgiFormat());
 	pipelineStates[1]->CreatePipelineState(renderInterface->GetDevice(), vertexShader->GetBytecode(), pixelShader->GetBytecode(), inputLayout, rootSignature);
-
-	// Create Camera
-	//camera = new Camera(1280.0f / 720.0f);
-	//camera = new PerspectiveCamera(1280.0f / 720.0f);
 }
 
 Sapphire::ForwardRenderingPass::~ForwardRenderingPass()
@@ -69,26 +65,15 @@ Sapphire::ForwardRenderingPass::~ForwardRenderingPass()
 
 void Sapphire::ForwardRenderingPass::PreRender(DX12CommandList* commandList)
 {
-	// camera->LogInfo();
-	// Update the constant buffer
-	constantBuffer->UploadFloat4(light->GetPositionX(), light->GetPositionY(), light->GetPositionZ(), 0.0f);
-
-	const float clearColor[] = { 0.1176f, 0.1882f, 0.4470f, 1.0f };
-	//unsigned int currentFrameIndex = deviceContext->GetCurrentFrameIndex();
-
-	//commandList->Reset();
-	// commandList->TransitionTo(renderTarget->GetResource(), D3D12_RESOURCE_STATE_RENDER_TARGET);
-	// commandList->SetRenderTarget(renderTarget, depthBuffer);
-	// commandList->ClearRenderTarget(renderTarget, clearColor);
-	// Do I have to manage resource states?
-	// commandList->ClearDepthBuffer(depthBuffer);
 	commandList->SetConstantBuffer(0, 16, camera->GetViewProjectionMatrixPtr());
-	//commandList->SetConstantBuffer(1, 16, camera->GetProjectionMatrixPtr());
 }
 
-void Sapphire::ForwardRenderingPass::Render(DX12CommandList* commandList, RenderInterface* renderInterface, std::vector<GameObject*> objects)
+void Sapphire::ForwardRenderingPass::Render(DX12CommandList* commandList, RenderInterface* renderInterface, std::vector<GameObject*> objects, std::vector<LightObject*> lights)
 {
 	PIXBeginEvent(commandList->GetCommandList(), PIX_COLOR(255, 255, 255), "ForwardRenderingPass");
+
+	constantBuffer->UploadFloat4(lights[0]->GetPositionX(), lights[0]->GetPositionY(), lights[0]->GetPositionZ(), 0.0f);
+
 	for (int i = 0; i < objects.size(); i++)
 	{
 		//if (!objects[i]->GetIsVisible())
@@ -116,10 +101,6 @@ void Sapphire::ForwardRenderingPass::Render(DX12CommandList* commandList, Render
 				commandList->SetTexture(5, renderInterface->GetSrvDescriptor(objects[i]->bumpMap->GetDescriptorIndex()));
 			}
 			commandList->SetConstantBuffer(6, renderInterface->GetSrvDescriptor(constantBuffer->GetDescriptorIndex()));
-			//commandList->Draw(objects[i]->geometry);
-			//commandList->Draw(objects[i]->positionVertexBuffer, objects[i]->indexBuffer);
-			//commandList->Draw(objects[i]->positionVertexBuffer, objects[i]->normalVertexBuffer, objects[i]->indexBuffer);
-			//commandList->Draw(objects[i]->positionVertexBuffer, objects[i]->normalVertexBuffer, objects[i]->colorTexCoordVertexBuffer, objects[i]->indexBuffer);
 			commandList->Draw(objects[i]->positionVertexBuffer, objects[i]->normalVertexBuffer, objects[i]->tangentVertexBuffer, objects[i]->colorTexCoordVertexBuffer, objects[i]->indexBuffer);
 		}
 	}
@@ -163,15 +144,7 @@ void Sapphire::ForwardRenderingPass::Render(DX12CommandList* commandList, Render
 
 void Sapphire::ForwardRenderingPass::PostRender(DX12CommandList* commandList)
 {
-	// THis is needed only for last Render Pass, maybe we should move it Render Context then?
-	//commandList->TransitionTo(renderTarget->GetResource(), D3D12_RESOURCE_STATE_COPY_SOURCE);
-	//commandList->Close();
 }
-
-//Sapphire::DX12RenderTarget* Sapphire::ForwardRenderingPass::GetRenderTarget()
-//{
-//	return renderTarget;
-//}
 
 void Sapphire::ForwardRenderingPass::SetCamera(Camera* camera)
 {

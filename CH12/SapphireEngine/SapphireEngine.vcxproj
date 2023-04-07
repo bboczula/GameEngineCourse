@@ -44,7 +44,7 @@
     <ClInclude Include="HardwareCapabilities.h" />
     <ClInclude Include="ImGuiHandler.h" />
     <ClInclude Include="ImGuiPass.h" />
-    <ClInclude Include="Light.h" />
+    <ClInclude Include="LightObject.h" />
     <ClInclude Include="LightResolvePass.h" />
     <ClInclude Include="OrthographicCamera.h" />
     <ClInclude Include="PerspectiveCamera.h" />
@@ -89,7 +89,7 @@
     <ClCompile Include="HardwareCapabilities.cpp" />
     <ClCompile Include="ImGuiHandler.cpp" />
     <ClCompile Include="ImGuiPass.cpp" />
-    <ClCompile Include="Light.cpp" />
+    <ClCompile Include="LightObject.cpp" />
     <ClCompile Include="LightResolvePass.cpp" />
     <ClCompile Include="OrthographicCamera.cpp" />
     <ClCompile Include="PerspectiveCamera.cpp" />

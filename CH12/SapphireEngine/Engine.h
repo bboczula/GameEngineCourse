@@ -23,30 +23,34 @@
 
 namespace Sapphire
 {
-      class Renderer;
-    class Engine : public WindowApplication
-    {
-    public:
-        Engine(UINT width = DEFAULT_WINDOW_WIDTH, UINT height = DEFAULT_WINDOW_HEIGHT);
-        ~Engine();
-        void Register(GameObject* gameObject);
-        void RegisterCamera(Camera* camera);
-        void LoadModel(GameObject* gameObject, const std::string& filePath, std::string sceneName, const std::string& groupName);
-        void LoadDefaultTexture(GameObject* gameObject);
-        void LoadTextureFromFile(GameObject* gameObject, std::string sceneName, std::string filePath);
-        void LoadBumpMapFromFile(GameObject* gameObject, std::string sceneName, std::string filePath);
-        RawInput* GetInput();
-    private:
-        void Initialize() override;
-        void Tick() override;
-        void ReportLiveObjects();
-        RenderInterface* renderer;
-        Renderer* newRenderer;
-        RawInput* input;
-        WinMouse* winMouse;
-        ImGuiHandler* imGuiHandler;
-        std::vector<GameObject*> gameObjects;
-        ModelLoader* modelLoader;
-        bool isPaused;
-    };
+	class Renderer;
+	class LightObject;
+
+	class Engine : public WindowApplication
+	{
+	public:
+		Engine(UINT width = DEFAULT_WINDOW_WIDTH, UINT height = DEFAULT_WINDOW_HEIGHT);
+		~Engine();
+		void Register(GameObject* gameObject);
+		void RegisterCamera(Camera* camera);
+		void RegisterLight(LightObject* light);
+		void LoadModel(GameObject* gameObject, const std::string& filePath, std::string sceneName, const std::string& groupName);
+		void LoadDefaultTexture(GameObject* gameObject);
+		void LoadTextureFromFile(GameObject* gameObject, std::string sceneName, std::string filePath);
+		void LoadBumpMapFromFile(GameObject* gameObject, std::string sceneName, std::string filePath);
+		RawInput* GetInput();
+	private:
+		void Initialize() override;
+		void Tick() override;
+		void ReportLiveObjects();
+		RenderInterface* renderer;
+		Renderer* newRenderer;
+		RawInput* input;
+		WinMouse* winMouse;
+		ImGuiHandler* imGuiHandler;
+		std::vector<GameObject*> gameObjects;
+		std::vector<LightObject*> lightObjects;
+		ModelLoader* modelLoader;
+		bool isPaused;
+	};
 }

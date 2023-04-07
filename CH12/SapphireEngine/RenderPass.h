@@ -16,6 +16,7 @@ namespace Sapphire
 	// Including this was causing circular dependency and C2039 error
 	class RenderInterface;
 	class GameObject;
+	class LightObject;
 	class DX12CommandList;
 	class DX12RenderTarget;
 	class DX12RootSignature;
@@ -24,7 +25,7 @@ namespace Sapphire
 	{
 	public:
 		virtual void PreRender(DX12CommandList* commandList) = 0;
-		virtual void Render(DX12CommandList* commandList, RenderInterface* renderInterface, std::vector<GameObject*> objects) = 0;
+		virtual void Render(DX12CommandList* commandList, RenderInterface* renderInterface, std::vector<GameObject*> objects, std::vector<LightObject*> lights) = 0;
 		virtual void PostRender(DX12CommandList* commandList) = 0;
 		void Setup(DX12CommandList* commandList)
 		{

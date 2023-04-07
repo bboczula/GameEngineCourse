@@ -39,6 +39,14 @@ void Sapphire::Arcball::MoveLeft(float step)
 
 void Sapphire::Arcball::Rotate(float x, float y, float z)
 {
+	float radiansX = x * 3.1415f / 180.0f;
+	float radiansY = y * 3.1415f / 180.0f;
+
+	if ((camera->rotation.x == radiansX) && (camera->rotation.y == radiansY))
+	{
+		return;
+	}
+
 	camera->rotation.x = x * 3.1415f / 180.0f;
 	camera->rotation.y = y * 3.1415f / 180.0f;
 	DirectX::SimpleMath::Matrix cameraRotationX = DirectX::SimpleMath::Matrix::CreateRotationX(camera->rotation.x);

@@ -14,7 +14,7 @@ namespace Sapphire
 		DeferredRenderingPass(RenderInterface* renderInterface, unsigned int width, unsigned int height);
 		~DeferredRenderingPass();
 		void PreRender(DX12CommandList* commandList) override;
-		void Render(DX12CommandList* commandList, RenderInterface* renderInterface, std::vector<GameObject*> objects) override;
+		void Render(DX12CommandList* commandList, RenderInterface* renderInterface, std::vector<GameObject*> objects, std::vector<LightObject*> lights) override;
 		void PostRender(DX12CommandList* commandList) override;
 		void SetCamera(Camera* camera);
 	private:

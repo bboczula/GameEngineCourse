@@ -1,16 +1,12 @@
-#include "Light.h"
+#include "LightObject.h"
 
-Sapphire::Light::Light(float x, float y, float z) : rotation(0.0f, 0.0f, 0.0f)
+Sapphire::LightObject::LightObject(float x, float y, float z) : rotation(0.0f, 0.0f, 0.0f)
 {
 	position = { x, y, z };
 	position.Normalize();
 }
 
-Sapphire::Light::~Light()
-{
-}
-
-void Sapphire::Light::RotateX(float angleInDegrees)
+void Sapphire::LightObject::RotateX(float angleInDegrees)
 {
 	rotation.x = angleInDegrees;// *3.1415 / 180.0f;
 	DirectX::SimpleMath::Matrix rotationX = DirectX::SimpleMath::Matrix::CreateRotationX(angleInDegrees * 3.1415 / 180.0f);
@@ -18,22 +14,22 @@ void Sapphire::Light::RotateX(float angleInDegrees)
 	position.Normalize();
 }
 
-float Sapphire::Light::GetPositionX()
+float Sapphire::LightObject::GetPositionX()
 {
 	return position.x;
 }
 
-float Sapphire::Light::GetPositionY()
+float Sapphire::LightObject::GetPositionY()
 {
 	return position.y;
 }
 
-float Sapphire::Light::GetPositionZ()
+float Sapphire::LightObject::GetPositionZ()
 {
 	return position.z;
 }
 
-float Sapphire::Light::GetRotationX()
+float Sapphire::LightObject::GetRotationX()
 {
 	return rotation.x;
 }

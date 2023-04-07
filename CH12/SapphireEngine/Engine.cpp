@@ -1,5 +1,6 @@
 #include "Engine.h"
 #include "Renderer.h"
+#include "LightObject.h"
 #include <filesystem>
 
 Sapphire::Engine::Engine(UINT width, UINT height) : WindowApplication{ width, height }, renderer{ nullptr }, isPaused { false }
@@ -44,6 +45,11 @@ void Sapphire::Engine::RegisterCamera(Camera* camera)
 {
 	//renderer->SetCamera(camera);
 	newRenderer->SetCamera(camera);
+}
+
+void Sapphire::Engine::RegisterLight(LightObject* light)
+{
+	lightObjects.push_back(light);
 }
 
 void Sapphire::Engine::LoadModel(GameObject* gameObject, const std::string& filePath, std::string sceneName, const std::string& groupName)
@@ -285,11 +291,9 @@ void Sapphire::Engine::Tick()
 	}
 
 	// Render from Render Context
-	// renderer->Render(gameObjects);
-	newRenderer->Render(gameObjects);
+	newRenderer->Render(gameObjects, lightObjects);
 
 	// Execute the command list
-	//renderer->Execute();
 	newRenderer->Execute();
 }
 

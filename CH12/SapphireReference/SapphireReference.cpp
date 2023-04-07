@@ -12,6 +12,7 @@
 #include "../SapphireEngine/Arcball.h"
 #include "../SapphireEngine/PerspectiveCamera.h"
 #include "../SapphireEngine/InputFile.h"
+#include "../SapphireEngine/LightObject.h"
 
 int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWSTR pCmdLine, _In_ int nCmdShow)
 {
@@ -52,6 +53,11 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
     CameraHandler* cameraHandler = new CameraHandler(camera, engine.GetInput());
     engine.Register(cameraHandler); // This is only to ge the Update method running; maybe the line below would be enough though?
     engine.RegisterCamera(myCamera);
+
+    // Light
+    Sapphire::LightObject* sunlight = new Sapphire::LightObject(0.0f, 1.0f, 0.0f);
+    sunlight->RotateX(75.0f);
+    engine.RegisterLight(sunlight);
 
     engine.Run();
 }

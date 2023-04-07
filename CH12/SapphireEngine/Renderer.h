@@ -6,13 +6,13 @@
 namespace Sapphire
 {
 	class RenderInterface;
-	class Light;
 	class ShadowMapPass;
 	class ForwardRenderingPass;
 	class GrayscalePass;
 	class DeferredRenderingPass;
 	class LightResolvePass;
 	class GameObject;
+	class LightObject;
 	class Camera;
 	class RenderPass;
 	class ImGuiPass;
@@ -22,14 +22,13 @@ namespace Sapphire
 	public:
 		Renderer(HWND hwnd, UINT width, UINT height);
 		~Renderer();
-		void Render(std::vector<GameObject*> objects);
+		void Render(std::vector<GameObject*> objects, std::vector<LightObject*> lights);
 		void SetCamera(Camera* camera);
 		void CreateResources(std::vector<GameObject*> objects);
 		void Execute();
 	private:
 		RenderInterface* renderInterface;
 		std::vector<RenderPass*> renderPasses;
-		Light* directionalLight;
 		ShadowMapPass* shadowMapPass;
 		ForwardRenderingPass* forwardRenderingPass;
 		GrayscalePass* grayscalePass;

@@ -36,7 +36,7 @@ void Sapphire::GrayscalePass::PreRender(DX12CommandList* commandList)
 {
 }
 
-void Sapphire::GrayscalePass::Render(DX12CommandList* commandList, RenderInterface* renderInterface, std::vector<GameObject*> objects)
+void Sapphire::GrayscalePass::Render(DX12CommandList* commandList, RenderInterface* renderInterface, std::vector<GameObject*> objects, std::vector<LightObject*> lights)
 {
 	PIXBeginEvent(commandList->GetCommandList(), PIX_COLOR(255, 255, 255), "GrayscalePass");
 	commandList->DrawEmpty();

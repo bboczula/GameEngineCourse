@@ -1,26 +1,24 @@
 #include "Renderer.h"
 #include "RenderInterface.h"
-#include "Light.h"
 #include "ShadowMapPass.h"
 #include "ForwardRenderingPass.h"
 #include "GrayscalePass.h"
 #include "DeferredRenderingPass.h"
 #include "LightResolvePass.h"
 #include "ImGuiPass.h"
+#include "LightObject.h"
+#include "GameObject.h"
 
 Sapphire::Renderer::Renderer(HWND hwnd, UINT width, UINT height)
 {
 	// Create Render Context
 	renderInterface = new RenderInterface(hwnd, width, height);
 
-	// Create global directional light
-	directionalLight = new Light(0.0f, 1.0f, 0.0f);
-
 	// Create Shadow Map Pass
-	shadowMapPass = new ShadowMapPass(renderInterface, directionalLight);
+	shadowMapPass = new ShadowMapPass(renderInterface);
 
 	// Create Forward Rendering Pass
-	forwardRenderingPass = new ForwardRenderingPass(renderInterface, directionalLight, width, height);
+	forwardRenderingPass = new ForwardRenderingPass(renderInterface, width, height);
 
 	// Grayscale Render Pass
 	grayscalePass = new GrayscalePass(renderInterface, width, height);
@@ -62,13 +60,8 @@ Sapphire::Renderer::~Renderer()
 	delete forwardRenderingPass;
 }
 
-void Sapphire::Renderer::Render(std::vector<GameObject*> objects)
+void Sapphire::Renderer::Render(std::vector<GameObject*> objects, std::vector<LightObject*> lights)
 {
-	if (directionalLight->GetPositionY() > 0)
-	{
-		directionalLight->RotateX(0.025f);
-	}
-
 	auto commandList = renderInterface->GetCommandList();
 	commandList->Reset();
 
@@ -78,7 +71,7 @@ void Sapphire::Renderer::Render(std::vector<GameObject*> objects)
 	{
 		renderPasses[i]->Setup(commandList);
 		renderPasses[i]->PreRender(commandList);
-		renderPasses[i]->Render(commandList, renderInterface, objects);
+		renderPasses[i]->Render(commandList, renderInterface, objects, lights);
 		renderPasses[i]->PostRender(commandList);
 		renderPasses[i]->Teardown(commandList);
 	}

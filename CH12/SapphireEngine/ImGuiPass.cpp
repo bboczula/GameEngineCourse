@@ -67,7 +67,7 @@ void Sapphire::ImGuiPass::PreRender(DX12CommandList* commandList)
 {
 }
 
-void Sapphire::ImGuiPass::Render(DX12CommandList* commandList, RenderInterface* renderInterface, std::vector<GameObject*> objects)
+void Sapphire::ImGuiPass::Render(DX12CommandList* commandList, RenderInterface* renderInterface, std::vector<GameObject*> objects, std::vector<LightObject*> lights)
 {
 	PIXBeginEvent(commandList->GetCommandList(), PIX_COLOR(255, 255, 255), "ImGuiPass");
 	//commandList->DrawEmpty();

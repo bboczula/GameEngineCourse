@@ -4,11 +4,10 @@
 
 namespace Sapphire
 {
-	class Light
+	class LightObject
 	{
 	public:
-		Light(float x, float y, float z);
-		~Light();
+		LightObject(float x, float y, float z);
 		void RotateX(float angleInDegrees);
 		float GetPositionX();
 		float GetPositionY();
