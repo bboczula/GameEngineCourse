@@ -43,7 +43,7 @@ D3D12_GPU_DESCRIPTOR_HANDLE Sapphire::DX12DescriptorHeap::GetFirstGpuDescriptor(
 
 SIZE_T Sapphire::DX12DescriptorHeap::GetGpuDescriptor(unsigned int index)
 {
-	return SIZE_T(INT64(heap->GetCPUDescriptorHandleForHeapStart().ptr) + INT64(index) * INT64(descriptorSize));
+	return SIZE_T(INT64(heap->GetGPUDescriptorHandleForHeapStart().ptr) + INT64(index) * INT64(descriptorSize));
 }
 
 D3D12_CPU_DESCRIPTOR_HANDLE Sapphire::DX12DescriptorHeap::GetFirstCpuDescriptor()

@@ -42,7 +42,7 @@ Sapphire::ImGuiPass::ImGuiPass(RenderInterface* renderInterface, unsigned int wi
 	//io.ConfigFlags |= ImGuiConfigFlags_NoMouse;
 
 	// Setup Dear ImGui style
-	ImGui::StyleColorsDark();
+	//ImGui::StyleColorsDark();
 
 	// Allocate Descriptor Handles, for what though?
 	// You really need to understand how those Descriptor Heaps work in your engine
@@ -55,7 +55,7 @@ Sapphire::ImGuiPass::ImGuiPass(RenderInterface* renderInterface, unsigned int wi
 
 	// Setup Platform/Renderer backends
 	ImGui_ImplWin32_Init(renderInterface->GetHwnd());
-	ImGui_ImplDX12_Init(renderInterface->GetDevice()->GetDevice(), 2, DXGI_FORMAT_R8G8B8A8_UNORM,
+	ImGui_ImplDX12_Init(renderInterface->GetDevice()->GetDevice(), 3, DXGI_FORMAT_R8G8B8A8_UNORM,
 		renderInterface->GetSrvDescriptorHeap()->GetRawDescriptorHeap(), srvHandle, gpuSrvHandle);
 }
 
@@ -74,10 +74,15 @@ void Sapphire::ImGuiPass::Render(DX12CommandList* commandList, RenderInterface* 
 	ImGui_ImplDX12_NewFrame();
 	ImGui_ImplWin32_NewFrame();
 
-	SetupGlobalStyle();
+	//SetupGlobalStyle();
 
 	ImGui::NewFrame();
 	bool show_another_window = false;
+
+	//ImGui::Begin("hello");
+	//ImGui::Text("hellyeah");
+	//ImGui::End();
+
 	ImGui::SetNextWindowPos(ImVec2(0, 0), 0, ImVec2(0, 0));
 	ImGui::SetNextWindowSize(ImVec2(400, 600), ImGuiCond_Once);
 	ImGui::Begin("Game Object Tree", &show_another_window);   // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
@@ -100,7 +105,7 @@ void Sapphire::ImGuiPass::Render(DX12CommandList* commandList, RenderInterface* 
 			ImGui::TreePop();
 		}
 	}
-
+	
 	if (node_clicked != -1)
 	{
 		// Update selection state
@@ -110,11 +115,11 @@ void Sapphire::ImGuiPass::Render(DX12CommandList* commandList, RenderInterface* 
 		else //if (!(selection_mask & (1 << node_clicked))) // Depending on selection behavior you want, may want to preserve selection when clicking on item that is part of the selection
 			selection_mask = (1 << node_clicked);           // Click to single-select
 	}
-	//if (align_label_with_current_x_position)
-	//	ImGui::Indent(ImGui::GetTreeNodeToLabelSpacing());
-	ImGui::TreePop();
+	////if (align_label_with_current_x_position)
+	////	ImGui::Indent(ImGui::GetTreeNodeToLabelSpacing());
+	//ImGui::TreePop();
 	ImGui::End();
-
+	//
 	ImGui::SetNextWindowPos(ImVec2(0, 600), 0, ImVec2(0, 0));
 	ImGui::SetNextWindowSize(ImVec2(400, 400), ImGuiCond_Once);
 	ImGui::Begin("Game Object Properties", &show_another_window);
