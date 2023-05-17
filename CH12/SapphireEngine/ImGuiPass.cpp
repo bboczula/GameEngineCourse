@@ -1,5 +1,6 @@
 #include "ImGuiPass.h"
 #include "RenderInterface.h"
+#include "LightObject.h"
 #include "../DX12Backend/DX12InputLayout.h"
 #include "../DX12Backend/DX12RootSignature.h"
 
@@ -84,7 +85,7 @@ void Sapphire::ImGuiPass::Render(DX12CommandList* commandList, RenderInterface* 
 	//ImGui::End();
 
 	ImGui::SetNextWindowPos(ImVec2(0, 0), 0, ImVec2(0, 0));
-	ImGui::SetNextWindowSize(ImVec2(400, 600), ImGuiCond_Once);
+	ImGui::SetNextWindowSize(ImVec2(400, 500), ImGuiCond_Once);
 	ImGui::Begin("Game Object Tree", &show_another_window);   // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
 	static int selection_mask = (1 << 2);
 	static int node_clicked = -1;
@@ -120,7 +121,7 @@ void Sapphire::ImGuiPass::Render(DX12CommandList* commandList, RenderInterface* 
 	//ImGui::TreePop();
 	ImGui::End();
 	//
-	ImGui::SetNextWindowPos(ImVec2(0, 600), 0, ImVec2(0, 0));
+	ImGui::SetNextWindowPos(ImVec2(0, 500), 0, ImVec2(0, 0));
 	ImGui::SetNextWindowSize(ImVec2(400, 400), ImGuiCond_Once);
 	ImGui::Begin("Game Object Properties", &show_another_window);
 	//DirectX::SimpleMath::Vector3 translation;
@@ -171,7 +172,25 @@ void Sapphire::ImGuiPass::Render(DX12CommandList* commandList, RenderInterface* 
 		ImGui::Text("Color Texture: %d x %d", objects[node_clicked]->textureWidth, objects[node_clicked]->textureHeight);
 		ImGui::Text("Bump Texture: %d x %d", objects[node_clicked]->bumpMapWidth, objects[node_clicked]->bumpMapHeight);
 	}
-	ImGui::End();;
+	ImGui::End();
+
+	ImGui::SetNextWindowPos(ImVec2(0, 900), 0, ImVec2(0, 0));
+	ImGui::SetNextWindowSize(ImVec2(400, 400), ImGuiCond_Once);
+	ImGui::Begin("Directional Light", &show_another_window);
+	// For now we will assume you only have one light
+	ImGui::Text("Position:");
+	ImGui::Text("X: %f", lights[0]->GetPositionX());
+	ImGui::Text("Y: %f", lights[0]->GetPositionY());
+	ImGui::Text("Z: %f", lights[0]->GetPositionZ());
+	ImGui::Text("Rotation:");
+	float rx = lights[0]->GetRotationX();
+	float ry = lights[0]->GetRotationY();
+	float rz = lights[0]->GetRotationZ();
+	ImGui::InputFloat("rx: ", &rx, 0.1f, 0.5f);
+	ImGui::InputFloat("ry: ", &ry, 0.1f, 0.5f);
+	ImGui::InputFloat("rz: ", &rz, 0.1f, 0.5f);
+	lights[0]->Rotate(rx, ry, rz);
+	ImGui::End();
 
 	ImGui::Render();
 

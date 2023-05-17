@@ -72,6 +72,7 @@ void Sapphire::ForwardRenderingPass::Render(DX12CommandList* commandList, Render
 {
 	PIXBeginEvent(commandList->GetCommandList(), PIX_COLOR(255, 255, 255), "ForwardRenderingPass");
 
+	// Why do you take position here?
 	constantBuffer->UploadFloat4(lights[0]->GetPositionX(), lights[0]->GetPositionY(), lights[0]->GetPositionZ(), 0.0f);
 
 	for (int i = 0; i < objects.size(); i++)

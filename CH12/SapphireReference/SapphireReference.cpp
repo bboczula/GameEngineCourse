@@ -56,7 +56,7 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
 
     // Light
     Sapphire::LightObject* sunlight = new Sapphire::LightObject(0.0f, 1.0f, 0.0f);
-    sunlight->RotateX(75.0f);
+    sunlight->RotateX(0.0f);
     engine.RegisterLight(sunlight);
 
     engine.Run();

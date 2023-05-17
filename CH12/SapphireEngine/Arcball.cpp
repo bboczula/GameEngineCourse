@@ -44,7 +44,8 @@ void Sapphire::Arcball::Rotate(float x, float y, float z)
 
 	if ((camera->rotation.x == radiansX) && (camera->rotation.y == radiansY))
 	{
-		return;
+		// Why was this here in the first place?
+		//return;
 	}
 
 	camera->rotation.x = x * 3.1415f / 180.0f;

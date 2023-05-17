@@ -65,7 +65,7 @@ void Sapphire::ShadowMapPass::Render(DX12CommandList* commandList, RenderInterfa
 	PIXBeginEvent(commandList->GetCommandList(), PIX_COLOR(255, 255, 255), "ShadowMapPass");
 
 	// The only thing i need from the light is an angle to setup the camera
-	arcball->Rotate(lights[0]->GetRotationX(), 0.0f, 0.0f);
+	arcball->Rotate(lights[0]->GetRotationX(), lights[0]->GetRotationY(), lights[0]->GetRotationZ());
 	commandList->SetConstantBuffer(0, 16, camera->GetViewProjectionMatrixPtr());
 
 	// This could potentially be Render Pass

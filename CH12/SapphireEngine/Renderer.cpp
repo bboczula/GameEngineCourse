@@ -67,6 +67,9 @@ void Sapphire::Renderer::Render(std::vector<GameObject*> objects, std::vector<Li
 
 	renderInterface->SetSrvDescriptorHeap();
 
+	// Say I want to rotate it
+	//lights[0]->RotateX(0.25f);
+
 	for (int i = 0; i < renderPasses.size(); i++)
 	{
 		renderPasses[i]->Setup(commandList);
