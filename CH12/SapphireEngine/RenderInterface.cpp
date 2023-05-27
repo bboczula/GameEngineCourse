@@ -5,6 +5,7 @@
 #include "../DX12Backend/DX12Texture.h"
 #include "DeferredRenderingPass.h"
 #include "LightResolvePass.h"
+#include "GameObjectTree.h"
 
 Sapphire::RenderInterface::RenderInterface(HWND hwnd, unsigned int width, unsigned int height)
 	: deviceContext(deviceContext), dxResources{ nullptr }, renderTargets{ nullptr }, uploadBuffer{ nullptr }, hwnd{ hwnd }
@@ -32,53 +33,53 @@ Sapphire::RenderInterface::~RenderInterface()
 	delete rtvDescriptorHeap;
 }
 
-void Sapphire::RenderInterface::CreateResources(std::vector<GameObject*> objects)
+void Sapphire::RenderInterface::CreateResources(GameObjectTree* gameObjectTree)
 {
 	commandList->Reset();
 
-	for (int i = 0; i < objects.size(); i++)
+	for (int i = 0; i < gameObjectTree->Size(); i++)
 	{
 		// START: Flexible Vertex Buffers (FVB) !--
 		// TODO: needs to decouple Index Buffer
-		if (objects[i]->numOfVertices != 0)
+		if (gameObjectTree->At(i)->numOfVertices != 0)
 		{
-			objects[i]->positionVertexBuffer = new DX12VertexBuffer(deviceContext->GetDevice(), objects[i]->position,
-				sizeof(DirectX::SimpleMath::Vector4), objects[i]->numOfVertices);
+			gameObjectTree->At(i)->positionVertexBuffer = new DX12VertexBuffer(deviceContext->GetDevice(), gameObjectTree->At(i)->position,
+				sizeof(DirectX::SimpleMath::Vector4), gameObjectTree->At(i)->numOfVertices);
 		}
-		if (objects[i]->numOfVertices != 0)
+		if (gameObjectTree->At(i)->numOfVertices != 0)
 		{
-			objects[i]->normalVertexBuffer = new DX12VertexBuffer(deviceContext->GetDevice(), objects[i]->normal,
-				sizeof(DirectX::SimpleMath::Vector4), objects[i]->numOfVertices);
+			gameObjectTree->At(i)->normalVertexBuffer = new DX12VertexBuffer(deviceContext->GetDevice(), gameObjectTree->At(i)->normal,
+				sizeof(DirectX::SimpleMath::Vector4), gameObjectTree->At(i)->numOfVertices);
 		}
-		if (objects[i]->numOfVertices != 0)
+		if (gameObjectTree->At(i)->numOfVertices != 0)
 		{
-			objects[i]->tangentVertexBuffer = new DX12VertexBuffer(deviceContext->GetDevice(), objects[i]->tangent,
-				sizeof(DirectX::SimpleMath::Vector4), objects[i]->numOfVertices);
+			gameObjectTree->At(i)->tangentVertexBuffer = new DX12VertexBuffer(deviceContext->GetDevice(), gameObjectTree->At(i)->tangent,
+				sizeof(DirectX::SimpleMath::Vector4), gameObjectTree->At(i)->numOfVertices);
 		}
-		if (objects[i]->numOfVertices != 0)
+		if (gameObjectTree->At(i)->numOfVertices != 0)
 		{
-			objects[i]->colorTexCoordVertexBuffer = new DX12VertexBuffer(deviceContext->GetDevice(), objects[i]->albedoTexCoord,
-				sizeof(DirectX::SimpleMath::Vector2), objects[i]->numOfVertices);
+			gameObjectTree->At(i)->colorTexCoordVertexBuffer = new DX12VertexBuffer(deviceContext->GetDevice(), gameObjectTree->At(i)->albedoTexCoord,
+				sizeof(DirectX::SimpleMath::Vector2), gameObjectTree->At(i)->numOfVertices);
 		}
-		if (objects[i]->numOfIndices != 0)
+		if (gameObjectTree->At(i)->numOfIndices != 0)
 		{
-			objects[i]->indexBuffer = new DX12IndexBuffer(deviceContext->GetDevice(), objects[i]->indices,
-				sizeof(UINT), objects[i]->numOfIndices);
+			gameObjectTree->At(i)->indexBuffer = new DX12IndexBuffer(deviceContext->GetDevice(), gameObjectTree->At(i)->indices,
+				sizeof(UINT), gameObjectTree->At(i)->numOfIndices);
 		}
 		// END: Flexible Vertex Buffers (FVB) !--
 
 		// Some objects are not renderable, need to think of a better way to handle this
-		if (!objects[i]->numOfVertices)
+		if (!gameObjectTree->At(i)->numOfVertices)
 		{
 			continue;
 		}
 
-		CreateTextureResource(objects[i]->texture, objects[i]->textureWidth, objects[i]->textureHeight, objects[i]->pixels);
+		CreateTextureResource(gameObjectTree->At(i)->texture, gameObjectTree->At(i)->textureWidth, gameObjectTree->At(i)->textureHeight, gameObjectTree->At(i)->pixels);
 
 		// If Game Object has some pixels in the bumpMap
-		if (objects[i]->bumpMapPixels != nullptr)
+		if (gameObjectTree->At(i)->bumpMapPixels != nullptr)
 		{
-			CreateTextureResource(objects[i]->bumpMap, objects[i]->bumpMapWidth, objects[i]->bumpMapHeight, objects[i]->bumpMapPixels);
+			CreateTextureResource(gameObjectTree->At(i)->bumpMap, gameObjectTree->At(i)->bumpMapWidth, gameObjectTree->At(i)->bumpMapHeight, gameObjectTree->At(i)->bumpMapPixels);
 		}
 	}
 

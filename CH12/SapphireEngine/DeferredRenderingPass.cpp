@@ -9,6 +9,7 @@
 #include "../DX12Backend/DX12RenderTarget.h"
 #include "../DX12Backend/DX12Texture.h"
 #include "../DX12Backend/DX12RootSignature.h"
+#include "GameObjectTree.h"
 
 Sapphire::DeferredRenderingPass::DeferredRenderingPass(RenderInterface* renderInterface, unsigned int width, unsigned int height)
 {
@@ -53,24 +54,29 @@ void Sapphire::DeferredRenderingPass::PreRender(DX12CommandList* commandList)
 	commandList->SetConstantBuffer(0, 16, camera->GetViewProjectionMatrixPtr());
 }
 
-void Sapphire::DeferredRenderingPass::Render(DX12CommandList* commandList, RenderInterface* renderInterface, std::vector<GameObject*> objects, std::vector<LightObject*> lights)
+void Sapphire::DeferredRenderingPass::Render(DX12CommandList* commandList, RenderInterface* renderInterface, GameObjectTree* gameObjectTree, std::vector<LightObject*> lights)
 {
 	PIXBeginEvent(commandList->GetCommandList(), PIX_COLOR(255, 255, 255), "DeferredRenderingPass");
-	for (int i = 0; i < objects.size(); i++)
+	for (int i = 0; i < gameObjectTree->Size(); i++)
 	{
-		if (!objects[i]->metaIsVisible.value)
+		if (!gameObjectTree->At(i)->metaIsVisible.value)
 		{
 			continue;
 		}
-		if (objects[i]->numOfVertices != 0)
+		if (gameObjectTree->At(i)->numOfVertices != 0)
 		{
-			commandList->SetConstantBuffer(1, 16, &objects[i]->world);
-			commandList->SetTexture(2, renderInterface->GetSrvDescriptor(objects[i]->texture->GetDescriptorIndex()));
-			if (objects[i]->bumpMapWidth != 0)
+			commandList->SetConstantBuffer(1, 16, &gameObjectTree->At(i)->world);
+			commandList->SetTexture(2, renderInterface->GetSrvDescriptor(gameObjectTree->At(i)->texture->GetDescriptorIndex()));
+			if (gameObjectTree->At(i)->bumpMapWidth != 0)
 			{
-				commandList->SetTexture(3, renderInterface->GetSrvDescriptor(objects[i]->bumpMap->GetDescriptorIndex()));
+				commandList->SetTexture(3, renderInterface->GetSrvDescriptor(gameObjectTree->At(i)->bumpMap->GetDescriptorIndex()));
 			}
-			commandList->Draw(objects[i]->positionVertexBuffer, objects[i]->normalVertexBuffer, objects[i]->tangentVertexBuffer, objects[i]->colorTexCoordVertexBuffer, objects[i]->indexBuffer);
+			commandList->Draw(
+				gameObjectTree->At(i)->positionVertexBuffer,
+				gameObjectTree->At(i)->normalVertexBuffer,
+				gameObjectTree->At(i)->tangentVertexBuffer,
+				gameObjectTree->At(i)->colorTexCoordVertexBuffer,
+				gameObjectTree->At(i)->indexBuffer);
 		}
 	}
 	PIXEndEvent(commandList->GetCommandList());

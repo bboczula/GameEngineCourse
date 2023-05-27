@@ -7,6 +7,7 @@
 #include "Camera.h"
 #include "PerspectiveCamera.h"
 #include "LightObject.h"
+#include "GameObjectTree.h"
 
 #define USE_PIX
 #include "pix3.h"
@@ -68,23 +69,23 @@ void Sapphire::ForwardRenderingPass::PreRender(DX12CommandList* commandList)
 	commandList->SetConstantBuffer(0, 16, camera->GetViewProjectionMatrixPtr());
 }
 
-void Sapphire::ForwardRenderingPass::Render(DX12CommandList* commandList, RenderInterface* renderInterface, std::vector<GameObject*> objects, std::vector<LightObject*> lights)
+void Sapphire::ForwardRenderingPass::Render(DX12CommandList* commandList, RenderInterface* renderInterface, GameObjectTree* gameObjectTree, std::vector<LightObject*> lights)
 {
 	PIXBeginEvent(commandList->GetCommandList(), PIX_COLOR(255, 255, 255), "ForwardRenderingPass");
 
 	// Why do you take position here?
 	constantBuffer->UploadFloat4(lights[0]->GetPositionX(), lights[0]->GetPositionY(), lights[0]->GetPositionZ(), 0.0f);
 
-	for (int i = 0; i < objects.size(); i++)
+	for (int i = 0; i < gameObjectTree->Size(); i++)
 	{
 		//if (!objects[i]->GetIsVisible())
-		if (!objects[i]->metaIsVisible.value)
+		if (!gameObjectTree->At(i)->metaIsVisible.value)
 		{
 			continue;
 		}
-		if (objects[i]->numOfVertices != 0)
+		if (gameObjectTree->At(i)->numOfVertices != 0)
 		{
-			if (objects[i]->bumpMapWidth == 0)
+			if (gameObjectTree->At(i)->bumpMapWidth == 0)
 			{
 				commandList->SetPipelineState(pipelineStates[1], rootSignature);
 			}
@@ -93,16 +94,21 @@ void Sapphire::ForwardRenderingPass::Render(DX12CommandList* commandList, Render
 				commandList->SetPipelineState(pipelineStates[0], rootSignature);
 			}
 			commandList->SetConstantBuffer(1, 16, shadowCamera->GetViewProjectionMatrixPtr());
-			commandList->SetConstantBuffer(2, 16, &objects[i]->world);
-			commandList->SetTexture(3, renderInterface->GetSrvDescriptor(objects[i]->texture->GetDescriptorIndex()));
+			commandList->SetConstantBuffer(2, 16, &gameObjectTree->At(i)->world);
+			commandList->SetTexture(3, renderInterface->GetSrvDescriptor(gameObjectTree->At(i)->texture->GetDescriptorIndex()));
 			// This is incorrect! I need a descriptr from the Input Resource, not the given Render Target
 			commandList->SetTexture(4, renderInterface->GetSrvDescriptor(ShadowMapDepth));
-			if (objects[i]->bumpMapWidth != 0)
+			if (gameObjectTree->At(i)->bumpMapWidth != 0)
 			{
-				commandList->SetTexture(5, renderInterface->GetSrvDescriptor(objects[i]->bumpMap->GetDescriptorIndex()));
+				commandList->SetTexture(5, renderInterface->GetSrvDescriptor(gameObjectTree->At(i)->bumpMap->GetDescriptorIndex()));
 			}
 			commandList->SetConstantBuffer(6, renderInterface->GetSrvDescriptor(constantBuffer->GetDescriptorIndex()));
-			commandList->Draw(objects[i]->positionVertexBuffer, objects[i]->normalVertexBuffer, objects[i]->tangentVertexBuffer, objects[i]->colorTexCoordVertexBuffer, objects[i]->indexBuffer);
+			commandList->Draw(
+				gameObjectTree->At(i)->positionVertexBuffer,
+				gameObjectTree->At(i)->normalVertexBuffer,
+				gameObjectTree->At(i)->tangentVertexBuffer,
+				gameObjectTree->At(i)->colorTexCoordVertexBuffer,
+				gameObjectTree->At(i)->indexBuffer);
 		}
 	}
 	PIXEndEvent(commandList->GetCommandList());

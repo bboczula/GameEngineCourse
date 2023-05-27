@@ -25,6 +25,7 @@ namespace Sapphire
 {
 	class Renderer;
 	class LightObject;
+	class GameObjectTree;
 
 	class Engine : public WindowApplication
 	{
@@ -48,7 +49,7 @@ namespace Sapphire
 		RawInput* input;
 		WinMouse* winMouse;
 		ImGuiHandler* imGuiHandler;
-		std::vector<GameObject*> gameObjects;
+		GameObjectTree* gameObjectTree;
 		std::vector<LightObject*> lightObjects;
 		ModelLoader* modelLoader;
 		bool isPaused;

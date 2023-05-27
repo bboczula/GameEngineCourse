@@ -2,6 +2,7 @@
 #include "RenderInterface.h"
 #include "../DX12Backend/DX12InputLayout.h"
 #include "../DX12Backend/DX12RootSignature.h"
+#include "GameObjectTree.h"
 
 #define USE_PIX
 #include "pix3.h"
@@ -36,7 +37,7 @@ void Sapphire::GrayscalePass::PreRender(DX12CommandList* commandList)
 {
 }
 
-void Sapphire::GrayscalePass::Render(DX12CommandList* commandList, RenderInterface* renderInterface, std::vector<GameObject*> objects, std::vector<LightObject*> lights)
+void Sapphire::GrayscalePass::Render(DX12CommandList* commandList, RenderInterface* renderInterface, GameObjectTree* gameObjectTree, std::vector<LightObject*> lights)
 {
 	PIXBeginEvent(commandList->GetCommandList(), PIX_COLOR(255, 255, 255), "GrayscalePass");
 	commandList->DrawEmpty();

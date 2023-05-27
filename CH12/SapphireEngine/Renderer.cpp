@@ -8,6 +8,7 @@
 #include "ImGuiPass.h"
 #include "LightObject.h"
 #include "GameObject.h"
+#include "GameObjectTree.h"
 
 Sapphire::Renderer::Renderer(HWND hwnd, UINT width, UINT height)
 {
@@ -60,21 +61,20 @@ Sapphire::Renderer::~Renderer()
 	delete forwardRenderingPass;
 }
 
-void Sapphire::Renderer::Render(std::vector<GameObject*> objects, std::vector<LightObject*> lights)
+void Sapphire::Renderer::Render(GameObjectTree* gameObjectTree, std::vector<LightObject*> lights)
 {
 	auto commandList = renderInterface->GetCommandList();
 	commandList->Reset();
 
 	renderInterface->SetSrvDescriptorHeap();
 
-	// Say I want to rotate it
-	//lights[0]->RotateX(0.25f);
+	// Add debug stuff
 
 	for (int i = 0; i < renderPasses.size(); i++)
 	{
 		renderPasses[i]->Setup(commandList);
 		renderPasses[i]->PreRender(commandList);
-		renderPasses[i]->Render(commandList, renderInterface, objects, lights);
+		renderPasses[i]->Render(commandList, renderInterface, gameObjectTree, lights);
 		renderPasses[i]->PostRender(commandList);
 		renderPasses[i]->Teardown(commandList);
 	}
@@ -90,9 +90,9 @@ void Sapphire::Renderer::SetCamera(Camera* camera)
 	defferedRenderingPass->SetCamera(camera);
 }
 
-void Sapphire::Renderer::CreateResources(std::vector<GameObject*> objects)
+void Sapphire::Renderer::CreateResources(GameObjectTree* gameObjectTree)
 {
-	renderInterface->CreateResources(objects);
+	renderInterface->CreateResources(gameObjectTree);
 }
 
 void Sapphire::Renderer::Execute()

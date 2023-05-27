@@ -7,6 +7,7 @@ namespace Sapphire
 	class RenderInterface;
 	class DX12Shader;
 	class GameObject;
+	class GameObjectTree;
 
 	class GrayscalePass : public RenderPass
 	{
@@ -14,7 +15,7 @@ namespace Sapphire
 		GrayscalePass(RenderInterface* renderInterface, unsigned int width, unsigned int height);
 		~GrayscalePass();
 		void PreRender(DX12CommandList* commandList) override;
-		void Render(DX12CommandList* commandList, RenderInterface* renderInterface, std::vector<GameObject*> objects, std::vector<LightObject*> lights) override;
+		void Render(DX12CommandList* commandList, RenderInterface* renderInterface, GameObjectTree* gameObjectTree, std::vector<LightObject*> lights) override;
 		void PostRender(DX12CommandList* commandList) override;
 	private:
 		DX12Shader* pixelShader;

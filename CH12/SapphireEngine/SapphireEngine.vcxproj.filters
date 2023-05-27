@@ -174,6 +174,9 @@
     <ClInclude Include="LightObject.h">
       <Filter>Engine</Filter>
     </ClInclude>
+    <ClInclude Include="GameObjectTree.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WindowApplication.cpp">
@@ -285,6 +288,9 @@
       <Filter>Window</Filter>
     </ClCompile>
     <ClCompile Include="LightObject.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObjectTree.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
   </ItemGroup>

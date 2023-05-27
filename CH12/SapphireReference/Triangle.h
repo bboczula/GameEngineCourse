@@ -6,7 +6,7 @@
 class Triangle : public Sapphire::GameObject
 {
 public:
-    Triangle() : myRotation(0.0f)
+    Triangle() : myRotation(0.0f), GameObject("Triangle")
     {
     }
     ~Triangle()

@@ -3,6 +3,7 @@
 #include "LightObject.h"
 #include "../DX12Backend/DX12InputLayout.h"
 #include "../DX12Backend/DX12RootSignature.h"
+#include "GameObjectTree.h"
 
 #include "EXTERNALS/imgui-master/imgui.h"
 #include "EXTERNALS/imgui-master/backends/imgui_impl_dx12.h"
@@ -68,7 +69,7 @@ void Sapphire::ImGuiPass::PreRender(DX12CommandList* commandList)
 {
 }
 
-void Sapphire::ImGuiPass::Render(DX12CommandList* commandList, RenderInterface* renderInterface, std::vector<GameObject*> objects, std::vector<LightObject*> lights)
+void Sapphire::ImGuiPass::Render(DX12CommandList* commandList, RenderInterface* renderInterface, GameObjectTree* gameObjectTree, std::vector<LightObject*> lights)
 {
 	PIXBeginEvent(commandList->GetCommandList(), PIX_COLOR(255, 255, 255), "ImGuiPass");
 	//commandList->DrawEmpty();
@@ -89,7 +90,7 @@ void Sapphire::ImGuiPass::Render(DX12CommandList* commandList, RenderInterface* 
 	ImGui::Begin("Game Object Tree", &show_another_window);   // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
 	static int selection_mask = (1 << 2);
 	static int node_clicked = -1;
-	for (int i = 0; i < objects.size(); i++)
+	for (int i = 0; i < gameObjectTree->Size(); i++)
 	{
 		// Need to reset flags for every item
 		auto flags = ImGuiTreeNodeFlags_FramePadding | /*ImGuiTreeNodeFlags_OpenOnArrow |*/ ImGuiTreeNodeFlags_SpanAvailWidth;
@@ -97,7 +98,7 @@ void Sapphire::ImGuiPass::Render(DX12CommandList* commandList, RenderInterface* 
 		if (is_selected)
 			flags |= ImGuiTreeNodeFlags_Selected;
 		//ImGui::PushID(index);
-		boolean treeNodeOpen = ImGui::TreeNodeEx((void*)(intptr_t)i, flags, objects[i]->name.c_str());
+		boolean treeNodeOpen = ImGui::TreeNodeEx((void*)(intptr_t)i, flags, gameObjectTree->At(i)->name.c_str());
 		if (ImGui::IsItemClicked() && !ImGui::IsItemToggledOpen())
 			node_clicked = i;
 		if (treeNodeOpen)
@@ -130,12 +131,12 @@ void Sapphire::ImGuiPass::Render(DX12CommandList* commandList, RenderInterface* 
 		//bool isVisible = objects[node_clicked]->GetIsVisible();
 		//ImGui::Checkbox("IsVisible: ", &isVisible);
 		//objects[node_clicked]->SetIsVisible(isVisible);
-		ImGui::Checkbox(objects[node_clicked]->metaIsVisible.GetName(), &objects[node_clicked]->metaIsVisible.value);
+		ImGui::Checkbox(gameObjectTree->At(node_clicked)->metaIsVisible.GetName(), &gameObjectTree->At(node_clicked)->metaIsVisible.value);
 
-		ImGui::Text("Name: %s", objects[node_clicked]->name.c_str());
-		ImGui::Text("Indices: %d", objects[node_clicked]->numOfIndices);
-		ImGui::Text("Vertices: %d", objects[node_clicked]->numOfVertices);
-		auto translation = objects[node_clicked]->GetTranslation();
+		ImGui::Text("Name: %s", gameObjectTree->At(node_clicked)->name.c_str());
+		ImGui::Text("Indices: %d", gameObjectTree->At(node_clicked)->numOfIndices);
+		ImGui::Text("Vertices: %d", gameObjectTree->At(node_clicked)->numOfVertices);
+		auto translation = gameObjectTree->At(node_clicked)->GetTranslation();
 		float x = translation.x;
 		float y = translation.y;
 		float z = translation.z;
@@ -143,7 +144,7 @@ void Sapphire::ImGuiPass::Render(DX12CommandList* commandList, RenderInterface* 
 		ImGui::InputFloat("x: ", &x, 0.1f, 0.5f);
 		ImGui::InputFloat("y: ", &y, 0.1f, 0.5f);
 		ImGui::InputFloat("z: ", &z, 0.1f, 0.5f);
-		objects[node_clicked]->SetTranslation(x, y, z);
+		gameObjectTree->At(node_clicked)->SetTranslation(x, y, z);
 		//auto scale = objects[node_clicked]->GetScale();
 		//float sx = scale.x;
 		//float sy = scale.y;
@@ -155,11 +156,11 @@ void Sapphire::ImGuiPass::Render(DX12CommandList* commandList, RenderInterface* 
 		//objects[node_clicked]->SetScale(sx, sy, sz);
 
 		ImGui::Text("Scale:");
-		ImGui::InputFloat(objects[node_clicked]->metaScaleX.GetName(), &objects[node_clicked]->metaScaleX.value, 0.1f, 0.5f);
-		ImGui::InputFloat(objects[node_clicked]->metaScaleY.GetName(), &objects[node_clicked]->metaScaleY.value, 0.1f, 0.5f);
-		ImGui::InputFloat(objects[node_clicked]->metaScaleZ.GetName(), &objects[node_clicked]->metaScaleZ.value, 0.1f, 0.5f);
+		ImGui::InputFloat(gameObjectTree->At(node_clicked)->metaScaleX.GetName(), &gameObjectTree->At(node_clicked)->metaScaleX.value, 0.1f, 0.5f);
+		ImGui::InputFloat(gameObjectTree->At(node_clicked)->metaScaleY.GetName(), &gameObjectTree->At(node_clicked)->metaScaleY.value, 0.1f, 0.5f);
+		ImGui::InputFloat(gameObjectTree->At(node_clicked)->metaScaleZ.GetName(), &gameObjectTree->At(node_clicked)->metaScaleZ.value, 0.1f, 0.5f);
 
-		auto rotate = objects[node_clicked]->GetRotate();
+		auto rotate = gameObjectTree->At(node_clicked)->GetRotate();
 		float rx = rotate.x;
 		float ry = rotate.y;
 		float rz = rotate.z;
@@ -167,10 +168,10 @@ void Sapphire::ImGuiPass::Render(DX12CommandList* commandList, RenderInterface* 
 		ImGui::InputFloat("rx: ", &rx, 0.1f, 0.5f);
 		ImGui::InputFloat("ry: ", &ry, 0.1f, 0.5f);
 		ImGui::InputFloat("rz: ", &rz, 0.1f, 0.5f);
-		objects[node_clicked]->SetRotate(rx, ry, rz);
-		objects[node_clicked]->CalculateWorldMatrix();
-		ImGui::Text("Color Texture: %d x %d", objects[node_clicked]->textureWidth, objects[node_clicked]->textureHeight);
-		ImGui::Text("Bump Texture: %d x %d", objects[node_clicked]->bumpMapWidth, objects[node_clicked]->bumpMapHeight);
+		gameObjectTree->At(node_clicked)->SetRotate(rx, ry, rz);
+		gameObjectTree->At(node_clicked)->CalculateWorldMatrix();
+		ImGui::Text("Color Texture: %d x %d", gameObjectTree->At(node_clicked)->textureWidth, gameObjectTree->At(node_clicked)->textureHeight);
+		ImGui::Text("Bump Texture: %d x %d", gameObjectTree->At(node_clicked)->bumpMapWidth, gameObjectTree->At(node_clicked)->bumpMapHeight);
 	}
 	ImGui::End();
 

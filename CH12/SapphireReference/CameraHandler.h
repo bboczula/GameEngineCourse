@@ -41,7 +41,7 @@ private:
     RawInput* input;
 };
 
-CameraHandler::CameraHandler(Sapphire::CameraControler* camera, RawInput* input) : camera(camera), input(input)
+CameraHandler::CameraHandler(Sapphire::CameraControler* camera, RawInput* input) : camera(camera), input(input), GameObject("CameraHandler")
 {
 }
 

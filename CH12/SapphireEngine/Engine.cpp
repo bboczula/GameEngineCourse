@@ -1,6 +1,7 @@
 #include "Engine.h"
 #include "Renderer.h"
 #include "LightObject.h"
+#include "GameObjectTree.h"
 #include <filesystem>
 
 Sapphire::Engine::Engine(UINT width, UINT height) : WindowApplication{ width, height }, renderer{ nullptr }, isPaused { false }
@@ -17,6 +18,8 @@ Sapphire::Engine::Engine(UINT width, UINT height) : WindowApplication{ width, he
 	Attach(winMouse);
 
 	modelLoader = new ModelLoader;
+
+	gameObjectTree = new GameObjectTree();
 }
 
 Sapphire::Engine::~Engine()
@@ -29,6 +32,11 @@ Sapphire::Engine::~Engine()
 		delete renderer;
 	}
 
+	if (gameObjectTree)
+	{
+		delete gameObjectTree;
+	}
+
 #if _DEBUG
 	ReportLiveObjects();
 #endif
@@ -38,12 +46,11 @@ void Sapphire::Engine::Register(GameObject* gameObject)
 {
 	Logger::GetInstance().Log("%s", "Sapphire::Engine::Register()\n");
 
-	gameObjects.push_back(gameObject);
+	gameObjectTree->Add(gameObject);
 }
 
 void Sapphire::Engine::RegisterCamera(Camera* camera)
 {
-	//renderer->SetCamera(camera);
 	newRenderer->SetCamera(camera);
 }
 
@@ -259,13 +266,10 @@ void Sapphire::Engine::Initialize()
 	Logger::GetInstance().Log("%s", "Sapphire::Engine::Initialize()\n");
 
 	//renderer->CreateResources(gameObjects);
-	newRenderer->CreateResources(gameObjects);
+	newRenderer->CreateResources(gameObjectTree);
 
 	// Initialize all the resources
-	for (int i = 0; i < gameObjects.size(); i++)
-	{
-		gameObjects[i]->Initialize();
-	}
+	gameObjectTree->Initialize();
 }
 
 void Sapphire::Engine::Tick()
@@ -284,14 +288,11 @@ void Sapphire::Engine::Tick()
 	// Update all game objects
 	if (!isPaused)
 	{
-		for (int i = 0; i < gameObjects.size(); i++)
-		{
-			gameObjects[i]->Update(0.0f);
-		}
+		gameObjectTree->Update(0.0f);
 	}
 
 	// Render from Render Context
-	newRenderer->Render(gameObjects, lightObjects);
+	newRenderer->Render(gameObjectTree, lightObjects);
 
 	// Execute the command list
 	newRenderer->Execute();

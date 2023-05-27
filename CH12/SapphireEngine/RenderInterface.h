@@ -49,13 +49,14 @@ namespace Sapphire
 	class Light;
 	class DeferredRenderingPass;
 	class LightResolvePass;
+	class GameObjectTree;
 
 	class RenderInterface
 	{
 	public:
 		RenderInterface(HWND hwnd, unsigned int width, unsigned int height);
 		~RenderInterface();
-		void CreateResources(std::vector<GameObject*> objects);
+		void CreateResources(GameObjectTree* gameObjectTree);
 		void CreateTextureResource(DX12Texture*& texture, UINT width, UINT height, PixelDefinition* source);
 		DX12RenderTarget* CreateRenderTarget(RenderTargetNames name, UINT width, UINT height, DX12RenderTarget::Format format = DX12RenderTarget::Format::RGBA8_UNORM);
 		DX12DepthBuffer* CreateDepthBuffer(UINT width, UINT height);

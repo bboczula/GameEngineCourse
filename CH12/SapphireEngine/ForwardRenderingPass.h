@@ -14,6 +14,7 @@ namespace Sapphire
 	class DX12InputLayout;
 	class DX12ConstantBuffer;
 	class Camera;
+	class GameObjectTree;
 
 	class ForwardRenderingPass : public Sapphire::RenderPass
 	{
@@ -21,7 +22,7 @@ namespace Sapphire
 		ForwardRenderingPass(RenderInterface* renderInterface, unsigned int width, unsigned int height);
 		~ForwardRenderingPass();
 		void PreRender(DX12CommandList* commandList) override;
-		void Render(DX12CommandList* commandList, RenderInterface* renderInterface, std::vector<GameObject*> objects, std::vector<LightObject*> lights) override;
+		void Render(DX12CommandList* commandList, RenderInterface* renderInterface, GameObjectTree* gameObjectTree, std::vector<LightObject*> lights) override;
 		void Render(DX12CommandList* commandList, RenderInterface* renderInterface, std::vector<GameObject*> objects, Camera* shadowMapCamera);
 		void PostRender(DX12CommandList* commandList) override;
 		void SetCamera(Camera* camera);

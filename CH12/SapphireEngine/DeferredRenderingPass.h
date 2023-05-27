@@ -6,6 +6,7 @@ namespace Sapphire
 {
 	class RenderContex;
 	class Camera;
+	class GameObjectTree;
 
 	class DeferredRenderingPass : public RenderPass
 	{
@@ -14,7 +15,7 @@ namespace Sapphire
 		DeferredRenderingPass(RenderInterface* renderInterface, unsigned int width, unsigned int height);
 		~DeferredRenderingPass();
 		void PreRender(DX12CommandList* commandList) override;
-		void Render(DX12CommandList* commandList, RenderInterface* renderInterface, std::vector<GameObject*> objects, std::vector<LightObject*> lights) override;
+		void Render(DX12CommandList* commandList, RenderInterface* renderInterface, GameObjectTree* gameObjectTree, std::vector<LightObject*> lights) override;
 		void PostRender(DX12CommandList* commandList) override;
 		void SetCamera(Camera* camera);
 	private:

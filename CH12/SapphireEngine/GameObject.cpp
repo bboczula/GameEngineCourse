@@ -1,7 +1,7 @@
 #include "GameObject.h"
 
-Sapphire::GameObject::GameObject() : numOfVertices{ 0 }, indices{ nullptr }, numOfIndices{ 0 }, texture{ nullptr },
-rotation{ 0.0f, 0.0f, 0.0f }, scale{ 1.0f, 1.0f, 1.0f }, translation{ 0.0f, 0.0f, 0.0f }//, isVisible { true }
+Sapphire::GameObject::GameObject(const std::string& name) : numOfVertices{ 0 }, indices{ nullptr }, numOfIndices{ 0 }, texture{ nullptr },
+rotation{ 0.0f, 0.0f, 0.0f }, scale{ 1.0f, 1.0f, 1.0f }, translation{ 0.0f, 0.0f, 0.0f }, name { name }
 {
 	CalculateWorldMatrix();
 }

@@ -6,7 +6,7 @@
 class StaticModel : public Sapphire::GameObject
 {
 public:
-    StaticModel()
+    StaticModel() : GameObject("StaticModel")
     {
     }
     ~StaticModel()

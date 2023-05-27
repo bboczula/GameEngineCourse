@@ -20,12 +20,13 @@ namespace Sapphire
 	class DX12CommandList;
 	class DX12RenderTarget;
 	class DX12RootSignature;
+	class GameObjectTree;
 
 	class RenderPass
 	{
 	public:
 		virtual void PreRender(DX12CommandList* commandList) = 0;
-		virtual void Render(DX12CommandList* commandList, RenderInterface* renderInterface, std::vector<GameObject*> objects, std::vector<LightObject*> lights) = 0;
+		virtual void Render(DX12CommandList* commandList, RenderInterface* renderInterface, GameObjectTree* gameObjectTree, std::vector<LightObject*> lights) = 0;
 		virtual void PostRender(DX12CommandList* commandList) = 0;
 		void Setup(DX12CommandList* commandList)
 		{

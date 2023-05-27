@@ -16,15 +16,16 @@ namespace Sapphire
 	class Camera;
 	class RenderPass;
 	class ImGuiPass;
+	class GameObjectTree;
 
 	class Renderer
 	{
 	public:
 		Renderer(HWND hwnd, UINT width, UINT height);
 		~Renderer();
-		void Render(std::vector<GameObject*> objects, std::vector<LightObject*> lights);
+		void Render(GameObjectTree* gameObjectTree, std::vector<LightObject*> lights);
 		void SetCamera(Camera* camera);
-		void CreateResources(std::vector<GameObject*> objects);
+		void CreateResources(GameObjectTree* gameObjectTree);
 		void Execute();
 	private:
 		RenderInterface* renderInterface;

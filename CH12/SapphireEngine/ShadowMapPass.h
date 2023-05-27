@@ -12,6 +12,7 @@ namespace Sapphire
 	class RenderContex;
 	class DX12InputLayout;
 	class Arcball;
+	class GameObjectTree;
 
 	class ShadowMapPass : public Sapphire::RenderPass
 	{
@@ -19,7 +20,7 @@ namespace Sapphire
 		ShadowMapPass(RenderInterface* renderInterface);
 		~ShadowMapPass();
 		void PreRender(DX12CommandList* commandList) override;
-		void Render(DX12CommandList* commandList, RenderInterface* renderInterface, std::vector<GameObject*> objects, std::vector<LightObject*> lights) override;
+		void Render(DX12CommandList* commandList, RenderInterface* renderInterface, GameObjectTree* gameObjectTree, std::vector<LightObject*> lights) override;
 		void PostRender(DX12CommandList* commandList) override;
 		DX12DepthBuffer* GetDepthBuffer();
 		OrthographicCamera* camera;

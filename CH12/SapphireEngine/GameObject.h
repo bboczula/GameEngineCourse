@@ -46,7 +46,7 @@ namespace Sapphire
 		friend class ShadowMapPass;
 		friend class DeferredRenderingPass;
 	public:
-		GameObject();
+		GameObject(const std::string& name);
 		~GameObject();
 		virtual void Initialize();
 		virtual void Update(float deltaTime);

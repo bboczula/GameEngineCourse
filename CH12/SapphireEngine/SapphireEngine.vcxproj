@@ -40,6 +40,7 @@
     <ClInclude Include="ForwardRenderingPass.h" />
     <ClInclude Include="Free.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="GameObjectTree.h" />
     <ClInclude Include="GrayscalePass.h" />
     <ClInclude Include="HardwareCapabilities.h" />
     <ClInclude Include="ImGuiHandler.h" />
@@ -85,6 +86,7 @@
     <ClCompile Include="ForwardRenderingPass.cpp" />
     <ClCompile Include="Free.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="GameObjectTree.cpp" />
     <ClCompile Include="GrayscalePass.cpp" />
     <ClCompile Include="HardwareCapabilities.cpp" />
     <ClCompile Include="ImGuiHandler.cpp" />
