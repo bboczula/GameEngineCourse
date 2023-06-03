@@ -39,6 +39,18 @@ Sapphire::GameObject* Sapphire::GameObjectTree::At(unsigned int index)
 	return gameObjects[index];
 }
 
+Sapphire::GameObject* Sapphire::GameObjectTree::GetByName(const std::string& name)
+{
+	for (int i = 0; i < gameObjects.size(); i++)
+	{
+		if (gameObjects[i]->name.compare(name) == 0)
+		{
+			return gameObjects[i];
+		}
+	}
+	return nullptr;
+}
+
 unsigned int Sapphire::GameObjectTree::Size()
 {
 	return gameObjects.size();

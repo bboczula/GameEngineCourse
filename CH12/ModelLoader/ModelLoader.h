@@ -39,6 +39,7 @@ public:
 	unsigned int GetGroupSize(const std::string& key);
 	unsigned int GetNumOfGroups();
 	bool HasGroup(const std::string& key);
+	void Reset();
 private:
 	VertexHandler* vertexHandler;
 	NormalHandler* normalHandler;

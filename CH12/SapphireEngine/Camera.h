@@ -14,6 +14,7 @@ namespace Sapphire
 		Camera();
 		DirectX::SimpleMath::Matrix* GetViewProjectionMatrixPtr();
 		void SetPosition(DirectX::SimpleMath::Vector3 position);
+		DirectX::SimpleMath::Vector3 GetPosition();
 		void SetRotation(DirectX::SimpleMath::Vector3 rotation);
 		void LogInfo();
 	protected:

@@ -1,7 +1,7 @@
 #include "Arcball.h"
 #include "Camera.h"
 
-Sapphire::Arcball::Arcball(Camera* camera) : radius(75.0f), target(0.0f, 0.0f, 0.0f)
+Sapphire::Arcball::Arcball(Camera* camera) : radius(5.0f), target(0.0f, 0.0f, 0.0f)
 {
 	SetCamera(camera);
 	camera->position = target + DirectX::SimpleMath::Vector3(0.0f, 0.0f, radius);
@@ -41,6 +41,7 @@ void Sapphire::Arcball::Rotate(float x, float y, float z)
 {
 	float radiansX = x * 3.1415f / 180.0f;
 	float radiansY = y * 3.1415f / 180.0f;
+	float radianzZ = z * 3.1415f / 180.0f;
 
 	if ((camera->rotation.x == radiansX) && (camera->rotation.y == radiansY))
 	{
@@ -50,9 +51,11 @@ void Sapphire::Arcball::Rotate(float x, float y, float z)
 
 	camera->rotation.x = x * 3.1415f / 180.0f;
 	camera->rotation.y = y * 3.1415f / 180.0f;
+	camera->rotation.z = z * 3.1415f / 180.0f;
 	DirectX::SimpleMath::Matrix cameraRotationX = DirectX::SimpleMath::Matrix::CreateRotationX(camera->rotation.x);
 	DirectX::SimpleMath::Matrix cameraRotationY = DirectX::SimpleMath::Matrix::CreateRotationY(camera->rotation.y);
-	auto cameraRotation = cameraRotationX * cameraRotationY;
+	DirectX::SimpleMath::Matrix cameraRotationZ = DirectX::SimpleMath::Matrix::CreateRotationZ(camera->rotation.z);
+	auto cameraRotation = cameraRotationX * cameraRotationY * cameraRotationZ;
 
 	// Now we really have to roatet position
 	camera->position = DirectX::SimpleMath::Vector3::Transform(camera->position, cameraRotation);

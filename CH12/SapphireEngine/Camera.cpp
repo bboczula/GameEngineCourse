@@ -18,6 +18,11 @@ void Sapphire::Camera::SetPosition(DirectX::SimpleMath::Vector3 position)
 	this->position = position;
 }
 
+DirectX::SimpleMath::Vector3 Sapphire::Camera::GetPosition()
+{
+	return position;
+}
+
 void Sapphire::Camera::SetRotation(DirectX::SimpleMath::Vector3 rotation)
 {
 	this->rotation = rotation;

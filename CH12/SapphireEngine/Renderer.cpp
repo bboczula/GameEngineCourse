@@ -69,6 +69,16 @@ void Sapphire::Renderer::Render(GameObjectTree* gameObjectTree, std::vector<Ligh
 	renderInterface->SetSrvDescriptorHeap();
 
 	// Add debug stuff
+	// Need to have common place with all the names definition
+	GameObject* temp = gameObjectTree->GetByName("Camera_Cube");
+	assert(temp);
+	temp->translation = shadowMapPass->camera->GetPosition();
+	temp->CalculateWorldMatrix();
+	//temp->translation.x = 0.0f;
+	//temp->translation.y = 3.0f;
+	//temp->translation.z = 0.0f;
+	//temp->translation.w = 0.0f;
+	// temp->CalculateWorldMatrix();
 
 	for (int i = 0; i < renderPasses.size(); i++)
 	{

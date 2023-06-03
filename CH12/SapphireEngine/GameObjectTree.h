@@ -17,6 +17,7 @@ namespace Sapphire
 		void Initialize();
 		void Update(float deltaTime);
 		GameObject* At(unsigned int index);
+		GameObject* GetByName(const std::string& name);
 		unsigned int Size();
 	private:
 		std::vector<GameObject*> gameObjects;

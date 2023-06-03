@@ -20,8 +20,8 @@ void Sapphire::LightObject::Rotate(float rx, float ry, float rz)
 	rotation.y = ry;
 	rotation.z = rz;
 	DirectX::SimpleMath::Matrix rotationX = DirectX::SimpleMath::Matrix::CreateRotationX(rx * 3.1415 / 180.0f);
-	DirectX::SimpleMath::Matrix rotationY = DirectX::SimpleMath::Matrix::CreateRotationX(ry * 3.1415 / 180.0f);
-	DirectX::SimpleMath::Matrix rotationZ = DirectX::SimpleMath::Matrix::CreateRotationX(rz * 3.1415 / 180.0f);
+	DirectX::SimpleMath::Matrix rotationY = DirectX::SimpleMath::Matrix::CreateRotationY(ry * 3.1415 / 180.0f);
+	DirectX::SimpleMath::Matrix rotationZ = DirectX::SimpleMath::Matrix::CreateRotationZ(rz * 3.1415 / 180.0f);
 	auto rotation = rotationX * rotationY * rotationZ;
 	position = position.Transform(position, rotation);
 	position.Normalize();

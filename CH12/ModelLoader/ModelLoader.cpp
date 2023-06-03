@@ -63,6 +63,9 @@ void ModelLoader::LoadFromFile(std::string filePath)
 		return;
 	}
 
+	// Need to reset buffers
+	Reset();
+
 	// Process file
 	std::ifstream file(filePath);
 	std::string line;
@@ -263,4 +266,15 @@ unsigned int ModelLoader::GetNumOfGroups()
 bool ModelLoader::HasGroup(const std::string& key)
 {
 	return groupHandler->HasGroup(key);
+}
+
+void ModelLoader::Reset()
+{
+	// Chain of responsibility
+	Handler* current = vertexHandler;
+	do
+	{
+		current->Reset();
+		current = current->next;
+	} while (current);
 }

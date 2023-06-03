@@ -265,6 +265,12 @@ void Sapphire::Engine::Initialize()
 
 	Logger::GetInstance().Log("%s", "Sapphire::Engine::Initialize()\n");
 
+	// Here would be a good place to load debug resources
+	GameObject* temp = new GameObject("DebugCamera");
+	LoadModel(temp, "DebugObjectsLibrary.obj3d", "common", "Camera_Cube");
+	LoadTextureFromFile(temp, "common", "uv_texture.png");
+	Register(temp);
+
 	//renderer->CreateResources(gameObjects);
 	newRenderer->CreateResources(gameObjectTree);
 
