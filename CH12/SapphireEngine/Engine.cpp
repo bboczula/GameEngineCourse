@@ -59,12 +59,12 @@ void Sapphire::Engine::RegisterLight(LightObject* light)
 	lightObjects.push_back(light);
 }
 
-void Sapphire::Engine::LoadModel(GameObject* gameObject, const std::string& filePath, std::string sceneName, const std::string& groupName)
+void Sapphire::Engine::LoadModel(GameObject* gameObject, const std::string& fileName, std::string sceneName, const std::string& groupName)
 {
 	std::filesystem::path currentPath = std::filesystem::current_path();
 	currentPath.append("assets");
 	currentPath.append(sceneName);
-	currentPath.append(filePath);
+	currentPath.append(fileName);
 	Logger::GetInstance().Log("Current Directory %s\n", currentPath.string().c_str());
 	modelLoader->LoadFromFile(currentPath.string());
 

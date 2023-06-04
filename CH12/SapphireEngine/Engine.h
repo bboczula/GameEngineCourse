@@ -35,7 +35,7 @@ namespace Sapphire
 		void Register(GameObject* gameObject);
 		void RegisterCamera(Camera* camera);
 		void RegisterLight(LightObject* light);
-		void LoadModel(GameObject* gameObject, const std::string& filePath, std::string sceneName, const std::string& groupName);
+		void LoadModel(GameObject* gameObject, const std::string& fileName, std::string sceneName, const std::string& groupName);
 		void LoadDefaultTexture(GameObject* gameObject);
 		void LoadTextureFromFile(GameObject* gameObject, std::string sceneName, std::string filePath);
 		void LoadBumpMapFromFile(GameObject* gameObject, std::string sceneName, std::string filePath);
